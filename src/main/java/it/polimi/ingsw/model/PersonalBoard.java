@@ -62,7 +62,7 @@ public class PersonalBoard {
     public boolean checkLCardRequirements(ExtraDepotLCard lc)  { //waiting for New Warehouse implementation
 
 
-    }
+    } // TODO
     public boolean checkLCardRequirements(DiscountLCard lc)  {
         CardColor c1= lc.getColor1(); //2 cards
         CardColor c2= lc.getColor2(); //1 card

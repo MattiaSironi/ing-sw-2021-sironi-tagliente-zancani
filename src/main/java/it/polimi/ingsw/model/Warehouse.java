@@ -1,218 +1,135 @@
 package it.polimi.ingsw.model;
+import java.util.ArrayList;
+//TODO
+public class Warehouse{
+    private ArrayList<ResourceType> resArray;
+    private boolean extraSchelf1;
+    private ResourceType extraSchelf1ResType;
+    private boolean extraSchelf2;
+    private ResourceType extraSchelf2ResType;
 
-
-public class Warehouse {
-    private ResourceType res1;
-    private ResourceType res2;
-    private ResourceType res3;
-    private int res1Num;
-    private int res2Num;
-    private int res3Num;
-    private int extra1Size;
-    private ResourceType extra1Res;
-    private int extra1ResNum;
-    private int extra2Size;
-    private ResourceType extra2Res;
-    private int extra2ResNum;
-
-    public Warehouse(ResourceType res1, ResourceType res2, ResourceType res3, int res1Num, int res2Num, int res3Num, int extra1Size, ResourceType extra1Res, int extra1ResNum, int extra2Size, ResourceType extra2Res, int extra2ResNum) {
-        this.res1 = res1;
-        this.res2 = res2;
-        this.res3 = res3;
-        this.res1Num = res1Num;
-        this.res2Num = res2Num;
-        this.res3Num = res3Num;
-        this.extra1Size = extra1Size;
-        this.extra1Res = extra1Res;
-        this.extra1ResNum = extra1ResNum;
-        this.extra2Size = extra2Size;
-        this.extra2Res = extra2Res;
-        this.extra2ResNum = extra2ResNum;
+    public Warehouse(ArrayList<ResourceType> resArray, boolean extraSchelf1, ResourceType extraSchelf1ResType, boolean extraSchelf2, ResourceType extraSchelf2ResType) {
+        this.resArray = resArray;
+        this.extraSchelf1 = extraSchelf1;
+        this.extraSchelf1ResType = extraSchelf1ResType;
+        this.extraSchelf2 = extraSchelf2;
+        this.extraSchelf2ResType = extraSchelf2ResType;
     }
 
-    public ResourceType getRes1() {
-        return res1;
+    public ArrayList<ResourceType> getResArray() {
+        return resArray;
     }
 
-    public void setRes1(ResourceType res1) {
-        this.res1 = res1;
+    public void setResArray(ArrayList<ResourceType> resArray) {
+        this.resArray = resArray;
     }
 
-    public ResourceType getRes2() {
-        return res2;
+    public boolean isExtraSchelf1() {
+        return extraSchelf1;
     }
 
-    public void setRes2(ResourceType res2) {
-        this.res2 = res2;
+    public void setExtraSchelf1(boolean extraSchelf1) {
+        this.extraSchelf1 = extraSchelf1;
     }
 
-    public ResourceType getRes3() {
-        return res3;
+    public ResourceType getExtraSchelf1ResType() {
+        return extraSchelf1ResType;
     }
 
-    public void setRes3(ResourceType res3) {
-        this.res3 = res3;
+    public void setExtraSchelf1ResType(ResourceType extraSchelf1ResType) {
+        this.extraSchelf1ResType = extraSchelf1ResType;
     }
 
-    public int getRes1Num() {
-        return res1Num;
+    public boolean isExtraSchelf2() {
+        return extraSchelf2;
     }
 
-    public void setRes1Num(int res1Num) {
-        this.res1Num = res1Num;
+    public void setExtraSchelf2(boolean extraSchelf2) {
+        this.extraSchelf2 = extraSchelf2;
     }
 
-    public int getRes2Num() {
-        return res2Num;
+    public ResourceType getExtraSchelf2ResType() {
+        return extraSchelf2ResType;
     }
 
-    public void setRes2Num(int res2Num) {
-        this.res2Num = res2Num;
+    public void setExtraSchelf2ResType(ResourceType extraSchelf2ResType) {
+        this.extraSchelf2ResType = extraSchelf2ResType;
     }
 
-    public int getRes3Num() {
-        return res3Num;
-    }
 
-    public void setRes3Num(int res3Num) {
-        this.res3Num = res3Num;
-    }
-
-    public int getExtra1Size() {
-        return extra1Size;
-    }
-
-    public void setExtra1Size(int extra1Size) {
-        this.extra1Size = extra1Size;
-    }
-
-    public ResourceType getExtra1Res() {
-        return extra1Res;
-    }
-
-    public void setExtra1Res(ResourceType extra1Res) {
-        this.extra1Res = extra1Res;
-    }
-
-    public int getExtra1ResNum() {
-        return extra1ResNum;
-    }
-
-    public void setExtra1ResNum(int extra1ResNum) {
-        this.extra1ResNum = extra1ResNum;
-    }
-
-    public int getExtra2Size() {
-        return extra2Size;
-    }
-
-    public void setExtra2Size(int extra2Size) {
-        this.extra2Size = extra2Size;
-    }
-
-    public ResourceType getExtra2Res() {
-        return extra2Res;
-    }
-
-    public void setExtra2Res(ResourceType extra2Res) {
-        this.extra2Res = extra2Res;
-    }
-
-    public int getExtra2ResNum() {
-        return extra2ResNum;
-    }
-
-    public void setExtra2ResNum(int extra2ResNum) {
-        this.extra2ResNum = extra2ResNum;
-    }
-
-    public boolean canIPay(DevCard card){
-
-        int coinTot = 0;
-        int stoneTot = 0;
-        int servantTot = 0;
-        int shieldTot = 0;
-        int[] costAmount = card.getCostRes();
-
-        //can add 134 135 136 137 as attribute of the main class
-
-        int coinReq = costAmount[0];
-        int stoneReq = costAmount[1];
-        int servantReq = costAmount[2];
-        int shieldReq = costAmount[3];
-
-        ///////////////////////////////////////     calculates number of res in the main warehouse
-        if(res1 == ResourceType.COIN){
-            coinTot = res1Num;
+    public void manageRes(int pos1, int pos2){
+        ResourceType tmp;
+        if(pos1 >= 0 && pos1 <= 5 && pos2 >= 0 && pos2 <= 5 ) {
+            ArrayList<ResourceType> resArrayClone = (ArrayList<ResourceType>) resArray.clone();
+            tmp = resArrayClone.get(pos2);
+            resArrayClone.set(pos2, resArrayClone.get(pos1));
+            resArrayClone.set(pos1, tmp);
+            if (checkRules(resArrayClone))
+                this.setResArray(resArrayClone);
+            else {
+                //restituisce l'array non modificato o stampa errore o inserire eccezione
+            }
         }
-        else if(res2 == ResourceType.COIN){
-            coinTot = res2Num;
-        }
-        else if(res3 == ResourceType.COIN){
-            coinTot = res3Num;
-        }
-        if(res1 == ResourceType.STONE){
-            stoneTot = res1Num;
-        }
-        else if(res2 == ResourceType.STONE){
-            stoneTot = res2Num;
-        }
-        else if(res3 == ResourceType.STONE){
-            stoneTot = res3Num;
-        }
-        if(res1 == ResourceType.SERVANT){
-            servantTot = res1Num;
-        }
-        else if(res2 == ResourceType.SERVANT){
-            servantTot = res2Num;
-        }
-        else if(res3 == ResourceType.SERVANT){
-            servantTot = res3Num;
-        }
-        if(res1 == ResourceType.SHIELD){
-            shieldTot = res1Num;
-        }
-        else if(res2 == ResourceType.SHIELD){
-            shieldTot = res2Num;
-        }
-        else if(res3 == ResourceType.SHIELD){
-            shieldTot = res3Num;
-        }
-        ///////////////////////////////////////     calculates number of res in the extra shelfs
-        if(extra1Res == ResourceType.COIN){
-            coinTot = coinTot + extra1ResNum;
-        }
-        else if(extra2Res == ResourceType.COIN){
-            coinTot = coinTot + extra2ResNum;
-        }
-        if(extra1Res == ResourceType.STONE){
-            stoneTot = stoneTot + extra1ResNum;
-        }
-        else if(extra2Res == ResourceType.STONE){
-            stoneTot = stoneTot + extra2ResNum;
-        }
-        if(extra1Res == ResourceType.SERVANT){
-            servantTot = servantTot + extra1ResNum;
-        }
-        else if(extra2Res == ResourceType.SERVANT){
-            servantTot = servantTot + extra2ResNum;
-        }
-        if(extra1Res == ResourceType.SHIELD){
-            shieldTot = shieldTot + extra1ResNum;
-        }
-        else if(extra2Res == ResourceType.SHIELD){
-            shieldTot = shieldTot + extra2ResNum;
+        else{
+            //restituisce l'array non modificato o stampa errore o inserire eccezione
         }
 
-        ////////////////////////////////////        compares the cost with res in the warehouse
-        if(coinTot < coinReq) return false;
-        else if(stoneTot < stoneReq) return false;
-        else if(servantTot < servantReq) return false;
-        else if(shieldTot < shieldReq) return false;
-        else return true;
+    }
+    private boolean checkRules(ArrayList<ResourceType> resArrayToCheck){
+
+        int count;
+
+        if(!resArrayToCheck.get(0).equals(ResourceType.EMPTY)) {
+            for (count = 1; count < 6; count++) {
+                if (resArrayToCheck.get(count).equals(resArrayToCheck.get(0)))
+                    return false;
+            }
+        }
+        if(!resArrayToCheck.get(1).equals(ResourceType.EMPTY)) {
+            if (!(resArrayToCheck.get(2).equals(resArrayToCheck.get(1)) || resArrayToCheck.get(2).equals(ResourceType.EMPTY)))
+                return false;
+            for (count = 3; count < 6; count++) {
+                if (resArrayToCheck.get(count).equals(resArrayToCheck.get(1)))
+                    return false;
+            }
+        }
+        if(!resArrayToCheck.get(3).equals(ResourceType.EMPTY)) {
+            if(!((resArrayToCheck.get(4).equals(resArrayToCheck.get(3)) || resArrayToCheck.get(4).equals(ResourceType.EMPTY)) &&
+                    ((resArrayToCheck.get(5).equals(resArrayToCheck.get(4)) || resArrayToCheck.equals(ResourceType.EMPTY))))){
+                return false;
+            }
+        }
+
+        return true;
+
+
+        //check regole warehouse
+
     }
 
-
-
-
+    public int size(ResourceType res){
+        int tot = 0;
+        for(ResourceType r : this.resArray){
+            if(r.equals(res)){
+                tot++;
+            }
+        }
+        return tot;
+    }
+    //TODO
+    public void Pay(ResourceType res, int quantity){
+        if(this.resArray.get(0).equals(res)) {
+            this.resArray.set(0, ResourceType.EMPTY);
+        }
+        else if(this.resArray.get(1).equals(res)) {
+            for (int i = 1; i < 1 + quantity; i++) {
+                this.resArray.set(i, ResourceType.EMPTY);
+            }
+        }
+        else{
+            for(int i = 3; i < 3 + quantity; i++){
+                this.resArray.set(i, ResourceType.EMPTY);
+            }
+        }
+    }
 }

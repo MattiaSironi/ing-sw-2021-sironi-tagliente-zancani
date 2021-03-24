@@ -59,8 +59,20 @@ public class Strongbox {
 
         if(coinNum < coinReq) return false;
         else if(stoneNum < stoneReq) return false;
-        else if(servantNum < stoneReq) return false;
+        else if(servantNum < servantReq) return false;
         else if(shieldNum < shieldReq) return false;
         else return true;
+    }
+
+    public void Pay(ResourceType res, int quantity){
+
+        if(res.equals(ResourceType.COIN))
+            this.coinNum -= quantity;
+        else if(res.equals(ResourceType.STONE))
+            this.stoneNum -= quantity;
+        else if(res.equals(ResourceType.SERVANT))
+            this.servantNum -= quantity;
+        else if(res.equals(ResourceType.SHIELD))
+            this.shieldNum -= quantity;
     }
 }
