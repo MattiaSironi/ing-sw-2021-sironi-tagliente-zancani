@@ -3,27 +3,32 @@ package it.polimi.ingsw.model;
 // MODIFICHE DAL MODEL UML: HO USATO 3 INT[] E NON 6 ATTRIBUTI. METODO USEABILITY ADESSO RESTITUISCE
 // LE QUANTITA' DELLE RISORSE E NON UN ARRAYLIST<RESOURCE>.
 
-public class DevCard extends Card{
+public class DevCard{
+    private final int type;
+    private final int victoryPoints;
     private final int level;
     private final CardColor color;
     private final int[] costRes; //pos 0 -> Coin, pos 1 -> Stone, pos 2 -> Servant, pos 3 -> Shield
     private final int[] inputRes; //pos 0 -> Coin, pos 1 -> Stone, pos 2 -> Servant, pos 3 -> Shield
     private final int[] outputRes; //pos 0 -> Coin, pos 1 -> Stone, pos 2 -> Servant, pos 3 -> Shield
 
-    public DevCard(int victoryPoints, CardColor color, int level, int type, int[] costRes, int[] inputRes, int[] outputRes) {
-        super (type, victoryPoints);
-        this.color = color;
+    public DevCard(int type, int victoryPoints, int level, CardColor color, int[] costRes, int[] inputRes, int[] outputRes) {
+        this.type = type;
+        this.victoryPoints = victoryPoints;
         this.level = level;
+        this.color = color;
         this.costRes = costRes;
         this.inputRes = inputRes;
         this.outputRes = outputRes;
     }
 
-    public  void checkFlag(Card c)  { //TODO
-
+    public int getType() {
+        return type;
     }
 
-
+    public int getVictoryPoints() {
+        return victoryPoints;
+    }
 
     public CardColor getColor() {
         return color;
@@ -45,7 +50,7 @@ public class DevCard extends Card{
         return outputRes;
     }
 
-    public int[] useAbility()  {
-        return getOutputRes();
-    }
+//    public int[] useAbility()  {
+//        return getOutputRes();
+//    } //production
 }

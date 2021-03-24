@@ -3,11 +3,11 @@ import java.util.ArrayList;
 
 public class Board {
     private Market market;
-    private Deck leaderDeck;
-    private ArrayList<Deck> devDecks;
+    private LeaderDeck leaderDeck;
+    private ArrayList<DevDeck> devDecks;
     private ArrayList<SoloActionToken> tokenArray;
 
-    public Board(Market market, Deck leaderDeck, ArrayList<Deck> devDecks, ArrayList<SoloActionToken> tokenArray) {
+    public Board(Market market, LeaderDeck leaderDeck, ArrayList<DevDeck> devDecks, ArrayList<SoloActionToken> tokenArray) {
         this.market = market;
         this.leaderDeck = leaderDeck;
         this.devDecks = devDecks;
@@ -18,31 +18,32 @@ public class Board {
         return market;
     }
 
-    public Deck getLeaderDeck() {
+    public void setMarket(Market market) {
+        this.market = market;
+    }
+
+    public LeaderDeck getLeaderDeck() {
         return leaderDeck;
     }
 
-    public ArrayList<Deck> getDevDecks() {
+    public void setLeaderDeck(LeaderDeck leaderDeck) {
+        this.leaderDeck = leaderDeck;
+    }
+
+    public ArrayList<DevDeck> getDevDecks() {
         return devDecks;
+    }
+
+    public void setDevDecks(ArrayList<DevDeck> devDecks) {
+        this.devDecks = devDecks;
     }
 
     public ArrayList<SoloActionToken> getTokenArray() {
         return tokenArray;
     }
 
-    public void setMarket(Market market) {
-        this.market = market;
-    }
-
-    public void setLeaderDeck(Deck leaderDeck) {
-        this.leaderDeck = leaderDeck;
-    }
-
-    public void setDevDecks(ArrayList<Deck> devDecks) {
-        this.devDecks = devDecks;
-    }
-
     public void setTokenArray(ArrayList<SoloActionToken> tokenArray) {
         this.tokenArray = tokenArray;
     }
 }
+

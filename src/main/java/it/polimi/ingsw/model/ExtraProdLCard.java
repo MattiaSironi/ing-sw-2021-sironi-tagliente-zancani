@@ -18,5 +18,5 @@ public class ExtraProdLCard extends LeaderCard {
     public ResourceType getInput() {
         return input;
     }
-    public void useAbility()  {} //TODO
+//    public void useAbility()  {} //TODO
 }

@@ -8,8 +8,9 @@ public class WhiteTrayLCard extends LeaderCard {
     public WhiteTrayLCard(int type, int victoryPoints, int requirementType, ResourceType resType, CardColor x1Color, CardColor x2Color) {
         super(type, victoryPoints, requirementType);
         this.resType = resType;
-        this.x1Color = x1Color;
         this.x2Color = x2Color;
+        this.x1Color = x1Color;
+
     }
 
     public ResourceType getResType() {
@@ -24,5 +25,5 @@ public class WhiteTrayLCard extends LeaderCard {
         return x2Color;
     }
 
-    public void useAbility()  {} //TODO
+//    public void useAbility()  {} //TODO
 }

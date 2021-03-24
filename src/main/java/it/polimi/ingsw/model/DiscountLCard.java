@@ -25,8 +25,8 @@ public class DiscountLCard extends LeaderCard{
         return resType;
     }
 
-    @Override
-    public void useAbility() { //TODO
+//    @Override
+//    public void useAbility() { //TODO
 
-    }
+    //}
 }

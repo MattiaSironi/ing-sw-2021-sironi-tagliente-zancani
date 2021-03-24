@@ -7,7 +7,7 @@ public class Player {
     private final String nickname;
     private int faithMarkerPos;
     private final boolean inkwell;
-    private ArrayList<Card> leaderDeck;
+    private LeaderDeck leaderDeck;
     private int victoryPoints;
     private Resource resDiscount1;
     private Resource resDiscount2;
@@ -18,7 +18,7 @@ public class Player {
     private boolean vaticanSection;
     private final PersonalBoard personalBoard;
 
-    public Player(int id, String nickname, int faithMarkerPos, boolean inkwell, ArrayList<Card> leaderDeck, int victoryPoints, Resource resDiscount1, Resource resDiscount2, Resource whiteConversion1, Resource whiteConversion2, Resource inputExtraProduction1, Resource inputExtraProduction2, boolean vaticanSection, PersonalBoard personalBoard) {
+    public Player(int id, String nickname, int faithMarkerPos, boolean inkwell, LeaderDeck leaderDeck, int victoryPoints, Resource resDiscount1, Resource resDiscount2, Resource whiteConversion1, Resource whiteConversion2, Resource inputExtraProduction1, Resource inputExtraProduction2, boolean vaticanSection, PersonalBoard personalBoard) {
         this.id = id;
         this.nickname = nickname;
         this.faithMarkerPos = faithMarkerPos;
@@ -43,7 +43,7 @@ public class Player {
         this.faithMarkerPos = faithMarkerPos;
     }
 
-    public void setLeaderDeck(ArrayList<Card> leaderDeck) {
+    public void setLeaderDeck(LeaderDeck leaderDeck) {
         this.leaderDeck = leaderDeck;
     }
 
@@ -95,7 +95,7 @@ public class Player {
         return inkwell;
     }
 
-    public ArrayList<Card> getLeaderDeck() {
+    public LeaderDeck getLeaderDeck() {
         return leaderDeck;
     }
 

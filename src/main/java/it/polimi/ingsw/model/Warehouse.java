@@ -126,7 +126,7 @@ public class Warehouse {
         this.extra2ResNum = extra2ResNum;
     }
 
-    private boolean canIPay(DevCard card){
+    public boolean canIPay(DevCard card){
 
         int coinTot = 0;
         int stoneTot = 0;
@@ -211,4 +211,8 @@ public class Warehouse {
         else if(shieldTot < shieldReq) return false;
         else return true;
     }
+
+
+
+
 }
