@@ -127,22 +127,19 @@ public class Warehouse {
     }
 
     private boolean canIPay(DevCard card){
-        int coinReq = 0;
-        int stoneReq = 0;
-        int servantReq = 0;
-        int shieldReq = 0;
+
         int coinTot = 0;
         int stoneTot = 0;
         int servantTot = 0;
         int shieldTot = 0;
         int[] costAmount = card.getCostRes();
 
-        //can add 124 125 126 127 as attribute of the main class
+        //can add 134 135 136 137 as attribute of the main class
 
-        coinReq = costAmount[0];
-        stoneReq = costAmount[1];
-        servantReq = costAmount[2];
-        shieldReq = costAmount[3];
+        int coinReq = costAmount[0];
+        int stoneReq = costAmount[1];
+        int servantReq = costAmount[2];
+        int shieldReq = costAmount[3];
 
         ///////////////////////////////////////     calculates number of res in the main warehouse
         if(res1 == ResourceType.COIN){
@@ -210,7 +207,7 @@ public class Warehouse {
         ////////////////////////////////////        compares the cost with res in the warehouse
         if(coinTot < coinReq) return false;
         else if(stoneTot < stoneReq) return false;
-        else if(servantTot < stoneReq) return false;
+        else if(servantTot < servantReq) return false;
         else if(shieldTot < shieldReq) return false;
         else return true;
     }
