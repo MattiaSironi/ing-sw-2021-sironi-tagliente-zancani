@@ -10,10 +10,10 @@ public class PersonalBoard {
     private boolean favorTile1;
     private boolean favorTile2;
     private boolean favorTile3;
-    private final Strongbox strongbox;
-    private final Warehouse warehouse;
+    private Strongbox strongbox;
+    private ShelfWarehouse warehouse;
 
-    public PersonalBoard(ArrayList<Slot> faithTrack, ArrayList<DevDeck> cardSlot, LeaderDeck activeLeader, int numDevCards, boolean favorTile1, boolean favorTile2, boolean favorTile3, Strongbox strongbox, Warehouse warehouse) {
+    public PersonalBoard(ArrayList<Slot> faithTrack, ArrayList<DevDeck> cardSlot, LeaderDeck activeLeader, int numDevCards, boolean favorTile1, boolean favorTile2, boolean favorTile3, Strongbox strongbox, ShelfWarehouse warehouse) {
         this.faithTrack = faithTrack;
         this.cardSlot = cardSlot;
         this.activeLeader = activeLeader;
@@ -59,10 +59,18 @@ public class PersonalBoard {
 
 
     }
+
+
+
     public boolean checkLCardRequirements(ExtraDepotLCard lc)  { //waiting for New Warehouse implementation
+        int sum;
+        ResourceType r = lc.getResType();
+        sum = this.strongbox.resCount(r) + this.warehouse.getResCount(r);
+        return (sum>=5);
+    }
 
 
-    } // TODO
+
     public boolean checkLCardRequirements(DiscountLCard lc)  {
         CardColor c1= lc.getColor1(); //2 cards
         CardColor c2= lc.getColor2(); //1 card
@@ -130,8 +138,17 @@ public class PersonalBoard {
         return favorTile3;
     }
 
-    public void regularProduction (Resource r1, Resource r2, Resource r3){
-            //controllo se posso pagare con le mie risorse e aggiorno le risorse?
+
+    public ArrayList<Slot> getFaithTrack() {
+        return faithTrack;
+    }
+
+    public Strongbox getStrongbox() {
+        return strongbox;
+    }
+
+    public ShelfWarehouse getWarehouse() {
+        return warehouse;
     }
 
 }

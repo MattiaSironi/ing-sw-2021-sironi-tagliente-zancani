@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 import java.util.ArrayList;
-//TODO
+
 public class Warehouse{
     private ArrayList<ResourceType> resArray;
     private boolean extraSchelf1;
@@ -116,7 +116,9 @@ public class Warehouse{
         }
         return tot;
     }
-    //TODO
+
+
+
     public void Pay(ResourceType res, int quantity){
         if(this.resArray.get(0).equals(res)) {
             this.resArray.set(0, ResourceType.EMPTY);

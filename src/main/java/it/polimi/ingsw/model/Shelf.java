@@ -4,6 +4,7 @@ public class Shelf {
     private ResourceType resType;
     private int count;
 
+
     public Shelf(ResourceType resType, int count) {
         this.resType = resType;
         this.count = count;

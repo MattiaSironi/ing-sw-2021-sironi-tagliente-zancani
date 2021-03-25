@@ -22,5 +22,5 @@ public class LeaderCard{
     public int getRequirementType() {
         return requirementType;
     }
-//    public void useAbility()  {} //TODO
+
 }

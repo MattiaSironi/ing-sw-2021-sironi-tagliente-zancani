@@ -1,19 +1,37 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
+
 public class Strongbox {
-    private int coinNum;
-    private int stoneNum;
-    private int servantNum;
-    private int shieldNum;
+//    private int coinNum;
+//    private int stoneNum;
+//    private int servantNum;
+//    private int shieldNum;
+
+    private ArrayList<Shelf> infinityShelf;
 
     public Strongbox(int coinNum, int stoneNum, int servantNum, int shieldNum) {
-        this.coinNum = coinNum;
-        this.stoneNum = stoneNum;
-        this.servantNum = servantNum;
-        this.shieldNum = shieldNum;
+//        this.coinNum = coinNum;
+//        this.stoneNum = stoneNum;
+//        this.servantNum = servantNum;
+//        this.shieldNum = shieldNum;
+        this.infinityShelf = new ArrayList<Shelf>();
+        this.infinityShelf.add(0, new Shelf(ResourceType.COIN, 0));
+        this.infinityShelf.add(1, new Shelf(ResourceType.STONE,0));
+        this.infinityShelf.add(2, new Shelf(ResourceType.SERVANT,0));
+        this.infinityShelf.add(3,new Shelf(ResourceType.SHIELD,0));
+
     }
 
-    public int getCoinNum() {
+    public ArrayList<Shelf> getInfinityShelf() {
+        return infinityShelf;
+    }
+
+    public void setInfinityShelf(ArrayList<Shelf> infinityShelf) {
+        this.infinityShelf = infinityShelf;
+    }
+
+    /*  public int getCoinNum() {
         return coinNum;
     }
 
@@ -43,9 +61,9 @@ public class Strongbox {
 
     public void setShieldNum(int shieldNum) {
         this.shieldNum = shieldNum;
-    }
+    }*/
 
-    public boolean CanIPay(DevCard card){ //-----------------< ho dovuto cambiare il parametro interno
+  /*  public boolean CanIPay(DevCard card){ //-----------------< ho dovuto cambiare il parametro interno
         int coinReq = 0;
         int stoneReq = 0;
         int servantReq = 0;
@@ -62,9 +80,20 @@ public class Strongbox {
         else if(servantNum < servantReq) return false;
         else if(shieldNum < shieldReq) return false;
         else return true;
+    }*/
+
+    public boolean canIPay (DevCard c){
+        int i ;
+        boolean ok = true;
+        int[] costAmount = c.getCostRes();
+        for (i = 0; i<4 ; i++){
+           if(costAmount[i]>this.infinityShelf.get(i).getCount())
+                    ok = false;
+        }
+        return ok;
     }
 
-    public void Pay(ResourceType res, int quantity){
+    /*public void Pay(ResourceType res, int quantity){
 
         if(res.equals(ResourceType.COIN))
             this.coinNum -= quantity;
@@ -74,5 +103,20 @@ public class Strongbox {
             this.servantNum -= quantity;
         else if(res.equals(ResourceType.SHIELD))
             this.shieldNum -= quantity;
+    }*/
+
+    public void pay (ResourceType res, int quantity){
+        int i = 0;
+        while (!this.infinityShelf.get(i).getResType().equals(res))
+            i++;
+        this.infinityShelf.get(i).setCount(this.infinityShelf.get(i).getCount()-quantity);
     }
+
+    public int resCount (ResourceType r){
+        int i = 0;
+        while (!this.infinityShelf.get(i).getResType().equals(r))
+            i++;
+        return this.infinityShelf.get(i).getCount();
+    }
+
 }

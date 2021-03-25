@@ -19,8 +19,5 @@ public class ExtraDepotLCard extends LeaderCard {
         return resDepot;
     }
 
-//    @Override
-//    public void useAbility() { //TODO
 
-    //}
 }

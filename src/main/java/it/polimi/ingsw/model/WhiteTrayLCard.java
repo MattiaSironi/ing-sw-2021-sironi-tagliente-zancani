@@ -25,5 +25,5 @@ public class WhiteTrayLCard extends LeaderCard {
         return x2Color;
     }
 
-//    public void useAbility()  {} //TODO
+
 }
