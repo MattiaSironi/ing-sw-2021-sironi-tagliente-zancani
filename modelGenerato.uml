@@ -8,20 +8,20 @@
     <node x="661.8454483358187" y="985.5">it.polimi.ingsw.model.LeaderDeck</node>
     <node x="3768.9188391265593" y="429.0">it.polimi.ingsw.model.Warehouse</node>
     <node x="3210.4604110049386" y="0.0">it.polimi.ingsw.model.ResourceType</node>
-    <node x="3342.018839126559" y="506.5">it.polimi.ingsw.model.Shelf</node>
     <node x="1382.6125947882879" y="495.5">it.polimi.ingsw.model.LeaderCard</node>
+    <node x="3342.018839126559" y="506.5">it.polimi.ingsw.model.Shelf</node>
     <node x="207.49592812162155" y="1857.0">it.polimi.ingsw.model.LorenzoIlMagnifico</node>
     <node x="1013.4079483358187" y="996.5">it.polimi.ingsw.model.ExtraProdLCard</node>
     <node x="0.0" y="985.5">it.polimi.ingsw.model.DevDeck</node>
-    <node x="469.99592812162155" y="2160.0">it.polimi.ingsw.model.Game</node>
     <node x="1895.6709281216208" y="1691.0">it.polimi.ingsw.model.Player</node>
+    <node x="469.99592812162155" y="2160.0">it.polimi.ingsw.model.Game</node>
     <node x="423.49592812162155" y="1824.0">it.polimi.ingsw.model.Board</node>
     <node x="3692.9188391265593" y="1400.5">it.polimi.ingsw.model.Resource</node>
     <node x="3445.9188391265593" y="963.0">it.polimi.ingsw.model.ShelfWarehouse</node>
     <node x="4286.41883912656" y="1007.5">it.polimi.ingsw.model.Tray</node>
     <node x="806.4334281216211" y="451.5">it.polimi.ingsw.model.DevCard</node>
-    <node x="3204.9188391265593" y="974.0">it.polimi.ingsw.model.Strongbox</node>
     <node x="1885.4079483358187" y="985.5">it.polimi.ingsw.model.WhiteTrayLCard</node>
+    <node x="3204.9188391265593" y="974.0">it.polimi.ingsw.model.Strongbox</node>
     <node x="1922.1709281216208" y="1279.0">it.polimi.ingsw.model.PersonalBoard</node>
     <node x="2485.9188391265593" y="996.5">it.polimi.ingsw.model.ExtraDepotLCard</node>
     <node x="2922.9188391265593" y="963.5">it.polimi.ingsw.model.Slot</node>
@@ -30,151 +30,11 @@
   </nodes>
   <notes />
   <edges>
-    <edge source="it.polimi.ingsw.model.Resource" target="it.polimi.ingsw.model.Tray">
-      <point x="30.0" y="-49.5" />
-      <point x="3842.9188391265593" y="1249.0" />
-      <point x="4303.91883912656" y="1249.0" />
-      <point x="-70.0" y="38.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.PersonalBoard" target="it.polimi.ingsw.model.DevDeck">
-      <point x="-394.35294117647027" y="-171.0" />
-      <point x="1946.8179869451506" y="1229.0" />
-      <point x="180.625" y="1229.0" />
-      <point x="36.125" y="60.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.DiscountLCard" target="it.polimi.ingsw.model.ResourceType">
-      <point x="112.0" y="-60.5" />
-      <point x="1753.4079483358187" y="913.0" />
-      <point x="2602.900094788288" y="913.0" />
-      <point x="2602.900094788288" y="349.0" />
-      <point x="3240.0854110049386" y="349.0" />
-      <point x="-88.875" y="104.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.PersonalBoard" target="it.polimi.ingsw.model.ShelfWarehouse">
-      <point x="295.76470588235316" y="-171.0" />
-      <point x="2636.935634003974" y="1229.0" />
-      <point x="3515.9188391265593" y="1229.0" />
-      <point x="-70.0" y="83.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.WhiteTrayLCard" target="it.polimi.ingsw.model.ResourceType">
-      <point x="189.16666666666652" y="-60.5" />
-      <point x="2301.574615002485" y="943.0" />
-      <point x="2635.900094788288" y="943.0" />
-      <point x="2635.900094788288" y="379.0" />
-      <point x="3275.6354110049388" y="379.0" />
-      <point x="-53.325000000000045" y="104.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.ShelfWarehouse" target="it.polimi.ingsw.model.ResourceType">
-      <point x="93.33333333333326" y="-83.0" />
-      <point x="3679.252172459893" y="943.0" />
-      <point x="3702.335505793226" y="943.0" />
-      <point x="3702.335505793226" y="389.0" />
-      <point x="3346.735411004938" y="389.0" />
-      <point x="17.774999999999864" y="104.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Resource" target="it.polimi.ingsw.model.ResourceType">
-      <point x="-90.0" y="-49.5" />
-      <point x="3722.9188391265593" y="1259.0" />
-      <point x="3747.4188391265593" y="1259.0" />
-      <point x="3747.4188391265593" y="369.0" />
-      <point x="3370.4354110049385" y="369.0" />
-      <point x="41.47499999999991" y="104.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.ExtraProdLCard" target="it.polimi.ingsw.model.LeaderCard">
-      <point x="96.0" y="-49.5" />
-      <point x="1301.4079483358187" y="893.0" />
-      <point x="1451.5625947882877" y="893.0" />
-      <point x="-29.550000000000182" y="60.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Market" target="it.polimi.ingsw.model.Tray">
-      <point x="-61.66666666666663" y="-49.5" />
-      <point x="4365.433940416703" y="1259.0" />
-      <point x="4373.91883912656" y="1259.0" />
-      <point x="0.0" y="38.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Player" target="it.polimi.ingsw.model.Resource">
-      <point x="222.75" y="-204.5" />
-      <point x="2563.920928121621" y="1641.0" />
-      <point x="3752.9188391265593" y="1641.0" />
-      <point x="-60.0" y="49.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Tray" target="it.polimi.ingsw.model.ResourceType">
-      <point x="-43.75" y="-38.5" />
-      <point x="4330.16883912656" y="943.0" />
-      <point x="4368.41883912656" y="943.0" />
-      <point x="4368.41883912656" y="319.0" />
-      <point x="3429.6854110049385" y="319.0" />
-      <point x="100.72499999999991" y="104.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.DiscountLCard" target="it.polimi.ingsw.model.CardColor">
-      <point x="-112.0" y="-60.5" />
-      <point x="1529.4079483358187" y="793.0" />
-      <point x="411.8709281216211" y="793.0" />
-      <point x="411.8709281216211" y="269.0" />
-      <point x="1095.4313453361951" y="269.0" />
-      <point x="-19.363636363636488" y="82.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.WhiteTrayLCard" target="it.polimi.ingsw.model.CardColor">
-      <point x="-189.16666666666652" y="-60.5" />
-      <point x="1923.2412816691522" y="763.0" />
-      <point x="422.8709281216211" y="763.0" />
-      <point x="422.8709281216211" y="279.0" />
-      <point x="1114.7949816998316" y="279.0" />
-      <point x="0.0" y="82.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.PersonalBoard" target="it.polimi.ingsw.model.ResourceType">
-      <point x="394.3529411764707" y="-171.0" />
-      <point x="2735.5238692980915" y="1249.0" />
-      <point x="3736.4188391265593" y="1249.0" />
-      <point x="3736.4188391265593" y="379.0" />
-      <point x="3358.5854110049386" y="379.0" />
-      <point x="29.625" y="104.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.PersonalBoard" target="it.polimi.ingsw.model.CardColor">
-      <point x="-295.7647058823527" y="-171.0" />
-      <point x="2045.4062222392681" y="1209.0" />
-      <point x="299.5" y="1209.0" />
-      <point x="299.5" y="229.0" />
-      <point x="1017.9767998816496" y="229.0" />
-      <point x="-96.81818181818198" y="82.5" />
-    </edge>
     <edge source="it.polimi.ingsw.model.DiscountLCard" target="it.polimi.ingsw.model.LeaderCard">
       <point x="37.333333333333485" y="-60.5" />
       <point x="1678.7412816691522" y="773.0" />
       <point x="1490.9625947882878" y="773.0" />
       <point x="9.849999999999909" y="60.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.ExtraDepotLCard" target="it.polimi.ingsw.model.ResourceType">
-      <point x="156.375" y="-49.5" />
-      <point x="2850.7938391265593" y="943.0" />
-      <point x="2921.4983907907404" y="943.0" />
-      <point x="2921.4983907907404" y="399.0" />
-      <point x="3299.3354110049386" y="399.0" />
-      <point x="-29.625" y="104.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Strongbox" target="it.polimi.ingsw.model.Shelf">
-      <point x="0.0" y="-72.0" />
-      <point x="3315.4188391265593" y="923.0" />
-      <point x="3362.4188391265593" y="923.0" />
-      <point x="-81.59999999999991" y="49.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Game" target="it.polimi.ingsw.model.Board">
-      <point x="-37.166666666666515" y="-94.0" />
-      <point x="655.829261454955" y="2120.0" />
-      <point x="558.2459281216215" y="2120.0" />
-      <point x="-134.75" y="71.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Player" target="it.polimi.ingsw.model.PersonalBoard">
-      <point x="-74.25" y="-204.5" />
-      <point x="2266.920928121621" y="1651.0" />
-      <point x="2131.670928121621" y="1651.0" />
-      <point x="-209.5" y="171.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Shelf" target="it.polimi.ingsw.model.ResourceType">
-      <point x="-51.0" y="-49.5" />
-      <point x="3393.018839126559" y="409.0" />
-      <point x="3323.0354110049384" y="409.0" />
-      <point x="-5.9249999999999545" y="104.5" />
     </edge>
     <edge source="it.polimi.ingsw.model.WhiteTrayLCard" target="it.polimi.ingsw.model.LeaderCard">
       <point x="-37.833333333333485" y="-60.5" />
@@ -182,187 +42,29 @@
       <point x="1530.3625947882879" y="743.0" />
       <point x="49.25" y="60.5" />
     </edge>
-    <edge source="it.polimi.ingsw.model.PersonalBoard" target="it.polimi.ingsw.model.Strongbox">
-      <point x="197.17647058823513" y="-171.0" />
-      <point x="2538.347398709856" y="1209.0" />
-      <point x="3260.1688391265593" y="1209.0" />
-      <point x="-55.25" y="72.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.PersonalBoard" target="it.polimi.ingsw.model.DiscountLCard">
-      <point x="-49.29411764705901" y="-171.0" />
-      <point x="2291.876810474562" y="1159.0" />
-      <point x="1641.4079483358187" y="1159.0" />
-      <point x="0.0" y="60.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.LeaderDeck" target="it.polimi.ingsw.model.LeaderCard">
-      <point x="-81.75" y="-60.5" />
-      <point x="743.5954483358187" y="863.0" />
-      <point x="1392.4625947882878" y="863.0" />
-      <point x="-88.65000000000009" y="60.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Warehouse" target="it.polimi.ingsw.model.ResourceType">
-      <point x="-196.33333333333337" y="-127.0" />
-      <point x="3867.085505793226" y="349.0" />
-      <point x="3394.1354110049388" y="349.0" />
-      <point x="65.17499999999995" y="104.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Strongbox" target="it.polimi.ingsw.model.DevCard">
-      <point x="-88.40000000000009" y="-72.0" />
-      <point x="3227.018839126559" y="713.0" />
-      <point x="1110.058428121621" y="713.0" />
-      <point x="130.125" y="104.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Board" target="it.polimi.ingsw.model.DevDeck">
-      <point x="-168.43750000000045" y="-71.5" />
-      <point x="524.5584281216211" y="1661.0" />
-      <point x="77.75" y="1661.0" />
-      <point x="77.75" y="1259.0" />
-      <point x="108.375" y="1259.0" />
-      <point x="-36.125" y="60.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.PersonalBoard" target="it.polimi.ingsw.model.ExtraDepotLCard">
-      <point x="49.29411764705901" y="-171.0" />
-      <point x="2390.46504576868" y="1179.0" />
-      <point x="2694.4188391265593" y="1179.0" />
-      <point x="0.0" y="49.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Strongbox" target="it.polimi.ingsw.model.ResourceType">
-      <point x="-44.200000000000045" y="-72.0" />
-      <point x="3271.218839126559" y="703.0" />
-      <point x="3215.0579483358188" y="703.0" />
-      <point x="3215.0579483358188" y="409.0" />
-      <point x="3311.1854110049385" y="409.0" />
-      <point x="-17.77500000000009" y="104.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Player" target="it.polimi.ingsw.model.LeaderDeck">
-      <point x="-371.25" y="-204.5" />
-      <point x="1969.9209281216208" y="1651.0" />
-      <point x="841.5954483358187" y="1651.0" />
-      <point x="841.5954483358187" y="1239.0" />
-      <point x="798.0954483358187" y="1239.0" />
-      <point x="-27.25" y="60.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Game" target="it.polimi.ingsw.model.LorenzoIlMagnifico">
-      <point x="-185.83333333333348" y="-94.0" />
-      <point x="507.16259478828806" y="2140.0" />
-      <point x="256.49592812162155" y="2140.0" />
-      <point x="-49.0" y="38.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.PersonalBoard" target="it.polimi.ingsw.model.DevCard">
-      <point x="-147.88235294117658" y="-171.0" />
-      <point x="2193.2885751804442" y="1179.0" />
-      <point x="999.3454483358187" y="1179.0" />
-      <point x="999.3454483358187" y="853.0" />
-      <point x="1023.3084281216211" y="853.0" />
-      <point x="43.375" y="104.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Board" target="it.polimi.ingsw.model.Market">
-      <point x="168.43749999999955" y="-71.5" />
-      <point x="861.4334281216211" y="1661.0" />
-      <point x="4380.85060708337" y="1661.0" />
-      <point x="-46.25" y="49.5" />
-    </edge>
     <edge source="it.polimi.ingsw.model.ExtraDepotLCard" target="it.polimi.ingsw.model.LeaderCard">
       <point x="-52.125" y="-49.5" />
       <point x="2642.2938391265593" y="723.0" />
       <point x="1569.762594788288" y="723.0" />
       <point x="88.65000000000009" y="60.5" />
     </edge>
-    <edge source="it.polimi.ingsw.model.PersonalBoard" target="it.polimi.ingsw.model.ExtraProdLCard">
-      <point x="-98.58823529411757" y="-171.0" />
-      <point x="2242.5826928275033" y="1169.0" />
-      <point x="1205.4079483358187" y="1169.0" />
-      <point x="0.0" y="49.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.DevCard" target="it.polimi.ingsw.model.CardColor">
-      <point x="-86.75" y="-104.5" />
-      <point x="893.1834281216211" y="309.0" />
-      <point x="1172.8858907907406" y="309.0" />
-      <point x="58.09090909090901" y="82.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Game" target="it.polimi.ingsw.model.Player">
-      <point x="111.5" y="-94.0" />
-      <point x="804.4959281216215" y="2130.0" />
-      <point x="2118.420928121621" y="2130.0" />
-      <point x="-222.75" y="204.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Board" target="it.polimi.ingsw.model.LeaderDeck">
-      <point x="101.06249999999955" y="-71.5" />
-      <point x="794.0584281216211" y="1671.0" />
-      <point x="830.5954483358187" y="1671.0" />
-      <point x="830.5954483358187" y="1249.0" />
-      <point x="743.5954483358187" y="1249.0" />
-      <point x="-81.75" y="60.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.ShelfWarehouse" target="it.polimi.ingsw.model.Shelf">
-      <point x="-93.33333333333326" y="-83.0" />
-      <point x="3492.585505793226" y="943.0" />
-      <point x="3484.8188391265594" y="943.0" />
-      <point x="40.799999999999955" y="49.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.Board" target="it.polimi.ingsw.model.SoloActionToken">
-      <point x="-33.687500000000455" y="-71.5" />
-      <point x="659.3084281216211" y="1641.0" />
-      <point x="540.5" y="1641.0" />
-      <point x="540.5" y="833.0" />
-      <point x="688.3709281216211" y="833.0" />
-      <point x="85.0" y="60.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.PersonalBoard" target="it.polimi.ingsw.model.Slot">
-      <point x="98.58823529411757" y="-171.0" />
-      <point x="2439.7591634157384" y="1189.0" />
-      <point x="2988.4188391265593" y="1189.0" />
-      <point x="-65.5" y="82.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.ExtraProdLCard" target="it.polimi.ingsw.model.ResourceType">
-      <point x="-32.0" y="-49.5" />
-      <point x="1173.4079483358187" y="853.0" />
-      <point x="1178.870928121621" y="853.0" />
-      <point x="1178.870928121621" y="329.0" />
-      <point x="3216.3854110049388" y="329.0" />
-      <point x="-112.57500000000005" y="104.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.PersonalBoard" target="it.polimi.ingsw.model.LeaderDeck">
-      <point x="-246.47058823529414" y="-171.0" />
-      <point x="2094.7003398863267" y="1199.0" />
-      <point x="907.0954483358187" y="1199.0" />
-      <point x="81.75" y="60.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.ExtraProdLCard" target="it.polimi.ingsw.model.CardColor">
-      <point x="-160.0" y="-49.5" />
-      <point x="1045.4079483358187" y="823.0" />
-      <point x="378.8709281216211" y="823.0" />
-      <point x="378.8709281216211" y="239.0" />
-      <point x="1037.3404362452861" y="239.0" />
-      <point x="-77.4545454545455" y="82.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.PersonalBoard" target="it.polimi.ingsw.model.WhiteTrayLCard">
-      <point x="0.0" y="-171.0" />
-      <point x="2341.170928121621" y="1149.0" />
-      <point x="2112.4079483358187" y="1149.0" />
-      <point x="0.0" y="60.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.SoloActionToken" target="it.polimi.ingsw.model.CardColor">
-      <point x="-85.0" y="-60.5" />
-      <point x="518.3709281216211" y="289.0" />
-      <point x="1134.158618063468" y="289.0" />
-      <point x="19.363636363636488" y="82.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.DevDeck" target="it.polimi.ingsw.model.DevCard">
-      <point x="-72.25" y="-60.5" />
-      <point x="72.25" y="843.0" />
-      <point x="849.8084281216211" y="843.0" />
-      <point x="-130.125" y="104.5" />
+    <edge source="it.polimi.ingsw.model.ExtraProdLCard" target="it.polimi.ingsw.model.LeaderCard">
+      <point x="96.0" y="-49.5" />
+      <point x="1301.4079483358187" y="893.0" />
+      <point x="1451.5625947882877" y="893.0" />
+      <point x="-29.550000000000182" y="60.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.6000000000000001" x="1397.9999999999998" y="659.6666666666665" />
-  <SelectedNodes />
+  <settings layout="Hierarchic Group" zoom="0.2872952633908809" x="2249.0" y="1174.0" />
+  <SelectedNodes>
+    <node>it.polimi.ingsw.model.Market</node>
+  </SelectedNodes>
   <Categories>
-    <Category>Inner Classes</Category>
-    <Category>Methods</Category>
-    <Category>Constructors</Category>
-    <Category>Properties</Category>
     <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
   </Categories>
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>

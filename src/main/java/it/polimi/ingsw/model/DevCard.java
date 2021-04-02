@@ -4,13 +4,13 @@ package it.polimi.ingsw.model;
 // LE QUANTITA' DELLE RISORSE E NON UN ARRAYLIST<RESOURCE>.
 
 public class DevCard{
-    private final int type;
+    private final int type; //0?
     private final int victoryPoints;
     private final int level;
     private final CardColor color;
     private final int[] costRes; //pos 0 -> Coin, pos 1 -> Stone, pos 2 -> Servant, pos 3 -> Shield
     private final int[] inputRes; //pos 0 -> Coin, pos 1 -> Stone, pos 2 -> Servant, pos 3 -> Shield
-    private final int[] outputRes; //pos 0 -> Coin, pos 1 -> Stone, pos 2 -> Servant, pos 3 -> Shield
+    private final int[] outputRes; //pos 0 -> Coin, pos 1 -> Stone, pos 2 -> Servant, pos 3 -> Shield, pos 4 -> faith point!!!
 
     public DevCard(int type, int victoryPoints, int level, CardColor color, int[] costRes, int[] inputRes, int[] outputRes) {
         this.type = type;

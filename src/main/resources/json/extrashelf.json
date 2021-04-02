@@ -1,0 +1,26 @@
+[
+  {
+    "type": 2,
+    "victoryPoints": 3,
+    "resType": "SHIELD",
+    "resDepot": "COIN"
+  },
+  {
+    "type": 2,
+    "victoryPoints": 3,
+    "resType": "SERVANT",
+    "resDepot": "SHIELD"
+  },
+  {
+    "type": 2,
+    "victoryPoints": 3,
+    "resType": "STONE",
+    "resDepot": "SERVANT"
+  },
+  {
+    "type": 2,
+    "victoryPoints": 3,
+    "resType": "COIN",
+    "resDepot": "STONE"
+  }
+]

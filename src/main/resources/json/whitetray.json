@@ -1,0 +1,30 @@
+[
+  {
+    "type" : 4,
+    "victoryPoints" : 5,
+    "resType" : "SERVANT",
+    "x1Color" : "BLUE",
+    "x2Color" : "YELLOW"
+  },
+  {
+    "type" : 4,
+    "victoryPoints" : 5,
+    "resType" : "SHIELD",
+    "x1Color" : "PURPLE",
+    "x2Color" : "GREEN"
+  },
+  {
+    "type" : 4,
+    "victoryPoints" : 5,
+    "resType" : "STONE",
+    "x1Color" : "YELLOW",
+    "x2Color" : "BLUE"
+  },
+  {
+    "type" : 4,
+    "victoryPoints" : 5,
+    "resType" : "COIN",
+    "x1Color" : "GREEN",
+    "x2Color" : "PURPLE"
+  }
+]

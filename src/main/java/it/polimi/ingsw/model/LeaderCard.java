@@ -3,12 +3,12 @@ package it.polimi.ingsw.model;
 public class LeaderCard{
     private final int type;
     private final int victoryPoints;
-    private final int requirementType;
 
-    public LeaderCard(int type, int victoryPoints, int requirementType) {
+
+    public LeaderCard(int type, int victoryPoints) {
         this.type = type;
         this.victoryPoints = victoryPoints;
-        this.requirementType = requirementType;
+
     }
 
     public int getType() {
@@ -17,10 +17,6 @@ public class LeaderCard{
 
     public int getVictoryPoints() {
         return victoryPoints;
-    }
-
-    public int getRequirementType() {
-        return requirementType;
     }
 
 }

@@ -62,7 +62,7 @@ public class PersonalBoard {
 
 
 
-    public boolean checkLCardRequirements(ExtraDepotLCard lc)  { //waiting for New Warehouse implementation
+    public boolean checkLCardRequirements(ExtraDepotLCard lc)  {
         int sum;
         ResourceType r = lc.getResType();
         sum = this.strongbox.resCount(r) + this.warehouse.getResCount(r);

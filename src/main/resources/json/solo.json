@@ -1,0 +1,37 @@
+[
+  {
+    "discard2Cards" : "GREEN",
+    "moveBlack2" : false,
+    "moveBlackAndShuffle" : false
+  },
+  {
+    "discard2Cards" : "YELLOW",
+    "moveBlack2" : false ,
+    "moveBlackAndShuffle" : false
+  },
+  {
+    "discard2Cards" : "PURPLE",
+    "moveBlack2" : false,
+    "moveBlackAndShuffle" : false
+  },
+  {
+    "discard2Cards" : "BLUE" ,
+    "moveBlack2" : false,
+    "moveBlackAndShuffle" : false
+  },
+  {
+    "discard2Cards" : "",
+    "moveBlack2" : true ,
+    "moveBlackAndShuffle" : false
+  },
+  {
+    "discard2Cards" : "",
+    "moveBlack2" : true,
+    "moveBlackAndShuffle" : false
+  },
+  {
+  "discard2Cards" : "",
+  "moveBlack2" : false,
+  "moveBlackAndShuffle" : true
+}
+]

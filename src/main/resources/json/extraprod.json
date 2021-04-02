@@ -1,0 +1,21 @@
+[
+  { "type" : 3,
+   "victoryPoints" : 4,
+   "color" : "YELLOW",
+   "input" : "SHIELD" },
+
+  { "type" : 3,
+    "victoryPoints" : 4,
+    "color" : "BLUE",
+    "input" : "SERVANT" },
+
+  { "type" : 3,
+    "victoryPoints" : 4,
+    "color" : "PURPLE",
+    "input" : "STONE" },
+
+  { "type" : 3,
+    "victoryPoints" : 4,
+    "color" : "GREEN",
+    "input" : "COIN" }
+]
