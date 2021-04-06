@@ -1,5 +1,12 @@
 package it.polimi.ingsw.model;
 
+/**
+ * Class Slot represents the single slot of the Faith Track of the Personal Board
+ *
+ * @author Simone Tagliente
+ * @see PersonalBoard
+ */
+
 public class Slot {
     private int posIndex; //apparentemente inutile
     private boolean vaticanReportSection;

@@ -1,4 +1,7 @@
-package it.polimi.ingsw.model;
+package unused;
+
+import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.Tray;
 
 public class Resource {
     private ResourceType type;

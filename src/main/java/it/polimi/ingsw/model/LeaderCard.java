@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 /**
  * Class LeaderCard groups the attributes common to all the Leader Cards
  *
- * @author
+ * @author Mattia Sironi
  */
 //Moficiche al Model UML: attributo requirements type non è più un boolean ma è un int, perché ho 4 sottoclassi
 public class LeaderCard{

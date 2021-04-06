@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 /**
  * Class LorenzoIlMagnifico keeps track of the position of Lorenzo Il Magnifico if the game is single player
  *
- * @author
+ * @author Simone Tagliente
  */
 
 public class LorenzoIlMagnifico {

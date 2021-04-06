@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model;
 
-import unused.Resource;
+/**
+ * Class Player represents the player
+ *
+ * @author Lea Zancani
+ */
 
 public class Player {
     private int id;
@@ -9,16 +13,17 @@ public class Player {
     private final boolean inkwell;
     private LeaderDeck leaderDeck;
     private int victoryPoints;
-    private Resource resDiscount1;
-    private Resource resDiscount2;
-    private Resource whiteConversion1;
-    private Resource whiteConversion2;
-    private Resource inputExtraProduction1;
-    private Resource inputExtraProduction2;
+    private ResourceType resDiscount1;
+    private ResourceType resDiscount2;
+    private ResourceType whiteConversion1;
+    private ResourceType whiteConversion2;
+    private ResourceType inputExtraProduction1;
+    private ResourceType inputExtraProduction2;
     private boolean vaticanSection;
+
     private final PersonalBoard personalBoard;
 
-    public Player(int id, String nickname, int faithMarkerPos, boolean inkwell, LeaderDeck leaderDeck, int victoryPoints, Resource resDiscount1, Resource resDiscount2, Resource whiteConversion1, Resource whiteConversion2, Resource inputExtraProduction1, Resource inputExtraProduction2, boolean vaticanSection, PersonalBoard personalBoard) {
+    public Player(int id, String nickname, int faithMarkerPos, boolean inkwell, LeaderDeck leaderDeck, int victoryPoints, ResourceType resDiscount1, ResourceType resDiscount2, ResourceType whiteConversion1, ResourceType whiteConversion2, ResourceType inputExtraProduction1, ResourceType inputExtraProduction2, boolean vaticanSection, PersonalBoard personalBoard) {
         this.id = id;
         this.nickname = nickname;
         this.faithMarkerPos = faithMarkerPos;
@@ -51,27 +56,27 @@ public class Player {
         this.victoryPoints = victoryPoints;
     }
 
-    public void setResDiscount1(Resource resDiscount1) {
+    public void setResDiscount1(ResourceType resDiscount1) {
         this.resDiscount1 = resDiscount1;
     }
 
-    public void setResDiscount2(Resource resDiscount2) {
+    public void setResDiscount2(ResourceType resDiscount2) {
         this.resDiscount2 = resDiscount2;
     }
 
-    public void setWhiteConversion1(Resource whiteConversion1) {
+    public void setWhiteConversion1(ResourceType whiteConversion1) {
         this.whiteConversion1 = whiteConversion1;
     }
 
-    public void setWhiteConversion2(Resource whiteConversion2) {
+    public void setWhiteConversion2(ResourceType whiteConversion2) {
         this.whiteConversion2 = whiteConversion2;
     }
 
-    public void setInputExtraProduction1(Resource inputExtraProduction1) {
+    public void setInputExtraProduction1(ResourceType inputExtraProduction1) {
         this.inputExtraProduction1 = inputExtraProduction1;
     }
 
-    public void setInputExtraProduction2(Resource inputExtraProduction2) {
+    public void setInputExtraProduction2(ResourceType inputExtraProduction2) {
         this.inputExtraProduction2 = inputExtraProduction2;
     }
 
@@ -103,27 +108,27 @@ public class Player {
         return victoryPoints;
     }
 
-    public Resource getResDiscount1() {
+    public ResourceType getResDiscount1() {
         return resDiscount1;
     }
 
-    public Resource getResDiscount2() {
+    public ResourceType getResDiscount2() {
         return resDiscount2;
     }
 
-    public Resource getWhiteConversion1() {
+    public ResourceType getWhiteConversion1() {
         return whiteConversion1;
     }
 
-    public Resource getWhiteConversion2() {
+    public ResourceType getWhiteConversion2() {
         return whiteConversion2;
     }
 
-    public Resource getInputExtraProduction1() {
+    public ResourceType getInputExtraProduction1() {
         return inputExtraProduction1;
     }
 
-    public Resource getInputExtraProduction2() {
+    public ResourceType getInputExtraProduction2() {
         return inputExtraProduction2;
     }
 

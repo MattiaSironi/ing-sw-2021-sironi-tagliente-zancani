@@ -2,6 +2,17 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 
+/**
+ * Class PersonalBoard represents the board of each player
+ *
+ * @author Lea Zancani
+ * @see DevCard
+ * @see LeaderDeck
+ * @see Strongbox
+ * @see ShelfWarehouse
+ * @see Slot
+ */
+
 public class PersonalBoard {
     private final ArrayList<Slot> faithTrack;
     private ArrayList<DevDeck> cardSlot;
@@ -24,6 +35,12 @@ public class PersonalBoard {
         this.strongbox = strongbox;
         this.warehouse = warehouse;
     }
+
+    /**
+     * Method checkLCardRequirements checks if the player meets the requirements of a Leader Card with WhiteTray Ability
+     * @param lc is the LeaderCard whose we want to check the requirements
+     * @return boolean true if the player has met the requirements
+     */
     public boolean checkLCardRequirements(WhiteTrayLCard lc)  {
         CardColor c1= lc.getX2Color(); //2 cards
         CardColor c2= lc.getX1Color(); //1 card
@@ -45,6 +62,12 @@ public class PersonalBoard {
 
 
     }
+
+    /**
+     * Method checkLCardRequirements checks if the player meets the requirements of a Leader Card with ExtraProduction Ability
+     * @param lc is the LeaderCard whose we want to check the requirements
+     * @return boolean true if the player has met the requirements
+     */
     public boolean checkLCardRequirements(ExtraProdLCard lc)  {
         CardColor c1= lc.getColor(); //1 cards of lv2 (minimum?)
         int x1c=0;
@@ -60,17 +83,25 @@ public class PersonalBoard {
 
     }
 
+    /**
+     * Method checkLCardRequirements checks if the player meets the requirements of a Leader Card with ExtraDepot Ability
+     * @param lc is the LeaderCard whose we want to check the requirements
+     * @return boolean true if the player has met the requirements
+     */
 
 
     public boolean checkLCardRequirements(ExtraDepotLCard lc)  {
         int sum;
         ResourceType r = lc.getResType();
-        sum = this.strongbox.resCount(r) + this.warehouse.getResCount(r);
+        sum = this.strongbox.getResCount(r) + this.warehouse.getResCount(r);
         return (sum>=5);
     }
 
-
-
+    /**
+     * Method checkLCardRequirements checks if the player meets the requirements of a Leader Card with Discount Ability
+     * @param lc is the LeaderCard whose we want to check the requirements
+     * @return boolean true if the player has met the requirements
+     */
     public boolean checkLCardRequirements(DiscountLCard lc)  {
         CardColor c1= lc.getColor1(); //2 cards
         CardColor c2= lc.getColor2(); //1 card

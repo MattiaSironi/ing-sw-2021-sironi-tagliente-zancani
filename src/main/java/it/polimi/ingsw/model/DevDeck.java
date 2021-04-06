@@ -4,9 +4,10 @@ import java.util.ArrayList;
 //Modifiche al Model UML: aggiunto Get() e Set() per l'attributo cards.
 
 /**
- * Class Deck represents the deck of Development Cards non so cosa altro scrivere
+ * Class Deck represents the deck of Development Cards
  *
- * @author
+ * @author Mattia Sironi
+ * @see DevCard
  */
 
 public class DevDeck {

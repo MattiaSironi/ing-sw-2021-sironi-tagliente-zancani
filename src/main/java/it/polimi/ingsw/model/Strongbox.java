@@ -2,6 +2,12 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 
+/**
+ * Class Strongbox represents the Strongbox of the player where he can store any amount of any resource obtained using productions
+ *
+ * @author Simone Tagliente
+ */
+
 public class Strongbox {
 //    private int coinNum;
 //    private int stoneNum;
@@ -82,7 +88,7 @@ public class Strongbox {
         else return true;
     }*/
 
-    public boolean canIPay (DevCard c){
+    /*public boolean canIPay (DevCard c){
         int i ;
         boolean ok = true;
         int[] costAmount = c.getCostRes();
@@ -91,7 +97,7 @@ public class Strongbox {
                     ok = false;
         }
         return ok;
-    }
+    }*/
 
     /*public void Pay(ResourceType res, int quantity){
 
@@ -105,14 +111,23 @@ public class Strongbox {
             this.shieldNum -= quantity;
     }*/
 
-    public void pay (ResourceType res, int quantity){
+    /**
+     * Method pay subtracts the quantity of a specific resource that the player has to pay
+     * @param q is the quantity that the player has to pay
+     * @param r is the ResourceType that the player has to pay
+     */
+    public void pay (int q, ResourceType r){
         int i = 0;
-        while (!this.infinityShelf.get(i).getResType().equals(res))
+        while (!this.infinityShelf.get(i).getResType().equals(r))
             i++;
-        this.infinityShelf.get(i).setCount(this.infinityShelf.get(i).getCount()-quantity);
+        this.infinityShelf.get(i).setCount(this.infinityShelf.get(i).getCount()-q);
     }
-
-    public int resCount (ResourceType r){
+    /**
+     * Method getResCount return the quantity of a specific ResourceType
+     * @param r is the ResourceType that player wants to know the quantity of
+     * @return the quantity of the ResourceType
+     */
+    public int getResCount(ResourceType r){
         int i = 0;
         while (!this.infinityShelf.get(i).getResType().equals(r))
             i++;

@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 /**
  * Class ExtraDepotLCard represents the model of the Leader Card with ExtraDepot Ability
  *
- * @author
+ * @author Mattia Sironi
  */
 
 public class ExtraDepotLCard extends LeaderCard {

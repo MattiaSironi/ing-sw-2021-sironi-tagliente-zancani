@@ -1,5 +1,13 @@
 package it.polimi.ingsw.model;
 
+/**
+ * Class Shelf represents the single shelf of the ShelfWarehouse. The player has a maximum of three shelves, one made by one slot, one made by two slots and the last with three slots,
+ * excluding the ones you can obtain with the ExtraDepot Leader Card
+ *
+ * @author Lea Zancani
+ * @see ShelfWarehouse
+ */
+
 public class Shelf {
     private ResourceType resType;
     private int count;

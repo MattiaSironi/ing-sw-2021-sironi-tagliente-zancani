@@ -1,9 +1,10 @@
 package it.polimi.ingsw.model;
 
 /**
- * Class Market represents the matrix of trays used by each player.
+ * Class Market represents the matrix of trays used by each player
  *
- * @author
+ * @author Simone Tagliente
+ * @see Tray
  */
 
 public class Market {

@@ -1,5 +1,11 @@
 package it.polimi.ingsw.model;
 
+/**
+ * Class SoloActionToken represents the model of the Solo Action Token used in single player mode
+ *
+ * @author Simone Tagliente
+ */
+
 public class SoloActionToken {
     private CardColor discard2Card;
     private boolean moveBlack2;

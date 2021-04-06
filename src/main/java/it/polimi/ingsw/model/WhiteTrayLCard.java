@@ -1,5 +1,11 @@
 package it.polimi.ingsw.model;
 
+/**
+ * Class ExtraDepotLCard represents the model of the Leader Card with WhiteTray Ability
+ *
+ * @author Mattia Sironi
+ */
+
 public class WhiteTrayLCard extends LeaderCard {
     //type=4?
     private final ResourceType resType;

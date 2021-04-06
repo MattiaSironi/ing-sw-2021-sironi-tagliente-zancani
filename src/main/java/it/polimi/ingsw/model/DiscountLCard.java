@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 /**
  * Class DiscountLCard represents the model of the Leader Card with Discount Ability
  *
- * @author
+ * @author Mattia Sironi
  */
 
 public class DiscountLCard extends LeaderCard{

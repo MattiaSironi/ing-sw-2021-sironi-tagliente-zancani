@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 /**
  * Class ExtraProdLCard represents the model of the Leader Card with ExtraProduction Ability
  *
- * @author
+ * @author Mattia Sironi
  */
 
 public class ExtraProdLCard extends LeaderCard {

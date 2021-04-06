@@ -3,9 +3,9 @@ import java.util.ArrayList;
 
 /**
  * Class Board represents the main game board of "Master of Renaissance. It's composed by the Market, the Leader Deck, the matrix of Development Cards and the pile of Solo
- * action token if the game is single player.
+ * Action Token if the game is single player.
  *
- * @author
+ * @author Simone Tagliente
  */
 
 public class Board {

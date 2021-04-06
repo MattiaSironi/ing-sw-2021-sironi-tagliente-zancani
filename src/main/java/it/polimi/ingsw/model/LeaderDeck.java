@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Class LeaderDeck represents the deck of Leader Cards
  *
- * @author
+ * @author Mattia Sironi
  */
 
 public class LeaderDeck {

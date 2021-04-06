@@ -6,7 +6,7 @@ package it.polimi.ingsw.model;
 /**
  * Class DevCard represents the model of a single Development Card and all its attributes
  *
- * @author
+ * @author Mattia Sironi
  */
 
 public class DevCard{
