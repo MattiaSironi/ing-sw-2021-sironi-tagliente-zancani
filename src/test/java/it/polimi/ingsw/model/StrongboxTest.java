@@ -11,7 +11,7 @@ public class StrongboxTest {
 
 
     @Test
-    @DisplayName("questo è il primo nostro test")
+    @DisplayName("questo è il nostro primo test")
     void firstTest()  {
 
         Strongbox s= new Strongbox();
@@ -25,6 +25,22 @@ public class StrongboxTest {
         assertEquals(5, s.getResCount(ResourceType.SHIELD));
 
 
+    }
+
+    @Test
+    @DisplayName("questo è il nostro secondo test")
+    void secondTest()  {
+        Strongbox s= new Strongbox();
+        s.getInfinityShelf().get(0).setCount(5);
+        s.getInfinityShelf().get(1).setCount(5);
+        s.getInfinityShelf().get(2).setCount(5);
+        s.getInfinityShelf().get(3).setCount(5);
+        s.pay(3, ResourceType.STONE);
+        s.pay(2, ResourceType.COIN);
+        assertEquals(3, s.getResCount(ResourceType.COIN));
+        assertEquals(2, s.getResCount(ResourceType.STONE));
+        assertEquals(5, s.getResCount(ResourceType.SERVANT));
+        assertEquals(5, s.getResCount(ResourceType.SHIELD));
     }
 
 }
