@@ -16,7 +16,7 @@ public class Strongbox {
 
     private ArrayList<Shelf> infinityShelf;
 
-    public Strongbox(int coinNum, int stoneNum, int servantNum, int shieldNum) {
+    public Strongbox() {
 //        this.coinNum = coinNum;
 //        this.stoneNum = stoneNum;
 //        this.servantNum = servantNum;
