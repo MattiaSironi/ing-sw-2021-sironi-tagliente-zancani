@@ -3,6 +3,12 @@ package it.polimi.ingsw.model;
 // MODIFICHE DAL MODEL UML: HO USATO 3 INT[] E NON 6 ATTRIBUTI. METODO USEABILITY ADESSO RESTITUISCE
 // LE QUANTITA' DELLE RISORSE E NON UN ARRAYLIST<RESOURCE>.
 
+/**
+ * Class DevCard represents the model of a single Development Card and all its attributes
+ *
+ * @author
+ */
+
 public class DevCard{
     private final int type; //0?
     private final int victoryPoints;

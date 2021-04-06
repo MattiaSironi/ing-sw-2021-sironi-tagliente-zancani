@@ -1,5 +1,11 @@
 package it.polimi.ingsw.model;
 
+/**
+ * Class ExtraDepotLCard represents the model of the Leader Card with ExtraDepot Ability
+ *
+ * @author
+ */
+
 public class ExtraDepotLCard extends LeaderCard {
     //type=2?
     private final ResourceType resType;

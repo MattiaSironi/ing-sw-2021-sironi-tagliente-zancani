@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
+import unused.Resource;
 
 public class Player {
     private int id;

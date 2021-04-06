@@ -3,6 +3,12 @@ import java.util.ArrayList;
 
 //Modifiche al Model UML: aggiunto Get() e Set() per l'attributo cards.
 
+/**
+ * Class Deck represents the deck of Development Cards non so cosa altro scrivere
+ *
+ * @author
+ */
+
 public class DevDeck {
     private int size;
     private int type; // using int for type of card recognition

@@ -1,5 +1,12 @@
 package it.polimi.ingsw.model;
 
+/**
+ * Class Game contains all the information about the game. It saves the number of players, a reference to the ID of the current player, one to the ID of the next player
+ * a list of sorted player. It also contais the main Board of the game and attribute that refers to Lorenzo Il Magnifico if the game is single player.
+ *
+ * @author
+ */
+
 import java.util.ArrayList;
 
 public class Game {

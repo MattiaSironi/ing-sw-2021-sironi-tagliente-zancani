@@ -2,6 +2,12 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 
+/**
+ * Class LeaderDeck represents the deck of Leader Cards
+ *
+ * @author
+ */
+
 public class LeaderDeck {
     private int size;
     private int type; // using int for type of card recognition

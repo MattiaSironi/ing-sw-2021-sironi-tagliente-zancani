@@ -1,5 +1,11 @@
 package it.polimi.ingsw.model;
 
+/**
+ * Class ExtraProdLCard represents the model of the Leader Card with ExtraProduction Ability
+ *
+ * @author
+ */
+
 public class ExtraProdLCard extends LeaderCard {
     //type=3?
     private final CardColor color;

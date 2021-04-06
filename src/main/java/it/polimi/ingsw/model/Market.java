@@ -1,5 +1,11 @@
 package it.polimi.ingsw.model;
 
+/**
+ * Class Market represents the matrix of trays used by each player.
+ *
+ * @author
+ */
+
 public class Market {
     private Tray[][] marketBoard;
     private Tray trayOut;

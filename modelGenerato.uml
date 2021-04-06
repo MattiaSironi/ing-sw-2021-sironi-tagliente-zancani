@@ -3,59 +3,62 @@
   <ID>JAVA</ID>
   <OriginalElement>it.polimi.ingsw.model</OriginalElement>
   <nodes>
-    <node x="4334.60060708337" y="1400.5">it.polimi.ingsw.model.Market</node>
-    <node x="1008.2949816998316" y="22.0">it.polimi.ingsw.model.CardColor</node>
-    <node x="661.8454483358187" y="985.5">it.polimi.ingsw.model.LeaderDeck</node>
-    <node x="3768.9188391265593" y="429.0">it.polimi.ingsw.model.Warehouse</node>
-    <node x="3210.4604110049386" y="0.0">it.polimi.ingsw.model.ResourceType</node>
-    <node x="1382.6125947882879" y="495.5">it.polimi.ingsw.model.LeaderCard</node>
-    <node x="3342.018839126559" y="506.5">it.polimi.ingsw.model.Shelf</node>
-    <node x="207.49592812162155" y="1857.0">it.polimi.ingsw.model.LorenzoIlMagnifico</node>
-    <node x="1013.4079483358187" y="996.5">it.polimi.ingsw.model.ExtraProdLCard</node>
-    <node x="0.0" y="985.5">it.polimi.ingsw.model.DevDeck</node>
-    <node x="1895.6709281216208" y="1691.0">it.polimi.ingsw.model.Player</node>
-    <node x="469.99592812162155" y="2160.0">it.polimi.ingsw.model.Game</node>
-    <node x="423.49592812162155" y="1824.0">it.polimi.ingsw.model.Board</node>
-    <node x="3692.9188391265593" y="1400.5">it.polimi.ingsw.model.Resource</node>
-    <node x="3445.9188391265593" y="963.0">it.polimi.ingsw.model.ShelfWarehouse</node>
-    <node x="4286.41883912656" y="1007.5">it.polimi.ingsw.model.Tray</node>
-    <node x="806.4334281216211" y="451.5">it.polimi.ingsw.model.DevCard</node>
-    <node x="1885.4079483358187" y="985.5">it.polimi.ingsw.model.WhiteTrayLCard</node>
-    <node x="3204.9188391265593" y="974.0">it.polimi.ingsw.model.Strongbox</node>
-    <node x="1922.1709281216208" y="1279.0">it.polimi.ingsw.model.PersonalBoard</node>
-    <node x="2485.9188391265593" y="996.5">it.polimi.ingsw.model.ExtraDepotLCard</node>
-    <node x="2922.9188391265593" y="963.5">it.polimi.ingsw.model.Slot</node>
-    <node x="1417.4079483358187" y="985.5">it.polimi.ingsw.model.DiscountLCard</node>
-    <node x="433.3709281216211" y="495.5">it.polimi.ingsw.model.SoloActionToken</node>
+    <node x="1550.0" y="1279.0">it.polimi.ingsw.model.Market</node>
+    <node x="450.0" y="1445.0">it.polimi.ingsw.model.ShelfWarehouseTest</node>
+    <node x="364.0" y="1279.0">it.polimi.ingsw.model.LeaderDeck</node>
+    <node x="916.0" y="1445.0">it.polimi.ingsw.model.StrongboxTest</node>
+    <node x="0.0" y="0.0">it.polimi.ingsw.model.Player</node>
+    <node x="237.0" y="1445.0">it.polimi.ingsw.model.Tray</node>
+    <node x="687.0" y="1445.0">it.polimi.ingsw.model.PersonalBoardTest</node>
+    <node x="361.00000000000006" y="603.0">it.polimi.ingsw.model.WhiteTrayLCard</node>
+    <node x="310.0" y="1068.0">it.polimi.ingsw.model.Slot</node>
+    <node x="599.0" y="1068.0">it.polimi.ingsw.model.CardColor</node>
+    <node x="0.0" y="769.0">it.polimi.ingsw.model.Warehouse</node>
+    <node x="968.0" y="769.0">it.polimi.ingsw.model.ResourceType</node>
+    <node x="685.75" y="454.0">it.polimi.ingsw.model.LeaderCard</node>
+    <node x="1313.0" y="1279.0">it.polimi.ingsw.model.Shelf</node>
+    <node x="0.0" y="1445.0">it.polimi.ingsw.model.LorenzoIlMagnifico</node>
+    <node x="0.0" y="614.0">it.polimi.ingsw.model.ExtraProdLCard</node>
+    <node x="720.0" y="1279.0">it.polimi.ingsw.model.DevDeck</node>
+    <node x="1239.0" y="769.0">it.polimi.ingsw.model.Game</node>
+    <node x="1040.0" y="1279.0">it.polimi.ingsw.model.Resource</node>
+    <node x="1104.0" y="1068.0">it.polimi.ingsw.model.Board</node>
+    <node x="0.0" y="1068.0">it.polimi.ingsw.model.ShelfWarehouse</node>
+    <node x="598.0" y="769.0">it.polimi.ingsw.model.DevCard</node>
+    <node x="849.0" y="1068.0">it.polimi.ingsw.model.Strongbox</node>
+    <node x="873.0" y="0.0">it.polimi.ingsw.model.PersonalBoard</node>
+    <node x="788.0" y="614.0">it.polimi.ingsw.model.ExtraDepotLCard</node>
+    <node x="1178.0" y="603.0">it.polimi.ingsw.model.DiscountLCard</node>
+    <node x="0.0" y="1279.0">it.polimi.ingsw.model.SoloActionToken</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="it.polimi.ingsw.model.DiscountLCard" target="it.polimi.ingsw.model.LeaderCard">
-      <point x="37.333333333333485" y="-60.5" />
-      <point x="1678.7412816691522" y="773.0" />
-      <point x="1490.9625947882878" y="773.0" />
-      <point x="9.849999999999909" y="60.5" />
+    <edge source="it.polimi.ingsw.model.ExtraDepotLCard" target="it.polimi.ingsw.model.LeaderCard">
+      <point x="0.0" y="-49.5" />
+      <point x="973.0" y="583.0" />
+      <point x="789.5" y="583.0" />
+      <point x="20.75" y="49.5" />
     </edge>
     <edge source="it.polimi.ingsw.model.WhiteTrayLCard" target="it.polimi.ingsw.model.LeaderCard">
-      <point x="-37.833333333333485" y="-60.5" />
-      <point x="2074.574615002485" y="743.0" />
-      <point x="1530.3625947882879" y="743.0" />
-      <point x="49.25" y="60.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.model.ExtraDepotLCard" target="it.polimi.ingsw.model.LeaderCard">
-      <point x="-52.125" y="-49.5" />
-      <point x="2642.2938391265593" y="723.0" />
-      <point x="1569.762594788288" y="723.0" />
-      <point x="88.65000000000009" y="60.5" />
+      <point x="0.0" y="-60.5" />
+      <point x="564.5" y="583.0" />
+      <point x="748.0" y="583.0" />
+      <point x="-20.75" y="49.5" />
     </edge>
     <edge source="it.polimi.ingsw.model.ExtraProdLCard" target="it.polimi.ingsw.model.LeaderCard">
-      <point x="96.0" y="-49.5" />
-      <point x="1301.4079483358187" y="893.0" />
-      <point x="1451.5625947882877" y="893.0" />
-      <point x="-29.550000000000182" y="60.5" />
+      <point x="0.0" y="-49.5" />
+      <point x="170.5" y="573.0" />
+      <point x="706.5" y="573.0" />
+      <point x="-62.25" y="49.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.DiscountLCard" target="it.polimi.ingsw.model.LeaderCard">
+      <point x="0.0" y="-60.5" />
+      <point x="1378.0" y="573.0" />
+      <point x="831.0" y="573.0" />
+      <point x="62.25" y="49.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.2872952633908809" x="2249.0" y="1174.0" />
+  <settings layout="Hierarchic Group" zoom="0.5058365758754864" x="865.0" y="761.0" />
   <SelectedNodes>
     <node>it.polimi.ingsw.model.Market</node>
   </SelectedNodes>

@@ -1,5 +1,11 @@
 package it.polimi.ingsw.model;
 
+/**
+ * Class DiscountLCard represents the model of the Leader Card with Discount Ability
+ *
+ * @author
+ */
+
 public class DiscountLCard extends LeaderCard{
     //type=1?
     private final CardColor color1;
