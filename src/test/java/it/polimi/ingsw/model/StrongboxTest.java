@@ -14,7 +14,7 @@ public class StrongboxTest {
     @DisplayName("questo è il nostro primo test")
     void firstTest()  {
 
-        Strongbox s= new Strongbox();
+        Strongbox s = new Strongbox();
         s.getInfinityShelf().get(0).setCount(5);
         s.getInfinityShelf().get(1).setCount(5);
         s.getInfinityShelf().get(2).setCount(5);
