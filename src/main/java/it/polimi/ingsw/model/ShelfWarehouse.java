@@ -12,8 +12,12 @@ import java.util.ArrayList;
 public class ShelfWarehouse {
     private ArrayList<Shelf> shelves;
 
-    public ShelfWarehouse(ArrayList<Shelf> shelves) {
-        this.shelves = shelves;
+    public ShelfWarehouse() {
+        ArrayList<Shelf>  s=  new ArrayList<Shelf>();
+        s.add(new Shelf(ResourceType.EMPTY, 0));
+        s.add(new Shelf(ResourceType.EMPTY, 0));
+        s.add(new Shelf(ResourceType.EMPTY, 0));
+        this.shelves=s;
     }
 
     /**
@@ -24,7 +28,7 @@ public class ShelfWarehouse {
     public int getResCount (ResourceType r){
         int i = 0;
         int num = 0;
-        while (!this.shelves.get(i).getResType().equals(r) && i<3)
+        while (i<3 && !this.shelves.get(i).getResType().equals(r))
             i++;
         if(i<3)
             num = this.shelves.get(i).getCount();
