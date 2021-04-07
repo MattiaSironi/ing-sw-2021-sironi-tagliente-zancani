@@ -65,8 +65,8 @@ public class PersonalBoardTest {
         lc.add(new DiscountLCard(1, 2, CardColor.YELLOW, CardColor.PURPLE, ResourceType.COIN));
         LeaderDeck ld = new LeaderDeck(lc.size(), 2, lc);
         p.setActiveLeader(ld);
-        assertEquals(false, p.checkLCardRequirements(p.getActiveLeader().getCards().get(0)));
-        assertEquals(true, p.checkLCardRequirements(p.getActiveLeader().getCards().get(1)));
+        assertFalse(p.checkLCardRequirements(p.getActiveLeader().getCards().get(0)));
+        assertTrue(p.checkLCardRequirements(p.getActiveLeader().getCards().get(1)));
     }
 
     @Test
@@ -88,10 +88,10 @@ public class PersonalBoardTest {
         lc.add(new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD)); //size of our LeaderDeck is 4 just for testing
         LeaderDeck ld = new LeaderDeck(lc.size(), 2, lc);
         p.setActiveLeader(ld);
-        assertEquals(true, p.checkLCardRequirements(p.getActiveLeader().getCards().get(0)));
-        assertEquals(true, p.checkLCardRequirements(p.getActiveLeader().getCards().get(1)));
-        assertEquals(false, p.checkLCardRequirements(p.getActiveLeader().getCards().get(2)));
-        assertEquals(true, p.checkLCardRequirements(p.getActiveLeader().getCards().get(3)));
+        assertTrue(p.checkLCardRequirements(p.getActiveLeader().getCards().get(0)));
+        assertTrue(p.checkLCardRequirements(p.getActiveLeader().getCards().get(1)));
+        assertFalse(p.checkLCardRequirements(p.getActiveLeader().getCards().get(2)));
+        assertTrue(p.checkLCardRequirements(p.getActiveLeader().getCards().get(3)));
 
 
     }
@@ -116,8 +116,8 @@ public class PersonalBoardTest {
         lc.add(new WhiteTrayLCard(4, 5, ResourceType.SERVANT, CardColor.BLUE, CardColor.YELLOW));
         LeaderDeck ld = new LeaderDeck(lc.size(), 2, lc);
         p.setActiveLeader(ld);
-        assertEquals(false, p.checkLCardRequirements(p.getActiveLeader().getCards().get(0)));
-        assertEquals(true, p.checkLCardRequirements(p.getActiveLeader().getCards().get(1)));
+        assertFalse(p.checkLCardRequirements(p.getActiveLeader().getCards().get(0)));
+        assertTrue(p.checkLCardRequirements(p.getActiveLeader().getCards().get(1)));
 
     }
 
@@ -141,10 +141,10 @@ public class PersonalBoardTest {
         lc.add(new ExtraDepotLCard(2, 3, ResourceType.SHIELD, ResourceType.COIN )); //size of our LeaderDeck is 4 just for testing
         LeaderDeck ld = new LeaderDeck(lc.size(), 2, lc);
         p.setActiveLeader(ld);
-        assertEquals(true, p.checkLCardRequirements(p.getActiveLeader().getCards().get(0)));
-        assertEquals(false, p.checkLCardRequirements(p.getActiveLeader().getCards().get(1)));
-        assertEquals(false, p.checkLCardRequirements(p.getActiveLeader().getCards().get(2)));
-        assertEquals(true, p.checkLCardRequirements(p.getActiveLeader().getCards().get(3)));
+        assertTrue(p.checkLCardRequirements(p.getActiveLeader().getCards().get(0)));
+        assertFalse(p.checkLCardRequirements(p.getActiveLeader().getCards().get(1)));
+        assertFalse(p.checkLCardRequirements(p.getActiveLeader().getCards().get(2)));
+        assertTrue(p.checkLCardRequirements(p.getActiveLeader().getCards().get(3)));
 
 
 
@@ -177,10 +177,10 @@ public class PersonalBoardTest {
         lc.add(new ExtraDepotLCard(2, 3, ResourceType.SHIELD, ResourceType.COIN )); //size of our LeaderDeck is 4 just for testing
         LeaderDeck ld = new LeaderDeck(lc.size(), 2, lc);
         p.setActiveLeader(ld);
-        assertEquals(true, p.checkLCardRequirements(p.getActiveLeader().getCards().get(0)));
-        assertEquals(true, p.checkLCardRequirements(p.getActiveLeader().getCards().get(1)));
-        assertEquals(false, p.checkLCardRequirements(p.getActiveLeader().getCards().get(2)));
-        assertEquals(false, p.checkLCardRequirements(p.getActiveLeader().getCards().get(3)));
+        assertTrue(p.checkLCardRequirements(p.getActiveLeader().getCards().get(0)));
+        assertTrue(p.checkLCardRequirements(p.getActiveLeader().getCards().get(1)));
+        assertFalse(p.checkLCardRequirements(p.getActiveLeader().getCards().get(2)));
+        assertFalse(p.checkLCardRequirements(p.getActiveLeader().getCards().get(3)));
 
 
     }
