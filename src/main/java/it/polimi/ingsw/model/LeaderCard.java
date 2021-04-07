@@ -5,8 +5,8 @@ package it.polimi.ingsw.model;
  *
  * @author Mattia Sironi
  */
-//Moficiche al Model UML: attributo requirements type non è più un boolean ma è un int, perché ho 4 sottoclassi
-public class LeaderCard{
+//Modifiche al Model UML: attributo requirements type non è più un boolean ma è un int, perché ho 4 sottoclassi
+public class LeaderCard {
     private final int type;
     private final int victoryPoints;
 

@@ -37,97 +37,106 @@ public class PersonalBoard {
     }
 
 
-    public boolean checkLCardRequirements(LeaderCard lc)  {
-        switch (lc.getType())  {
-            case 1:   return this.checkDiscountCardRequirements((DiscountLCard) lc);
-            case 2:   return this.checkExtraDepotRequirements((ExtraDepotLCard) lc);
-            case 3:   return this.checkExtraProdRequirements((ExtraProdLCard) lc);
-            case 4:   return this.checkWTrayCardRequirements((WhiteTrayLCard) lc);
-            default:  return false;
+    public boolean checkLCardRequirements(LeaderCard lc) {
+        switch (lc.getType()) {
+            case 1:
+                return this.checkDiscountCardRequirements((DiscountLCard) lc);
+            case 2:
+                return this.checkExtraDepotRequirements((ExtraDepotLCard) lc);
+            case 3:
+                return this.checkExtraProdRequirements((ExtraProdLCard) lc);
+            case 4:
+                return this.checkWTrayCardRequirements((WhiteTrayLCard) lc);
+            default:
+                return false;
         }
     }
+
     /**
      * Method checkLCardRequirements checks if the player meets the requirements of a Leader Card with WhiteTray Ability
+     *
      * @param lc is the LeaderCard whose we want to check the requirements
      * @return boolean true if the player has met the requirements
      */
-    public boolean checkWTrayCardRequirements(WhiteTrayLCard lc)  {
-        CardColor c1= lc.getX2Color(); //2 cards
-        CardColor c2= lc.getX1Color(); //1 card
-        int x1c=0;
-        int x2c=0;
+    public boolean checkWTrayCardRequirements(WhiteTrayLCard lc) {
+        CardColor c1 = lc.getX2Color(); //2 cards
+        CardColor c2 = lc.getX1Color(); //1 card
+        int x1c = 0;
+        int x2c = 0;
 
-        for (DevDeck d : this.cardSlot)  {
-            for (DevCard dv : d.getCards() )  {
-                if (dv.getColor().equals(c1))  {
+        for (DevDeck d : this.cardSlot) {
+            for (DevCard dv : d.getCards()) {
+                if (dv.getColor().equals(c1)) {
                     x1c++;
                 }
-                if (dv.getColor().equals(c2))  {
+                if (dv.getColor().equals(c2)) {
                     x2c++;
                 }
             }
         }
-        return (x1c>=2 && x2c>=1);
-
+        return (x1c >= 2 && x2c >= 1);
 
 
     }
 
     /**
      * Method checkLCardRequirements checks if the player meets the requirements of a Leader Card with ExtraProduction Ability
+     *
      * @param lc is the LeaderCard whose we want to check the requirements
      * @return boolean true if the player has met the requirements
      */
-    public boolean checkExtraProdRequirements(ExtraProdLCard lc)  {
-        CardColor c1= lc.getColor(); //1 cards of lv2 (minimum?)
-        int x1c=0;
-        for (DevDeck d : this.cardSlot)  {
-            for (DevCard dv : d.getCards() )  {
-                if (dv.getColor().equals(c1) && dv.getLevel()>=2)  {
+    public boolean checkExtraProdRequirements(ExtraProdLCard lc) {
+        CardColor c1 = lc.getColor(); //1 cards of lv2 (minimum?)
+        int x1c = 0;
+        for (DevDeck d : this.cardSlot) {
+            for (DevCard dv : d.getCards()) {
+                if (dv.getColor().equals(c1) && dv.getLevel() >= 2) {
                     x1c++;
                 }
             }
         }
-        return (x1c>=1);
+        return (x1c >= 1);
 
 
     }
 
     /**
      * Method checkLCardRequirements checks if the player meets the requirements of a Leader Card with ExtraDepot Ability
+     *
      * @param lc is the LeaderCard whose we want to check the requirements
      * @return boolean true if the player has met the requirements
      */
 
 
-    public boolean checkExtraDepotRequirements(ExtraDepotLCard lc)  {
+    public boolean checkExtraDepotRequirements(ExtraDepotLCard lc) {
         int sum;
         ResourceType r = lc.getResType();
         sum = this.strongbox.getResCount(r) + this.warehouse.getResCount(r);
-        return (sum>=5);
+        return (sum >= 5);
     }
 
     /**
      * Method checkLCardRequirements checks if the player meets the requirements of a Leader Card with Discount Ability
+     *
      * @param lc is the LeaderCard whose we want to check the requirements
      * @return boolean true if the player has met the requirements
      */
-    public boolean checkDiscountCardRequirements(DiscountLCard lc)  {
-        CardColor c1= lc.getColor1(); //2 cards
-        CardColor c2= lc.getColor2(); //1 card
-        int x1c=0;
-        int x2c=0;
-        for (DevDeck d : this.cardSlot)  {
-            for (DevCard dv : d.getCards() )  {
-                if (dv.getColor().equals(c1))  {
+    public boolean checkDiscountCardRequirements(DiscountLCard lc) {
+        CardColor c1 = lc.getColor1(); //2 cards
+        CardColor c2 = lc.getColor2(); //1 card
+        int x1c = 0;
+        int x2c = 0;
+        for (DevDeck d : this.cardSlot) {
+            for (DevCard dv : d.getCards()) {
+                if (dv.getColor().equals(c1)) {
                     x1c++;
                 }
-                if (dv.getColor().equals(c2))  {
+                if (dv.getColor().equals(c2)) {
                     x2c++;
                 }
             }
         }
-        return (x1c>=1 && x2c>=1);
+        return (x1c >= 1 && x2c >= 1);
 
     }
 

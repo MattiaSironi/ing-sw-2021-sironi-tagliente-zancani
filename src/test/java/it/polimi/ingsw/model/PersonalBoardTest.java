@@ -4,6 +4,7 @@ package it.polimi.ingsw.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
@@ -39,8 +40,6 @@ public class PersonalBoardTest {
         p.setActiveLeader(ld);
         assertTrue(p.checkLCardRequirements(p.getActiveLeader().getCards().get(0)));
         assertTrue(p.checkLCardRequirements(p.getActiveLeader().getCards().get(1)));
-
-
 
 
     }
@@ -84,7 +83,7 @@ public class PersonalBoardTest {
         ArrayList<LeaderCard> lc = new ArrayList<LeaderCard>();
         lc.add(new DiscountLCard(1, 2, CardColor.GREEN, CardColor.YELLOW, ResourceType.STONE));
         lc.add(new ExtraProdLCard(3, 4, CardColor.PURPLE, ResourceType.STONE));
-        lc.add( new ExtraProdLCard(3, 4, CardColor.GREEN, ResourceType.COIN));
+        lc.add(new ExtraProdLCard(3, 4, CardColor.GREEN, ResourceType.COIN));
         lc.add(new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD)); //size of our LeaderDeck is 4 just for testing
         LeaderDeck ld = new LeaderDeck(lc.size(), 2, lc);
         p.setActiveLeader(ld);
@@ -136,9 +135,9 @@ public class PersonalBoardTest {
         p.getStrongbox().pay(-5, ResourceType.SHIELD);
         ArrayList<LeaderCard> lc = new ArrayList<LeaderCard>();
         lc.add(new ExtraDepotLCard(2, 3, ResourceType.COIN, ResourceType.STONE));
-        lc.add(new ExtraDepotLCard(2, 3, ResourceType.STONE, ResourceType.SERVANT ));
-        lc.add(new ExtraDepotLCard(2, 3, ResourceType.SERVANT, ResourceType.SHIELD ));
-        lc.add(new ExtraDepotLCard(2, 3, ResourceType.SHIELD, ResourceType.COIN )); //size of our LeaderDeck is 4 just for testing
+        lc.add(new ExtraDepotLCard(2, 3, ResourceType.STONE, ResourceType.SERVANT));
+        lc.add(new ExtraDepotLCard(2, 3, ResourceType.SERVANT, ResourceType.SHIELD));
+        lc.add(new ExtraDepotLCard(2, 3, ResourceType.SHIELD, ResourceType.COIN)); //size of our LeaderDeck is 4 just for testing
         LeaderDeck ld = new LeaderDeck(lc.size(), 2, lc);
         p.setActiveLeader(ld);
         assertTrue(p.checkLCardRequirements(p.getActiveLeader().getCards().get(0)));
@@ -147,13 +146,11 @@ public class PersonalBoardTest {
         assertTrue(p.checkLCardRequirements(p.getActiveLeader().getCards().get(3)));
 
 
-
-
     }
 
     @Test
     @DisplayName("not enough resources in our strongbox. now we need our shelves")
-    void secondExtraDepot()  {
+    void secondExtraDepot() {
 
         p.getStrongbox().pay(-4, ResourceType.COIN);
         p.getStrongbox().pay(-2, ResourceType.STONE);
@@ -172,9 +169,9 @@ public class PersonalBoardTest {
 
         ArrayList<LeaderCard> lc = new ArrayList<LeaderCard>();
         lc.add(new ExtraDepotLCard(2, 3, ResourceType.COIN, ResourceType.STONE));
-        lc.add(new ExtraDepotLCard(2, 3, ResourceType.STONE, ResourceType.SERVANT ));
-        lc.add(new ExtraDepotLCard(2, 3, ResourceType.SERVANT, ResourceType.SHIELD ));
-        lc.add(new ExtraDepotLCard(2, 3, ResourceType.SHIELD, ResourceType.COIN )); //size of our LeaderDeck is 4 just for testing
+        lc.add(new ExtraDepotLCard(2, 3, ResourceType.STONE, ResourceType.SERVANT));
+        lc.add(new ExtraDepotLCard(2, 3, ResourceType.SERVANT, ResourceType.SHIELD));
+        lc.add(new ExtraDepotLCard(2, 3, ResourceType.SHIELD, ResourceType.COIN)); //size of our LeaderDeck is 4 just for testing
         LeaderDeck ld = new LeaderDeck(lc.size(), 2, lc);
         p.setActiveLeader(ld);
         assertTrue(p.checkLCardRequirements(p.getActiveLeader().getCards().get(0)));

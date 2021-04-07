@@ -1,18 +1,28 @@
 package it.polimi.ingsw.model;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * @author Mattia Sironi, Lea Zancani, Simone Tagliente
  * @see Strongbox
  */
 public class StrongboxTest {
+    private Strongbox s;
+
+
+    @BeforeEach
+    void init() {
+        s = new Strongbox();
+    }
 
 
     @Test
     @DisplayName("questo è il nostro primo test")
-    void firstTest()  {
+    void firstTest() {
 
         Strongbox s = new Strongbox();
         s.getInfinityShelf().get(0).setCount(5);
@@ -29,8 +39,8 @@ public class StrongboxTest {
 
     @Test
     @DisplayName("questo è il nostro secondo test")
-    void secondTest()  {
-        Strongbox s= new Strongbox();
+    void secondTest() {
+
         s.getInfinityShelf().get(0).setCount(5);
         s.getInfinityShelf().get(1).setCount(5);
         s.getInfinityShelf().get(2).setCount(5);
@@ -42,5 +52,8 @@ public class StrongboxTest {
         assertEquals(5, s.getResCount(ResourceType.SERVANT));
         assertEquals(5, s.getResCount(ResourceType.SHIELD));
     }
+
+
+
 
 }

@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model;
+
 import java.util.ArrayList;
 
 //Modifiche al Model UML: aggiunto Get() e Set() per l'attributo cards.

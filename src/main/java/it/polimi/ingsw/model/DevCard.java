@@ -9,7 +9,7 @@ package it.polimi.ingsw.model;
  * @author Mattia Sironi
  */
 
-public class DevCard{
+public class DevCard {
     private final int type; //0?
     private final int victoryPoints;
     private final int level;
