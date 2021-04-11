@@ -22,37 +22,60 @@ public class Server {
     private static boolean isFirst = true;
     private int numPlayers;
     private int usedID = 0;
+    private boolean ready;
 
+    public void setReady(boolean ready) {
+        this.ready = ready;
+    }
+
+    public boolean isReady() {
+        return ready;
+    }
+
+    public void setNumPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
+    }
 
     public synchronized void initialPhaseHandler(ClientConnection c){
-        waitingConnection.put(usedID, c);
+        int id = usedID;
+        waitingConnection.put(id, c);
         this.usedID++;
         if(waitingConnection.size() == numPlayers){
+
+            for (Integer iid : waitingConnection.keySet() )  {
+                System.out.println( iid );
+            }
+
             Game game = new Game();
             Controller controller = new Controller(game);
             List<Integer> keys = new ArrayList<>(waitingConnection.keySet());
+            Collections.reverse(keys);
             ClientConnection c1 = waitingConnection.get(keys.get(0));
-            RemoteView remoteView1 = new RemoteView(c1, 0);
+            RemoteView remoteView1 = new RemoteView(c1, keys.get(0));
             remoteView1.addObserver(controller);
             game.addObserver(remoteView1);
+
             if(numPlayers >= 2){
                 ClientConnection c2 = waitingConnection.get(keys.get(1));
-                RemoteView remoteView2 = new RemoteView(c2, 1);
+                RemoteView remoteView2 = new RemoteView(c2, keys.get(1));
                 remoteView2.addObserver(controller);
                 game.addObserver(remoteView2);
+
             }
             if(numPlayers >= 3){
                 ClientConnection c3 = waitingConnection.get(keys.get(2));
-                RemoteView remoteView3 = new RemoteView(c3, 2);
+                RemoteView remoteView3 = new RemoteView(c3, keys.get(2));
                 remoteView3.addObserver(controller);
                 game.addObserver(remoteView3);
             }
             if(numPlayers == 4){
                 ClientConnection c4 = waitingConnection.get(keys.get(3));
-                RemoteView remoteView4 = new RemoteView(c4, 3);
+                RemoteView remoteView4 = new RemoteView(c4, keys.get(3));
                 remoteView4.addObserver(controller);
                 game.addObserver(remoteView4);
             }
+
+
 
         }
     }
@@ -70,12 +93,20 @@ public class Server {
         while(true){
             try {
                 Socket newSocket = serverSocket.accept();
-                SocketClientConnection socketConnection = new SocketClientConnection(newSocket, this);
-                if(isFirst){
-                    isFirst = false;
-                    numPlayers = socketConnection.setNumPlayers();
+                if(isFirst)  {
+                    isFirst=false;
+                    SocketClientConnection socketConnection = new SocketClientConnection(true, newSocket, this);
+                    executor.submit(socketConnection);}
+                else {
+
+                    SocketClientConnection socketConnection = new SocketClientConnection(false, newSocket, this);
+                    executor.submit(socketConnection);
                 }
-                executor.submit(socketConnection);
+//                if(isFirst){
+//                    isFirst = false;
+//                    numPlayers = socketConnection.setNumPlayers(socketConnection.getIn());
+//                }
+
             } catch (IOException e) {
                 System.out.println("Connection Error!");
             }

@@ -72,7 +72,7 @@ public class Game extends Observable<Nickname> {
         return players;
     }
 
-    /*public void reportError(String message){
+    public void reportError(Nickname message){
         notify(message);
-    }*/
+    }
 }

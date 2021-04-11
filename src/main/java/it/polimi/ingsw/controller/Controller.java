@@ -2,33 +2,37 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
+import it.polimi.ingsw.view.Nickname;
 
 import java.util.ArrayList;
 
-public class Controller implements Observer<String> {
+public class Controller implements Observer<Nickname> {
     private Game game;
 
     public Controller(Game game) {
         this.game = game;
     }
 
-    public void setNickname(String nickname){
+    public void setNickname(Nickname nickname){
+        String nick= nickname.getNickname();
         boolean found = false;
         ArrayList<Player> p = game.getPlayers();
         for(Player pl : p){
-            if(pl.getNickname().equals(nickname)){
+            if(pl.getNickname().equals(nick)){
                 found = true;
                 break;
             }
+
         }
         if(found){
-            //game.reportError("This nickname is already chosen!");
+            game.reportError(new Nickname("ERRORE505", nickname.getID()));
         }
-        game.createNewPlayer(nickname);
+        else
+        game.createNewPlayer(nick);
     }
 
     @Override
-    public void update(String message) {
+    public void update(Nickname message) {
         setNickname(message);
     }
 }

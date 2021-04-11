@@ -4,13 +4,17 @@ import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;
 
-public class RemoteView extends Observable<String> implements Observer<Nickname> {
+public class RemoteView extends Observable<Nickname> implements Observer<Nickname> {
     private ClientConnection clientConnection;
     private int ID;
 
     @Override
     public void update(Nickname message) {
-        if(message.getID() == this.ID){
+        if (message.getNickname().equals("ERRORE505") ) {
+            if ( message.getID()==this.ID)
+            clientConnection.asyncSend("This nickname is already chosen!\n");
+        }
+        else if(message.getID() == this.ID){
             clientConnection.asyncSend("Your nickname is " + message.getNickname());
         }
         else{
@@ -18,11 +22,11 @@ public class RemoteView extends Observable<String> implements Observer<Nickname>
         }
     }
 
-    private class MessageReceiver implements Observer<String> {
+    private class MessageReceiver implements Observer<Nickname> {
 
         @Override
-        public void update(String message) {
-            System.out.println("Received: " + message);
+        public void update(Nickname message) {
+            System.out.println("Received: " + message.getNickname() +" send by " + message.getID() );
             handleAction(message);
 
         }
@@ -30,11 +34,12 @@ public class RemoteView extends Observable<String> implements Observer<Nickname>
 
     public RemoteView(ClientConnection c, int ID) {
         this.clientConnection = c;
+        this.clientConnection.setID(ID);
         this.ID = ID;
         c.addObserver(new MessageReceiver());
     }
 
-    public void handleAction(String message){
+    public void handleAction(Nickname message){
         notify(message);
     }
 }
