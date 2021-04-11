@@ -71,6 +71,7 @@ public class SocketClientConnection extends Observable<String> implements Client
             in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
             server.initialPhaseHandler(this);
+            nicknameSetUp();
                 while (true) {
                     send("Type any word");
                     String read;
@@ -85,6 +86,35 @@ public class SocketClientConnection extends Observable<String> implements Client
                 System.err.println("Error!" + e.getMessage());
             }
 
+    }
 
+    public void nicknameSetUp(){
+        Scanner in;
+        String nickname;
+        try{
+            in = new Scanner(socket.getInputStream());
+            out = new ObjectOutputStream(socket.getOutputStream());
+            asyncSend("Welcome to wonderful alpha version of MoR\nChoose your nickname:\n");
+            nickname = in.nextLine();
+            notify(nickname);
+        } catch (IOException | NoSuchElementException e){
+            System.err.println("Error!" + e.getMessage());
+        }
+    }
+
+    public int setNumPlayers(){
+        int numPlayers = 0;
+        String input;
+        Scanner in;
+        try{
+            in = new Scanner(socket.getInputStream());
+            out = new ObjectOutputStream(socket.getOutputStream());
+            asyncSend("Choose number of player:");
+            input = in.nextLine();
+            numPlayers = Integer.valueOf(input);
+        } catch (IOException | NoSuchElementException e){
+            System.err.println("Error!" + e.getMessage());
+        }
+        return numPlayers;
     }
 }

@@ -8,9 +8,9 @@ package it.polimi.ingsw.model;
 
 public class Player {
     private int id;
-    private final String nickname;
+    private String nickname;
     private int faithMarkerPos;
-    private final boolean inkwell;
+    private boolean inkwell;
     private LeaderDeck leaderDeck;
     private int victoryPoints;
     private ResourceType resDiscount1;
@@ -21,7 +21,11 @@ public class Player {
     private ResourceType inputExtraProduction2;
     private boolean vaticanSection;
 
-    private final PersonalBoard personalBoard;
+    private PersonalBoard personalBoard;
+
+    public Player(String nickname){
+        this.nickname = nickname;
+    }
 
     public Player(int id, String nickname, int faithMarkerPos, boolean inkwell, LeaderDeck leaderDeck, int victoryPoints, ResourceType resDiscount1, ResourceType resDiscount2, ResourceType whiteConversion1, ResourceType whiteConversion2, ResourceType inputExtraProduction1, ResourceType inputExtraProduction2, boolean vaticanSection, PersonalBoard personalBoard) {
         this.id = id;
@@ -42,6 +46,10 @@ public class Player {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public void moveFaithMarkerPos(int faithMarkerPos) {

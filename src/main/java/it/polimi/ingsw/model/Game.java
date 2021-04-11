@@ -10,15 +10,29 @@ package it.polimi.ingsw.model;
  * @see LorenzoIlMagnifico
  */
 
+import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.Nickname;
+
 import java.util.ArrayList;
 
-public class Game {
-    private final int numPlayer;
+public class Game extends Observable<Nickname> {
+    private int numPlayer;
     private int currPlayer;
     private int nextPlayer;
     private ArrayList<Player> players;
-    private final LorenzoIlMagnifico lori;
-    private final Board board;
+    private LorenzoIlMagnifico lori = null;
+    private Board board = null;
+
+    public Game(){
+        players = new ArrayList<>();
+    }
+
+    public void createNewPlayer(String nickname){
+        this.players.add(new Player(nickname));
+        notify(new Nickname(nickname, players.size() - 1));
+    }
+
+
 
     public Game(int numPlayer, int currPlayer, int nextPlayer, ArrayList<Player> players, LorenzoIlMagnifico lori, Board board) {
         this.numPlayer = numPlayer;
@@ -57,4 +71,8 @@ public class Game {
     public ArrayList<Player> getPlayers() {
         return players;
     }
+
+    /*public void reportError(String message){
+        notify(message);
+    }*/
 }
