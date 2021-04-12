@@ -27,9 +27,9 @@ public class Game extends Observable<Nickname> {
         players = new ArrayList<>();
     }
 
-    public void createNewPlayer(String nickname){
-        this.players.add(new Player(nickname));
-        notify(new Nickname(nickname, players.size() - 1));
+    public void createNewPlayer(Nickname nickname){
+        this.players.add(new Player(nickname.getNickname(), nickname.getID()));
+        notify(nickname);
     }
 
 

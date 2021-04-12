@@ -23,8 +23,9 @@ public class Player {
 
     private PersonalBoard personalBoard;
 
-    public Player(String nickname){
+    public Player(String nickname, int id){
         this.nickname = nickname;
+        this.id=id;
     }
 
     public Player(int id, String nickname, int faithMarkerPos, boolean inkwell, LeaderDeck leaderDeck, int victoryPoints, ResourceType resDiscount1, ResourceType resDiscount2, ResourceType whiteConversion1, ResourceType whiteConversion2, ResourceType inputExtraProduction1, ResourceType inputExtraProduction2, boolean vaticanSection, PersonalBoard personalBoard) {

@@ -28,7 +28,7 @@ public class Controller implements Observer<Nickname> {
             game.reportError(new Nickname("ERRORE505", nickname.getID()));
         }
         else
-        game.createNewPlayer(nick);
+        game.createNewPlayer(nickname);
     }
 
     @Override
