@@ -1,32 +1,33 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;
 
-public class RemoteView extends Observable<Nickname> implements Observer<Nickname> {
+public class RemoteView extends Observable<Message> implements Observer<Message> {
     private ClientConnection clientConnection;
     private int ID;
 
     @Override
-    public void update(Nickname message) {
-        if (message.getNickname().equals("ERRORE505") ) {
+    public void update(Message message) {
+        if (message.getString().equals("ERRORE505") ) {
             if ( message.getID()==this.ID)
             clientConnection.asyncSend("This nickname is already chosen!\n");
         }
         else if(message.getID() == this.ID){
-            clientConnection.asyncSend("Your nickname is " + message.getNickname());
+            clientConnection.asyncSend("Your nickname is " + message.getString());
         }
         else{
-            clientConnection.asyncSend("One of your opponents nickname is " + message.getNickname());
+            clientConnection.asyncSend("One of your opponents nickname is " + message.getString());
         }
     }
 
-    private class MessageReceiver implements Observer<Nickname> {
+    private class MessageReceiver implements Observer<Message> {
 
         @Override
-        public void update(Nickname message) {
-            System.out.println("Received: " + message.getNickname() +" send by " + message.getID() );
+        public void update(Message message) {
+            System.out.println("Received: " + message.getString() +" send by " + message.getID() );
             handleAction(message);
 
         }
@@ -39,7 +40,7 @@ public class RemoteView extends Observable<Nickname> implements Observer<Nicknam
         c.addObserver(new MessageReceiver());
     }
 
-    public void handleAction(Nickname message){
-        notify(message);
+    public void handleAction(Message message) {
+        notify(new Nickname(message.getString(), message.getID()));
     }
 }

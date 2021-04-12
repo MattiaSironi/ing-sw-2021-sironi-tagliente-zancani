@@ -1,8 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.view.Nickname;
-import it.polimi.ingsw.view.RemoteView;
+import it.polimi.ingsw.message.*;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -11,7 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 
-public class SocketClientConnection extends Observable<Nickname> implements ClientConnection, Runnable {
+public class SocketClientConnection extends Observable<Message> implements ClientConnection, Runnable {
     private boolean first;
     private Socket socket;
     private ObjectOutputStream out;
@@ -22,7 +21,7 @@ public class SocketClientConnection extends Observable<Nickname> implements Clie
     public int getID() {
         return ID;
     }
-@Override
+    @Override
     public void setID(int ID) {
         this.ID = ID;
     }
@@ -100,19 +99,19 @@ public class SocketClientConnection extends Observable<Nickname> implements Clie
             }
             server.initialPhaseHandler(this);
             nicknameSetUp(in);
-                while (isActive()) {
+            while (isActive()) {
 ////                    send("Type any word");
 //                    String read;
 //                    read = in.nextLine();
 //                    notify(read);
 //                    if (read.equals("quit")) {
 //                    break;
-                    }
+            }
 //                }
             close();
         } catch (IOException | NoSuchElementException e){
-                System.err.println("Error!" + e.getMessage());
-            }
+            System.err.println("Error!" + e.getMessage());
+        }
 
     }
 

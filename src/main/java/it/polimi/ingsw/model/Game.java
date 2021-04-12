@@ -11,11 +11,11 @@ package it.polimi.ingsw.model;
  */
 
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.view.Nickname;
+import it.polimi.ingsw.message.*;
 
 import java.util.ArrayList;
 
-public class Game extends Observable<Nickname> {
+public class Game extends Observable<Message> {
     private int numPlayer;
     private int currPlayer;
     private int nextPlayer;
@@ -28,7 +28,7 @@ public class Game extends Observable<Nickname> {
     }
 
     public void createNewPlayer(Nickname nickname){
-        this.players.add(new Player(nickname.getNickname(), nickname.getID()));
+        this.players.add(new Player(nickname.getString(), nickname.getID()));
         notify(nickname);
     }
 

@@ -1,12 +1,11 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
-import it.polimi.ingsw.view.Nickname;
+import it.polimi.ingsw.message.*;
 
 import java.util.ArrayList;
 
-public class Controller implements Observer<Nickname> {
+public class Controller implements Observer<Message> {
     private Game game;
 
     public Controller(Game game) {
@@ -14,7 +13,7 @@ public class Controller implements Observer<Nickname> {
     }
 
     public void setNickname(Nickname nickname){
-        String nick= nickname.getNickname();
+        String nick= nickname.getString();
         boolean found = false;
         ArrayList<Player> p = game.getPlayers();
         for(Player pl : p){
@@ -31,8 +30,11 @@ public class Controller implements Observer<Nickname> {
         game.createNewPlayer(nickname);
     }
 
+
     @Override
-    public void update(Nickname message) {
-        setNickname(message);
+    public void update(Message message) {
+        if(message instanceof Nickname) setNickname((Nickname)message);
     }
+
+
 }
