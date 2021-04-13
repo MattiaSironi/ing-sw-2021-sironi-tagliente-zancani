@@ -21,6 +21,7 @@ public class SocketClientConnection extends Observable<Message> implements Clien
     public int getID() {
         return ID;
     }
+
     @Override
     public void setID(int ID) {
         this.ID = ID;
@@ -33,7 +34,7 @@ public class SocketClientConnection extends Observable<Message> implements Clien
     private boolean active = true;
 
     public SocketClientConnection(boolean first, Socket socket, Server server) {
-        this.first=first;
+        this.first = first;
         this.socket = socket;
         this.server = server;
     }
@@ -64,7 +65,6 @@ public class SocketClientConnection extends Observable<Message> implements Clien
     }
 
 
-
     private void close() {
         closeConnection();
         System.out.println("Deregistering client...");
@@ -85,14 +85,13 @@ public class SocketClientConnection extends Observable<Message> implements Clien
     @Override
     public void run() {
         //Scanner in;
-        try{
+        try {
 
             in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
-            if (this.first)  {
+            if (this.first) {
                 setNumPlayers(in);
-            }
-            else {
+            } else {
                 send("waiting the host selects the number of players...");
                 while (!server.isReady()) {
                 }
@@ -109,31 +108,31 @@ public class SocketClientConnection extends Observable<Message> implements Clien
             }
 //                }
             close();
-        } catch (IOException | NoSuchElementException e){
+        } catch (IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
         }
 
     }
 
-    public void nicknameSetUp(Scanner in){
+    public void nicknameSetUp(Scanner in) {
 //        Scanner in;
         String nickname;
-        try{
+        try {
 //            in = new Scanner(socket.getInputStream());
 //            out = new ObjectOutputStream(socket.getOutputStream());
             asyncSend("Welcome to wonderful alpha version of MoR\nChoose your nickname:\n");
             nickname = in.nextLine();
             notify(new Nickname(nickname, this.ID));
-        } catch (/*IOException | */ NoSuchElementException e){
+        } catch (/*IOException | */ NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
         }
     }
 
-    public int setNumPlayers(Scanner in){
+    public int setNumPlayers(Scanner in) {
         int numPlayers = 0;
         String input;
 //        Scanner in;
-        try{
+        try {
 //            in = new Scanner(socket.getInputStream());
 //            out = new ObjectOutputStream(socket.getOutputStream());
             asyncSend("Choose number of player:");
@@ -141,7 +140,7 @@ public class SocketClientConnection extends Observable<Message> implements Clien
             numPlayers = Integer.parseInt(input);
             server.setNumPlayers(numPlayers);
             server.setReady(true);
-        } catch (/*IOException | */ NoSuchElementException e){
+        } catch (/*IOException | */ NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
         }
         return numPlayers;

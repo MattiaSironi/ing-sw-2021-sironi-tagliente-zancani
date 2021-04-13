@@ -9,24 +9,33 @@ public class Observable<Message> {
 
     private final List<Observer<Message>> observers = new ArrayList<>();
 
-    public void addObserver(Observer<Message> observer){
-        synchronized(observers){
+    public void addObserver(Observer<Message> observer) {
+        synchronized (observers) {
             observers.add(observer);
         }
     }
 
-    public void removeObserver(Observer<Message> observer){
+    public void removeObserver(Observer<Message> observer) {
         synchronized (observers) {
             observers.remove(observer);
         }
     }
 
-    protected void notify(Message message){
+    protected void notify(Message message) {
         synchronized (observers) {
-            for(Observer<Message> observer : observers){
+            for (Observer<Message> observer : observers) {
+                observer.update(message);
+            }
+        }
+    }
+
+    protected void notify(Nickname message) {
+        synchronized (observers) {
+            for (Observer<Message> observer : observers) {
                 observer.update(message);
             }
         }
 
     }
 }
+

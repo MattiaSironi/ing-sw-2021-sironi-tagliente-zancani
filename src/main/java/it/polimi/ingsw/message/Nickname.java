@@ -1,6 +1,6 @@
 package it.polimi.ingsw.message;
 
-public class Nickname extends Message{
+public class Nickname extends Message {
     private String string;
     private int ID;
 
@@ -8,6 +8,7 @@ public class Nickname extends Message{
         this.string = nickname;
         this.ID = ID;
     }
+
     public String getString() {
         return string;
     }
