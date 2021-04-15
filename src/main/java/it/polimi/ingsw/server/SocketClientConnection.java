@@ -4,6 +4,7 @@ import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.message.*;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
@@ -14,7 +15,7 @@ public class SocketClientConnection extends Observable<Message> implements Clien
     private boolean first;
     private Socket socket;
     private ObjectOutputStream out;
-    private Scanner in;
+    private ObjectInputStream in;
     private Server server;
     private int ID;
 
@@ -25,10 +26,6 @@ public class SocketClientConnection extends Observable<Message> implements Clien
     @Override
     public void setID(int ID) {
         this.ID = ID;
-    }
-
-    public Scanner getIn() {
-        return in;
     }
 
     private boolean active = true;
@@ -43,7 +40,7 @@ public class SocketClientConnection extends Observable<Message> implements Clien
         return active;
     }
 
-    private synchronized void send(Object message) {
+    private synchronized void send(String message) {
         try {
             out.reset();
             out.writeObject(message);
@@ -73,7 +70,7 @@ public class SocketClientConnection extends Observable<Message> implements Clien
     }
 
     @Override
-    public void asyncSend(final Object message) {
+    public void asyncSend(final String message) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -87,8 +84,9 @@ public class SocketClientConnection extends Observable<Message> implements Clien
         //Scanner in;
         try {
 
-            in = new Scanner(socket.getInputStream());
-            out = new ObjectOutputStream(socket.getOutputStream());
+
+            out = new ObjectOutputStream(socket.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
+            in = new ObjectInputStream(socket.getInputStream());
             if (this.first) {
                 setNumPlayers(in);
             } else {
@@ -114,21 +112,24 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 
     }
 
-    public void nicknameSetUp(Scanner in) {
+    public void nicknameSetUp(ObjectInputStream in) {
 //        Scanner in;
         String nickname;
         try {
 //            in = new Scanner(socket.getInputStream());
 //            out = new ObjectOutputStream(socket.getOutputStream());
             asyncSend("Welcome to wonderful alpha version of MoR\nChoose your nickname:\n");
-            nickname = in.nextLine();
+            nickname = (String) in.readObject();
             notify(new Nickname(nickname, this.ID));
-        } catch (/*IOException | */ NoSuchElementException e) {
-            System.err.println("Error!" + e.getMessage());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
-    public int setNumPlayers(Scanner in) {
+        public int setNumPlayers(ObjectInputStream in) {
         int numPlayers = 0;
         String input;
 //        Scanner in;
@@ -136,12 +137,19 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 //            in = new Scanner(socket.getInputStream());
 //            out = new ObjectOutputStream(socket.getOutputStream());
             asyncSend("Choose number of player:");
-            input = in.nextLine();
+
+            input = (String) in.readObject();
+            asyncSend("you choose " + input);
             numPlayers = Integer.parseInt(input);
+
             server.setNumPlayers(numPlayers);
             server.setReady(true);
         } catch (/*IOException | */ NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return numPlayers;
     }

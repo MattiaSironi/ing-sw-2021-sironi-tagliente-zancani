@@ -7,7 +7,7 @@ public interface ClientConnection {
 
     void closeConnection();
 
-    void asyncSend(Object message);
+    void asyncSend(String message);
 
     void setID(int ID);
 

@@ -12,7 +12,6 @@ public class ClientMain {
         CLI cli = new CLI();
         ModelMultiplayerView view = new ModelMultiplayerView(cli);
         view.addObserver(cli);
-
         cli.run();
     }
 }

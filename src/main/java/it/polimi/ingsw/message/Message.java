@@ -1,6 +1,8 @@
 package it.polimi.ingsw.message;
 
-abstract public class Message {
+import java.io.Serializable;
+
+abstract public class Message implements Serializable {
 
 
     abstract public String getString();

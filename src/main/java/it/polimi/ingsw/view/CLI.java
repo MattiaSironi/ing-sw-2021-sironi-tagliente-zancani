@@ -12,13 +12,16 @@ public class CLI extends Observable<Message> implements Observer<Message> {
     Scanner in;
 
 public void run()  {
-    System.out.println("welcome to the game. this is an alpha version so you will be connected to the loopback address\n");
-    System.out.println("choose your nickname: ");
+    System.out.println("welcome to the game. this is an alpha version so you will be connected to the loopback address");
+    System.out.println("type YES if you are ready to this experience:");
 
         in= new Scanner(System.in);
         String input =in.next();
         notify(new Nickname(input, 00));
-        while (true) {}
+        while (true) {
+             input =in.next();
+            notify(new Nickname(input, 00));
+        }
 
 
 }

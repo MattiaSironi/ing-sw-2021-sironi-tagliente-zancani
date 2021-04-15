@@ -9,16 +9,20 @@ import it.polimi.ingsw.server.ClientConnection;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+
 
 public class ModelMultiplayerView extends RemoteView implements Observer<Message>  {
     public ModelMultiplayerView(CLI cli) {
         cli.addObserver(new MessageReceiver());
 
 
+    }
+    private void lastchance() { notify(new Nickname("tutt ok, scrivi pure il numero:", 00));
     }
     public void sendnotify(String  c)  {
         notify(new Nickname(c, 00) );
@@ -31,8 +35,14 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
         notify(new Nickname("I know you Nickname! it's "  +  name, 0));
     }
 
+
+
     private class MessageReceiver implements Observer<Message>{
-        Socket socket;
+        private Socket socket;
+        private ObjectInputStream socketIn;
+        private ObjectOutputStream socketOut;
+
+
         private boolean active = true;
 
         public synchronized boolean isActive(){
@@ -42,38 +52,68 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
         public synchronized void setActive(boolean active){
             this.active = active;
         }
-        @Override
+
+
+        private synchronized void send(Object message) {
+            try {
+                socketOut.reset();
+                socketOut.writeObject(message);
+                socketOut.flush();
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+
+            @Override
         public void update(Message message) {
 
         }
 
         @Override
         public void update(Nickname message) {
-            try {
-                runna();
-            } catch (IOException e) {
-                System.out.println("aooooooo");
+            if (message.getString().equals("YES")) {
+                try {
+                    runna();
+                } catch (IOException | ClassNotFoundException e) {
+                    System.out.println("aooooooo");
+                }
+            } else {
+                send(message);
             }
         }
-        public void runna() throws IOException {
+
+        public void runna() throws IOException, ClassNotFoundException {
+            Scanner scan = new Scanner(System.in);
             socket = new Socket("127.0.0.1", 1234);
             System.out.println("Connection established");
-            ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
-            PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
-            try{
-                Thread t0 = asyncReadFromSocket(socketIn);
-                Thread t1 = asyncWriteToSocket(socketOut);
-                t0.join();
-                t1.join();
-            } catch(InterruptedException | NoSuchElementException e){
-                System.out.println("Connection closed from the client side");
-            } finally {
+            socketIn = new ObjectInputStream(socket.getInputStream());
+            socketOut = new ObjectOutputStream(socket.getOutputStream());
+            String inputObject = (String) socketIn.readObject();
+            sendnotify(inputObject);
+            String scannerata =scan.nextLine();
+            send(scannerata);
+            inputObject = (String) socketIn.readObject();
+            sendnotify(inputObject);
+            inputObject = (String) socketIn.readObject();
+            sendnotify(inputObject);
+            scannerata =scan.nextLine();
+            send(scannerata);
+            inputObject = (String) socketIn.readObject();
+            sendnotify(inputObject);
+            inputObject = (String) socketIn.readObject();
+            sendnotify(inputObject);
+            inputObject = (String) socketIn.readObject();
+            sendnotify(inputObject);
 
-                socketIn.close();
-                socketOut.close();
-                socket.close();
-            }
+
+
+
+            socketIn.close();
+            socketOut.close();
+            socket.close();
+
         }
+
         public Thread asyncReadFromSocket(final ObjectInputStream socketIn){
             Thread t = new Thread(new Runnable() {
                 @Override
@@ -81,11 +121,11 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
                     try {
                         while (isActive()) {
                             Object inputObject = socketIn.readObject();
-                            if(inputObject instanceof String){
+//                            if(inputObject instanceof String){
                                 sendnotify((String) inputObject);
-                            }  else {
-                                throw new IllegalArgumentException();
-                            }
+//                            }  else {
+//                                throw new IllegalArgumentException();
+//                            }
                         }
                     } catch (Exception e){
                         setActive(false);
@@ -96,24 +136,27 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
             return t;
         }
 
-        public Thread asyncWriteToSocket( final PrintWriter socketOut){
-            Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        while (isActive()) {
-                            String inputLine = stdin.nextLine();
-                            socketOut.println(inputLine);
-                            socketOut.flush();
-                        }
-                    }catch(Exception e){
-                        setActive(false);
-                    }
-                }
-            });
-            t.start();
-            return t;
-        }
+
+
+//        public Thread asyncWriteToSocket( final PrintWriter socketOut){
+//            Thread t = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        while (isActive()) {
+//                            if (!ola.equals(""))
+//                            socketOut.println(ola);
+//                            socketOut.flush();
+//                            ola="";
+//                        }
+//                    }catch(Exception e){
+//                        setActive(false);
+//                    }
+//                }
+//            });
+//            t.start();
+//            return t;
+//        }
 
 
 

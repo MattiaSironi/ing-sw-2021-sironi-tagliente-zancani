@@ -1,6 +1,9 @@
 package it.polimi.ingsw.message;
 
-public class Nickname extends Message {
+import java.io.Externalizable;
+import java.io.Serializable;
+
+public class Nickname extends Message implements Serializable {
     private String string;
     private int ID;
 
