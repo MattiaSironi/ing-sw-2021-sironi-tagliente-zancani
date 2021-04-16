@@ -1,17 +1,16 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.MessageReceiver.ClientMessageReceiver;
 import it.polimi.ingsw.view.CLI;
 import it.polimi.ingsw.view.ModelMultiplayerView;
-import it.polimi.ingsw.view.RemoteView;
-
-import java.io.IOException;
 
 public class ClientMain {
     public static void main(String[] args) {
         CLI cli = new CLI();
-        ModelMultiplayerView view = new ModelMultiplayerView(cli);
+        ModelMultiplayerView view = new ModelMultiplayerView();
+        ClientMessageReceiver cms = new ClientMessageReceiver(view);
         view.addObserver(cli);
+        cli.addObserver(cms);
         cli.run();
     }
 }

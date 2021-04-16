@@ -6,9 +6,11 @@ import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;
 
 public class RemoteView extends Observable<Message> implements Observer<Message> {
-    public RemoteView() {
 
-    }
+    private ClientConnection clientConnection;
+    private int ID;
+
+    public RemoteView() {}
 
     public ClientConnection getClientConnection() {
         return clientConnection;
@@ -26,8 +28,7 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
         this.ID = ID;
     }
 
-    private ClientConnection clientConnection;
-    private int ID;
+
 
     @Override
     public void update(Message message) {
@@ -53,27 +54,13 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
         }
     }
 
-    private class MessageReceiver implements Observer<Message> {
 
-        @Override
-        public void update(Message message) {
-            System.out.println("Received: " + message.getString() + " send by " + message.getID());
-            handleAction(message);
-
-        }
-
-        @Override
-        public void update(Nickname message) {
-            System.out.println("Received a nickname: " + message.getString() + " send by " + message.getID());
-            handleAction(message);
-        }
-    }
 
     public RemoteView(ClientConnection c, int ID) {
         this.clientConnection = c;
         this.clientConnection.setID(ID);
         this.ID = ID;
-        c.addObserver(new MessageReceiver());
+
     }
 
     public void handleAction(Message message) {

@@ -8,7 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
+
 
 
 public class SocketClientConnection extends Observable<Message> implements ClientConnection, Runnable {
@@ -81,7 +81,7 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 
     @Override
     public void run() {
-        //Scanner in;
+
         try {
 
 
@@ -96,15 +96,7 @@ public class SocketClientConnection extends Observable<Message> implements Clien
             }
             server.initialPhaseHandler(this);
             nicknameSetUp(in);
-            while (isActive()) {
-////                    send("Type any word");
-//                    String read;
-//                    read = in.nextLine();
-//                    notify(read);
-//                    if (read.equals("quit")) {
-//                    break;
-            }
-//                }
+            while (isActive()) {}
             close();
         } catch (IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
@@ -113,11 +105,9 @@ public class SocketClientConnection extends Observable<Message> implements Clien
     }
 
     public void nicknameSetUp(ObjectInputStream in) {
-//        Scanner in;
+
         String nickname;
         try {
-//            in = new Scanner(socket.getInputStream());
-//            out = new ObjectOutputStream(socket.getOutputStream());
             asyncSend("Welcome to wonderful alpha version of MoR\nChoose your nickname:\n");
             nickname = (String) in.readObject();
             notify(new Nickname(nickname, this.ID));
@@ -129,13 +119,11 @@ public class SocketClientConnection extends Observable<Message> implements Clien
         }
     }
 
-        public int setNumPlayers(ObjectInputStream in) {
+    public int setNumPlayers(ObjectInputStream in) {
+
         int numPlayers = 0;
         String input;
-//        Scanner in;
         try {
-//            in = new Scanner(socket.getInputStream());
-//            out = new ObjectOutputStream(socket.getOutputStream());
             asyncSend("Choose number of player:");
 
             input = (String) in.readObject();

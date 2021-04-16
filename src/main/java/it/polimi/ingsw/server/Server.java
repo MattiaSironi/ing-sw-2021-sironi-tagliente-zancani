@@ -1,13 +1,12 @@
 package it.polimi.ingsw.server;
 
-//import it.polimi.ingsw.MessageReceiver.MessageReceiver;
+import it.polimi.ingsw.MessageReceiver.ServerMessageReceiver;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.view.RemoteView;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.Remote;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -52,12 +51,16 @@ public class Server {
             Collections.reverse(keys);
             ClientConnection c1 = waitingConnection.get(keys.get(0));
             RemoteView remoteView1 = new RemoteView(c1, keys.get(0));
+            ServerMessageReceiver smr1 = new ServerMessageReceiver(remoteView1);
+            c1.addObserver(smr1);
             remoteView1.addObserver(controller);
             game.addObserver(remoteView1);
 
             if(numPlayers >= 2){
                 ClientConnection c2 = waitingConnection.get(keys.get(1));
                 RemoteView remoteView2 = new RemoteView(c2, keys.get(1));
+                ServerMessageReceiver smr2 = new ServerMessageReceiver(remoteView2);
+                c2.addObserver(smr2);
                 remoteView2.addObserver(controller);
                 game.addObserver(remoteView2);
 
@@ -65,12 +68,16 @@ public class Server {
             if(numPlayers >= 3){
                 ClientConnection c3 = waitingConnection.get(keys.get(2));
                 RemoteView remoteView3 = new RemoteView(c3, keys.get(2));
+                ServerMessageReceiver smr3 = new ServerMessageReceiver(remoteView3);
+                c3.addObserver(smr3);
                 remoteView3.addObserver(controller);
                 game.addObserver(remoteView3);
             }
             if(numPlayers == 4){
                 ClientConnection c4 = waitingConnection.get(keys.get(3));
                 RemoteView remoteView4 = new RemoteView(c4, keys.get(3));
+                ServerMessageReceiver smr4 = new ServerMessageReceiver(remoteView4);
+                c4.addObserver(smr4);
                 remoteView4.addObserver(controller);
                 game.addObserver(remoteView4);
             }
@@ -79,34 +86,20 @@ public class Server {
 
         }
     }
-    /*public synchronized void initialPhaseHandler(ClientConnection c, String nickname){
-        MessageReceiver messageReceiver = new MessageReceiver(c);
-        RemoteView remoteView = new RemoteView(c, messageReceiver);
-        c.addObserver(messageReceiver);
-        Game game = new Game();
-        Controller controller = new Controller(game);
-        controller.addObserver(remoteView);
-        game.addObserver(remoteView);
-    }*/
 
-    public void run(){
-        while(true){
+    public void run() {
+        while (true) {
             try {
                 Socket newSocket = serverSocket.accept();
-                if(isFirst)  {
-                    isFirst=false;
+                if (isFirst) {
+                    isFirst = false;
                     SocketClientConnection socketConnection = new SocketClientConnection(true, newSocket, this);
-                    executor.submit(socketConnection);}
-                else {
+                    executor.submit(socketConnection);
+                } else {
 
                     SocketClientConnection socketConnection = new SocketClientConnection(false, newSocket, this);
                     executor.submit(socketConnection);
                 }
-//                if(isFirst){
-//                    isFirst = false;
-//                    numPlayers = socketConnection.setNumPlayers(socketConnection.getIn());
-//                }
-
             } catch (IOException e) {
                 System.out.println("Connection Error!");
             }
