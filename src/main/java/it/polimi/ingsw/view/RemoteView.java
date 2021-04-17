@@ -3,20 +3,20 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
-import it.polimi.ingsw.server.ClientConnection;
+import it.polimi.ingsw.server.SocketClientConnection;
 
 public class RemoteView extends Observable<Message> implements Observer<Message> {
 
-    private ClientConnection clientConnection;
+    private SocketClientConnection clientConnection;
     private int ID;
 
     public RemoteView() {}
 
-    public ClientConnection getClientConnection() {
+    public SocketClientConnection getClientConnection() {
         return clientConnection;
     }
 
-    public void setClientConnection(ClientConnection clientConnection) {
+    public void setClientConnection(SocketClientConnection clientConnection) {
         this.clientConnection = clientConnection;
     }
 
@@ -32,38 +32,49 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(Message message) {
-        if (message.getString().equals("ERRORE505")) {
-            if (message.getID() == this.ID)
-                clientConnection.asyncSend("This nickname is already chosen!\n");
-        } else if (message.getID() == this.ID) {
-            clientConnection.asyncSend("Your nickname is " + message.getString());
-        } else {
-            clientConnection.asyncSend("One of your opponents nickname is " + message.getString());
-        }
     }
 
     @Override
     public void update(Nickname message) {
         if (message.getString().equals("ERRORE505")) {
             if (message.getID() == this.ID)
-                clientConnection.asyncSend("This nickname is already chosen!\n");
+                clientConnection.send(new ErrorMessage("This nickname is already chosen!\n"));
         } else if (message.getID() == this.ID) {
-            clientConnection.asyncSend("Your nickname is " + message.getString());
+            clientConnection.send(new OutputMessage("Your nickname is " + message.getString()));
         } else {
-            clientConnection.asyncSend("One of your opponents nickname is " + message.getString());
+            clientConnection.send(new OutputMessage("One of your opponents nickname is " + message.getString()));
         }
     }
 
+    @Override
+    public void update(InputMessage message) {
+
+    }
+
+    @Override
+    public void update(IdMessage message) {
+
+    }
+
+    @Override
+    public void update(ErrorMessage message) {
+
+    }
+
+    @Override
+    public void update(OutputMessage message) {
+
+    }
 
 
-    public RemoteView(ClientConnection c, int ID) {
+    public RemoteView(SocketClientConnection c, int ID) {
         this.clientConnection = c;
         this.clientConnection.setID(ID);
         this.ID = ID;
 
     }
 
-    public void handleAction(Message message) {
+    public void handleAction(Nickname message) {
         notify(new Nickname(message.getString(), message.getID()));
     }
 }

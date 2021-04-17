@@ -1,8 +1,8 @@
 package it.polimi.ingsw.MessageReceiver;
 
-import it.polimi.ingsw.message.Message;
-import it.polimi.ingsw.message.Nickname;
+import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.observer.Observer;
+import it.polimi.ingsw.view.CLI;
 import it.polimi.ingsw.view.ModelMultiplayerView;
 
 import java.io.IOException;
@@ -20,9 +20,14 @@ public class ClientMessageReceiver implements Observer<Message> {
     private ObjectInputStream socketIn;
     private ObjectOutputStream socketOut;
     private boolean active = true;
+    private int ID;
+    private CLI cli;
+    private String ready;
 
-    public ClientMessageReceiver(ModelMultiplayerView mmv) {
+
+    public ClientMessageReceiver(CLI cli, ModelMultiplayerView mmv) {
         this.mmv = mmv;
+        this.cli = cli;
 
     }
 
@@ -54,7 +59,7 @@ public class ClientMessageReceiver implements Observer<Message> {
     public void update(Nickname message) {
         if (message.getString().equals("YES")) {
             try {
-                runna();
+                setup();
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("aooooooo");
             }
@@ -63,28 +68,75 @@ public class ClientMessageReceiver implements Observer<Message> {
         }
     }
 
-    public void runna() throws IOException, ClassNotFoundException {
-        Scanner scan = new Scanner(System.in);
+    @Override
+    public void update(InputMessage message) {
+
+    }
+
+    @Override
+    public void update(IdMessage message) {
+
+    }
+
+    @Override
+    public void update(ErrorMessage message) {
+
+    }
+
+    @Override
+    public void update(OutputMessage message) {
+
+    }
+
+
+    public void setup() throws IOException, ClassNotFoundException {
+        String string;
+        cli.printToConsole("welcome to the game. this is an alpha version so you will be connected to the loopback address");
+        cli.printToConsole("type any key if you are ready to this experience:");
+        string = cli.readFromInput();
         socket = new Socket("127.0.0.1", 1234);
         System.out.println("Connection established");
         socketIn = new ObjectInputStream(socket.getInputStream());
         socketOut = new ObjectOutputStream(socket.getOutputStream());
-        String inputObject = (String) socketIn.readObject();
-        mmv.sendnotify(inputObject);
-        String scannerata = scan.nextLine();
-        send(scannerata);
-        inputObject = (String) socketIn.readObject();
-        mmv.sendnotify(inputObject);
-        inputObject = (String) socketIn.readObject();
-        mmv.sendnotify(inputObject);
-        scannerata = scan.nextLine();
-        send(scannerata);
-        inputObject = (String) socketIn.readObject();
-        mmv.sendnotify(inputObject);
-        inputObject = (String) socketIn.readObject();
-        mmv.sendnotify(inputObject);
-        inputObject = (String) socketIn.readObject();
-        mmv.sendnotify(inputObject);
+
+        this.ID = ((IdMessage) asyncReadFromSocket()).getID();
+        if (ID == 0) {
+            cli.printToConsole("Choose number of player");
+            String numPlayers;
+            numPlayers = cli.readFromInput();
+            send(new ChooseNumberOfPlayer(numPlayers));
+        } else {
+            cli.printToConsole("waiting for the host...");
+        }
+        cli.printToConsole("sono qui");
+        this.ready = ((OutputMessage) asyncReadFromSocket()).getString();
+        cli.printToConsole("Choose your nickname");
+        String nickname = cli.readFromInput();
+        send(new Nickname(nickname, ID));
+        cli.printToConsole(((OutputMessage)asyncReadFromSocket()).getString());
+        cli.printToConsole(((OutputMessage)asyncReadFromSocket()).getString());
+        cli.printToConsole(((OutputMessage)asyncReadFromSocket()).getString());
+
+        while(isActive()){
+
+        }
+
+        //String inputObject = (String) socketIn.readObject();
+        //mmv.sendnotify(inputObject);
+        //String scannerata = scan.nextLine();
+        //send(scannerata);
+        //inputObject = (String) socketIn.readObject();
+        //mmv.sendnotify(inputObject);
+        //inputObject = (String) socketIn.readObject();
+        //mmv.sendnotify(inputObject);
+        //scannerata = scan.nextLine();
+        //send(scannerata);
+        //inputObject = (String) socketIn.readObject();
+        //mmv.sendnotify(inputObject);
+        //inputObject = (String) socketIn.readObject();
+        //mmv.sendnotify(inputObject);
+        //inputObject = (String) socketIn.readObject();
+        //mmv.sendnotify(inputObject);
 
 
         socketIn.close();
@@ -93,28 +145,16 @@ public class ClientMessageReceiver implements Observer<Message> {
 
     }
 
-    public Thread asyncReadFromSocket(final ObjectInputStream socketIn) {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while (isActive()) {
-                        Object inputObject = socketIn.readObject();
-//                            if(inputObject instanceof String){
-                        mmv.sendnotify((String) inputObject);
-//                            }  else {
-//                                throw new IllegalArgumentException();
-//                            }
-                    }
-                } catch (Exception e) {
-                    setActive(false);
-                }
-            }
-        });
-        t.start();
-        return t;
-    }
+    public Object asyncReadFromSocket() {
+        Object inputObject = null;
+        try {
+            inputObject = socketIn.readObject();
 
+        }
+        catch (Exception e) {
+        }
+        return inputObject;
+    }
 
 }
 

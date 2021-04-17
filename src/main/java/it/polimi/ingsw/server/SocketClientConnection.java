@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 
 
 
-public class SocketClientConnection extends Observable<Message> implements ClientConnection, Runnable {
+public class SocketClientConnection extends Observable<Message> implements Runnable {
     private boolean first;
     private Socket socket;
     private ObjectOutputStream out;
@@ -23,7 +23,6 @@ public class SocketClientConnection extends Observable<Message> implements Clien
         return ID;
     }
 
-    @Override
     public void setID(int ID) {
         this.ID = ID;
     }
@@ -40,7 +39,7 @@ public class SocketClientConnection extends Observable<Message> implements Clien
         return active;
     }
 
-    private synchronized void send(String message) {
+    public synchronized void send(Message message) {
         try {
             out.reset();
             out.writeObject(message);
@@ -52,7 +51,7 @@ public class SocketClientConnection extends Observable<Message> implements Clien
     }
 
     public synchronized void closeConnection() {
-        send("Connection closed!");
+        //send("Connection closed!");
         try {
             socket.close();
         } catch (IOException e) {
@@ -69,17 +68,6 @@ public class SocketClientConnection extends Observable<Message> implements Clien
         System.out.println("Done!");
     }
 
-    @Override
-    public void asyncSend(final String message) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                send(message);
-            }
-        }).start();
-    }
-
-    @Override
     public void run() {
 
         try {
@@ -87,14 +75,7 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 
             out = new ObjectOutputStream(socket.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
             in = new ObjectInputStream(socket.getInputStream());
-            if (this.first) {
-                setNumPlayers(in);
-            } else {
-                send("waiting the host selects the number of players...");
-                while (!server.isReady()) {
-                }
-            }
-            server.initialPhaseHandler(this);
+            server.initialPhaseHandler(this); //FASE 1
             nicknameSetUp(in);
             while (isActive()) {}
             close();
@@ -105,13 +86,10 @@ public class SocketClientConnection extends Observable<Message> implements Clien
     }
 
     public void nicknameSetUp(ObjectInputStream in) {
-
         String nickname;
         try {
-            asyncSend("Welcome to wonderful alpha version of MoR\nChoose your nickname:\n");
             nickname = (String) in.readObject();
             notify(new Nickname(nickname, this.ID));
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -119,17 +97,13 @@ public class SocketClientConnection extends Observable<Message> implements Clien
         }
     }
 
-    public int setNumPlayers(ObjectInputStream in) {
+    public int setNumPlayers() {
 
         int numPlayers = 0;
         String input;
         try {
-            asyncSend("Choose number of player:");
-
             input = (String) in.readObject();
-            asyncSend("you choose " + input);
             numPlayers = Integer.parseInt(input);
-
             server.setNumPlayers(numPlayers);
             server.setReady(true);
         } catch (/*IOException | */ NoSuchElementException e) {

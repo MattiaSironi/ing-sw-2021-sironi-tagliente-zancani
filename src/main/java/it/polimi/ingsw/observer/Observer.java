@@ -1,6 +1,7 @@
 package it.polimi.ingsw.observer;
 
-import it.polimi.ingsw.message.Nickname;
+import it.polimi.ingsw.message.*;
+
 
 public interface Observer<Message> {
 
@@ -8,4 +9,11 @@ public interface Observer<Message> {
 
     void update(Nickname message);
 
+    void update(InputMessage message);
+
+    void update(IdMessage message);
+
+    void update(ErrorMessage message);
+
+    void update(OutputMessage message);
 }

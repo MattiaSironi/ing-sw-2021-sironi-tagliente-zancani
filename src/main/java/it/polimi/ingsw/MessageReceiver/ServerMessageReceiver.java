@@ -1,7 +1,6 @@
 package it.polimi.ingsw.MessageReceiver;
 
-import it.polimi.ingsw.message.Message;
-import it.polimi.ingsw.message.Nickname;
+import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.view.RemoteView;
 
@@ -19,15 +18,32 @@ public class ServerMessageReceiver implements Observer<Message> {
 
     @Override
     public void update(Message message) {
-        System.out.println("Received: " + message.getString() + " send by " + message.getID());
-        rv.handleAction(message);
-
     }
 
     @Override
     public void update(Nickname message) {
         System.out.println("Received a nickname: " + message.getString() + " send by " + message.getID());
         rv.handleAction(message);
+    }
+
+    @Override
+    public void update(InputMessage message) {
+
+    }
+
+    @Override
+    public void update(IdMessage message) {
+
+    }
+
+    @Override
+    public void update(ErrorMessage message) {
+
+    }
+
+    @Override
+    public void update(OutputMessage message) {
+
     }
 }
 

@@ -36,9 +36,25 @@ public class Controller implements Observer<Message> {
         //     if(message instanceof Nickname) setNickname((Nickname)message);
     }
 
-    @Override
-    public void update(Nickname message) {
+    @Override public void update(Nickname message) {
         setNickname(message);
+    }
+
+    @Override public void update(InputMessage message) {}
+
+    @Override
+    public void update(IdMessage message) {
+        
+    }
+
+    @Override
+    public void update(ErrorMessage message) {
+
+    }
+
+    @Override
+    public void update(OutputMessage message) {
+
     }
 
 
