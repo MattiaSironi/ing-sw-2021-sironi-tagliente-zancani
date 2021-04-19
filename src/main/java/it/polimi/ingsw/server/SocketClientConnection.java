@@ -61,18 +61,15 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     }
 
 
-    private void close() {
+    public void close() {
         closeConnection();
         System.out.println("Deregistering client...");
-        server.deregisterConnection(this);
         System.out.println("Done!");
     }
 
     public void run() {
 
         try {
-
-
             out = new ObjectOutputStream(socket.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
             in = new ObjectInputStream(socket.getInputStream());
             server.initialPhaseHandler(this); //FASE 1
@@ -86,10 +83,9 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     }
 
     public void nicknameSetUp(ObjectInputStream in) {
-        String nickname;
         try {
-            nickname = (String) in.readObject();
-            notify(new Nickname(nickname, this.ID));
+            Nickname nickname = (Nickname)in.readObject();
+            notify(nickname);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -98,13 +94,9 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     }
 
     public int setNumPlayers() {
-
         int numPlayers = 0;
-        String input;
         try {
-            input = (String) in.readObject();
-            numPlayers = Integer.parseInt(input);
-            server.setNumPlayers(numPlayers);
+            numPlayers = ((ChooseNumberOfPlayer)in.readObject()).getNumberOfPlayers();
             server.setReady(true);
         } catch (/*IOException | */ NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());

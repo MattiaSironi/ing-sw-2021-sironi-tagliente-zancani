@@ -29,7 +29,6 @@ public class Game extends Observable<Message> {
 
     public void createNewPlayer(Nickname nickname){
         this.players.add(new Player(nickname.getString(), nickname.getID()));
-        notify(nickname);
     }
 
 
@@ -72,7 +71,7 @@ public class Game extends Observable<Message> {
         return players;
     }
 
-    public void reportError(Nickname message){
+    public void reportError(ErrorMessage message){
         notify(message);
     }
 }

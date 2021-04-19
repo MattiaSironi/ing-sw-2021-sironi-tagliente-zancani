@@ -25,9 +25,11 @@ public class Controller implements Observer<Message> {
 
         }
         if (found) {
-            game.reportError(new Nickname("ERRORE505", nickname.getID()));
-        } else
+            game.reportError(new ErrorMessage("ko", nickname.getID()));
+        } else {
+            game.reportError(new ErrorMessage("ok", nickname.getID()));
             game.createNewPlayer(nickname);
+        }
     }
 
 

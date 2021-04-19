@@ -36,10 +36,7 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(Nickname message) {
-        if (message.getString().equals("ERRORE505")) {
-            if (message.getID() == this.ID)
-                clientConnection.send(new ErrorMessage("This nickname is already chosen!\n"));
-        } else if (message.getID() == this.ID) {
+        if (message.getID() == this.ID) {
             clientConnection.send(new OutputMessage("Your nickname is " + message.getString()));
         } else {
             clientConnection.send(new OutputMessage("One of your opponents nickname is " + message.getString()));
@@ -58,7 +55,9 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(ErrorMessage message) {
-
+        if(message.getID() == this.ID){
+            clientConnection.send(message);
+        }
     }
 
     @Override

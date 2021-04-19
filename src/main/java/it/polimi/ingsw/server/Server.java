@@ -39,6 +39,7 @@ public class Server {
 
     public synchronized void initialPhaseHandler(SocketClientConnection c){
         int id = usedID;
+        System.out.println(id);
         waitingConnection.put(id, c);
         c.send(new IdMessage(id));
         this.usedID++;
@@ -49,11 +50,10 @@ public class Server {
             while (!isReady()) {
             }
         }
-        if(waitingConnection.size() == numPlayers){
+        if(waitingConnection.size() == numPlayers) {
             Game game = new Game();
             Controller controller = new Controller(game);
             List<Integer> keys = new ArrayList<>(waitingConnection.keySet());
-            Collections.reverse(keys);
             SocketClientConnection c1 = waitingConnection.get(keys.get(0));
             RemoteView remoteView1 = new RemoteView(c1, keys.get(0));
             ServerMessageReceiver smr1 = new ServerMessageReceiver(remoteView1);
@@ -62,7 +62,7 @@ public class Server {
             remoteView1.addObserver(controller);
             game.addObserver(remoteView1);
 
-            if(numPlayers >= 2){
+            if (numPlayers >= 2) {
                 SocketClientConnection c2 = waitingConnection.get(keys.get(1));
                 RemoteView remoteView2 = new RemoteView(c2, keys.get(1));
                 ServerMessageReceiver smr2 = new ServerMessageReceiver(remoteView2);
@@ -72,7 +72,7 @@ public class Server {
                 game.addObserver(remoteView2);
 
             }
-            if(numPlayers >= 3){
+            if (numPlayers >= 3) {
                 SocketClientConnection c3 = waitingConnection.get(keys.get(2));
                 RemoteView remoteView3 = new RemoteView(c3, keys.get(2));
                 ServerMessageReceiver smr3 = new ServerMessageReceiver(remoteView3);
@@ -81,7 +81,7 @@ public class Server {
                 remoteView3.addObserver(controller);
                 game.addObserver(remoteView3);
             }
-            if(numPlayers == 4){
+            if (numPlayers == 4) {
                 SocketClientConnection c4 = waitingConnection.get(keys.get(3));
                 RemoteView remoteView4 = new RemoteView(c4, keys.get(3));
                 ServerMessageReceiver smr4 = new ServerMessageReceiver(remoteView4);
@@ -90,9 +90,10 @@ public class Server {
                 remoteView4.addObserver(controller);
                 game.addObserver(remoteView4);
             }
-
-
-
+        }
+        if(waitingConnection.size() > numPlayers){
+            waitingConnection.remove(c);
+            c.close();
         }
     }
 
@@ -126,6 +127,7 @@ public class Server {
         while(iterator.hasNext()){
             if(waitingConnection.get(iterator.next())==c){
                 iterator.remove();
+
             }
         }
     }

@@ -1,17 +1,17 @@
 package it.polimi.ingsw.message;
 
 public class ChooseNumberOfPlayer extends Message{
-    private String string;
+    private int numPlayers;
 
-    public ChooseNumberOfPlayer(String string) {
-        this.string = string;
+    public ChooseNumberOfPlayer(int num) {
+        this.numPlayers = num;
     }
 
-    public String getString() {
-        return null;
+    public int getNumberOfPlayers() {
+        return numPlayers;
     }
 
-    public void setString(String nickname) {
+    public void setNumPlayers(int num) {
 
     }
 }

@@ -23,6 +23,7 @@ public class ClientMessageReceiver implements Observer<Message> {
     private int ID;
     private CLI cli;
     private String ready;
+    private Boolean nameConfirmed = false;
 
 
     public ClientMessageReceiver(CLI cli, ModelMultiplayerView mmv) {
@@ -100,22 +101,25 @@ public class ClientMessageReceiver implements Observer<Message> {
         socketOut = new ObjectOutputStream(socket.getOutputStream());
 
         this.ID = ((IdMessage) asyncReadFromSocket()).getID();
+        System.out.println(this.ID);
         if (ID == 0) {
-            cli.printToConsole("Choose number of player");
-            String numPlayers;
-            numPlayers = cli.readFromInput();
-            send(new ChooseNumberOfPlayer(numPlayers));
+            setNumberOfPlayers();
         } else {
             cli.printToConsole("waiting for the host...");
         }
-        cli.printToConsole("sono qui");
         this.ready = ((OutputMessage) asyncReadFromSocket()).getString();
-        cli.printToConsole("Choose your nickname");
-        String nickname = cli.readFromInput();
-        send(new Nickname(nickname, ID));
-        cli.printToConsole(((OutputMessage)asyncReadFromSocket()).getString());
-        cli.printToConsole(((OutputMessage)asyncReadFromSocket()).getString());
-        cli.printToConsole(((OutputMessage)asyncReadFromSocket()).getString());
+        while(!nameConfirmed){
+            cli.printToConsole("Choose your nickname");
+            String nickname = cli.readFromInput();
+            send(new Nickname(nickname, ID));
+            if(((ErrorMessage)asyncReadFromSocket()).getString().equals("ko")){
+                cli.printToConsole("This nickname is already chosen");
+
+            }
+            else{
+                nameConfirmed = true;
+            }
+        }
 
         while(isActive()){
 
@@ -149,11 +153,28 @@ public class ClientMessageReceiver implements Observer<Message> {
         Object inputObject = null;
         try {
             inputObject = socketIn.readObject();
-
         }
         catch (Exception e) {
         }
         return inputObject;
+    }
+
+
+    public void setNumberOfPlayers(){
+        int numPlayers;
+        Boolean valid = false;
+        do {
+            cli.printToConsole("Choose number of player");
+            numPlayers = Integer.parseInt(cli.readFromInput());
+            if(numPlayers > 1 && numPlayers <= 4) {
+                valid = true;
+                cli.printToConsole("Number of players set to " + numPlayers);
+            }
+            else{
+                cli.printToConsole("Error! Number must be between 2 and 4");
+            }
+        }while(!valid);
+        send(new ChooseNumberOfPlayer(numPlayers));
     }
 
 }
