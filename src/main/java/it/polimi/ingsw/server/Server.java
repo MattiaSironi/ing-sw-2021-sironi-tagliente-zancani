@@ -58,39 +58,43 @@ public class Server {
             RemoteView remoteView1 = new RemoteView(c1, keys.get(0));
             ServerMessageReceiver smr1 = new ServerMessageReceiver(remoteView1);
             c1.addObserver(smr1);
-            c1.send(new OutputMessage("ready"));
+            c1.send(new ChooseNumberOfPlayer(numPlayers));
             remoteView1.addObserver(controller);
             game.addObserver(remoteView1);
 
             if (numPlayers >= 2) {
+                RemoteView.setSize(2); // per adesso
                 SocketClientConnection c2 = waitingConnection.get(keys.get(1));
                 RemoteView remoteView2 = new RemoteView(c2, keys.get(1));
                 ServerMessageReceiver smr2 = new ServerMessageReceiver(remoteView2);
                 c2.addObserver(smr2);
-                c2.send(new OutputMessage("ready"));
+                c2.send(new ChooseNumberOfPlayer(numPlayers));
                 remoteView2.addObserver(controller);
                 game.addObserver(remoteView2);
 
             }
             if (numPlayers >= 3) {
+                RemoteView.setSize(3); // per adesso
                 SocketClientConnection c3 = waitingConnection.get(keys.get(2));
                 RemoteView remoteView3 = new RemoteView(c3, keys.get(2));
                 ServerMessageReceiver smr3 = new ServerMessageReceiver(remoteView3);
                 c3.addObserver(smr3);
-                c3.send(new OutputMessage("ready"));
+                c3.send(new ChooseNumberOfPlayer(numPlayers));
                 remoteView3.addObserver(controller);
                 game.addObserver(remoteView3);
             }
             if (numPlayers == 4) {
+                RemoteView.setSize(4); // per adesso
                 SocketClientConnection c4 = waitingConnection.get(keys.get(3));
                 RemoteView remoteView4 = new RemoteView(c4, keys.get(3));
                 ServerMessageReceiver smr4 = new ServerMessageReceiver(remoteView4);
                 c4.addObserver(smr4);
-                c4.send(new OutputMessage("ready"));
+                c4.send(new ChooseNumberOfPlayer(numPlayers));
                 remoteView4.addObserver(controller);
                 game.addObserver(remoteView4);
             }
         }
+
         if(waitingConnection.size() > numPlayers){
             waitingConnection.remove(c);
             c.close();

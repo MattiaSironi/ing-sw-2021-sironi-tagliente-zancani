@@ -5,12 +5,21 @@ import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.SocketClientConnection;
 
 public class ModelMultiplayerView extends RemoteView implements Observer<Message> {
+    public static int getSize() {
+        return size;
+    }
+
+    public static void setSize(int size) {
+        ModelMultiplayerView.size = size;
+    }
+
+    private static int size ;
 
     public ModelMultiplayerView() {}
 
-    private void lastchance() {
-        notify(new Nickname("tutt ok, scrivi pure il numero:", 00));
-    }
+//    private void lastchance() {
+//        notify(new Nickname("tutt ok, scrivi pure il numero:", 00));
+//    }
 
     public void sendNotify(Message message) {
         notify(message);
@@ -20,9 +29,9 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
         super(c, ID);
     }
 
-    public void iKnowMyNickname(String name) {
-        notify(new Nickname("I know you Nickname! it's " + name, 0));
-    }
+//    public void iKnowMyNickname(String name) {
+//        notify(new Nickname("I know you Nickname! it's " + name, 0));
+//    }
 
     @Override
     public void update(InputMessage message) {

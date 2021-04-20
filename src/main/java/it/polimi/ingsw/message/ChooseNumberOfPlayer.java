@@ -1,7 +1,8 @@
 package it.polimi.ingsw.message;
 
-public class ChooseNumberOfPlayer extends Message{
+public class ChooseNumberOfPlayer extends Message {
     private int numPlayers;
+
 
     public ChooseNumberOfPlayer(int num) {
         this.numPlayers = num;

@@ -52,4 +52,9 @@ public class CLI extends Observable<Message> implements Observer<Message> {
     public void update(OutputMessage message) {
         System.out.println(message.getString());
     }
+
+    @Override
+    public void update(ChooseNumberOfPlayer message) {
+
+    }
 }

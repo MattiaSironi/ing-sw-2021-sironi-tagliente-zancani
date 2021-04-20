@@ -51,11 +51,21 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(ErrorMessage message) {
+        if (message.getString().equals("all set"))  {
+
+            game.printPlayerNickname(message.getID());
+        }
 
     }
 
     @Override
     public void update(OutputMessage message) {
+
+    }
+
+    @Override
+    public void update (ChooseNumberOfPlayer message)  {
+        game.setNumPlayer(message.getNumberOfPlayers());
 
     }
 

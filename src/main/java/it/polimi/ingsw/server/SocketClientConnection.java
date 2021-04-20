@@ -83,13 +83,20 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     }
 
     public void nicknameSetUp(ObjectInputStream in) {
-        try {
-            Nickname nickname = (Nickname)in.readObject();
-            notify(nickname);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        Boolean setup = false;
+        while (!setup) {
+            try {
+                Nickname nickname = (Nickname) in.readObject();
+                if (nickname.getValid()) {
+                    setup = true;
+                } else {
+                    notify(nickname);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 

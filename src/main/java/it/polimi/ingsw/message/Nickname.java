@@ -6,10 +6,16 @@ import java.io.Serializable;
 public class Nickname extends Message implements Serializable {
     private String string;
     private int ID;
+    private Boolean valid;
 
-    public Nickname(String nickname, int ID) {
+    public Nickname(String nickname, int ID, boolean valid) {
         this.string = nickname;
         this.ID = ID;
+        this.valid = valid;
+    }
+
+    public Boolean getValid() {
+        return valid;
     }
 
     public String getString() {

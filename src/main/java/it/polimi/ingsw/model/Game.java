@@ -14,6 +14,7 @@ import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.message.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Game extends Observable<Message> {
     private int numPlayer;
@@ -29,6 +30,17 @@ public class Game extends Observable<Message> {
 
     public void createNewPlayer(Nickname nickname){
         this.players.add(new Player(nickname.getString(), nickname.getID()));
+        notify(new IdMessage(this.players.size()));
+    }
+    public void printPlayerNickname (int ID)  {
+        String realNick= null;
+        for (Player p : this.players)  {
+            if (p.getId()==ID)  {
+                realNick = p.getNickname();
+            }
+        }
+        notify(new Nickname( realNick
+                , ID, true));
     }
 
 
@@ -53,6 +65,10 @@ public class Game extends Observable<Message> {
 
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
+    }
+
+    public void setNumPlayer(int numPlayer) {
+        this.numPlayer = numPlayer;
     }
 
     public int getNumPlayer() {

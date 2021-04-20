@@ -15,11 +15,9 @@ public class Board {
     private ArrayList<DevDeck> devDecks;
     private ArrayList<SoloActionToken> tokenArray;
 
-    public Board(Market market, LeaderDeck leaderDeck, ArrayList<DevDeck> devDecks, ArrayList<SoloActionToken> tokenArray) {
-        this.market = market;
-        this.leaderDeck = leaderDeck;
-        this.devDecks = devDecks;
-        this.tokenArray = tokenArray;
+    public Board() { //for now just for multiplayer
+       // create market
+        devDecks= createDevDecks();
     }
 
     public Market getMarket() {
@@ -52,6 +50,15 @@ public class Board {
 
     public void setTokenArray(ArrayList<SoloActionToken> tokenArray) {
         this.tokenArray = tokenArray;
+    }
+
+
+    public ArrayList<DevDeck> createDevDecks()  {
+        return null;
+
+
+
+
     }
 }
 

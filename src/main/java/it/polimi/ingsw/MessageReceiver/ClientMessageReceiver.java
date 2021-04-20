@@ -4,6 +4,7 @@ import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.view.CLI;
 import it.polimi.ingsw.view.ModelMultiplayerView;
+import org.apache.maven.model.Model;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -89,6 +90,11 @@ public class ClientMessageReceiver implements Observer<Message> {
 
     }
 
+    @Override
+    public void update(ChooseNumberOfPlayer message) {
+
+    }
+
 
     public void setup() throws IOException, ClassNotFoundException {
         String string;
@@ -107,19 +113,40 @@ public class ClientMessageReceiver implements Observer<Message> {
         } else {
             cli.printToConsole("waiting for the host...");
         }
-        this.ready = ((OutputMessage) asyncReadFromSocket()).getString();
+        ModelMultiplayerView.setSize(((ChooseNumberOfPlayer) asyncReadFromSocket()).getNumberOfPlayers());
+        cli.printToConsole("the match is set to " + ModelMultiplayerView.getSize());
         while(!nameConfirmed){
             cli.printToConsole("Choose your nickname");
             String nickname = cli.readFromInput();
-            send(new Nickname(nickname, ID));
+            send(new Nickname(nickname, ID,false));
             if(((ErrorMessage)asyncReadFromSocket()).getString().equals("ko")){
                 cli.printToConsole("This nickname is already chosen");
 
             }
             else{
+                send(new Nickname("",ID,true));
                 nameConfirmed = true;
             }
         }
+
+
+
+        cli.printToConsole(((OutputMessage)asyncReadFromSocket()).getString());
+        if  (ModelMultiplayerView .getSize()>=2)   {
+            cli.printToConsole(((OutputMessage)asyncReadFromSocket()).getString());}
+        if  (ModelMultiplayerView .getSize()>=3)   {
+            cli.printToConsole(((OutputMessage)asyncReadFromSocket()).getString());}
+        if  (ModelMultiplayerView .getSize()==4)   {
+            cli.printToConsole(((OutputMessage)asyncReadFromSocket()).getString());}
+
+
+
+
+
+
+
+
+
 
         while(isActive()){
 

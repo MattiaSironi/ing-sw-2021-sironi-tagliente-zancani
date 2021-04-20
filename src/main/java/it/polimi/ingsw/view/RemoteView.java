@@ -9,6 +9,11 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     private SocketClientConnection clientConnection;
     private int ID;
+    private static int size;
+
+    public static void setSize(int size) {
+        RemoteView.size = size;
+    }
 
     public RemoteView() {}
 
@@ -50,6 +55,10 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(IdMessage message) {
+        if (message.getID()==size)  {
+            notify(new ChooseNumberOfPlayer(size));
+            notify(new ErrorMessage("all set", this.ID));
+        }
 
     }
 
@@ -65,6 +74,11 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     }
 
+    @Override
+    public void update(ChooseNumberOfPlayer message) {
+
+    }
+
 
     public RemoteView(SocketClientConnection c, int ID) {
         this.clientConnection = c;
@@ -74,6 +88,6 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
     }
 
     public void handleAction(Nickname message) {
-        notify(new Nickname(message.getString(), message.getID()));
+        notify(message);
     }
 }
