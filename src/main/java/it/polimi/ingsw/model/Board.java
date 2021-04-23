@@ -1,6 +1,12 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.Gson;
+
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Class Board represents the main game board of "Master of Renaissance. It's composed by the Market, the Leader Deck, the matrix of Development Cards and the pile of Solo
@@ -16,10 +22,29 @@ public class Board {
     private ArrayList<SoloActionToken> tokenArray;
 
     public Board() { //for now just for multiplayer
-        market = new Market();
+        market = createMarket();
         devDecks= createDevDecks();
     }
 
+    private Market createMarket() {
+        Gson gson = new Gson();
+        Reader reader =  new InputStreamReader(Board.class.getResourceAsStream("/json/tray.json"));
+        Marble[]  marbles  = gson.fromJson(reader, Marble[].class);
+        Collections.shuffle(Arrays.asList(marbles));
+        Marble[][] marbleTray = new Marble[3][4];
+        for (int i=0, k=0; i<3; i++)  {
+            for (int j=0 ; j<4 ; j++ )  {
+                marbleTray[i][j]= marbles[k];
+                k++;
+            }
+        }
+
+        Market m = new Market(marbleTray, marbles[12]);
+
+        return m;
+
+
+    }
 
 
     public Market getMarket() {

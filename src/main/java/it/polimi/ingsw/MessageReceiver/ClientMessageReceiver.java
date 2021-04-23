@@ -3,16 +3,14 @@ package it.polimi.ingsw.MessageReceiver;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.view.*;
-import org.apache.maven.model.Model;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Stream;
 
 /**
@@ -34,6 +32,7 @@ public class ClientMessageReceiver implements Observer<Message> {
     public ClientMessageReceiver(CLI cli, ModelMultiplayerView mmv) {
         this.mmv = mmv;
         this.cli = cli;
+        setActions();
     }
 
     public synchronized boolean isActive() {
@@ -202,36 +201,55 @@ public class ClientMessageReceiver implements Observer<Message> {
         send(new ChooseNumberOfPlayer(numPlayers));
     }
 
-    public void resetActions() {
-        actions = new ArrayList<>();
-        actions.add(Actions.M);
-        actions.add(Actions.B);
-        actions.add(Actions.A);
-        actions.add(Actions.SM);
-        actions.add(Actions.SF);
-        actions.add(Actions.SD);
-        actions.add(Actions.SP);
-        actions.add(Actions.SL);
-        actions.add(Actions.SR);
-        actions.add(Actions.MR);
+    public void setActions() {
+        actions = new ArrayList<Actions>(Arrays.asList(Actions.values()));
+//        actions.add(Actions.M);
+//        actions.add(Actions.B);
+//        actions.add(Actions.A);
+//        actions.add(Actions.SM);
+//        actions.add(Actions.SF);
+//        actions.add(Actions.SD);
+//        actions.add(Actions.SP);
+//        actions.add(Actions.SL);
+//        actions.add(Actions.SR);
+//        actions.add(Actions.MR);
+//        actions.add(Actions.END);
+
     }
 
     public void chooseAction() {
-        resetActions();
+        resetEnable();
         boolean isEndTurn = false;
         while (!isEndTurn) {
             String chosenAction;
             cli.printToConsole("Select one action");
             for (Actions a : actions) {
-                cli.printToConsole("Type " + a.toString() + " to " + a.getString());
+                if (a.isEnable())
+                    cli.printToConsole("Type " + a.toString() + " to " + a.getString());
             }
             chosenAction = cli.readFromInput();
-            if(Stream.of(Actions.values()).anyMatch(v->v.name().equals(chosenAction))) {
+            if (Stream.of(Actions.values()).anyMatch(v -> v.name().equals(chosenAction))) {
                 Actions selectedAction = Actions.valueOf(chosenAction);
                 switch (selectedAction) {
-                    case M -> actions.remove(selectedAction);
-                    case B -> actions.remove(selectedAction);
-                    case A -> actions.remove(selectedAction);
+                    case M -> {
+                        if (Actions.M.isEnable()) {
+                            Actions.M.setEnable(false);
+                            // do things
+                        } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
+                    }
+
+                    case B -> {
+                        if (Actions.B.isEnable()) {
+                            Actions.B.setEnable(false);
+                            // do things
+                        } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
+                    }
+                    case A -> {
+                        if (Actions.A.isEnable()) {
+                            Actions.A.setEnable(false);
+                            // do things
+                        } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
+                    }
                     case SM -> mmv.printMarket();
                     //case SF ->;
                     //case SD ->;
@@ -239,12 +257,17 @@ public class ClientMessageReceiver implements Observer<Message> {
                     //case SL ->;
                     //case SR ->;
                     //case MR ->;
-                    //case END -> isEndTurn = true;
+//                    case END -> resetEnable();
                     default -> cli.printToConsole("Invalid input");
                 }
-            }
-            else
+            } else
                 cli.printToConsole("Invalid input");
+        }
+    }
+
+    private void resetEnable() {
+        for (Actions a : actions) {
+            a.setEnable(true);
         }
     }
 }

@@ -1,10 +1,10 @@
 package it.polimi.ingsw.view;
 
 public enum Actions {
-    M ("Take Resources from the Market", false),
-    B ("Buy one Development Card", false),
-    A ("Activate the Production", false),
-    END ("End your turn", false),
+    M ("Take Resources from the Market", true),
+    B ("Buy one Development Card", true),
+    A ("Activate your Productions", true),
+    END ("End your turn", true),
     SM ("Show Market", true),
     SF ("Show Faith Track", true),
     SD ("Show Development Cards", true),
@@ -15,11 +15,11 @@ public enum Actions {
 
 
     private final String string;
-    private boolean isMulti;
+    private boolean enable;
 
     Actions(String string, boolean isMulti) {
         this.string = string;
-        this.isMulti = isMulti;
+        this.enable = isMulti;
     }
 
 
@@ -27,7 +27,11 @@ public enum Actions {
         return string;
     }
 
-    public boolean isMulti() {
-        return isMulti;
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 }

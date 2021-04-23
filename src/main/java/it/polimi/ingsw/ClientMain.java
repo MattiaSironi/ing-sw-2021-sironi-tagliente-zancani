@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.LorenzoIlMagnifico;
 import it.polimi.ingsw.view.CLI;
-import it.polimi.ingsw.view.MainTest;
 import it.polimi.ingsw.view.ModelMultiplayerView;
 
 import java.io.IOException;
@@ -18,8 +17,6 @@ public class ClientMain {
         ClientMessageReceiver cms = new ClientMessageReceiver(cli, view);
         view.addObserver(cli);
         cli.addObserver(cms);
-        MainTest main = new MainTest();
-        view.getGame().getBoard().setMarket(main.main());
         cms.chooseAction();
         //cms.setup();
 
