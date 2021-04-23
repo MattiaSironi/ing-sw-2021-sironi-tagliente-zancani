@@ -22,6 +22,7 @@ public enum Actions {
         this.isMulti = isMulti;
     }
 
+
     public String getString() {
         return string;
     }

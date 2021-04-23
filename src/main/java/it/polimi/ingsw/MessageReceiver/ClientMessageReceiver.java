@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 /**
  * @author Mattia Sironi
@@ -225,21 +226,25 @@ public class ClientMessageReceiver implements Observer<Message> {
                 cli.printToConsole("Type " + a.toString() + " to " + a.getString());
             }
             chosenAction = cli.readFromInput();
-            Actions selectedAction = Actions.valueOf(chosenAction);
-            switch (selectedAction) {
-                case M -> actions.remove(selectedAction);
-                case B -> actions.remove(selectedAction);
-                case A -> actions.remove(selectedAction);
-                case SM -> mmv.printMarket();
-                //case SF ->;
-                //case SD ->;
-                //case SP ->;
-                //case SL ->;
-                //case SR ->;
-                //case MR ->;
-                //case END -> isEndTurn = true;
-                default -> cli.printToConsole("Unvalid input");
+            if(Stream.of(Actions.values()).anyMatch(v->v.name().equals(chosenAction))) {
+                Actions selectedAction = Actions.valueOf(chosenAction);
+                switch (selectedAction) {
+                    case M -> actions.remove(selectedAction);
+                    case B -> actions.remove(selectedAction);
+                    case A -> actions.remove(selectedAction);
+                    case SM -> mmv.printMarket();
+                    //case SF ->;
+                    //case SD ->;
+                    //case SP ->;
+                    //case SL ->;
+                    //case SR ->;
+                    //case MR ->;
+                    //case END -> isEndTurn = true;
+                    default -> cli.printToConsole("Invalid input");
+                }
             }
+            else
+                cli.printToConsole("Invalid input");
         }
     }
 }
