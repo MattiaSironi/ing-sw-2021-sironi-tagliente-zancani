@@ -1,10 +1,19 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.message.*;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.SocketClientConnection;
 
 public class ModelMultiplayerView extends RemoteView implements Observer<Message> {
+
+    private Game game;
+
+
+    public ModelMultiplayerView(Game game) {
+        this.game = game;
+    }
+
     public static int getSize() {
         return size;
     }
@@ -17,10 +26,6 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
 
     public ModelMultiplayerView() {}
 
-//    private void lastchance() {
-//        notify(new Nickname("tutt ok, scrivi pure il numero:", 00));
-//    }
-
     public void sendNotify(Message message) {
         notify(message);
     }
@@ -29,9 +34,13 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
         super(c, ID);
     }
 
-//    public void iKnowMyNickname(String name) {
-//        notify(new Nickname("I know you Nickname! it's " + name, 0));
-//    }
+    public Game getGame() {
+        return game;
+    }
+
+    public void printMarket(){
+        notify(new PrintableMessage(this.game.getBoard().getMarket()));
+    }
 
     @Override
     public void update(InputMessage message) {
@@ -45,6 +54,11 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
 
     @Override
     public void update(ErrorMessage message) {
+
+    }
+
+    @Override
+    public void update(PrintableMessage message) {
 
     }
 }

@@ -18,4 +18,6 @@ public interface Observer<Message> {
     void update(OutputMessage message);
 
     void update (ChooseNumberOfPlayer message);
+
+    void update (PrintableMessage message);
 }

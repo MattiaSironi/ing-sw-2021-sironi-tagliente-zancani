@@ -13,6 +13,10 @@ public class LorenzoIlMagnifico {
         this.blackCrossPos = blackCrossPos;
     }
 
+    public LorenzoIlMagnifico() {
+
+    }
+
     public int getBlackCrossPos() {
         return blackCrossPos;
     }

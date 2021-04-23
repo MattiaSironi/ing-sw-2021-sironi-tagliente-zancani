@@ -90,4 +90,8 @@ public class Game extends Observable<Message> {
     public void reportError(ErrorMessage message){
         notify(message);
     }
+
+    public Board getBoard() {
+        return board;
+    }
 }

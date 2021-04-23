@@ -7,11 +7,15 @@ package it.polimi.ingsw.model;
  * @see Market
  */
 
-public class Tray {
+public class Marble {
     private ResourceType res;
 
-    public Tray(ResourceType res) {
+    public Marble(ResourceType res) {
         this.res = res;
+    }
+
+    public Marble() {
+
     }
 
     public ResourceType getRes() {

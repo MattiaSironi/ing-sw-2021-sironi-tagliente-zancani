@@ -50,5 +50,10 @@ public class ServerMessageReceiver implements Observer<Message> {
     public void update(ChooseNumberOfPlayer message) {
 
     }
+
+    @Override
+    public void update(PrintableMessage message) {
+
+    }
 }
 

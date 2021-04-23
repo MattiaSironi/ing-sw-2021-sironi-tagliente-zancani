@@ -16,9 +16,11 @@ public class Board {
     private ArrayList<SoloActionToken> tokenArray;
 
     public Board() { //for now just for multiplayer
-       // create market
+        market = new Market();
         devDecks= createDevDecks();
     }
+
+
 
     public Market getMarket() {
         return market;

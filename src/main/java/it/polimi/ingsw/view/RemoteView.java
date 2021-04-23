@@ -79,6 +79,11 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     }
 
+    @Override
+    public void update(PrintableMessage message) {
+
+    }
+
 
     public RemoteView(SocketClientConnection c, int ID) {
         this.clientConnection = c;

@@ -81,5 +81,14 @@ public class Observable<Message> {
         }
 
     }
+
+    protected void notify(PrintableMessage message) {
+        synchronized (observers) {
+            for (Observer<Message> observer : observers) {
+                observer.update(message);
+            }
+        }
+
+    }
 }
 

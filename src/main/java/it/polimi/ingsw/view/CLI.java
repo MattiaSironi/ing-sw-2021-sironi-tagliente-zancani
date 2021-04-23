@@ -57,4 +57,9 @@ public class CLI extends Observable<Message> implements Observer<Message> {
     public void update(ChooseNumberOfPlayer message) {
 
     }
+
+    @Override
+    public void update(PrintableMessage message) {
+        message.getP().print();
+    }
 }
