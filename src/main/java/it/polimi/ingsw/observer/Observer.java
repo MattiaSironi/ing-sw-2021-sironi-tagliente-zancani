@@ -1,6 +1,8 @@
 package it.polimi.ingsw.observer;
 
-import it.polimi.ingsw.message.*;
+import it.polimi.ingsw.message.ActionMessages.ManageResourceMessage;
+import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
+import it.polimi.ingsw.message.CommonMessages.*;
 
 
 public interface Observer<Message> {
@@ -20,4 +22,8 @@ public interface Observer<Message> {
     void update (ChooseNumberOfPlayer message);
 
     void update (PrintableMessage message);
+
+    void update (ObjectMessage message);
+
+    void update (ManageResourceMessage message);
 }

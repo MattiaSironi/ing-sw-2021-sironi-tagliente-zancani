@@ -1,6 +1,9 @@
 package it.polimi.ingsw.MessageReceiver;
 
 import it.polimi.ingsw.message.*;
+import it.polimi.ingsw.message.ActionMessages.ManageResourceMessage;
+import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
+import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.view.RemoteView;
 
@@ -53,6 +56,16 @@ public class ServerMessageReceiver implements Observer<Message> {
 
     @Override
     public void update(PrintableMessage message) {
+
+    }
+
+    @Override
+    public void update(ObjectMessage message) {
+
+    }
+
+    @Override
+    public void update(ManageResourceMessage message) {
 
     }
 }

@@ -1,6 +1,8 @@
-package it.polimi.ingsw.message;
+package it.polimi.ingsw.message.CommonMessages;
 
-public class ErrorMessage extends Message{
+import it.polimi.ingsw.message.Message;
+
+public class ErrorMessage extends Message {
     private String string;
     private int ID;
 

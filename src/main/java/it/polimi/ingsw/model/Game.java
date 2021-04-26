@@ -10,11 +10,15 @@ package it.polimi.ingsw.model;
  * @see LorenzoIlMagnifico
  */
 
+import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
+import it.polimi.ingsw.message.CommonMessages.ErrorMessage;
+import it.polimi.ingsw.message.CommonMessages.IdMessage;
+import it.polimi.ingsw.message.CommonMessages.Nickname;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.message.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Optional;
 
 public class Game extends Observable<Message> {
     private int numPlayer;
@@ -91,7 +95,22 @@ public class Game extends Observable<Message> {
         notify(message);
     }
 
+    public void sendObject(ObjectMessage message) {
+        notify(message);
+    }
+
     public Board getBoard() {
         return board;
     }
+
+    public Player getPlayerById(int ID){
+        Player player = null;
+        for(Player p : this.players){
+            if(p.getId() == ID){
+                player = p;
+            }
+        }
+        return player;
+    }
+
 }

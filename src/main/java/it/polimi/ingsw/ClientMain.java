@@ -19,6 +19,5 @@ public class ClientMain {
         cli.addObserver(cms);
         cms.chooseAction();
         //cms.setup();
-
     }
 }

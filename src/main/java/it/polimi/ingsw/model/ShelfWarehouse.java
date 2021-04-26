@@ -48,6 +48,7 @@ public class ShelfWarehouse {
             temp = this.shelves.get(s1);
             this.shelves.set(s1, this.shelves.get(s2));
             this.shelves.set(s2, temp);
+            notify();
         } else System.out.println("Error. Not a valid operation. Check the game rules!\n ");
     }
 
@@ -116,4 +117,6 @@ public class ShelfWarehouse {
     public void setShelves(ArrayList<Shelf> shelves) {
         this.shelves = shelves;
     }
+
+
 }

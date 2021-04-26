@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
+import it.polimi.ingsw.message.CommonMessages.Nickname;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.message.*;
 

@@ -1,4 +1,6 @@
-package it.polimi.ingsw.message;
+package it.polimi.ingsw.message.CommonMessages;
+
+import it.polimi.ingsw.message.Message;
 
 import java.io.Externalizable;
 import java.io.Serializable;

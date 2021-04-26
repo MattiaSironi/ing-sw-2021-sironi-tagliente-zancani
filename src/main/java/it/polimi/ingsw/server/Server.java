@@ -2,7 +2,8 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.MessageReceiver.ServerMessageReceiver;
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.message.*;
+import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
+import it.polimi.ingsw.message.CommonMessages.IdMessage;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.view.RemoteView;
 import java.io.IOException;

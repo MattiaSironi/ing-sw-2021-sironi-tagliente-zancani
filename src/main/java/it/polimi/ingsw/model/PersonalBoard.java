@@ -201,4 +201,11 @@ public class PersonalBoard {
         return warehouse;
     }
 
+    public void setStrongbox(Strongbox strongbox) {
+        this.strongbox = strongbox;
+    }
+
+    public void setWarehouse(ShelfWarehouse warehouse) {
+        this.warehouse = warehouse;
+    }
 }

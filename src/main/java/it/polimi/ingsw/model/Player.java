@@ -20,7 +20,6 @@ public class Player {
     private ResourceType inputExtraProduction1;
     private ResourceType inputExtraProduction2;
     private boolean vaticanSection;
-
     private PersonalBoard personalBoard;
 
     public Player(String nickname, int id){
@@ -143,5 +142,13 @@ public class Player {
 
     public boolean checkVaticanSection() {
         return vaticanSection;
+    }
+
+    public boolean isVaticanSection() {
+        return vaticanSection;
+    }
+
+    public PersonalBoard getPersonalBoard() {
+        return personalBoard;
     }
 }

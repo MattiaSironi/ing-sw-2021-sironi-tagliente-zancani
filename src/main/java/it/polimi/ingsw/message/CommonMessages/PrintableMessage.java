@@ -1,4 +1,4 @@
-package it.polimi.ingsw.message;
+package it.polimi.ingsw.message.CommonMessages;
 
 import it.polimi.ingsw.model.Printable;
 

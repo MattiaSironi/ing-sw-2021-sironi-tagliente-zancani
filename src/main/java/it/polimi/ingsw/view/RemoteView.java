@@ -1,6 +1,9 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.message.*;
+import it.polimi.ingsw.message.ActionMessages.ManageResourceMessage;
+import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
+import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.SocketClientConnection;
@@ -81,6 +84,16 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(PrintableMessage message) {
+
+    }
+
+    @Override
+    public void update(ObjectMessage message) {
+
+    }
+
+    @Override
+    public void update(ManageResourceMessage message) {
 
     }
 
