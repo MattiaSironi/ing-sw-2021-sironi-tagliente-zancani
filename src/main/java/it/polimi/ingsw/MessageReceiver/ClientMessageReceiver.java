@@ -295,6 +295,16 @@ public class ClientMessageReceiver implements Observer<Message> {
         this.mmv.sendNotify(new ManageResourceMessage(s1-1, s2-1,  0));
     }
 
+    //metodo per il gotoMarket : seleziona la riga del mercato e aspetta le risorse per decidere cosa farci
+
+    //showDevToBuy : fa vedere le DevCard che puoi comprare e
+    // fa selezionare all'utente colore e livello della carta scelta
+    //controlla che la carta possa essere pagata e come
+
+    //ActivateProduction : mostra produzioni possibili
+    //fa scegliere quale produzione attivare
+    //fa scegliere le risorse da usare e cosa ottenere eventualmente
+
     private void resetEnable() {
         for (Actions a : actions) {
             a.setEnable(true);

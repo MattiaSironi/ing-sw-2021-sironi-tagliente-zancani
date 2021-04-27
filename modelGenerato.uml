@@ -8,12 +8,10 @@
     <node x="364.0" y="1279.0">it.polimi.ingsw.model.LeaderDeck</node>
     <node x="916.0" y="1445.0">it.polimi.ingsw.model.StrongboxTest</node>
     <node x="0.0" y="0.0">it.polimi.ingsw.model.Player</node>
-    <node x="237.0" y="1445.0">it.polimi.ingsw.model.Tray</node>
     <node x="687.0" y="1445.0">it.polimi.ingsw.model.PersonalBoardTest</node>
     <node x="361.00000000000006" y="603.0">it.polimi.ingsw.model.WhiteTrayLCard</node>
     <node x="310.0" y="1068.0">it.polimi.ingsw.model.Slot</node>
     <node x="599.0" y="1068.0">it.polimi.ingsw.model.CardColor</node>
-    <node x="0.0" y="769.0">it.polimi.ingsw.model.Warehouse</node>
     <node x="968.0" y="769.0">it.polimi.ingsw.model.ResourceType</node>
     <node x="685.75" y="454.0">it.polimi.ingsw.model.LeaderCard</node>
     <node x="1313.0" y="1279.0">it.polimi.ingsw.model.Shelf</node>
@@ -21,7 +19,6 @@
     <node x="0.0" y="614.0">it.polimi.ingsw.model.ExtraProdLCard</node>
     <node x="720.0" y="1279.0">it.polimi.ingsw.model.DevDeck</node>
     <node x="1239.0" y="769.0">it.polimi.ingsw.model.Game</node>
-    <node x="1040.0" y="1279.0">it.polimi.ingsw.model.Resource</node>
     <node x="1104.0" y="1068.0">it.polimi.ingsw.model.Board</node>
     <node x="0.0" y="1068.0">it.polimi.ingsw.model.ShelfWarehouse</node>
     <node x="598.0" y="769.0">it.polimi.ingsw.model.DevCard</node>
@@ -58,7 +55,7 @@
       <point x="62.25" y="49.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.5058365758754864" x="865.0" y="761.0" />
+  <settings layout="Hierarchic Group" zoom="0.44563918757467147" x="884.0" y="827.0" />
   <SelectedNodes>
     <node>it.polimi.ingsw.model.Market</node>
   </SelectedNodes>
