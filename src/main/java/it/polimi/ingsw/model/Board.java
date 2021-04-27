@@ -80,6 +80,13 @@ public class Board {
     }
 
 
+    public Board(Market market, LeaderDeck leaderDeck, ArrayList<DevDeck> devDecks, ArrayList<SoloActionToken> tokenArray) {
+        this.market = market;
+        this.leaderDeck = leaderDeck;
+        this.devDecks = devDecks;
+        this.tokenArray = tokenArray;
+    }
+
     public ArrayList<DevDeck> createDevDecks()  {
         return null;
 

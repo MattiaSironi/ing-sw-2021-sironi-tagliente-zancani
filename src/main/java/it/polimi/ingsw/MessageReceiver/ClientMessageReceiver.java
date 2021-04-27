@@ -268,14 +268,31 @@ public class ClientMessageReceiver implements Observer<Message> {
                     //case SD ->;
                     //case SP ->;
                     //case SL ->;
-                    //case SR ->;
-                    //case MR ->;
+                    case SR -> mmv.printShelves(0);
+                    case MR -> manageResources();
                     //case END -> resetEnable();
                     default -> cli.printToConsole("Invalid input");
                 }
             } else
                 cli.printToConsole("Invalid input");
         }
+    }
+
+    private void manageResources() {
+        int s1 = 0;
+        int s2 = 0;
+        boolean valid = false;
+        while (!valid) {
+            cli.printToConsole("give me the first shelf:");
+            s1 = Integer.parseInt(cli.readFromInput());
+            cli.printToConsole("give me the second shelf:");
+            s2 = Integer.parseInt(cli.readFromInput());
+            if (s1 != s2 && s1 >= 1 && s1 <= 3 && s2 >= 1 && s2 <= 3) {
+                valid = true;
+            } else cli.printToConsole("invalid input! retry!");
+
+        }
+        this.mmv.sendNotify(new ManageResourceMessage(s1-1, s2-1,  0));
     }
 
     private void resetEnable() {

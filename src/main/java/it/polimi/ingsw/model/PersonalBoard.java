@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 
 public class PersonalBoard {
-    private final ArrayList<Slot> faithTrack;
+    private  ArrayList<Slot> faithTrack;
     private ArrayList<DevDeck> cardSlot;
     private LeaderDeck activeLeader;
     private int numDevCards;
@@ -34,6 +34,10 @@ public class PersonalBoard {
         this.favorTile3 = favorTile3;
         this.strongbox = strongbox;
         this.warehouse = warehouse;
+    }
+
+    public PersonalBoard()  {
+        warehouse = new ShelfWarehouse();
     }
 
 

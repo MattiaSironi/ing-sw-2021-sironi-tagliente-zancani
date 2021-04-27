@@ -16,6 +16,19 @@ public class Player {
     private ResourceType resDiscount1;
     private ResourceType resDiscount2;
     private ResourceType whiteConversion1;
+
+    public void setFaithMarkerPos(int faithMarkerPos) {
+        this.faithMarkerPos = faithMarkerPos;
+    }
+
+    public void setInkwell(boolean inkwell) {
+        this.inkwell = inkwell;
+    }
+
+    public void setPersonalBoard(PersonalBoard personalBoard) {
+        this.personalBoard = personalBoard;
+    }
+
     private ResourceType whiteConversion2;
     private ResourceType inputExtraProduction1;
     private ResourceType inputExtraProduction2;

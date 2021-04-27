@@ -37,6 +37,10 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
         notify(message);
     }
 
+    public void sendNotify(ManageResourceMessage message)  {
+        notify(message);
+    }
+
     public ModelMultiplayerView(SocketClientConnection c, int ID) {
         super(c, ID);
     }
@@ -47,6 +51,9 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
 
     public void printMarket(){
         notify(new PrintableMessage(this.game.getBoard().getMarket()));
+    }
+    public void printShelves(int ID)  {
+        notify(new PrintableMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse()));
     }
 
     @Override
@@ -61,6 +68,7 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
 
     @Override
     public void update(ErrorMessage message) {
+        notify(message);
 
     }
 
@@ -72,6 +80,7 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
     @Override
     public void update(ObjectMessage message) {
         this.game.getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse)message.getObject());
+
     }
 
     @Override

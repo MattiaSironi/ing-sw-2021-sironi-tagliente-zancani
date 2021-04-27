@@ -20,7 +20,7 @@ import it.polimi.ingsw.message.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class Game extends Observable<Message> {
+public class Game extends Observable<Message> implements Cloneable {
     private int numPlayer;
     private int currPlayer;
     private int nextPlayer;
@@ -28,25 +28,26 @@ public class Game extends Observable<Message> {
     private LorenzoIlMagnifico lori = null;
     private Board board = null;
 
-    public Game(){
+    public Game() {
         players = new ArrayList<>();
     }
 
-    public void createNewPlayer(Nickname nickname){
+
+    public void createNewPlayer(Nickname nickname) {
         this.players.add(new Player(nickname.getString(), nickname.getID()));
         notify(new IdMessage(this.players.size()));
     }
-    public void printPlayerNickname (int ID)  {
-        String realNick= null;
-        for (Player p : this.players)  {
-            if (p.getId()==ID)  {
+
+    public void printPlayerNickname(int ID) {
+        String realNick = null;
+        for (Player p : this.players) {
+            if (p.getId() == ID) {
                 realNick = p.getNickname();
             }
         }
-        notify(new Nickname( realNick
+        notify(new Nickname(realNick
                 , ID, true));
     }
-
 
 
     public Game(int numPlayer, int currPlayer, int nextPlayer, ArrayList<Player> players, LorenzoIlMagnifico lori, Board board) {
@@ -91,7 +92,7 @@ public class Game extends Observable<Message> {
         return players;
     }
 
-    public void reportError(ErrorMessage message){
+    public void reportError(ErrorMessage message) {
         notify(message);
     }
 
@@ -103,14 +104,27 @@ public class Game extends Observable<Message> {
         return board;
     }
 
-    public Player getPlayerById(int ID){
+    public void setLori(LorenzoIlMagnifico lori) {
+        this.lori = lori;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public Player getPlayerById(int ID) {
         Player player = null;
-        for(Player p : this.players){
-            if(p.getId() == ID){
+        for (Player p : this.players) {
+            if (p.getId() == ID) {
                 player = p;
             }
         }
         return player;
     }
 
+    public Game clone() throws CloneNotSupportedException {
+        Game clone = new Game (this.numPlayer, this.currPlayer, this.nextPlayer, this.players, this.lori, this.board);
+        return clone;
+
+    }
 }

@@ -48,6 +48,7 @@ public class CLI extends Observable<Message> implements Observer<Message> {
 
     @Override
     public void update(ErrorMessage message) {
+        System.out.println(message.getString());
 
     }
 
