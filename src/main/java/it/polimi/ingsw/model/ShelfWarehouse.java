@@ -71,7 +71,7 @@ public class ShelfWarehouse implements Printable {
      * @param r        is the resource that the player wants to add
      * @param shelfNum is the shelf selected by the player
      */
-    public void addResource(ResourceType r, int shelfNum) {
+    public String addResource(ResourceType r, int shelfNum) {
         boolean error = false;
         int i;
         for (i = 0; i < 3; i++) {
@@ -86,9 +86,10 @@ public class ShelfWarehouse implements Printable {
                 if (this.shelves.get(shelfNum).getCount() == 0)
                     this.shelves.get(shelfNum).setResType(r);
                 this.shelves.get(shelfNum).setCount(this.shelves.get(shelfNum).getCount() + 1);
+                return "ok";
             } else
-                System.out.println("Error. The shelf you keep your " + r.toString() + " resources is full or it is used by another ResourceType\n");
-        } else System.out.println("Error. There is another shelf taken by " + r.toString() + " resources.\n");
+                return "Error. The shelf you keep your " + r.toString() + " resources is full or it is used by another ResourceType";
+        } else return "Error. There is another shelf taken by " + r.toString() + " resources.";
     }
 
     /**
@@ -121,11 +122,11 @@ public class ShelfWarehouse implements Printable {
     @Override
     public void print() {
 
-        System.out.println("Shelf 1: Resource=  " + this.getShelves().get(0).getResType().toString() + " Count = " +
+        System.out.println("Shelf 1: Resource =  " + this.getShelves().get(0).getResType().toString() + " Count = " +
                 this.getShelves().get(0).getCount());
-        System.out.println("Shelf 2: Resource=  " + this.getShelves().get(1).getResType().toString() + " Count = " +
+        System.out.println("Shelf 2: Resource =  " + this.getShelves().get(1).getResType().toString() + " Count = " +
                 this.getShelves().get(1).getCount());
-        System.out.println("Shelf 3: Resource=  " + this.getShelves().get(2).getResType().toString() + " Count = " +
+        System.out.println("Shelf 3: Resource =  " + this.getShelves().get(2).getResType().toString() + " Count = " +
                 this.getShelves().get(2).getCount());
     }
 }

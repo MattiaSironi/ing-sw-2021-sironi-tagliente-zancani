@@ -1,8 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.message.*;
-import it.polimi.ingsw.message.ActionMessages.ManageResourceMessage;
-import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
+import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
@@ -97,6 +96,18 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     }
 
+    @Override
+    public void update(MarketMessage message) {
+
+
+
+    }
+
+    @Override
+    public void update(ResourceListMessage message) {
+
+    }
+
 
     public RemoteView(SocketClientConnection c, int ID) {
         this.clientConnection = c;
@@ -106,6 +117,10 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
     }
 
     public void handleAction(Nickname message) {
+        notify(message);
+    }
+
+    public void handleAction(MarketMessage message)  {
         notify(message);
     }
 }

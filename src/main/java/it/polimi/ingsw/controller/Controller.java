@@ -1,13 +1,15 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.message.ActionMessages.ManageResourceMessage;
-import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
+
+import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.*;
+import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observer.Observer;
-import it.polimi.ingsw.message.*;
+
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Controller implements Observer<Message> {
     private Game game;
@@ -50,19 +52,51 @@ public class Controller implements Observer<Message> {
         }
     }
 
+    public void goToMarket(boolean row, int index, int ID) {
 
-    public void goToMarket(boolean type, int index, int ID){
-        //riceve booleano riga o colonna e indice
-        //setta il nuovo mercato e la tray out nel model e il model invia l'array comprato con la notify
+        Market m = this.game.getBoard().getMarket();
+        ArrayList<Marble> resources = new ArrayList<>();
+
+        if (row) {
+            resources = m.getRow(index);
+            for (int j = 3; j >= 0; j--) {
+                if (j == 3) m.setMarble(index, j, m.getMarbleOut());
+                else  m.setMarble(index, j, resources.get(j + 1));
+            }
+        }
+        else {
+            index = 3 - index;
+            resources = m.getColumn(index);
+            for (int k = 2; k >= 0; k--) {
+                if (k == 2) m.setMarble(k, index, m.getMarbleOut());
+                else m.setMarble(k, index, resources.get(k + 1));
+            }
+        }
+        m.setMarbleOut(resources.get(0));
+
+        game.sendObject(new ObjectMessage(this.game.getBoard().getMarket(), 1, ID));
+//        game.sendResources(new ResourceListMessage(resources, ID));
     }
 
-     public void placeRes(ResourceType r, int shelfIndex, int ID){
+
+    public void placeRes(ResourceType r, int shelfIndex, int ID)  {
          //mette la risorsa al posto giusto se può
          //manda reportError con ok o ko a seconda che rispetti le regole
-     }
 
-     public void discardRes(int ID){
-        //mette 1 punto fede a tutti gli altri giocatori
+         String s = this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().addResource(r, shelfIndex);
+         game.reportError(new ErrorMessage(s,ID));
+    }
+
+     public void discardRes(int ID)  {
+
+          ArrayList<Player> others= this.game.getPlayers();
+          for (Player p : others)  {
+              if (p.getId()!=ID)  {
+                  p.moveFaithMarkerPos(1);
+              }
+          }
+          //tutti i controlli vittoria , favore papale e ecc.
+
      }
 
      public void buyDevCard(int ID, DevCard d, boolean buyFrom){
@@ -144,7 +178,29 @@ public class Controller implements Observer<Message> {
         swapShelves(message.getShelf1(), message.getShelf2(), message.getID());
     }
 
+    @Override
+    public void update(MarketMessage message) {
+        goToMarket(message.isRow(), message.getIndex(), message.getID());
 
+
+    }
+
+    @Override
+    public void update(ResourceListMessage message) {
+
+    }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

@@ -10,12 +10,11 @@ package it.polimi.ingsw.model;
  * @see LorenzoIlMagnifico
  */
 
-import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
-import it.polimi.ingsw.message.CommonMessages.ErrorMessage;
-import it.polimi.ingsw.message.CommonMessages.IdMessage;
-import it.polimi.ingsw.message.CommonMessages.Nickname;
-import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.message.*;
+import it.polimi.ingsw.message.ActionMessages.*;
+import it.polimi.ingsw.message.CommonMessages.*;
+import it.polimi.ingsw.observer.Observable;
+
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -30,6 +29,7 @@ public class Game extends Observable<Message> implements Cloneable {
 
     public Game() {
         players = new ArrayList<>();
+        board= new Board();
     }
 
 
@@ -97,6 +97,10 @@ public class Game extends Observable<Message> implements Cloneable {
     }
 
     public void sendObject(ObjectMessage message) {
+        notify(message);
+    }
+
+    public void sendResources(ResourceListMessage message)  {
         notify(message);
     }
 

@@ -1,9 +1,10 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
-import it.polimi.ingsw.message.CommonMessages.Nickname;
-import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.message.*;
+import it.polimi.ingsw.message.ActionMessages.*;
+import it.polimi.ingsw.message.CommonMessages.*;
+import it.polimi.ingsw.observer.Observable;
+
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -76,11 +77,30 @@ public class SocketClientConnection extends Observable<Message> implements Runna
             in = new ObjectInputStream(socket.getInputStream());
             server.initialPhaseHandler(this); //FASE 1
             nicknameSetUp(in);
-            while (isActive()) {}
+            while (isActive()) {
+
+                Object actionMessage = in.readObject();
+                if (actionMessage instanceof MarketMessage)  {
+                    goToMarket((MarketMessage) actionMessage);
+                }
+
+
+
+
+
+            }
             close();
-        } catch (IOException | NoSuchElementException e) {
+        } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
             System.err.println("Error!" + e.getMessage());
         }
+
+    }
+
+    private void goToMarket(MarketMessage message) {
+        notify(message);
+
+
+
 
     }
 

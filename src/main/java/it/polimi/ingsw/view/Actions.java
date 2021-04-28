@@ -18,9 +18,9 @@ public enum Actions {
     private final String string;
     private boolean enable;
 
-    Actions(String string, boolean isMulti) {
+    Actions(String string, boolean isEnable) {
         this.string = string;
-        this.enable = isMulti;
+        this.enable = isEnable;
     }
 
 

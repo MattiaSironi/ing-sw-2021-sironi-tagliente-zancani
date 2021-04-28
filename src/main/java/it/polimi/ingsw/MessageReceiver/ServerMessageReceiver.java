@@ -1,8 +1,7 @@
 package it.polimi.ingsw.MessageReceiver;
 
 import it.polimi.ingsw.message.*;
-import it.polimi.ingsw.message.ActionMessages.ManageResourceMessage;
-import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
+import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.view.RemoteView;
@@ -66,6 +65,18 @@ public class ServerMessageReceiver implements Observer<Message> {
 
     @Override
     public void update(ManageResourceMessage message) {
+
+    }
+
+    @Override
+    public void update(MarketMessage message) {
+        System.out.println(message.getID() + "wants to go to the market!");
+        rv.handleAction(message);
+
+    }
+
+    @Override
+    public void update(ResourceListMessage message) {
 
     }
 }

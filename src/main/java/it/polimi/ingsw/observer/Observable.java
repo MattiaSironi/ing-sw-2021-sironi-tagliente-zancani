@@ -1,7 +1,9 @@
 package it.polimi.ingsw.observer;
 
 import it.polimi.ingsw.message.ActionMessages.ManageResourceMessage;
+import it.polimi.ingsw.message.ActionMessages.MarketMessage;
 import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
+import it.polimi.ingsw.message.ActionMessages.ResourceListMessage;
 import it.polimi.ingsw.message.CommonMessages.*;
 
 import java.util.ArrayList;
@@ -103,6 +105,22 @@ public class Observable<Message> {
     }
 
     protected void notify(ManageResourceMessage message) {
+        synchronized (observers) {
+            for (Observer<Message> observer : observers) {
+                observer.update(message);
+            }
+        }
+
+    }
+    protected void notify(MarketMessage message) {
+        synchronized (observers) {
+            for (Observer<Message> observer : observers) {
+                observer.update(message);
+            }
+        }
+
+    }
+    protected void notify(ResourceListMessage message) {
         synchronized (observers) {
             for (Observer<Message> observer : observers) {
                 observer.update(message);

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.MessageReceiver;
 
 import it.polimi.ingsw.message.*;
-import it.polimi.ingsw.message.ActionMessages.ManageResourceMessage;
-import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
+import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.view.*;
@@ -30,6 +29,7 @@ public class ClientMessageReceiver implements Observer<Message> {
     private String ready;
     private Boolean nameConfirmed = false;
     private List<Actions> actions;
+    private boolean actionDone = false;
 
 
     public ClientMessageReceiver(CLI cli, ModelMultiplayerView mmv) {
@@ -111,6 +111,16 @@ public class ClientMessageReceiver implements Observer<Message> {
 
     @Override
     public void update(ManageResourceMessage message) {
+
+    }
+
+    @Override
+    public void update(MarketMessage message) {
+
+    }
+
+    @Override
+    public void update(ResourceListMessage message) {
 
     }
 
@@ -246,20 +256,23 @@ public class ClientMessageReceiver implements Observer<Message> {
                 switch (selectedAction) {
                     case M -> {
                         if (Actions.M.isEnable()) {
-                            Actions.M.setEnable(false);
+//                            noMoreActions(); just for testing multiple shifts
+                            goToMarket();
+
                             // do things
                         } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
                     }
 
                     case B -> {
                         if (Actions.B.isEnable()) {
-                            Actions.B.setEnable(false);
+                            noMoreActions();
+
                             // do things
                         } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
                     }
                     case A -> {
                         if (Actions.A.isEnable()) {
-                            Actions.A.setEnable(false);
+                            noMoreActions();
                             // do things
                         } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
                     }
@@ -276,6 +289,38 @@ public class ClientMessageReceiver implements Observer<Message> {
             } else
                 cli.printToConsole("Invalid input");
         }
+    }
+
+    private void goToMarket() {
+        mmv.printMarket();
+        int index = 0;
+
+        boolean row = false;
+        boolean valid = false;
+        String input;
+        while (!valid) {
+            cli.printToConsole("choose the row or column you prefer. you can choose between r1, r2, r3 and " +
+                    " c1,c2,c3,c4");
+            input = cli.readFromInput();
+            if (input.charAt(0) == 'r' || input.charAt(0) == 'c') {
+                row = input.charAt(0) == 'r' ? true : false;
+                index = Integer.parseInt(input.replaceAll("[^0-9]", ""));
+
+                if ((row && index >= 1 && index <= 3) || (!row && index >= 1 && index <= 4)) {
+                    valid = true;
+                } else cli.printToConsole("invalid int, you selected " + index);
+            } else cli.printToConsole("invalid char");
+        }
+        //send(new MarketMessage(row, index-1, ID)); for now local
+        this.mmv.sendNotify(new MarketMessage(row, index-1, ID));
+
+
+    }
+
+    private void noMoreActions() {
+        Actions.A.setEnable(false);
+        Actions.B.setEnable(false);
+        Actions.M.setEnable(false);
     }
 
     private void manageResources() {

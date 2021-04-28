@@ -2,8 +2,7 @@ package it.polimi.ingsw.view;
 
 
 import it.polimi.ingsw.message.*;
-import it.polimi.ingsw.message.ActionMessages.ManageResourceMessage;
-import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
+import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
@@ -74,6 +73,16 @@ public class CLI extends Observable<Message> implements Observer<Message> {
 
     @Override
     public void update(ManageResourceMessage message) {
+
+    }
+
+    @Override
+    public void update(MarketMessage message) {
+
+    }
+
+    @Override
+    public void update(ResourceListMessage message) {
 
     }
 }
