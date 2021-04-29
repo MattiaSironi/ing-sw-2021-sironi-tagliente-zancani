@@ -7,7 +7,11 @@ import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.SocketClientConnection;
 
-public class RemoteView extends Observable<Message> implements Observer<Message> {
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.NoSuchElementException;
+
+public class RemoteView extends Observable<Message> implements Observer<Message>, Runnable {
 
     private SocketClientConnection clientConnection;
     private int ID;
@@ -17,7 +21,9 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
         RemoteView.size = size;
     }
 
-    public RemoteView() {}
+    public RemoteView(SocketClientConnection clientConnection) {
+        this.clientConnection = clientConnection;
+    }
 
     public SocketClientConnection getClientConnection() {
         return clientConnection;
@@ -34,6 +40,55 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
     public void setID(int ID) {
         this.ID = ID;
     }
+
+    public void run(){
+        this.clientConnection.run();
+        clientConnection.getServer().initialPhaseHandler(this); //FASE 1
+        nicknameSetUp();
+    }
+
+    public void nicknameSetUp() {
+        boolean setup = false;
+        while (!setup) {
+            try {
+                Nickname nickname = (Nickname)clientConnection.receive();
+                if (nickname.getValid()) {
+                    setup = true;
+                } else {
+                    notify(nickname);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public int setNumPlayers() {
+        int numPlayers = 0;
+        try {
+            numPlayers = ((ChooseNumberOfPlayer)clientConnection.receive()).getNumberOfPlayers();
+            clientConnection.getServer().setReady(true);
+        } catch (/*IOException | */ NoSuchElementException e) {
+            System.err.println("Error!" + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return numPlayers;
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 

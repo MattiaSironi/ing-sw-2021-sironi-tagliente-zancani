@@ -38,6 +38,10 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         this.server = server;
     }
 
+    public Server getServer() {
+        return server;
+    }
+
     private synchronized boolean isActive() {
         return active;
     }
@@ -51,6 +55,10 @@ public class SocketClientConnection extends Observable<Message> implements Runna
             System.err.println(e.getMessage());
         }
 
+    }
+
+    public Object receive() throws IOException, ClassNotFoundException {
+        return in.readObject();
     }
 
     public synchronized void closeConnection() {
@@ -75,25 +83,15 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         try {
             out = new ObjectOutputStream(socket.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
             in = new ObjectInputStream(socket.getInputStream());
-            server.initialPhaseHandler(this); //FASE 1
-            nicknameSetUp(in);
-            while (isActive()) {
-
-                Object actionMessage = in.readObject();
-                if (actionMessage instanceof MarketMessage)  {
-                    goToMarket((MarketMessage) actionMessage);
-                }
-
-
-
-
-
-            }
-            close();
-        } catch (IOException | NoSuchElementException | ClassNotFoundException e) {
+//            while (isActive()) {
+//
+//                Object actionMessage = in.readObject();
+//                if (actionMessage instanceof MarketMessage)  {
+//                    goToMarket((MarketMessage) actionMessage);
+//                }
+        } catch (IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
         }
-
     }
 
     private void goToMarket(MarketMessage message) {
@@ -104,36 +102,6 @@ public class SocketClientConnection extends Observable<Message> implements Runna
 
     }
 
-    public void nicknameSetUp(ObjectInputStream in) {
-        Boolean setup = false;
-        while (!setup) {
-            try {
-                Nickname nickname = (Nickname) in.readObject();
-                if (nickname.getValid()) {
-                    setup = true;
-                } else {
-                    notify(nickname);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
-    public int setNumPlayers() {
-        int numPlayers = 0;
-        try {
-            numPlayers = ((ChooseNumberOfPlayer)in.readObject()).getNumberOfPlayers();
-            server.setReady(true);
-        } catch (/*IOException | */ NoSuchElementException e) {
-            System.err.println("Error!" + e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return numPlayers;
-    }
+
 }

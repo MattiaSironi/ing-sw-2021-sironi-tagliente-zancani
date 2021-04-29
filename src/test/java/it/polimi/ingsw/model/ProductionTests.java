@@ -60,9 +60,9 @@ public class ProductionTests {
         game.getPlayerById(0).getPersonalBoard().setStrongbox(strongbox);
         game.getPlayerById(0).getPersonalBoard().setWarehouse(warehouse);
 
-        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN);
-        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE);
-        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE);
+        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 1);
+        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 1);
+        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 1);
 
 
         controller.useBasicProduction(0, ResourceType.COIN, ResourceType.STONE, ResourceType.SHIELD, false, true);
@@ -83,8 +83,8 @@ public class ProductionTests {
         game.getPlayerById(0).getPersonalBoard().setWarehouse(warehouse);
 
         game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
-        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE);
-        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE);
+        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 1);
+        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 1);
 
         //it takes the first resource from warehouse and the second from strongbox
         controller.useBasicProduction(0, ResourceType.COIN, ResourceType.STONE, ResourceType.SHIELD, true, true);

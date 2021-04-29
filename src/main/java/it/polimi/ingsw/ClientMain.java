@@ -14,27 +14,26 @@ public class ClientMain {
 
 
         /*--------- INITIAL PHASE MULTIPLAYER MATCH ------------*/
-
-//        CLI cli = new CLI();
-//        ModelMultiplayerView view = new ModelMultiplayerView(new Game(0, 0, 0, new ArrayList<>(), new LorenzoIlMagnifico(), new Board()));
-//        ClientMessageReceiver cms = new ClientMessageReceiver(cli, view);
-//        view.addObserver(cli);
-//        cli.addObserver(cms);
-//        cms.setup();
+        CLI cli = new CLI();
+        ModelMultiplayerView view = new ModelMultiplayerView(new Game());
+        ClientMessageReceiver cms = new ClientMessageReceiver(cli, view);
+        view.addObserver(cli);
+        cli.addObserver(cms);
+        cms.setup();
 
         /*         ------------- INITIAL PHASE FOR TESTING ACTIONS -------------------------------*/
-        Game game = new Game();
-        Controller controller = new Controller(game);
-        game.setNumPlayer(1);
-        game.getPlayers().add(new Player("GIGI", 0));
-        game.getPlayerById(0).setPersonalBoard(new PersonalBoard());
-        ModelMultiplayerView mmv = new ModelMultiplayerView(game);
-        mmv.addObserver(controller);
-        game.addObserver(mmv);
-        CLI cli = new CLI();
-        mmv.addObserver(cli);
-        ClientMessageReceiver cmr = new ClientMessageReceiver(cli, mmv);
-        cmr.chooseAction();
+//        Game game = new Game();
+//        Controller controller = new Controller(game);
+//        game.setNumPlayer(1);
+//        game.getPlayers().add(new Player("GIGI", 0));
+//        game.getPlayerById(0).setPersonalBoard(new PersonalBoard());
+//        ModelMultiplayerView mmv = new ModelMultiplayerView(game);
+//        mmv.addObserver(controller);
+//        game.addObserver(mmv);
+//        CLI cli = new CLI();
+//        mmv.addObserver(cli);
+//        ClientMessageReceiver cmr = new ClientMessageReceiver(cli, mmv);
+//        cmr.chooseAction();
 
         /*    ---------------- MANAGE RESOURCE ACTION ----------------------------*/
 

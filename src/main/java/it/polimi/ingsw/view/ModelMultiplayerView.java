@@ -6,10 +6,11 @@ import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.ShelfWarehouse;
+import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.SocketClientConnection;
 
-public class ModelMultiplayerView extends RemoteView implements Observer<Message> {
+public class ModelMultiplayerView extends Observable<Message> implements Observer<Message> {
 
     private Game game;
 
@@ -42,11 +43,6 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
         notify(message);
     }
 
-
-    public ModelMultiplayerView(SocketClientConnection c, int ID) {
-        super(c, ID);
-    }
-
     public Game getGame() {
         return game;
     }
@@ -56,6 +52,16 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
     }
     public void printShelves(int ID)  {
         notify(new PrintableMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse()));
+    }
+
+    @Override
+    public void update(Message message) {
+
+    }
+
+    @Override
+    public void update(Nickname message) {
+
     }
 
     @Override
@@ -75,6 +81,16 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
     }
 
     @Override
+    public void update(OutputMessage message) {
+
+    }
+
+    @Override
+    public void update(ChooseNumberOfPlayer message) {
+
+    }
+
+    @Override
     public void update(PrintableMessage message) {
 
     }
@@ -90,6 +106,11 @@ public class ModelMultiplayerView extends RemoteView implements Observer<Message
 
     @Override
     public void update(ManageResourceMessage message) {
+
+    }
+
+    @Override
+    public void update(MarketMessage message) {
 
     }
 

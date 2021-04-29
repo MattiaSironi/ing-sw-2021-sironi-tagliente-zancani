@@ -134,7 +134,7 @@ public class Strongbox {
         return this.infinityShelf.get(i).getCount();
     }
 
-    public void addResource(ResourceType r){
+    public void addResource(ResourceType r, int q){
         int index;
         int temp;
         if (r.equals(ResourceType.COIN)) index = 0;
@@ -142,7 +142,7 @@ public class Strongbox {
         else if (r.equals(ResourceType.SERVANT)) index = 2;
         else index = 3;
         temp = this.infinityShelf.get(index).getCount();
-        this.infinityShelf.get(index).setCount(temp + 1);
+        this.infinityShelf.get(index).setCount(temp + q);
     }
 
 }
