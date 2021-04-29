@@ -138,8 +138,8 @@ public class Strongbox {
         int index;
         int temp;
         if (r.equals(ResourceType.COIN)) index = 0;
-        else if (r.equals(ResourceType.COIN)) index = 1;
-        else if (r.equals(ResourceType.COIN)) index = 2;
+        else if (r.equals(ResourceType.STONE)) index = 1;
+        else if (r.equals(ResourceType.SERVANT)) index = 2;
         else index = 3;
         temp = this.infinityShelf.get(index).getCount();
         this.infinityShelf.get(index).setCount(temp + 1);
