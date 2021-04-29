@@ -65,8 +65,8 @@ public class Player {
         this.nickname = nickname;
     }
 
-    public void moveFaithMarkerPos(int faithMarkerPos) {
-        this.faithMarkerPos = faithMarkerPos;
+    public void moveFaithMarkerPos() {
+        this.faithMarkerPos += 1;
     }
 
     public void setLeaderDeck(LeaderDeck leaderDeck) {
