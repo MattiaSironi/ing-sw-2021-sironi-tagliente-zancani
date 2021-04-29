@@ -23,6 +23,11 @@ public class PersonalBoard {
     private boolean favorTile3;
     private Strongbox strongbox;
     private ShelfWarehouse warehouse;
+    private ResourceType extraShelfRes1;
+    private ResourceType extraShelfRes2;
+    private int extraShelfNum1;
+    private int extraShelfNum2;
+
 
     public PersonalBoard(ArrayList<Slot> faithTrack, ArrayList<DevDeck> cardSlot, LeaderDeck activeLeader, int numDevCards, boolean favorTile1, boolean favorTile2, boolean favorTile3, Strongbox strongbox, ShelfWarehouse warehouse) {
         this.faithTrack = faithTrack;
@@ -81,6 +86,39 @@ public class PersonalBoard {
         return (x1c >= 2 && x2c >= 1);
 
 
+    }
+
+
+    public ResourceType getExtraShelfRes1() {
+        return extraShelfRes1;
+    }
+
+    public void setExtraShelfRes1(ResourceType extraShelfRes1) {
+        this.extraShelfRes1 = extraShelfRes1;
+    }
+
+    public ResourceType getExtraShelfRes2() {
+        return extraShelfRes2;
+    }
+
+    public void setExtraShelfRes2(ResourceType extraShelfRes2) {
+        this.extraShelfRes2 = extraShelfRes2;
+    }
+
+    public int getExtraShelfNum1() {
+        return extraShelfNum1;
+    }
+
+    public void setExtraShelfNum1(int extraShelfNum1) {
+        this.extraShelfNum1 = extraShelfNum1;
+    }
+
+    public int getExtraShelfNum2() {
+        return extraShelfNum2;
+    }
+
+    public void setExtraShelfNum2(int extraShelfNum2) {
+        this.extraShelfNum2 = extraShelfNum2;
     }
 
     /**
