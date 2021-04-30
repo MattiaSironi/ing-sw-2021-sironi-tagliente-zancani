@@ -1,13 +1,12 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.MessageReceiver.ClientMessageReceiver;
-import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.view.ClientActionController;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.CLI;
 import it.polimi.ingsw.view.ModelMultiplayerView;
+import it.polimi.ingsw.view.SocketServerConnection;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ClientMain {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -16,9 +15,8 @@ public class ClientMain {
         /*--------- INITIAL PHASE MULTIPLAYER MATCH ------------*/
         CLI cli = new CLI();
         ModelMultiplayerView view = new ModelMultiplayerView(new Game());
-        ClientMessageReceiver cms = new ClientMessageReceiver(cli, view);
+        ClientActionController cms = new ClientActionController(cli, view, new SocketServerConnection());
         view.addObserver(cli);
-        cli.addObserver(cms);
         cms.setup();
 
         /*         ------------- INITIAL PHASE FOR TESTING ACTIONS -------------------------------*/
