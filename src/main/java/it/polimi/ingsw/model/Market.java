@@ -1,12 +1,8 @@
 package it.polimi.ingsw.model;
 
 
-import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Class Market represents the matrix of trays used by each player
@@ -66,13 +62,15 @@ public class Market implements Printable {
 
     @Override
     public void print() {
+        ResourceType r;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
-                System.out.print(marketBoard[i][j].getRes() + "    ");
+
+                System.out.print(marketBoard[i][j].getRes().printResourceColouredName() + "  ");
             }
             System.out.println("");
         }
-        System.out.println("left out marble is " + this.marbleOut.getRes());
+        System.out.println("left out marble is " + this.marbleOut.getRes().printResourceColouredName());
     }
 }
 

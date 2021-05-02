@@ -73,9 +73,11 @@ public class Controller implements Observer<Message> {
             }
         }
         m.setMarbleOut(resources.get(0));
+        int faith = (int) resources.stream().filter(x -> x.getRes().equals(ResourceType.FAITH_POINT)).count();
+        this.game.getPlayerById(ID).moveFaithMarkerPos(faith);
 
         game.sendObject(new ObjectMessage(this.game.getBoard().getMarket(), 1, ID));
-//        game.sendResources(new ResourceListMessage(resources, ID));
+        game.sendResources(new ResourceListMessage(resources, ID));
     }
 
 
@@ -299,7 +301,7 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(Message message) {
-        //     if(message instanceof Nickname) setNickname((Nickname)message);
+
     }
 
     @Override public void update(Nickname message) {
@@ -319,6 +321,10 @@ public class Controller implements Observer<Message> {
 
             game.printPlayerNickname(message.getID());
         }
+        else if (message.getString().equals("discard"))  {
+            discardRes(message.getID());
+        }
+
 
     }
 
@@ -357,6 +363,12 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(ResourceListMessage message) {
+
+    }
+
+    @Override
+    public void update(PlaceResourceMessage message) {
+        placeRes(message.getRes(), message.getShelf(), message.getID());
 
     }
 

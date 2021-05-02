@@ -48,7 +48,6 @@ public class ShelfWarehouse implements Printable {
             temp = this.shelves.get(s1);
             this.shelves.set(s1, this.shelves.get(s2));
             this.shelves.set(s2, temp);
-            notify();
         } else System.out.println("Error. Not a valid operation. Check the game rules!\n ");
     }
 
@@ -122,11 +121,23 @@ public class ShelfWarehouse implements Printable {
     @Override
     public void print() {
 
-        System.out.println("Shelf 1: Resource =  " + this.getShelves().get(0).getResType().toString() + " Count = " +
-                this.getShelves().get(0).getCount());
-        System.out.println("Shelf 2: Resource =  " + this.getShelves().get(1).getResType().toString() + " Count = " +
-                this.getShelves().get(1).getCount());
-        System.out.println("Shelf 3: Resource =  " + this.getShelves().get(2).getResType().toString() + " Count = " +
-                this.getShelves().get(2).getCount());
+        for (Shelf s : this.shelves)  {
+            if (s.getResType().equals(ResourceType.EMPTY)) System.out.println("Shelf " + (this.shelves.indexOf(s)+1) + " is empty." );
+            else System.out.println("Shelf " + (this.shelves.indexOf(s)+1) + " contains " + s.getCount() + " " + s.getResType().printResourceColouredName());
+
+
+
+        }
+
+
+
+
+//        System.out.println("Shelf 1: Resource =  " + this.getShelves().get(0).getResType().toString() + " Count = " +
+//                this.getShelves().get(0).getCount());
+//        System.out.println("Shelf 2: Resource =  " + this.getShelves().get(1).getResType().toString() + " Count = " +
+//                this.getShelves().get(1).getCount());
+//        System.out.println("Shelf 3: Resource =  " + this.getShelves().get(2).getResType().toString() + " Count = " +
+//                this.getShelves().get(2).getCount());
+
     }
 }

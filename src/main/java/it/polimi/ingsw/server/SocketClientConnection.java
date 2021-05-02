@@ -83,24 +83,13 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         try {
             out = new ObjectOutputStream(socket.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
             in = new ObjectInputStream(socket.getInputStream());
-//            while (isActive()) {
-//
-//                Object actionMessage = in.readObject();
-//                if (actionMessage instanceof MarketMessage)  {
-//                    goToMarket((MarketMessage) actionMessage);
-//                }
+
         } catch (IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
         }
     }
 
-    private void goToMarket(MarketMessage message) {
-        notify(message);
 
-
-
-
-    }
 
 
 

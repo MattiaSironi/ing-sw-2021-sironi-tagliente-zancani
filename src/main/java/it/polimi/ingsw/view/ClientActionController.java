@@ -3,6 +3,8 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.*;
+import it.polimi.ingsw.model.Marble;
+import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.view.*;
 
@@ -172,24 +174,104 @@ public class ClientActionController {
         boolean row = false;
         boolean valid = false;
         String input;
+        String inputcleaned;
         while (!valid) {
             cli.printToConsole("choose the row or column you prefer. you can choose between r1, r2, r3 and " +
                     " c1,c2,c3,c4");
             input = cli.readFromInput();
-            if (input.charAt(0) == 'r' || input.charAt(0) == 'c') {
-                row = input.charAt(0) == 'r' ? true : false;
+            inputcleaned= input.replaceAll("[0-9]", " ");
+            if (inputcleaned.equals("r ") || inputcleaned.equals("c ")) {
+                row = input.charAt(0) == 'r';
                 index = Integer.parseInt(input.replaceAll("[^0-9]", ""));
 
                 if ((row && index >= 1 && index <= 3) || (!row && index >= 1 && index <= 4)) {
                     valid = true;
                 } else cli.printToConsole("invalid int, you selected " + index);
-            } else cli.printToConsole("invalid char");
+            } else cli.printToConsole("invalid command");
         }
-        //send(new MarketMessage(row, index-1, ID)); for now local
-        this.mmv.sendNotify(new MarketMessage(row, index-1, ID));
+//        serverConnection.send(new MarketMessage(row, index-1, ID)); // socket
+        this.mmv.sendNotify(new MarketMessage(row, index-1, ID)); //local
+//        ResourceListMessage resourceList= (ResourceListMessage) serverConnection.receive(); //socket  TODO
+//        for (Marble m : resourceList.getMarbles() )  {
+//
+//            switch (m.getRes())  {
+//                case COIN,STONE,SERVANT,SHIELD: askForResource(m.getRes());
+//                case FAITH_POINT: cli.printToConsole("you got a faith point!");
+//                default: //caso EMPTY, vari controlli!
+//            }
+//
+//        }
+//        serverConnection.send(new ErrorMessage("resources finished", this.ID));
+//
+//
+//
+//
+    }
+
+    public void askForResource(ResourceType res) { //public for now, then private TODO
+        cli.printToConsole("you received a " + res.printResourceColouredName() + "!");
+        cli.printToConsole("do you want to keep it or not? [y/n]");
+        boolean valid = false;
+        while (!valid) {
+            String input= cli.readFromInput();
+            if (input.equalsIgnoreCase("y")) {
+                localWhereToPut(res);
+                valid=true;
+//                if (whereToPut(res)) valid = true;  //socket
+//                else cli.printToConsole("discard it or choose another shelf.");
+
+            } else if (input.equalsIgnoreCase("n")) {
+                discardRes();
+                valid = true;
+            } else cli.printToConsole("invalid input! retry!");
+        }
 
 
     }
+
+    private void localWhereToPut(ResourceType res) { //local
+        int s1 = 0;
+        boolean valid = false;
+        String s;
+        while (!valid) {
+            cli.printToConsole("choose the shelf where to put your " + res.printResourceColouredName() + " [1,2,3]");
+            s1 = Integer.parseInt(cli.readFromInput());
+            if (1 <= s1 && s1 <= 3) valid = true;
+            else cli.printToConsole("invalid input! retry!");
+            mmv.sendNotify(new PlaceResourceMessage(res, s1-1, ID));
+        }
+    }
+
+    private void discardRes() {
+        cli.printToConsole("other players receive one extra faith point.");
+//        serverConnection.send(new ErrorMessage("discard" , this.ID)); //socket
+        mmv.sendNotify(new ErrorMessage("discard", ID));
+    }
+
+    public CLI getCli() {
+        return cli;
+    }
+
+    private boolean whereToPut(ResourceType res) {
+        int s1 = 0;
+        boolean valid = false;
+        String s;
+        while (!valid) {
+            cli.printToConsole("choose the shelf where to put your " + res.printResourceColouredName() + " [1,2,3]");
+            s1 = Integer.parseInt(cli.readFromInput());
+            if (1 <= s1 && s1 <= 3) valid = true;
+            else cli.printToConsole("invalid input! retry!");
+        }
+
+        serverConnection.send(new PlaceResourceMessage(res, s1, ID));
+        s = ((ErrorMessage) serverConnection.receive()).getString();
+        if (!s.equals("ok")) {
+            cli.printToConsole(s);
+            return false;
+        } else return true;
+    }
+
+
 
     private void noMoreActions() {
         Actions.A.setEnable(false);

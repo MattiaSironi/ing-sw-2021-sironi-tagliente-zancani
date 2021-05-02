@@ -3,9 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.*;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Market;
-import it.polimi.ingsw.model.ShelfWarehouse;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.SocketClientConnection;
@@ -13,7 +11,19 @@ import it.polimi.ingsw.server.SocketClientConnection;
 public class ModelMultiplayerView extends Observable<Message> implements Observer<Message> {
 
     private Game game;
+    private ClientActionController cac; //just for local testing
 
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public ClientActionController getCac() { //just for local testing
+        return cac;
+    }
+
+    public void setCac(ClientActionController cac) { //just for local testing
+        this.cac = cac;
+    }
 
     public ModelMultiplayerView(Game game) {
         this.game = game;
@@ -31,17 +41,24 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     public ModelMultiplayerView() {}
 
+    public void sendNotify(ErrorMessage message) {
+        notify(message);
+    }
+
     public void sendNotify(Message message) {
+        notify(message);
+    }
+    public void sendNotify(PlaceResourceMessage message) {
         notify(message);
     }
 
     public void sendNotify(ManageResourceMessage message)  {
         notify(message);
-    }
+    } //local testing
 
     public void sendNotify(MarketMessage message)  {
         notify(message);
-    }
+    } //local testing
 
     public Game getGame() {
         return game;
@@ -76,8 +93,11 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     @Override
     public void update(ErrorMessage message) {
-        notify(message);
+//        notify(message); //socket
+        if (!message.getString().equals("ok")) {
+            this.cac.getCli().printToConsole(message.getString());
 
+        }
     }
 
     @Override
@@ -115,7 +135,35 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
     }
 
     @Override
-    public void update(ResourceListMessage message)  {
+    public void update(ResourceListMessage message) { //just for local testing
+        this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print();
+
+        for (Marble m : message.getMarbles()) {
+            ResourceType res = m.getRes();
+
+            switch (m.getRes()) {
+                case COIN, STONE, SERVANT, SHIELD: {
+                    this.cac.askForResource(m.getRes());
+                    this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print(); //local TODO
+                    break;
+                }
+                case FAITH_POINT: {
+                    cac.getCli().printToConsole("you got a faith point!");
+                    break;
+                }
+                default: {
+                    cac.getCli().printToConsole("you got nothing from White tray :(");
+                    break;
+                } //caso EMPTY, vari controlli!
+            }
+
+        }
+
+
+    }
+
+    @Override
+    public void update(PlaceResourceMessage message) {
 
     }
 
