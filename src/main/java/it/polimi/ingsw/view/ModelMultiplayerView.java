@@ -67,9 +67,14 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
     public void printMarket(){
         notify(new PrintableMessage(this.game.getBoard().getMarket()));
     }
+
     public void printShelves(int ID)  {
         notify(new PrintableMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse()));
     }
+
+//    public void printDevCardMatrix(int ID){
+//        notify((new PrintableMessage(this.game.getBoard().printDevMatrix())));
+//    }
 
     @Override
     public void update(Message message) {

@@ -46,6 +46,11 @@ public class Board {
 
     }
 
+    public ArrayList<DevDeck> createDevDecks()  {
+        return null;
+    }
+
+
 
     public Market getMarket() {
         return market;
@@ -87,12 +92,10 @@ public class Board {
         this.tokenArray = tokenArray;
     }
 
-    public ArrayList<DevDeck> createDevDecks()  {
-        return null;
-
-
-
+    public void printDevMatrix(){
 
     }
+
+
 }
 

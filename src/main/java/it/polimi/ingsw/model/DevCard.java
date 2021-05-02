@@ -9,7 +9,7 @@ package it.polimi.ingsw.model;
  * @author Mattia Sironi
  */
 
-public class DevCard {
+public class DevCard implements Printable {
     private final int type; //0?
     private final int victoryPoints;
     private final int level;
@@ -54,6 +54,16 @@ public class DevCard {
 
     public int[] getOutputRes() {
         return outputRes;
+    }
+
+    @Override
+    public void print(){
+        System.out.println("Card details" +
+                        "\n - Level: " + this.level +
+                        "\n - Color: " + this.color +
+                        "\n - Cost: " + this.costRes[0] + "Coins, " + this.costRes[1] + "Stones, " + this.costRes[2] + "Servants, " + this.costRes[3] + "Shields" +
+                        "\n - Input Resources: " + this.inputRes[0] + "Coins, " + this.inputRes[1] + "Stones, " + this.inputRes[2] + "Servants, " + this.inputRes[3] + "Shields" +
+                        "\n - Output Resources: " + this.outputRes[0] + "Coins, " + this.outputRes[1] + "Stones, " + this.outputRes[2] + "Servants, " + this.outputRes[3] + "Shields" + this.outputRes[4] + "Faith Points");
     }
 
 //    public int[] useAbility()  {

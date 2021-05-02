@@ -100,9 +100,26 @@ public class Controller implements Observer<Message> {
         //tutti i controlli vittoria , favore papale e ecc.
 
     }
-    public void buyDevCard(int ID, DevCard d, boolean buyFromWarehouse, boolean buyFromStrongbox){
-         //paga la carta (toglie risorse dal model) con risorse dal forziere se buyFrom = True, dal Warehouse se False
-         //aggiunge DevCard alla mano
+    public void buyDevCard(int ID, DevCard d, boolean buyFromWarehouse, boolean buyFromStrongbox, ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox, int posIndex){
+        if(buyFromWarehouse == true && buyFromStrongbox == false){
+            for(ResourceType r : resFromWarehouse){
+                this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
+            }
+        }
+        if(buyFromWarehouse == false && buyFromStrongbox == true){
+            for(ResourceType r : resFromStrongbox){
+                this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
+            }
+        }
+        if(buyFromWarehouse == true && buyFromStrongbox == true){
+            for(ResourceType r : resFromStrongbox){
+                this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
+            }
+            for(ResourceType r : resFromWarehouse){
+                this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
+            }
+        }
+        this.game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(posIndex).getCards().add(d);
     }
 
      public void activateDevProduction(int ID, DevCard d, int num1FromWarehouse, int num1FromStrongbox, int num2FromWarehouse, int num2FromStrongbox){
@@ -182,7 +199,11 @@ public class Controller implements Observer<Message> {
          game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox(), 4, ID));
      }
 
-
+     public void addResourceToStrongFromProduction(int ID, ArrayList<ResourceType> resToStrongbox){
+        for(ResourceType r : resToStrongbox){
+            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(r, 1);
+        }
+     }
 
 
 
@@ -190,27 +211,22 @@ public class Controller implements Observer<Message> {
         if (buyFromWarehouse == true && buyFromStrongbox == false) {
             this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r1);
             this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r2);
-            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(newRes, 1);
         } else if (buyFromWarehouse == false && buyFromStrongbox == true) {
             this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r1);
             this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r2);
-            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(newRes, 1);
         } else if (buyFromWarehouse == true && buyFromStrongbox == true) { //r1 è la risorsa da prendere da Warehouse e r2 è la risorsa da prendere da Strongbox
             this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r1);
             this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r2);
-            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(newRes, 1);
         }
         //consuma r1 ed r2 e produce r3 che mette nello strongbox
     }
     public void useLeaderProduction(int ID, ResourceType r, ResourceType newRes, boolean buyFromWarehouse){ //if true -> pay from warehouse
          if(buyFromWarehouse == true){
              this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
-             this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(newRes, 1);
              this.game.getPlayerById(ID).moveFaithMarkerPos(1);
          }
-         if(buyFromWarehouse == true){
+         if(buyFromWarehouse == false){
              this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
-             this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(newRes, 1);
              this.game.getPlayerById(ID).moveFaithMarkerPos(1);
          }
      }
@@ -289,6 +305,15 @@ public class Controller implements Observer<Message> {
             default -> {return ResourceType.EMPTY;}
         }
      }
+
+     private boolean checkPaymentFromWarehouse(){
+        return true;
+     }
+
+     private boolean checkPaymentFromStrongbox(){
+        return true;
+     }
+
 
 //    Shelf temp;
 //        if (this.shelves.get(s1).getCount() <= s2 + 1 && this.shelves.get(s2).getCount() <= s1 + 1) {

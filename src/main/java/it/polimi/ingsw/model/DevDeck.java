@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @see DevCard
  */
 
-public class DevDeck {
+public class DevDeck implements Printable {
     private int size;
     private int type; // using int for type of card recognition
     private ArrayList<DevCard> cards;
@@ -44,5 +44,11 @@ public class DevDeck {
 
     public void setCards(ArrayList<DevCard> cards) {
         this.cards = cards;
+    }
+
+    public void print(){
+        for(DevCard d : cards){
+            d.print();
+        }
     }
 }
