@@ -101,6 +101,8 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 //        notify(message); //socket
         if (!message.getString().equals("ok")) {
             this.cac.getCli().printToConsole(message.getString());
+            this.cac.getCli().printToConsole("try another shelf or discard it!");
+            this.cac.askForResource(message.getR());
 
         }
     }
@@ -144,16 +146,17 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
         this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print();
 
         for (Marble m : message.getMarbles()) {
-            ResourceType res = m.getRes();
+
 
             switch (m.getRes()) {
                 case COIN, STONE, SERVANT, SHIELD: {
+                    this.cac.getCli().printToConsole("you received a " + m.getRes().printResourceColouredName() + "!");
                     this.cac.askForResource(m.getRes());
                     this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print(); //local TODO
                     break;
                 }
                 case FAITH_POINT: {
-                    cac.getCli().printToConsole("you got a faith point!");
+                    cac.getCli().printToConsole("you received a " + m.getRes().printResourceColouredName());
                     break;
                 }
                 default: {

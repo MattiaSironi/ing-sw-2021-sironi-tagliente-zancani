@@ -209,7 +209,7 @@ public class ClientActionController {
     }
 
     public void askForResource(ResourceType res) { //public for now, then private TODO
-        cli.printToConsole("you received a " + res.printResourceColouredName() + "!");
+
         cli.printToConsole("do you want to keep it or not? [y/n]");
         boolean valid = false;
         while (!valid) {

@@ -86,7 +86,7 @@ public class Controller implements Observer<Message> {
          //manda reportError con ok o ko a seconda che rispetti le regole
 
          String s = this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().addResource(r, shelfIndex);
-         game.reportError(new ErrorMessage(s,ID));
+         game.reportError(new ErrorMessage(s,ID, r));
     }
 
     public void discardRes(int ID) {

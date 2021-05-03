@@ -87,8 +87,8 @@ public class ShelfWarehouse implements Printable {
                 this.shelves.get(shelfNum).setCount(this.shelves.get(shelfNum).getCount() + 1);
                 return "ok";
             } else
-                return "Error. The shelf you keep your " + r.toString() + " resources is full or it is used by another ResourceType";
-        } else return "Error. There is another shelf taken by " + r.toString() + " resources.";
+                return "Error. The shelf you keep your " + r.printResourceColouredName() + " resources is full or it is used by another ResourceType";
+        } else return "Error. There is another shelf taken by " + r.printResourceColouredName() + " resources.";
     }
 
     /**
