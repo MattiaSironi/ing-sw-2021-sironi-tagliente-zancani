@@ -17,6 +17,7 @@ public class LeaderCard {
 
     }
 
+
     public int getType() {
         return type;
     }

@@ -17,6 +17,7 @@ public class ExtraProdLCard extends LeaderCard {
         this.input = input;
     }
 
+
     public CardColor getColor() {
         return color;
     }

@@ -132,7 +132,6 @@ public class Controller implements Observer<Message> {
          ArrayList<Shelf> w = this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves();
          Strongbox st = this.game.getPlayerById(ID).getPersonalBoard().getStrongbox();
 
-         //devo cercare le risorse in ingresso e in uscita e salvarne ResType e int
          for(i=0;i<4 &&!found1;i++){
              if(d.getInputRes()[i]>0){
                  r1 = i;
@@ -148,10 +147,8 @@ public class Controller implements Observer<Message> {
              if(!found2)
                  r2 = -1; //c'è una sola risorsa input
          }
-
          res1 = this.FromIntToRes(r1);
          res2 = this.FromIntToRes(r2);
-
 
          //pagamenti : non vengono fatti controlli sul fatto che si abbiano abbastanza risorse per pagare
          if(num1FromWarehouse>0){
@@ -176,11 +173,8 @@ public class Controller implements Observer<Message> {
              Shelf newShelf = new Shelf(res2, st.getInfinityShelf().get(r2).getCount()-num2FromStrongbox);
              st.getInfinityShelf().set(r2,newShelf);
          }
-
-
          //produzione risorse
 
-         //produzione sempre in strongbox : aggiungo le risorse nella dev card alla shelf corrispondente
          for (i=0;i<4;i++){
              if(d.getOutputRes()[i]>0){
                  int n = d.getOutputRes()[i];
@@ -189,11 +183,8 @@ public class Controller implements Observer<Message> {
                  this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getInfinityShelf().set(i,newshelf);
              }
          }
-
          //aggiunta punti fede
          this.game.getPlayerById(ID).moveFaithMarkerPos(d.getOutputRes()[4]);
-
-
 
          game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse(), 3, ID));
          game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox(), 4, ID));
@@ -231,66 +222,76 @@ public class Controller implements Observer<Message> {
          }
      }
 
-     public void PlayLeaderCard(int ID, LeaderCard lc){
-        //considerando che i controlli per il pagamento della leader card siano gia stati fatti
-         this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(lc);
-         switch (lc.getType()){
-             case 1->{ //discount
-                 DiscountLCard dc = (DiscountLCard) lc;
-                 if(this.game.getPlayerById(ID).getResDiscount1()!=ResourceType.EMPTY){
-                     this.game.getPlayerById(ID).setResDiscount1(dc.getResType());
-                 }
-                 else if (this.game.getPlayerById(ID).getResDiscount2()!=ResourceType.EMPTY){
-                     this.game.getPlayerById(ID).setResDiscount2(dc.getResType());
-                 }
-                 else
-                     game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
 
 
-             }
-             case 2->{ //extraShelf
-                 ExtraDepotLCard sc = (ExtraDepotLCard)lc;
-                    if(this.game.getPlayerById(ID).getPersonalBoard().getExtraShelfRes1()!=ResourceType.EMPTY){
-                        this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes1(sc.getResDepot());
-                        this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum1(0);
-                    }
-                    else if (this.game.getPlayerById(ID).getPersonalBoard().getExtraShelfRes2()!=ResourceType.EMPTY){
-                        this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes2(sc.getResDepot());
-                        this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum2(0);
-                    }
-                    else
-                        game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
 
-
-             }
-             case 3->{ //extraProd
-                 ExtraProdLCard c = (ExtraProdLCard) lc;
-                    if(this.game.getPlayerById(ID).getInputExtraProduction1()!=ResourceType.EMPTY){
-                        this.game.getPlayerById(ID).setInputExtraProduction1(c.getInput());
-                    }
-                    else if (this.game.getPlayerById(ID).getInputExtraProduction2()!=ResourceType.EMPTY){
-                        this.game.getPlayerById(ID).setInputExtraProduction2(c.getInput());
-                    }
-                    else
-                        game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
-             }
-             case 4->{ //whiteTray
-                    WhiteTrayLCard wc = (WhiteTrayLCard)lc;
-                     if(this.game.getPlayerById(ID).getWhiteConversion1()!=ResourceType.EMPTY){
-                         this.game.getPlayerById(ID).setWhiteConversion1(wc.getResType());
-                     }
-                     else if(this.game.getPlayerById(ID).getWhiteConversion2()!=ResourceType.EMPTY){
-                         this.game.getPlayerById(ID).setWhiteConversion2(wc.getResType());
-                     }
-                     else
-                         game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
-             }
+     public void PlayLeaderCard(int ID, DiscountLCard dc){
+         this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(dc);
+         if(this.game.getPlayerById(ID).getResDiscount1()==ResourceType.EMPTY){
+             this.game.getPlayerById(ID).setResDiscount1(dc.getResType());
          }
-         game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader(), 5, ID));
+         else if (this.game.getPlayerById(ID).getResDiscount2()==ResourceType.EMPTY){
+             this.game.getPlayerById(ID).setResDiscount2(dc.getResType());
+         }
+         else
+             game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
      }
 
-     public void DiscardLeaderCard(int ID){
+     public void PlayLeaderCard (int ID, ExtraDepotLCard sc){
+         this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(sc);
+         if(this.game.getPlayerById(ID).getPersonalBoard().getExtraShelfRes1()==ResourceType.EMPTY){
+             this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes1(sc.getResDepot());
+             this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum1(0);
+         }
+         else if (this.game.getPlayerById(ID).getPersonalBoard().getExtraShelfRes2()==ResourceType.EMPTY){
+             this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes2(sc.getResDepot());
+             this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum2(0);
+         }
+         else
+             game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
+     }
+
+    public void PlayLeaderCard(int ID, ExtraProdLCard c){
+        this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(c);
+        if(this.game.getPlayerById(ID).getInputExtraProduction1()==ResourceType.EMPTY){
+
+            this.game.getPlayerById(ID).setInputExtraProduction1(c.getInput());
+        }
+        else if (this.game.getPlayerById(ID).getInputExtraProduction2()==ResourceType.EMPTY){
+            this.game.getPlayerById(ID).setInputExtraProduction2(c.getInput());
+        }
+        else
+            game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
+    }
+
+    public void PlayLeaderCard(int ID, WhiteTrayLCard wc){
+        this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(wc);
+        if(this.game.getPlayerById(ID).getWhiteConversion1()==ResourceType.EMPTY){
+            this.game.getPlayerById(ID).setWhiteConversion1(wc.getResType());
+        }
+        else if(this.game.getPlayerById(ID).getWhiteConversion2()==ResourceType.EMPTY){
+            this.game.getPlayerById(ID).setWhiteConversion2(wc.getResType());
+        }
+        else
+            game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
+    }
+
+
+
+
+     public void DiscardLeaderCard(int ID,LeaderCard lc){
+        int i = 0;
+        LeaderDeck newLD;
         this.game.getPlayerById(ID).moveFaithMarkerPos(1);
+        while(this.game.getPlayerById(ID).getLeaderDeck().getCards().get(i).getType()!=lc.getType() || this.game.getPlayerById(ID).getLeaderDeck().getCards().get(i).getVictoryPoints()!=lc.getVictoryPoints() )
+            {i++;}
+        if (i<=this.game.getPlayerById(ID).getLeaderDeck().getSize()) //se trovo la carta leader nel mazzo
+            {
+                newLD = new LeaderDeck(this.game.getPlayerById(ID).getLeaderDeck().getSize()-1,1,this.game.getPlayerById(ID).getLeaderDeck().getCards());
+                newLD.getCards().remove(i);
+                this.game.getPlayerById(ID).setLeaderDeck(newLD);
+            }
+
          //tutti i controlli vittoria , favore papale e ecc.
          game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader(), 5, ID));
      }
