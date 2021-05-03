@@ -123,7 +123,7 @@ public class ShelfWarehouse implements Printable {
 
         for (Shelf s : this.shelves)  {
             if (s.getResType().equals(ResourceType.EMPTY)) System.out.println("Shelf " + (this.shelves.indexOf(s)+1) + " is empty." );
-            else System.out.println("Shelf " + (this.shelves.indexOf(s)+1) + " contains " + s.getCount() + " " + s.getResType().printResourceColouredName());
+            else System.out.println("Shelf " + (this.shelves.indexOf(s)+1) + " contains " + s.getCount() + " " + s.getResType().printResourceColouredName() + "(s)");
 
 
 

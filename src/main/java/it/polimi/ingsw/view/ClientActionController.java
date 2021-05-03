@@ -51,8 +51,8 @@ public class ClientActionController {
 
     public void setup() throws IOException, ClassNotFoundException {
         String string;
-        cli.printToConsole("welcome to the game. this is an alpha version so you will be connected to the loopback address");
-        cli.printToConsole("type any key if you are ready to this experience:");
+        cli.printToConsole("Welcome to the game. This is an alpha version so you will be connected to the loopback address");
+        cli.printToConsole("Type any key if you are ready to this experience:");
         string = cli.readFromInput();
         serverConnection.run();
         this.ID = ((IdMessage) serverConnection.receive()).getID();
@@ -60,10 +60,10 @@ public class ClientActionController {
         if (ID == 0) {
             setNumberOfPlayers();
         } else {
-            cli.printToConsole("waiting for the host...");
+            cli.printToConsole("Waiting for the host...");
         }
         ModelMultiplayerView.setSize(((ChooseNumberOfPlayer)serverConnection.receive()).getNumberOfPlayers());
-        cli.printToConsole("the match is set to " + ModelMultiplayerView.getSize());
+        cli.printToConsole("The match is set to " + ModelMultiplayerView.getSize());
         while (!nameConfirmed) {
             cli.printToConsole("Choose your nickname");
             String nickname = cli.readFromInput();
@@ -176,7 +176,7 @@ public class ClientActionController {
         String input;
         String inputcleaned;
         while (!valid) {
-            cli.printToConsole("choose the row or column you prefer. you can choose between r1, r2, r3 and " +
+            cli.printToConsole("Choose the row or column you prefer. you can choose between r1, r2, r3 and " +
                     " c1,c2,c3,c4");
             input = cli.readFromInput();
             inputcleaned= input.replaceAll("[0-9]", " ");
@@ -186,8 +186,8 @@ public class ClientActionController {
 
                 if ((row && index >= 1 && index <= 3) || (!row && index >= 1 && index <= 4)) {
                     valid = true;
-                } else cli.printToConsole("invalid int, you selected " + index);
-            } else cli.printToConsole("invalid command");
+                } else cli.printToConsole("Invalid int, you selected " + index);
+            } else cli.printToConsole("Invalid command");
         }
 //        serverConnection.send(new MarketMessage(row, index-1, ID)); // socket
         this.mmv.sendNotify(new MarketMessage(row, index-1, ID)); //local
@@ -210,7 +210,7 @@ public class ClientActionController {
 
     public void askForResource(ResourceType res) { //public for now, then private TODO
 
-        cli.printToConsole("do you want to keep it or not? [y/n]");
+        cli.printToConsole("Do you want to keep it or not? [y/n]");
         boolean valid = false;
         while (!valid) {
             String input= cli.readFromInput();
@@ -223,7 +223,7 @@ public class ClientActionController {
             } else if (input.equalsIgnoreCase("n")) {
                 discardRes();
                 valid = true;
-            } else cli.printToConsole("invalid input! retry!");
+            } else cli.printToConsole("Invalid input! Retry!");
         }
 
 
@@ -234,16 +234,16 @@ public class ClientActionController {
         boolean valid = false;
         String s;
         while (!valid) {
-            cli.printToConsole("choose the shelf where to put your " + res.printResourceColouredName() + " [1,2,3]");
+            cli.printToConsole("Choose the shelf where to put your " + res.printResourceColouredName() + " [1,2,3]");
             s1 = Integer.parseInt(cli.readFromInput());
             if (1 <= s1 && s1 <= 3) valid = true;
-            else cli.printToConsole("invalid input! retry!");
+            else cli.printToConsole("Invalid input! retry!");
             mmv.sendNotify(new PlaceResourceMessage(res, s1-1, ID));
         }
     }
 
     private void discardRes() {
-        cli.printToConsole("other players receive one extra faith point.");
+        cli.printToConsole("Other players received one faith point.");
 //        serverConnection.send(new ErrorMessage("discard" , this.ID)); //socket
         mmv.sendNotify(new ErrorMessage("discard", ID));
     }
@@ -257,10 +257,10 @@ public class ClientActionController {
         boolean valid = false;
         String s;
         while (!valid) {
-            cli.printToConsole("choose the shelf where to put your " + res.printResourceColouredName() + " [1,2,3]");
+            cli.printToConsole("Choose the shelf where to put your " + res.printResourceColouredName() + " [1,2,3]");
             s1 = Integer.parseInt(cli.readFromInput());
             if (1 <= s1 && s1 <= 3) valid = true;
-            else cli.printToConsole("invalid input! retry!");
+            else cli.printToConsole("Invalid input! retry!");
         }
 
         serverConnection.send(new PlaceResourceMessage(res, s1, ID));
@@ -284,13 +284,13 @@ public class ClientActionController {
         int s2 = 0;
         boolean valid = false;
         while (!valid) {
-            cli.printToConsole("give me the first shelf:");
+            cli.printToConsole("Select the first shelf:");
             s1 = Integer.parseInt(cli.readFromInput());
-            cli.printToConsole("give me the second shelf:");
+            cli.printToConsole("Select the second shelf:");
             s2 = Integer.parseInt(cli.readFromInput());
             if (s1 != s2 && s1 >= 1 && s1 <= 3 && s2 >= 1 && s2 <= 3) {
                 valid = true;
-            } else cli.printToConsole("invalid input! retry!");
+            } else cli.printToConsole("Invalid input! Retry!");
 
         }
         this.mmv.sendNotify(new ManageResourceMessage(s1-1, s2-1,  0));
