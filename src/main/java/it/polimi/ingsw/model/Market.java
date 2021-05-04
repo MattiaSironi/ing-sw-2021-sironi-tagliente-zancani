@@ -1,8 +1,12 @@
 package it.polimi.ingsw.model;
 
 
+import it.polimi.ingsw.constants.Ball;
+import it.polimi.ingsw.constants.Color;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class Market represents the matrix of trays used by each player
@@ -60,19 +64,71 @@ public class Market implements Printable {
         this.marketBoard[r][c] = m;
     }
 
+//    @Override
+//    public void print() {
+//        ArrayList<ResourceType> r;
+//        for (int i = 0; i < 3; i++) {
+//            for (int j = 0; j < 4; j++) {
+//
+//                System.out.print(marketBoard[i][j].getRes().printResourceColouredBall() + "  ");
+//            }
+//            System.out.println("");
+//        }
+//        System.out.println("left out marble is " + this.marbleOut.getRes().printResourceColouredBall());
+//    }
+
+
     @Override
     public void print() {
-        ResourceType r;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
 
-                System.out.print(marketBoard[i][j].getRes().printResourceColouredName() + "  ");
-            }
-            System.out.println("");
+        for (int i=0; i<3; i++)  {
+            printRow(Arrays.asList(this.marketBoard[i]));
+            System.out.println();
+
         }
-        System.out.println("left out marble is " + this.marbleOut.getRes().printResourceColouredName());
+        System.out.print("Left out marble is ");
+        printLeftOut();
     }
-}
+
+    private void printLeftOut() {
+        String color = this.marbleOut.getRes().getColor();
+        ArrayList<Ball> b= new ArrayList<Ball>(Arrays.asList(Ball.values()));
+        for (Ball ball : b)  {
+            if (ball.toString().equals("Ball1"))  {
+            System.out.println(color +  ball.getBallLine() + Color.ANSI_RESET);
+        }
+        else {
+                System.out.println(color + "                   " +  ball.getBallLine() + Color.ANSI_RESET);
+            }
+        }
+
+
+
+
+
+    }
+
+    private void printRow(List<Marble> asList) {
+
+
+        ArrayList<Ball> b = new ArrayList<Ball>(Arrays.asList(Ball.values()));
+        for (Ball ball : b) {
+            String ballLine = ball.getBallLine();
+            System.out.println(asList.get(0).getRes().getColor() + ballLine +
+                    asList.get(1).getRes().getColor() + ballLine +
+                    asList.get(2).getRes().getColor() + ballLine +
+                    asList.get(3).getRes().getColor() + ballLine + Color.ANSI_RESET);
+        }
+    }
+
+
+
+    }
+
+
+
+
+
 
 
 

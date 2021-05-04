@@ -238,8 +238,9 @@ public class ClientActionController {
             s1 = Integer.parseInt(cli.readFromInput());
             if (1 <= s1 && s1 <= 3) valid = true;
             else cli.printToConsole("Invalid input! retry!");
-            mmv.sendNotify(new PlaceResourceMessage(res, s1-1, ID));
         }
+            mmv.sendNotify(new PlaceResourceMessage(res, s1-1, ID));
+
     }
 
     private void discardRes() {
