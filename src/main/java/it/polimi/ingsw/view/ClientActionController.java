@@ -88,6 +88,9 @@ public class ClientActionController {
         if (ModelMultiplayerView.getSize() == 4) {
             cli.printToConsole(((OutputMessage) serverConnection.receive()).getString());
         }
+
+        this.serverConnection.getPinger().start();
+
         while (isActive()) {
 
         }
@@ -224,7 +227,7 @@ public class ClientActionController {
 
             if (idx>0 && idx<=mmv.getGame().getPlayerById(ID).getLeaderDeck().getSize()) {
                     correctInput = true;
-                    mmv.sendNotify(new PlayLeaderMessage(ID,idx));
+//                    mmv.sendNotify(new PlayLeaderMessage(ID,idx));
                 } else cli.printToConsole("Invalid int, you selected " + idx);
             }
         }

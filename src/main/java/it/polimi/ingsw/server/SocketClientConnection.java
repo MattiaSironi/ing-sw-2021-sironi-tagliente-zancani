@@ -9,9 +9,10 @@ import it.polimi.ingsw.observer.Observable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.NoSuchElementException;
-
+import java.util.concurrent.TimeoutException;
 
 
 public class SocketClientConnection extends Observable<Message> implements Runnable {
@@ -19,8 +20,12 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private ObjectOutputStream pingOut;
+    private ObjectInputStream pingIn;
     private Server server;
     private int ID;
+    private Thread pinger;
+
 
     public int getID() {
         return ID;
@@ -36,7 +41,35 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         this.first = first;
         this.socket = socket;
         this.server = server;
+
+        this.pinger = new Thread(() -> {
+            try {
+                ServerSocket pingSocket = new ServerSocket(50001);
+                Socket newPingSocket = pingSocket.accept();
+                newPingSocket.setSoTimeout(16000);
+                pingOut = new ObjectOutputStream(newPingSocket.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
+                pingIn = new ObjectInputStream(newPingSocket.getInputStream());
+                while (isActive()) {
+                    pingOut.reset();
+                    pingOut.write(0);
+                    pingOut.flush();
+                    pingIn.read();
+
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Player # " + this.ID + "has  been disconnected!");
+            }
+
+
+        });
     }
+
+
+
+
 
     public Server getServer() {
         return server;
@@ -59,6 +92,10 @@ public class SocketClientConnection extends Observable<Message> implements Runna
 
     public Object receive() throws IOException, ClassNotFoundException {
         return in.readObject();
+    }
+
+    public Thread getPinger() {
+        return pinger;
     }
 
     public synchronized void closeConnection() {
@@ -90,7 +127,42 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     }
 
 
+//    public Thread ping(){
+//        Thread t = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    ServerSocket pingSocket = new ServerSocket(12346);
+//                    Socket  newPingSocket  =  pingSocket.accept();
+//                    newPingSocket.setSoTimeout(16000);
+//                    pingOut = new ObjectOutputStream(newPingSocket.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
+//                    pingIn = new ObjectInputStream(newPingSocket.getInputStream());
+//                    while (isActive()) {
+//                        pingOut.reset();
+//                        pingOut.write(0);
+//                        pingOut.flush();
+//                        pingIn.read();
+//
+//                    }
+//
+//
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    System.out.println("Player # "  +  );
+//                }
+//
+//
+//            }
+//        });
+//        t.start();
+//        return t;
+    }
 
 
 
-}
+
+
+
+
+

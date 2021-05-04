@@ -9,7 +9,9 @@ import it.polimi.ingsw.server.SocketClientConnection;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.PrintWriter;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 public class RemoteView extends Observable<Message> implements Observer<Message>, Runnable {
 
@@ -43,6 +45,7 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     public void run(){
         this.clientConnection.run();
+
         clientConnection.getServer().initialPhaseHandler(this); //FASE 1
         nicknameSetUp();
         //            while (isActive()) {
@@ -51,6 +54,8 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 //                if (actionMessage instanceof MarketMessage)  {
 //                    goToMarket((MarketMessage) actionMessage);
 //                }
+
+        clientConnection.getPinger().start(); //ping
 
 
 
@@ -106,6 +111,8 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
         }
 
     }
+
+
 
 
 
