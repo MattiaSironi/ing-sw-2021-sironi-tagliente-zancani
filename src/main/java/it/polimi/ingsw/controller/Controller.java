@@ -235,6 +235,7 @@ public class Controller implements Observer<Message> {
          }
          else
              game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
+         RemoveLeaderFromDeck(ID,dc);
      }
 
      public void PlayLeaderCard (int ID, ExtraDepotLCard sc){
@@ -249,6 +250,7 @@ public class Controller implements Observer<Message> {
          }
          else
              game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
+         RemoveLeaderFromDeck(ID,sc);
      }
 
     public void PlayLeaderCard(int ID, ExtraProdLCard c){
@@ -262,6 +264,7 @@ public class Controller implements Observer<Message> {
         }
         else
             game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
+        RemoveLeaderFromDeck(ID,c);
     }
 
     public void PlayLeaderCard(int ID, WhiteTrayLCard wc){
@@ -274,24 +277,29 @@ public class Controller implements Observer<Message> {
         }
         else
             game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
+        RemoveLeaderFromDeck(ID,wc);
+
     }
 
 
+    public void RemoveLeaderFromDeck(int ID,LeaderCard lc){
+        this.game.getPlayerById(ID).getLeaderDeck().getCards().remove(lc);
+        this.game.getPlayerById(ID).getLeaderDeck().setSize(this.game.getPlayerById(ID).getLeaderDeck().getSize()-1);
+    }
 
 
      public void DiscardLeaderCard(int ID,LeaderCard lc){
-        int i = 0;
-        LeaderDeck newLD;
+         int i = 0;
+         LeaderDeck newLD;
+         while(this.game.getPlayerById(ID).getLeaderDeck().getCards().get(i).getType()!=lc.getType() || this.game.getPlayerById(ID).getLeaderDeck().getCards().get(i).getVictoryPoints()!=lc.getVictoryPoints() )
+         {i++;}
+         if (i<=this.game.getPlayerById(ID).getLeaderDeck().getSize()) //se trovo la carta leader nel mazzo
+         {
+             newLD = new LeaderDeck(this.game.getPlayerById(ID).getLeaderDeck().getSize()-1,1,this.game.getPlayerById(ID).getLeaderDeck().getCards());
+             newLD.getCards().remove(i);
+             this.game.getPlayerById(ID).setLeaderDeck(newLD);
+         }
         this.game.getPlayerById(ID).moveFaithMarkerPos(1);
-        while(this.game.getPlayerById(ID).getLeaderDeck().getCards().get(i).getType()!=lc.getType() || this.game.getPlayerById(ID).getLeaderDeck().getCards().get(i).getVictoryPoints()!=lc.getVictoryPoints() )
-            {i++;}
-        if (i<=this.game.getPlayerById(ID).getLeaderDeck().getSize()) //se trovo la carta leader nel mazzo
-            {
-                newLD = new LeaderDeck(this.game.getPlayerById(ID).getLeaderDeck().getSize()-1,1,this.game.getPlayerById(ID).getLeaderDeck().getCards());
-                newLD.getCards().remove(i);
-                this.game.getPlayerById(ID).setLeaderDeck(newLD);
-            }
-
          //tutti i controlli vittoria , favore papale e ecc.
          game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader(), 5, ID));
      }
