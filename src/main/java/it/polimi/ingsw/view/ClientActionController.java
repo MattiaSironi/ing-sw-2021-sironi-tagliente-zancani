@@ -214,6 +214,21 @@ public class ClientActionController {
     }
 
 
+    public void PlayLeader (){
+        boolean correctInput = false;
+        int idx;
+        String input;
+        while (!correctInput) {
+            cli.printToConsole("Choose the Leader you want to activate and select its index");
+            idx = Integer.parseInt(cli.readFromInput());
+
+            if (idx>0 && idx<=mmv.getGame().getPlayerById(ID).getLeaderDeck().getSize()) {
+                    correctInput = true;
+                    mmv.sendNotify(new PlayLeaderMessage(ID,idx));
+                } else cli.printToConsole("Invalid int, you selected " + idx);
+            }
+        }
+
     public void askForResource(ResourceType res) { //public for now, then private TODO
 
         cli.printToConsole("Do you want to keep it or not? [y/n]");

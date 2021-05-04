@@ -26,6 +26,35 @@ public class Board {
     public Board() { //for now just for multiplayer
         market = createMarket();
         devDecks = createDevDecks();
+        leaderDeck = createLeaderDeck();
+    }
+
+    private LeaderDeck createLeaderDeck() {
+                Gson gson= new Gson();
+        LeaderDeck returnfinale = new LeaderDeck(16, 00, new ArrayList<LeaderCard>());
+        Reader reader1 = new InputStreamReader(Board.class.getResourceAsStream("/json/discount.json"));
+        DiscountLCard[] mazzo1= gson.fromJson(reader1, DiscountLCard[].class);
+        for (DiscountLCard d : mazzo1)  {
+            returnfinale.getCards().add(d);
+        }
+        Reader reader2 = new InputStreamReader(Board.class.getResourceAsStream("/json/extrashelf.json"));
+        ExtraDepotLCard[] mazzo2= gson.fromJson(reader2, ExtraDepotLCard[].class);
+        for (ExtraDepotLCard d : mazzo2)  {
+            returnfinale.getCards().add(d);
+        }
+        Reader reader3 = new InputStreamReader(Board.class.getResourceAsStream("/json/extraprod.json"));
+        ExtraProdLCard[] mazzo3= gson.fromJson(reader3, ExtraProdLCard[].class);
+        for (ExtraProdLCard d : mazzo3)  {
+            returnfinale.getCards().add(d);
+        }
+        Reader reader4 = new InputStreamReader(Board.class.getResourceAsStream("/json/whitetray.json"));
+        WhiteTrayLCard[] mazzo4= gson.fromJson(reader4, WhiteTrayLCard[].class);
+        for (WhiteTrayLCard d : mazzo4)  {
+            returnfinale.getCards().add(d);
+        }
+        Collections.shuffle(returnfinale.getCards());
+
+        return returnfinale;
     }
 
     private Market createMarket() {
@@ -93,6 +122,7 @@ public class Board {
         return returnfinale;
 
     }
+
 
 
 
