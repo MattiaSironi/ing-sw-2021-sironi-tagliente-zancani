@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //Modifiche al Model UML: aggiunto Get() e Set() per l'attributo cards.
 
@@ -14,9 +15,9 @@ import java.util.ArrayList;
 public class DevDeck implements Printable {
     private int size;
     private int type; // using int for type of card recognition
-    private ArrayList<DevCard> cards;
+    private List<DevCard> cards;
 
-    public DevDeck(int size, int type, ArrayList<DevCard> cards) {
+    public DevDeck(int size, int type, List<DevCard> cards) {
         this.size = size;
         this.type = type;
         this.cards = cards;
@@ -38,7 +39,7 @@ public class DevDeck implements Printable {
         this.type = type;
     }
 
-    public ArrayList<DevCard> getCards() {
+    public List<DevCard> getCards() {
         return cards;
     }
 
@@ -47,8 +48,7 @@ public class DevDeck implements Printable {
     }
 
     public void print(){
-        for(DevCard d : cards){
-            d.print();
-        }
+        this.cards.get(0).print();
     }
 }
+

@@ -196,7 +196,20 @@ public class Controller implements Observer<Message> {
         }
      }
 
+    public void payResources(int ID, ArrayList<ResourceType> paidResFromWarehouse, ArrayList<ResourceType> paidResFromStrongbox){
+        for(ResourceType r : paidResFromWarehouse){
+            this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
+        }
+        for(ResourceType r : paidResFromStrongbox){
+            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
+        }
+    }
 
+    public void addResources(int ID, ArrayList<ResourceType> boughtRes){
+        for(ResourceType r : boughtRes){
+            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(r, 1);
+        }
+    }
 
     public void useBasicProduction(int ID, ResourceType r1, ResourceType r2, ResourceType newRes, boolean buyFromWarehouse, boolean buyFromStrongbox) {
         if (buyFromWarehouse == true && buyFromStrongbox == false) {
@@ -391,8 +404,6 @@ public class Controller implements Observer<Message> {
     @Override
     public void update(MarketMessage message) {
         goToMarket(message.isRow(), message.getIndex(), message.getID());
-
-
     }
 
     @Override

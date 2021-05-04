@@ -141,7 +141,8 @@ public class ClientActionController {
 
                     case B -> {
                         if (Actions.B.isEnable()) {
-                            noMoreActions();
+//                            noMoreActions();
+                            buyDevCard();
 
                             // do things
                         } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
@@ -207,6 +208,11 @@ public class ClientActionController {
 //
 //
     }
+
+    public void buyDevCard(){
+        this.mmv.printDevMatrix();
+    }
+
 
     public void askForResource(ResourceType res) { //public for now, then private TODO
 

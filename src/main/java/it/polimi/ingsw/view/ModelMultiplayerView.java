@@ -48,6 +48,7 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
     public void sendNotify(Message message) {
         notify(message);
     }
+
     public void sendNotify(PlaceResourceMessage message) {
         notify(message);
     }
@@ -72,9 +73,11 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
         notify(new PrintableMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse()));
     }
 
-//    public void printDevCardMatrix(int ID){
-//        notify((new PrintableMessage(this.game.getBoard().printDevMatrix())));
-//    }
+    public void printDevMatrix(){
+        for(DevDeck d : this.game.getBoard().getDevDecks()){
+            notify(new PrintableMessage((d.getCards().get(0))));
+        }
+    }
 
     @Override
     public void update(Message message) {
@@ -170,8 +173,6 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
             }
 
         }
-
-
     }
 
     @Override

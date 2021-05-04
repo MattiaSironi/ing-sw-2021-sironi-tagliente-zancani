@@ -15,6 +15,10 @@ public class Strongbox {
 //    private int shieldNum;
 
     private ArrayList<Shelf> infinityShelf;
+    private int earnedCoin;
+    private int earnedStone;
+    private int earnedServant;
+    private int earnedShield;
 
     public Strongbox() {
 //        this.coinNum = coinNum;

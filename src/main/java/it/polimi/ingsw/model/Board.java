@@ -7,6 +7,8 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Class Board represents the main game board of "Master of Renaissance. It's composed by the Market, the Leader Deck, the matrix of Development Cards and the pile of Solo
@@ -18,12 +20,12 @@ import java.util.Collections;
 public class Board {
     private Market market;
     private LeaderDeck leaderDeck;
-    private ArrayList<DevDeck> devDecks;
+    private List<DevDeck> devDecks;
     private ArrayList<SoloActionToken> tokenArray;
 
     public Board() { //for now just for multiplayer
         market = createMarket();
-        devDecks= createDevDecks();
+        devDecks = createDevDecks();
     }
 
     private Market createMarket() {
@@ -42,12 +44,54 @@ public class Board {
         Market m = new Market(marbleTray, marbles[12]);
 
         return m;
-
-
     }
 
-    public ArrayList<DevDeck> createDevDecks()  {
-        return null;
+    public List<DevDeck> createDevDecks()  {
+
+        Gson gson= new Gson();
+        List<DevDeck> returnfinale = new ArrayList<>();
+        Reader reader = new InputStreamReader(Board.class.getResourceAsStream("/json/devcard.json"));
+        DevCard[] tutteLeCarte = gson.fromJson(reader, DevCard[].class);
+        Collections.shuffle(Arrays.asList(tutteLeCarte));
+        DevDeck mazzo1 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.GREEN)
+                && x.getLevel()==1).collect(Collectors.toList()));
+        returnfinale.add(mazzo1);
+        DevDeck mazzo2 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.BLUE)
+                && x.getLevel()==1).collect(Collectors.toList()));
+        returnfinale.add(mazzo2);
+        DevDeck mazzo3 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.YELLOW)
+                && x.getLevel()==1).collect(Collectors.toList()));
+        returnfinale.add(mazzo3);
+        DevDeck mazzo4 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.PURPLE)
+                && x.getLevel()==1).collect(Collectors.toList()));
+        returnfinale.add(mazzo4);
+        DevDeck mazzo5 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.GREEN)
+                && x.getLevel()==2).collect(Collectors.toList()));
+        returnfinale.add(mazzo5);
+        DevDeck mazzo6 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.BLUE)
+                && x.getLevel()==2).collect(Collectors.toList()));
+        returnfinale.add(mazzo6);
+        DevDeck mazzo7 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.YELLOW)
+                && x.getLevel()==2).collect(Collectors.toList()));
+        returnfinale.add(mazzo7);
+        DevDeck mazzo8 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.PURPLE)
+                && x.getLevel()==2).collect(Collectors.toList()));
+        returnfinale.add(mazzo8);
+        DevDeck mazzo9 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.GREEN)
+                && x.getLevel()==3).collect(Collectors.toList()));
+        returnfinale.add(mazzo9);
+        DevDeck mazzo10 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.BLUE)
+                && x.getLevel()==3).collect(Collectors.toList()));
+        returnfinale.add(mazzo10);
+        DevDeck mazzo11 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.YELLOW)
+                && x.getLevel()==3).collect(Collectors.toList()));
+        returnfinale.add(mazzo11);
+        DevDeck mazzo12 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.PURPLE)
+                && x.getLevel()==3).collect(Collectors.toList()));
+        returnfinale.add(mazzo12);
+
+        return returnfinale;
+
     }
 
 
@@ -68,7 +112,7 @@ public class Board {
         this.leaderDeck = leaderDeck;
     }
 
-    public ArrayList<DevDeck> getDevDecks() {
+    public List<DevDeck> getDevDecks() {
         return devDecks;
     }
 
@@ -93,7 +137,9 @@ public class Board {
     }
 
     public void printDevMatrix(){
-
+        for(DevDeck dd : devDecks){
+            dd.print();
+        }
     }
 
 
