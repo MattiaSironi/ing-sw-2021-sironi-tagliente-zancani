@@ -43,8 +43,19 @@ public class PersonalBoard {
 
     public PersonalBoard()  {
         warehouse = new ShelfWarehouse();
+        strongbox = new Strongbox();
     }
 
+    public boolean totalPaymentChecker(int resArray[]){
+        int totCoin, totStone, totServant, totShield;
+        totCoin = strongbox.getResCount(ResourceType.COIN) + warehouse.getResCount(ResourceType.COIN);
+        totStone = strongbox.getResCount(ResourceType.STONE) + warehouse.getResCount(ResourceType.STONE);
+        totServant = strongbox.getResCount(ResourceType.SERVANT) + warehouse.getResCount(ResourceType.SERVANT);
+        totShield = strongbox.getResCount(ResourceType.SHIELD) + warehouse.getResCount(ResourceType.SHIELD);
+
+        if(totCoin < resArray[0] || totStone < resArray[1] || totServant < resArray[2] || totShield < resArray[3]) return false;
+        else return true;
+    }
 
     public boolean checkLCardRequirements(LeaderCard lc) {
         switch (lc.getType()) {

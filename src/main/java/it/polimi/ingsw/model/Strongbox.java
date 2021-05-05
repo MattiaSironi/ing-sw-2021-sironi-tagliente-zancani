@@ -149,4 +149,12 @@ public class Strongbox {
         this.infinityShelf.get(index).setCount(temp + q);
     }
 
+    public boolean canIPay(int resArray[]){
+        if(getResCount(ResourceType.COIN) < resArray[0] ||
+                getResCount(ResourceType.STONE) < resArray[1] ||
+                getResCount(ResourceType.SERVANT) < resArray[2] ||
+                getResCount(ResourceType.SHIELD) < resArray[3] ) return false;
+        else return true;
+    }
+
 }

@@ -128,16 +128,9 @@ public class ShelfWarehouse implements Printable {
 
 
         }
-
-
-
-
-//        System.out.println("Shelf 1: Resource =  " + this.getShelves().get(0).getResType().toString() + " Count = " +
-//                this.getShelves().get(0).getCount());
-//        System.out.println("Shelf 2: Resource =  " + this.getShelves().get(1).getResType().toString() + " Count = " +
-//                this.getShelves().get(1).getCount());
-//        System.out.println("Shelf 3: Resource =  " + this.getShelves().get(2).getResType().toString() + " Count = " +
-//                this.getShelves().get(2).getCount());
-
     }
+
+//    public boolean canIPay(int i){
+//
+//    }
 }
