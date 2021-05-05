@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @author Simone Tagliente
  */
 
-public class Strongbox {
+public class Strongbox implements Printable {
 //    private int coinNum;
 //    private int stoneNum;
 //    private int servantNum;
@@ -27,10 +27,17 @@ public class Strongbox {
 //        this.shieldNum = shieldNum;
         this.infinityShelf = new ArrayList<Shelf>();
         this.infinityShelf.add(0, new Shelf(ResourceType.COIN, 0));
-        this.infinityShelf.add(1, new Shelf(ResourceType.STONE,0));
-        this.infinityShelf.add(2, new Shelf(ResourceType.SERVANT,0));
-        this.infinityShelf.add(3,new Shelf(ResourceType.SHIELD,0));
+        this.infinityShelf.add(1, new Shelf(ResourceType.STONE, 0));
+        this.infinityShelf.add(2, new Shelf(ResourceType.SERVANT, 0));
+        this.infinityShelf.add(3, new Shelf(ResourceType.SHIELD, 0));
+        this.earnedCoin = 0;
+        this.earnedServant = 0;
+        this.earnedShield = 0;
+        this.earnedStone = 0;
+    }
 
+    public void setStrongbox (ArrayList<Shelf> s){
+        this.setInfinityShelf(s);
     }
 
     public ArrayList<Shelf> getInfinityShelf() {
@@ -115,30 +122,65 @@ public class Strongbox {
             this.shieldNum -= quantity;
     }*/
 
+    public int getEarnedCoin() {
+        return earnedCoin;
+    }
+
+    public void setEarnedCoin(int earnedCoin) {
+        this.earnedCoin = earnedCoin;
+    }
+
+    public int getEarnedStone() {
+        return earnedStone;
+    }
+
+    public void setEarnedStone(int earnedStone) {
+        this.earnedStone = earnedStone;
+    }
+
+    public int getEarnedServant() {
+        return earnedServant;
+    }
+
+    public void setEarnedServant(int earnedServant) {
+        this.earnedServant = earnedServant;
+    }
+
+    public int getEarnedShield() {
+        return earnedShield;
+    }
+
+    public void setEarnedShield(int earnedShield) {
+        this.earnedShield = earnedShield;
+    }
+
     /**
      * Method pay subtracts the quantity of a specific resource that the player has to pay
+     *
      * @param q is the quantity that the player has to pay
      * @param r is the ResourceType that the player has to pay
      */
-    public void pay (int q, ResourceType r){
+    public void pay(int q, ResourceType r) {
         int i = 0;
         while (!this.infinityShelf.get(i).getResType().equals(r))
             i++;
-        this.infinityShelf.get(i).setCount(this.infinityShelf.get(i).getCount()-q);
+        this.infinityShelf.get(i).setCount(this.infinityShelf.get(i).getCount() - q);
     }
+
     /**
      * Method getResCount return the quantity of a specific ResourceType
+     *
      * @param r is the ResourceType that player wants to know the quantity of
      * @return the quantity of the ResourceType
      */
-    public int getResCount(ResourceType r){
+    public int getResCount(ResourceType r) {
         int i = 0;
         while (!this.infinityShelf.get(i).getResType().equals(r))
             i++;
         return this.infinityShelf.get(i).getCount();
     }
 
-    public void addResource(ResourceType r, int q){
+    public void addResource(ResourceType r, int q) {
         int index;
         int temp;
         if (r.equals(ResourceType.COIN)) index = 0;
@@ -149,12 +191,20 @@ public class Strongbox {
         this.infinityShelf.get(index).setCount(temp + q);
     }
 
-    public boolean canIPay(int resArray[]){
-        if(getResCount(ResourceType.COIN) < resArray[0] ||
+    public boolean canIPay(int resArray[]) {
+        if (getResCount(ResourceType.COIN) < resArray[0] ||
                 getResCount(ResourceType.STONE) < resArray[1] ||
                 getResCount(ResourceType.SERVANT) < resArray[2] ||
-                getResCount(ResourceType.SHIELD) < resArray[3] ) return false;
+                getResCount(ResourceType.SHIELD) < resArray[3]) return false;
         else return true;
     }
 
+    @Override
+    public void print() {
+        System.out.println("In your Strongbox you have : ");
+        System.out.println("You have " + this.getInfinityShelf().size() + " shelves");
+        for (Shelf s : this.getInfinityShelf()) {
+                System.out.println(s.getCount() + " " + s.getResType().printResourceColouredName() + "(s)");
+        }
+    }
 }

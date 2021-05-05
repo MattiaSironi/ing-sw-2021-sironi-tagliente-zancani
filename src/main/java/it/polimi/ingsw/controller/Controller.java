@@ -132,6 +132,7 @@ public class Controller implements Observer<Message> {
          ArrayList<Shelf> w = this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves();
          Strongbox st = this.game.getPlayerById(ID).getPersonalBoard().getStrongbox();
 
+
          for(i=0;i<4 &&!found1;i++){
              if(d.getInputRes()[i]>0){
                  r1 = i;
@@ -150,6 +151,7 @@ public class Controller implements Observer<Message> {
          res1 = this.FromIntToRes(r1);
          res2 = this.FromIntToRes(r2);
 
+
          //pagamenti : non vengono fatti controlli sul fatto che si abbiano abbastanza risorse per pagare
          if(num1FromWarehouse>0){
              for (Shelf s:w){
@@ -161,6 +163,7 @@ public class Controller implements Observer<Message> {
          if(num1FromStrongbox>0){
                 Shelf newShelf = new Shelf(res1, st.getInfinityShelf().get(r1).getCount()-num1FromStrongbox);
                 st.getInfinityShelf().set(r1,newShelf);
+
          }
          if(num2FromWarehouse>0){
              for (Shelf s:w){
@@ -173,21 +176,44 @@ public class Controller implements Observer<Message> {
              Shelf newShelf = new Shelf(res2, st.getInfinityShelf().get(r2).getCount()-num2FromStrongbox);
              st.getInfinityShelf().set(r2,newShelf);
          }
-         //produzione risorse
 
-         for (i=0;i<4;i++){
-             if(d.getOutputRes()[i]>0){
-                 int n = d.getOutputRes()[i];
-                 Shelf newshelf = new Shelf(FromIntToRes(i),
-                         this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getInfinityShelf().get(i).getCount()+n);
-                 this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getInfinityShelf().set(i,newshelf);
-             }
-         }
+
+
+         //produzione risorse
+//
+//         for (i=0;i<4;i++){
+//             if(d.getOutputRes()[i]>0){
+//                 int n = d.getOutputRes()[i];
+//                 Shelf newshelf = new Shelf(FromIntToRes(i),
+//                         this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getInfinityShelf().get(i).getCount()+n);
+//                 this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getInfinityShelf().set(i,newshelf);
+//             }
+//         }
+
+         //nuova implementazione con produzione nel buffer
+            for (i=0;i<4;i++) {
+                if (d.getOutputRes()[i] > 0) {
+                     switch (i+1) {
+                         case 1 -> {this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
+                                 setEarnedCoin(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedCoin()+d.getOutputRes()[i]);}
+                         case 2 -> {this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
+                                 setEarnedStone(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedStone()+d.getOutputRes()[i]);}
+                         case 3 -> {this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
+                                 setEarnedServant(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedServant()+d.getOutputRes()[i]);}
+                         case 4 -> {this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
+                                 setEarnedShield(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedShield()+d.getOutputRes()[i]);}
+
+                    }
+                }
+            }
+
+
          //aggiunta punti fede
          this.game.getPlayerById(ID).moveFaithMarkerPos(d.getOutputRes()[4]);
 
          game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse(), 3, ID));
          game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox(), 4, ID));
+
      }
 
      public void addResourceToStrongFromProduction(int ID, ArrayList<ResourceType> resToStrongbox){
