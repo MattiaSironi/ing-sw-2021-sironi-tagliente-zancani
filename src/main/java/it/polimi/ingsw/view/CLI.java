@@ -90,4 +90,9 @@ public class CLI extends Observable<Message> implements Observer<Message> {
     public void update(PlaceResourceMessage message) {
 
     }
+
+    @Override
+    public void update(BuyDevCardMessage message) {
+
+    }
 }

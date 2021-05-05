@@ -36,10 +36,6 @@ public class Strongbox implements Printable {
         this.earnedStone = 0;
     }
 
-    public void setStrongbox (ArrayList<Shelf> s){
-        this.setInfinityShelf(s);
-    }
-
     public ArrayList<Shelf> getInfinityShelf() {
         return infinityShelf;
     }
@@ -191,11 +187,8 @@ public class Strongbox implements Printable {
         this.infinityShelf.get(index).setCount(temp + q);
     }
 
-    public boolean canIPay(int resArray[]) {
-        if (getResCount(ResourceType.COIN) < resArray[0] ||
-                getResCount(ResourceType.STONE) < resArray[1] ||
-                getResCount(ResourceType.SERVANT) < resArray[2] ||
-                getResCount(ResourceType.SHIELD) < resArray[3]) return false;
+    public boolean canIPay(int i, ResourceType r) {
+        if (getResCount(r) < i) return false;
         else return true;
     }
 

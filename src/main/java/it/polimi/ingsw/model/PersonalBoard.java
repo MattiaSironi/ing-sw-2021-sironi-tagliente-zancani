@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
+
 import java.util.ArrayList;
 
 /**
@@ -44,6 +46,10 @@ public class PersonalBoard {
     public PersonalBoard()  {
         warehouse = new ShelfWarehouse();
         strongbox = new Strongbox();
+        cardSlot = new ArrayList<DevDeck>();
+        cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
+        cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
+        cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
     }
 
     public boolean totalPaymentChecker(int resArray[]){
@@ -149,9 +155,13 @@ public class PersonalBoard {
             }
         }
         return (x1c >= 1);
-
-
     }
+
+    public void addDevCard(DevCard d, int pos, int ID){
+        cardSlot.get(pos).getCards().add(0, d);
+    }
+
+
 
     /**
      * Method checkLCardRequirements checks if the player meets the requirements of a Leader Card with ExtraDepot Ability

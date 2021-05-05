@@ -31,4 +31,6 @@ public interface Observer<Message> {
     void update(ResourceListMessage message);
 
     void update(PlaceResourceMessage message);
+
+    void update(BuyDevCardMessage message);
 }

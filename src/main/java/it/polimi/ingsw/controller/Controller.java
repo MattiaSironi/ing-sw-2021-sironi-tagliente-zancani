@@ -100,26 +100,19 @@ public class Controller implements Observer<Message> {
         //tutti i controlli vittoria , favore papale e ecc.
 
     }
-    public void buyDevCard(int ID, DevCard d, boolean buyFromWarehouse, boolean buyFromStrongbox, ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox, int posIndex){
-        if(buyFromWarehouse == true && buyFromStrongbox == false){
-            for(ResourceType r : resFromWarehouse){
-                this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
-            }
+    public void buyDevCard(int ID, DevCard d, ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox, int posIndex){
+        System.out.println("Sono nel controller");
+        for(ResourceType r : resFromStrongbox)
+            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
+        for(ResourceType r : resFromWarehouse)
+            this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
+        if(this.game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(posIndex).getSize() == 3){
+            this.game.reportError(new ErrorMessage("Could not add this card in slot " + posIndex + ". Try again", ID, null));
+            return;
         }
-        if(buyFromWarehouse == false && buyFromStrongbox == true){
-            for(ResourceType r : resFromStrongbox){
-                this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
-            }
-        }
-        if(buyFromWarehouse == true && buyFromStrongbox == true){
-            for(ResourceType r : resFromStrongbox){
-                this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
-            }
-            for(ResourceType r : resFromWarehouse){
-                this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
-            }
-        }
-        this.game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(posIndex).getCards().add(d);
+        this.game.addDevCardToPlayer(ID, d, posIndex);
+//        this.game.removeDevCardFromMatrix(d);
+        System.out.println("Ho messo la carta");
     }
 
      public void activateDevProduction(int ID, DevCard d, int num1FromWarehouse, int num1FromStrongbox, int num2FromWarehouse, int num2FromStrongbox){
@@ -441,6 +434,11 @@ public class Controller implements Observer<Message> {
     public void update(PlaceResourceMessage message) {
         placeRes(message.getRes(), message.getShelf(), message.getID());
 
+    }
+
+    public void update(BuyDevCardMessage message){
+        System.out.println("Sto per entrare nel controller");
+        buyDevCard(message.getID(), message.getD(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getSlot());
     }
 
 

@@ -125,7 +125,6 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
 
 
-
     @Override
     public void update(Message message) {
     }
@@ -201,6 +200,11 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(PlaceResourceMessage message) {
+
+    }
+
+    @Override
+    public void update(BuyDevCardMessage message) {
 
     }
 

@@ -109,8 +109,6 @@ public class Market implements Printable {
     }
 
     private void printRow(List<Marble> asList) {
-
-
         ArrayList<Ball> b = new ArrayList<Ball>(Arrays.asList(Ball.values()));
         for (Ball ball : b) {
             String ballLine = ball.getBallLine();

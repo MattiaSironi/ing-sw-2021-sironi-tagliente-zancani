@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import org.apache.maven.model.Resource;
+
 import java.util.ArrayList;
 
 /**
@@ -130,7 +132,8 @@ public class ShelfWarehouse implements Printable {
         }
     }
 
-//    public boolean canIPay(int i){
-//
-//    }
+    public boolean canIPay(int i, ResourceType r){
+        if(getResCount(r) < i) return false;
+        else return true;
+    }
 }

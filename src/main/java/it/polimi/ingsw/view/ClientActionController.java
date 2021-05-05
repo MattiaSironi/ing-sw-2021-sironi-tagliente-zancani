@@ -33,10 +33,11 @@ public class ClientActionController {
     private boolean actionDone = false;
 
 
-    public ClientActionController(CLI cli, ModelMultiplayerView mmv, SocketServerConnection socketServerConnection) {
+    public ClientActionController(CLI cli, ModelMultiplayerView mmv, SocketServerConnection socketServerConnection, int ID) {
         this.serverConnection = socketServerConnection;
         this.mmv = mmv;
         this.cli = cli;
+        this.ID = ID;
         setActions();
     }
 
@@ -159,8 +160,8 @@ public class ClientActionController {
                     }
                     case SM -> mmv.printMarket();
                     //case SF ->;
-                    //case SD ->;
-                    //case SP ->;
+                    case SD -> this.mmv.printDevMatrix();
+                    case SP -> printProd();
                     //case SL ->;
                     case SR -> mmv.printShelves(0);
                     case MR -> manageResources();
@@ -188,7 +189,6 @@ public class ClientActionController {
             if (inputcleaned.equals("r ") || inputcleaned.equals("c ")) {
                 row = input.charAt(0) == 'r';
                 index = Integer.parseInt(input.replaceAll("[^0-9]", ""));
-
                 if ((row && index >= 1 && index <= 3) || (!row && index >= 1 && index <= 4)) {
                     valid = true;
                 } else cli.printToConsole("Invalid int, you selected " + index);
@@ -240,12 +240,20 @@ public class ClientActionController {
                 if (d.getCostRes()[0] == 1)
                     System.out.println("Required 1 " + ResourceType.COIN.printResourceColouredName());
                 else
-                    System.out.println("Required " + d.getCostRes()[0] + ResourceType.COIN.printResourceColouredName() + "(s)");
+                    System.out.println("Required " + d.getCostRes()[0] + " " + ResourceType.COIN.printResourceColouredName() + "(s)");
                 System.out.println("Choose how many " + ResourceType.COIN.printResourceColouredName() + " you want to take from the Warehouse");
                 int numCoinFromWarehouse = Integer.parseInt(cli.readFromInput());
+                while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(numCoinFromWarehouse, ResourceType.COIN))){
+                    cli.printToConsole("You don't have " + numCoinFromWarehouse + " " + ResourceType.COIN.printResourceColouredName() + " in your warehouse\nChoose a proper number" );
+                    numCoinFromWarehouse = Integer.parseInt(cli.readFromInput());
+                }
                 if(numCoinFromWarehouse != d.getCostRes()[0]) {
                     System.out.println("Choose how many " + ResourceType.COIN.printResourceColouredName() + "(s) you want to take from the Strongbox");
                     int numCoinFromStrongbox = Integer.parseInt(cli.readFromInput());
+                    while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numCoinFromWarehouse, ResourceType.COIN))){
+                        cli.printToConsole("You don't have " + numCoinFromStrongbox + " " + ResourceType.COIN.printResourceColouredName() + " in your strongbox\nChoose a proper number" );
+                        numCoinFromStrongbox = Integer.parseInt(cli.readFromInput());
+                    }
                     if (numCoinFromStrongbox + numCoinFromWarehouse == d.getCostRes()[0])
                         coinNumValid = true;
                     else
@@ -272,9 +280,17 @@ public class ClientActionController {
                 }
                 System.out.println("Choose how many " + ResourceType.STONE.printResourceColouredName() + "(s) you want to take from the Warehouse");
                 int numStoneFromWarehouse = Integer.parseInt(cli.readFromInput());
+                while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(numStoneFromWarehouse, ResourceType.STONE))){
+                    cli.printToConsole("You don't have " + numStoneFromWarehouse + " " + ResourceType.STONE.printResourceColouredName() + " in your warehouse\nChoose a proper number" );
+                    numStoneFromWarehouse = Integer.parseInt(cli.readFromInput());
+                }
                 if(numStoneFromWarehouse != d.getCostRes()[1]) {
                     System.out.println("Choose how many " + ResourceType.STONE.printResourceColouredName() + "(s) you want to take from the Strongbox");
                     int numStoneFromStrongbox = Integer.parseInt(cli.readFromInput());
+                    while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numStoneFromWarehouse, ResourceType.STONE))){
+                        cli.printToConsole("You don't have " + numStoneFromStrongbox + " " + ResourceType.STONE.printResourceColouredName() + " in your strongbox\nChoose a proper number" );
+                        numStoneFromStrongbox = Integer.parseInt(cli.readFromInput());
+                    }
                     if (numStoneFromWarehouse + numStoneFromStrongbox == d.getCostRes()[1])
                         stoneNumValid = true;
                     else
@@ -299,9 +315,17 @@ public class ClientActionController {
                 }
                 System.out.println("Choose how many " +  ResourceType.SERVANT.printResourceColouredName() + "(s) you want to take from the Warehouse");
                 int numServantFromWarehouse = Integer.parseInt(cli.readFromInput());
+                while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(numServantFromWarehouse, ResourceType.SERVANT))){
+                    cli.printToConsole("You don't have " + numServantFromWarehouse + " " + ResourceType.SERVANT.printResourceColouredName() + " in your warehouse\nChoose a proper number" );
+                    numServantFromWarehouse = Integer.parseInt(cli.readFromInput());
+                }
                 if(numServantFromWarehouse != d.getCostRes()[2]) {
                     System.out.println("Choose how many" + ResourceType.SERVANT.printResourceColouredName() + "(s) you want to take from the Strongbox");
                     int numServantFromStrongbox = Integer.parseInt(cli.readFromInput());
+                    while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numServantFromWarehouse, ResourceType.SERVANT))){
+                        cli.printToConsole("You don't have " + numServantFromStrongbox + " " + ResourceType.SERVANT.printResourceColouredName() + " in your strongbox\nChoose a proper number" );
+                        numServantFromStrongbox = Integer.parseInt(cli.readFromInput());
+                    }
                     if (numServantFromStrongbox + numServantFromWarehouse == d.getCostRes()[2])
                         servantNumValid = true;
                     else
@@ -321,13 +345,21 @@ public class ClientActionController {
                 if (d.getCostRes()[3] == 1) {
                     System.out.println("Required 1 " + ResourceType.SHIELD.printResourceColouredName());
                 } else {
-                    System.out.println("Required " + d.getCostRes()[0] + " " + ResourceType.SHIELD.printResourceColouredName() + "(s)");
+                    System.out.println("Required " + d.getCostRes()[3] + " " + ResourceType.SHIELD.printResourceColouredName() + "(s)");
                 }
                 System.out.println("Choose how many " + ResourceType.SHIELD.printResourceColouredName() + "(s) you want to take from the Warehouse");
                 int numShieldFromWarehouse = Integer.parseInt(cli.readFromInput());
+                while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(numShieldFromWarehouse, ResourceType.SHIELD))){
+                    cli.printToConsole("You don't have " + numShieldFromWarehouse + " " + ResourceType.SHIELD.printResourceColouredName() + " in your warehouse\nChoose a proper number" );
+                    numShieldFromWarehouse = Integer.parseInt(cli.readFromInput());
+                }
                 if(numShieldFromWarehouse != d.getCostRes()[3]) {
                     System.out.println("Choose how many " + ResourceType.SHIELD.printResourceColouredName() + "(s) you want to take from the Strongbox");
                     int numShieldFromStrongbox = Integer.parseInt(cli.readFromInput());
+                    while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numShieldFromWarehouse, ResourceType.SHIELD))){
+                        cli.printToConsole("You don't have " + numShieldFromStrongbox + " " + ResourceType.SHIELD.printResourceColouredName() + " in your strongbox\nChoose a proper number" );
+                        numShieldFromStrongbox = Integer.parseInt(cli.readFromInput());
+                    }
                     if (numShieldFromStrongbox + numShieldFromWarehouse == d.getCostRes()[3])
                         shieldNumValid = true;
                     else
@@ -341,10 +373,16 @@ public class ClientActionController {
                 }
                 else shieldNumValid = true;
             }
+
         }
-
-        //this.mmv.sendNotify(new BuyDevCardMessage(ID, mmv.getGame().getBoard().getDevDecks().get(index).getCards().get(0), buyFromWarehouse, buyFromStrongbox, ));
-
+        cli.printToConsole("Place your new Development Card. Select the number of the slot (1, 2 or 3)");
+        int slot = Integer.parseInt(cli.readFromInput());
+        while(slot < 1 || slot > 3){
+            cli.printToConsole("Invalid input! Choose another slot");
+            slot = Integer.parseInt(cli.readFromInput());
+        }
+        this.mmv.sendNotify(new BuyDevCardMessage(ID, mmv.getGame().getBoard().getDevDecks().get(index).getCards().get(0), resFromWarehouse, resFromStrongbox, slot));
+        System.out.println("ho inviato il message");
     }
 
 
@@ -466,6 +504,12 @@ public class ClientActionController {
         for (Actions a : actions) {
             a.setEnable(true);
         }
+    }
+
+    public void printProd(){
+        cli.printToConsole("Choose the player whose you would like to see the production");
+        int chosenID = Integer.parseInt(cli.readFromInput());
+        mmv.printProd(chosenID, this.ID);
     }
 }
 

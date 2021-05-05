@@ -125,7 +125,16 @@ public class Observable<Message> {
         }
 
     }
+
     protected void notify(PlaceResourceMessage message) {
+        synchronized (observers) {
+            for (Observer<Message> observer : observers) {
+                observer.update(message);
+            }
+        }
+
+    }
+    protected void notify(BuyDevCardMessage message) {
         synchronized (observers) {
             for (Observer<Message> observer : observers) {
                 observer.update(message);

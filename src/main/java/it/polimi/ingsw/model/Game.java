@@ -59,6 +59,16 @@ public class Game extends Observable<Message> implements Cloneable {
         this.board = board;
     }
 
+    public void addDevCardToPlayer(int ID, DevCard d, int pos ){
+        getPlayerById(ID).getPersonalBoard().addDevCard(d, pos, ID);
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getCardSlot(), 5, ID));
+    }
+
+//    public void removeDevCardFromMatrix(DevCard d){
+//        getBoard().getDevDecks().remove(d);
+//        notify(new ObjectMessage(getBoard().getDevDecks(), 3, ));
+//    }
+
 
     public void setCurrPlayer(int currPlayer) {
         this.currPlayer = currPlayer;
@@ -129,6 +139,5 @@ public class Game extends Observable<Message> implements Cloneable {
     public Game clone() throws CloneNotSupportedException {
         Game clone = new Game (this.numPlayer, this.currPlayer, this.nextPlayer, this.players, this.lori, this.board);
         return clone;
-
     }
 }

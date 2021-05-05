@@ -8,6 +8,8 @@ import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.SocketClientConnection;
 
+import java.util.ArrayList;
+
 public class ModelMultiplayerView extends Observable<Message> implements Observer<Message> {
 
     private Game game;
@@ -61,6 +63,11 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
         notify(message);
     } //local testing
 
+    public void sendNotify(BuyDevCardMessage message){
+        System.out.println("ho fatto la notify");
+        notify(message);
+    }
+
     public Game getGame() {
         return game;
     }
@@ -79,6 +86,20 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
             System.out.println("Card numeber: " + index);
             index++;
             notify(new PrintableMessage((d.getCards().get(0))));
+        }
+    }
+
+    public void printProd(int chosenID, int ID){
+        int slot = 1;
+        int pos = 1;
+        for(DevDeck dd : this.game.getPlayerById(chosenID).getPersonalBoard().getCardSlot()){
+            System.out.println("SLOT: " + slot);
+            for(DevCard dc : dd.getCards()){
+                System.out.println("POSITION: " + pos);
+                notify(new PrintableMessage(dc));
+                pos++;
+            }
+            slot++;
         }
     }
 
@@ -138,7 +159,8 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
         this.game.getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse)message.getObject());
         else if (message.getObjectID()==1)
             this.game.getBoard().setMarket((Market) message.getObject());
-
+        else if(message.getObjectID()==5)
+            this.game.getPlayerById(message.getID()).getPersonalBoard().setCardSlot((ArrayList<DevDeck>)message.getObject());
     }
 
     @Override
@@ -180,6 +202,11 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     @Override
     public void update(PlaceResourceMessage message) {
+
+    }
+
+    @Override
+    public void update(BuyDevCardMessage message) {
 
     }
 

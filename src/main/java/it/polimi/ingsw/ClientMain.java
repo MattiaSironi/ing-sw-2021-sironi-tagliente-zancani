@@ -31,7 +31,7 @@ public class ClientMain {
         game.getPlayerById(1).setPersonalBoard(new PersonalBoard());
         ModelMultiplayerView mmv = new ModelMultiplayerView(game);
         CLI cli = new CLI();
-        ClientActionController cac= new ClientActionController(cli, mmv, null);
+        ClientActionController cac= new ClientActionController(cli, mmv, null, 0);
         mmv.addObserver(controller);
         game.addObserver(mmv);
         mmv.setCac(cac);
