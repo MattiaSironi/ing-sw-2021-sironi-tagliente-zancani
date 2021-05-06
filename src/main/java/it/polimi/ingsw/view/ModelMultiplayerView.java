@@ -159,6 +159,10 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
         this.game.getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse)message.getObject());
         else if (message.getObjectID()==1)
             this.game.getBoard().setMarket((Market) message.getObject());
+        else if(message.getObjectID()==3)
+            this.game.getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse)message.getObject());
+        else if(message.getObjectID()==4)
+            this.game.getPlayerById(message.getID()).getPersonalBoard().setStrongbox((Strongbox)message.getObject());
         else if(message.getObjectID()==5)
             this.game.getPlayerById(message.getID()).getPersonalBoard().setCardSlot((ArrayList<DevDeck>)message.getObject());
     }
