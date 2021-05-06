@@ -6,7 +6,7 @@ package it.polimi.ingsw.model;
  * @author Mattia Sironi
  */
 
-public class WhiteTrayLCard extends LeaderCard {
+public class WhiteTrayLCard extends LeaderCard implements Printable{
     //type=4?
     private final ResourceType resType;
     private final CardColor x1Color;
@@ -33,4 +33,12 @@ public class WhiteTrayLCard extends LeaderCard {
     }
 
 
+    @Override
+    public void print() {
+        System.out.println("Leader Card details" +
+                "\n - Type : White Marble Card "+
+                "\n - Victory points: " + this.getVictoryPoints() +
+                "\n - Required colors: " + this.x1Color + " " + this.x2Color + " " + this.x2Color +
+                "\n - White marble conversion resource : " + this.resType);
+    }
 }

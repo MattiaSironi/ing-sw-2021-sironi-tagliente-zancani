@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.constants.Color;
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.view.ClientActionController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -77,6 +78,7 @@ public class DevProductionTest {
         assertEquals(2,this.game.getPlayerById(0).getPersonalBoard().getStrongbox().getEarnedServant());
         assertEquals(0,this.game.getPlayerById(0).getPersonalBoard().getStrongbox().getEarnedShield());
     }
+
 
 
 

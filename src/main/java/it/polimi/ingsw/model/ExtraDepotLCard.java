@@ -6,7 +6,7 @@ package it.polimi.ingsw.model;
  * @author Mattia Sironi
  */
 
-public class ExtraDepotLCard extends LeaderCard {
+public class ExtraDepotLCard extends LeaderCard implements Printable{
     //type=2?
     private final ResourceType resType;
     private final ResourceType resDepot;
@@ -26,4 +26,12 @@ public class ExtraDepotLCard extends LeaderCard {
     }
 
 
+    @Override
+    public void print() {
+        System.out.println("Leader Card details" +
+                "\n - Type : Extra Depot Card "+
+                "\n - Victory points: " + this.getVictoryPoints() +
+                "\n - Required resource: " + this.resType+
+                "\n - Extra Depot resource : " + this.resDepot);
+    }
 }

@@ -6,7 +6,7 @@ package it.polimi.ingsw.model;
  * @author Mattia Sironi
  */
 
-public class ExtraProdLCard extends LeaderCard {
+public class ExtraProdLCard extends LeaderCard implements Printable{
     //type=3?
     private final CardColor color;
     private final ResourceType input;
@@ -26,4 +26,12 @@ public class ExtraProdLCard extends LeaderCard {
         return input;
     }
 
+    @Override
+    public void print() {
+        System.out.println("Leader Card details" +
+                "\n - Type : Extra production Card "+
+                "\n - Victory points: " + this.getVictoryPoints() +
+                "\n - Required color: " + this.color +
+                "\n - Input resource for production : " + this.input);
+    }
 }
