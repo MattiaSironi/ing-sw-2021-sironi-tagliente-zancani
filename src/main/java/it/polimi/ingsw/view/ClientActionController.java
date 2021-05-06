@@ -3,10 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.*;
-import it.polimi.ingsw.model.DevCard;
-import it.polimi.ingsw.model.DevDeck;
-import it.polimi.ingsw.model.Marble;
-import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.view.*;
 
@@ -163,7 +160,7 @@ public class ClientActionController {
                     //case SF ->;
                     case SD -> this.mmv.printDevMatrix();
                     case SP -> printProd();
-                    //case SL ->;
+                    case SL -> printLeaders();
                     case SR -> mmv.printShelves(0);
                     case MR -> manageResources();
                     //case END -> resetEnable();
@@ -415,6 +412,10 @@ public class ClientActionController {
         int idx;
         String input;
         while (!correctInput) {
+            cli.printToConsole("These are your available leaders");
+            this.printLeaders();
+            }
+
             cli.printToConsole("Choose the Leader you want to activate and select its index");
             idx = Integer.parseInt(cli.readFromInput());
 
@@ -423,7 +424,7 @@ public class ClientActionController {
 //                    mmv.sendNotify(new PlayLeaderMessage(ID,idx));
                 } else cli.printToConsole("Invalid int, you selected " + idx);
             }
-        }
+
 
     public void askForResource(ResourceType res) { //public for now, then private TODO
 
@@ -534,6 +535,33 @@ public class ClientActionController {
         cli.printToConsole("Choose the player whose you would like to see the production");
         int chosenID = Integer.parseInt(cli.readFromInput());
         mmv.printProd(chosenID, this.ID);
+    }
+
+
+    public void printLeaders(){
+        //inizializzazione per testare
+//        LeaderCard l1 = new DiscountLCard(1,3,CardColor.BLUE,CardColor.YELLOW,ResourceType.COIN);
+//        LeaderCard l2 = new ExtraDepotLCard(2,2,ResourceType.SERVANT,ResourceType.SHIELD);
+//        LeaderCard l3 = new ExtraProdLCard(3,3,CardColor.GREEN,ResourceType.STONE);
+//        LeaderCard l4 = new WhiteTrayLCard(4,4,ResourceType.COIN,CardColor.YELLOW,CardColor.BLUE);
+//        ArrayList<LeaderCard> vett = new ArrayList<LeaderCard>();
+//        vett.add(0,l1);
+//        vett.add(1,l2);
+//        LeaderDeck deck = new LeaderDeck(1,1,vett);
+//        mmv.getGame().getPlayerById(0).setLeaderDeck(deck);
+
+        int i=1;
+        for(LeaderCard c : mmv.getGame().getPlayerById(this.ID).getLeaderDeck().getCards()){
+            cli.printToConsole("Leader " + i + " : ");
+            switch (c.getType()){
+                case 1 -> { ((DiscountLCard) c).print();}
+                case 2-> { ((ExtraDepotLCard) c).print();}
+                case 3-> { ((ExtraProdLCard) c).print();}
+                case 4-> { ((WhiteTrayLCard) c).print();}
+            }
+            i++;
+            cli.printToConsole("");
+        }
     }
 }
 

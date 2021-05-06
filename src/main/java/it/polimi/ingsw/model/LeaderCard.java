@@ -26,4 +26,6 @@ public class LeaderCard {
         return victoryPoints;
     }
 
+
+
 }

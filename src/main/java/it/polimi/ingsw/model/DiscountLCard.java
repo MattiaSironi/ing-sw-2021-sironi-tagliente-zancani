@@ -6,7 +6,7 @@ package it.polimi.ingsw.model;
  * @author Mattia Sironi
  */
 
-public class DiscountLCard extends LeaderCard {
+public class DiscountLCard extends LeaderCard implements Printable {
     //type=1?
     private final CardColor color1;
     private final CardColor color2;
@@ -31,4 +31,12 @@ public class DiscountLCard extends LeaderCard {
         return resType;
     }
 
+    @Override
+    public void print() {
+        System.out.println("Leader Card details" +
+                "\n - Type : Discount Card "+
+                "\n - Victory points: " + this.getVictoryPoints() +
+                "\n - Required colors: " + this.color1 + " " + this.color2 +
+                "\n - Discount resource : " + this.resType);
+    }
 }
