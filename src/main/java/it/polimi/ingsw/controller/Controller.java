@@ -100,14 +100,14 @@ public class Controller implements Observer<Message> {
         //tutti i controlli vittoria , favore papale e ecc.
 
     }
-    public void buyDevCard(int ID, DevCard d, ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox, int posIndex){
+    public void buyDevCard(int choosenIndex, int ID, DevCard d, ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox, int posIndex){
         for(ResourceType r : resFromStrongbox) {
             this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
         }
         for(ResourceType r : resFromWarehouse)
             this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
         if(this.game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(posIndex).getSize() == 3){
-            this.game.reportError(new ErrorMessage("Could not add this card in slot " + posIndex + ". Try again", ID, null));
+            this.game.reportError(new ErrorMessage("Could not add this card in slot " + posIndex + " because it is full. Try again", ID, null));
             return;
         }
         this.game.sendObject(new ObjectMessage(game.getPlayerById(ID).getPersonalBoard().getWarehouse(), 3, ID));
@@ -115,7 +115,8 @@ public class Controller implements Observer<Message> {
         this.game.addDevCardToPlayer(ID, d, posIndex);
         System.out.println("carta nel controller");
         d.print();
-//        this.game.removeDevCardFromMatrix(d);;
+        this.game.getBoard().getDevDecks().get(choosenIndex - 1).removeCardFromCards(d);
+        this.game.sendObject(new ObjectMessage(game.getBoard().getDevDecks(), 2, ID));
     }
 
      public void activateDevProduction(int ID, DevCard d, int num1FromWarehouse, int num1FromStrongbox, int num2FromWarehouse, int num2FromStrongbox){
@@ -441,7 +442,7 @@ public class Controller implements Observer<Message> {
 
     public void update(BuyDevCardMessage message){
         System.out.println("Sto per entrare nel controller");
-        buyDevCard(message.getID(), message.getD(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getSlot());
+        buyDevCard(message.getChoosenIndex(), message.getID(), message.getD(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getSlot());
     }
 
 

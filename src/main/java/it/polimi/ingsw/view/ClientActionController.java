@@ -277,9 +277,7 @@ public class ClientActionController {
                         coinNumValid = true;
                     else
                         cli.printToConsole(ResourceType.COIN.printResourceColouredName() + "(s) must be " + d.getCostRes()[0]);
-
                     if (coinNumValid) {
-
                         for (int num1 = 0; num1 < numCoinFromStrongbox; num1++) {
                             resFromStrongbox.add(ResourceType.COIN);
                         }
@@ -315,9 +313,10 @@ public class ClientActionController {
                         stoneNumValid = true;
                     else
                         cli.printToConsole(ResourceType.STONE.printResourceColouredName() + "(s) must be " + d.getCostRes()[1]);
-
-                    for (int num = 0; num < numStoneFromStrongbox; num++) {
-                        resFromStrongbox.add(ResourceType.STONE);
+                    if(stoneNumValid) {
+                        for (int num = 0; num < numStoneFromStrongbox; num++) {
+                            resFromStrongbox.add(ResourceType.STONE);
+                        }
                     }
                 }
                 else stoneNumValid = true;
@@ -351,9 +350,10 @@ public class ClientActionController {
                         servantNumValid = true;
                     else
                         cli.printToConsole(ResourceType.SERVANT.printResourceColouredName() + "(s) must be " + d.getCostRes()[2]);
-
-                    for (int num = 0; num < numServantFromStrongbox; num++) {
-                        resFromStrongbox.add(ResourceType.SERVANT);
+                    if(servantNumValid) {
+                        for (int num = 0; num < numServantFromStrongbox; num++) {
+                            resFromStrongbox.add(ResourceType.SERVANT);
+                        }
                     }
                 }
                 else servantNumValid = true;
@@ -386,8 +386,10 @@ public class ClientActionController {
                         shieldNumValid = true;
                     else
                         cli.printToConsole(ResourceType.SHIELD.printResourceColouredName() + "(s) must be " + d.getCostRes()[3]);
-                    for (int num = 0; num < numShieldFromStrongbox; num++) {
-                        resFromStrongbox.add(ResourceType.SHIELD);
+                    if(shieldNumValid) {
+                        for (int num = 0; num < numShieldFromStrongbox; num++) {
+                            resFromStrongbox.add(ResourceType.SHIELD);
+                        }
                     }
                 }
                 else shieldNumValid = true;
@@ -405,7 +407,7 @@ public class ClientActionController {
             cli.printToConsole("Invalid input! Choose another slot");
             slot = Integer.parseInt(cli.readFromInput());
         }
-        this.mmv.sendNotify(new BuyDevCardMessage(ID, d, resFromWarehouse, resFromStrongbox, slot - 1));
+        this.mmv.sendNotify(new BuyDevCardMessage(index, ID, d, resFromWarehouse, resFromStrongbox, slot - 1));
 
     }
 

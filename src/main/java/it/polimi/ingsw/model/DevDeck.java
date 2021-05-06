@@ -23,6 +23,15 @@ public class DevDeck implements Printable {
         this.cards = cards;
     }
 
+    public void removeCardFromCards(DevCard d){
+        for(DevCard dc : cards){
+            if(dc.equals(d)) {
+                cards.remove(d);
+                System.out.println("CARTA RIMOSSA");
+                break;
+            }
+        }
+    }
 
 
     public int getSize() {

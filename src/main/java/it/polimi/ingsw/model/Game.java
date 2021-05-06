@@ -64,12 +64,6 @@ public class Game extends Observable<Message> implements Cloneable {
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getCardSlot(), 5, ID));
     }
 
-//    public void removeDevCardFromMatrix(DevCard d){
-//        getBoard().getDevDecks().remove(d);
-//        notify(new ObjectMessage(getBoard().getDevDecks(), 3, ));
-//    }
-
-
     public void setCurrPlayer(int currPlayer) {
         this.currPlayer = currPlayer;
     }
