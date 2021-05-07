@@ -134,4 +134,12 @@ public class Game extends Observable<Message> implements Cloneable {
         Game clone = new Game (this.numPlayer, this.currPlayer, this.nextPlayer, this.players, this.lori, this.board);
         return clone;
     }
+
+    public void printPlayers(int ID)  {
+        for (Player p : this.players)  {
+            if (p.getId()== ID) notify(new Nickname(p.getNickname(), p.getId(), true));
+            else notify(new Nickname(p.getNickname(), p.getId(), false));
+
+        }
+    }
 }

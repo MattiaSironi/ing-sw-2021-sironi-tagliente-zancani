@@ -79,6 +79,9 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
     public void printShelves(int ID)  {
         notify(new PrintableMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse()));
     }
+    public void printStrongbox(int ID)  {
+        notify(new PrintableMessage(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox()));
+    }
 
     public void printDevMatrix(){
         int index = 1;
@@ -110,6 +113,7 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     @Override
     public void update(Nickname message) {
+        notify(message);
 
     }
 
@@ -181,7 +185,7 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     @Override
     public void update(ResourceListMessage message) { //just for local testing
-        this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print();
+        printShelves(cac.getID());
 
         for (Marble m : message.getMarbles()) {
 
@@ -190,7 +194,7 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
                 case COIN, STONE, SERVANT, SHIELD: {
                     this.cac.getCli().printToConsole("you received a " + m.getRes().printResourceColouredName() + "!");
                     this.cac.askForResource(m.getRes());
-                    this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print(); //local TODO
+                    printShelves(cac.getID()); //local TODO
                     break;
                 }
                 case FAITH_POINT: {

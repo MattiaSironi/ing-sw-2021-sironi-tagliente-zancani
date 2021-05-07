@@ -25,7 +25,7 @@ public class Strongbox implements Printable {
 //        this.stoneNum = stoneNum;
 //        this.servantNum = servantNum;
 //        this.shieldNum = shieldNum;
-        this.infinityShelf = new ArrayList<Shelf>();
+        this.infinityShelf = new ArrayList<>();
         this.infinityShelf.add(0, new Shelf(ResourceType.COIN, 0));
         this.infinityShelf.add(1, new Shelf(ResourceType.STONE, 0));
         this.infinityShelf.add(2, new Shelf(ResourceType.SERVANT, 0));
@@ -188,14 +188,13 @@ public class Strongbox implements Printable {
     }
 
     public boolean canIPay(int i, ResourceType r) {
-        if (getResCount(r) < i) return false;
-        else return true;
+        return getResCount(r) >= i;
     }
 
     @Override
     public void print() {
-        System.out.println("In your Strongbox you have : ");
-        System.out.println("You have " + this.getInfinityShelf().size() + " shelves");
+        System.out.println("In your Strongbox you have : "); //non per forza printi il tuo strongbox!
+        System.out.println("You have " + this.getInfinityShelf().size() + " shelves"); //sempre li hai!
         for (Shelf s : this.getInfinityShelf()) {
                 System.out.println(s.getCount() + " " + s.getResType().printResourceColouredName() + "(s)");
         }

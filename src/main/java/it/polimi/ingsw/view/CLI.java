@@ -33,6 +33,11 @@ public class CLI extends Observable<Message> implements Observer<Message> {
     @Override
     public void update(Nickname message) {
 
+        if (message.getValid())  {
+            System.out.println("Your nickname is " + message.getString() + " and your ID is " + message.getID());
+        }
+        else System.out.println("One of your opponent's nickame is "  + message.getString() + " and his ID is " + message.getID());
+
     }
 
     @Override

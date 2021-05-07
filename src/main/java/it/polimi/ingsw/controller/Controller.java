@@ -375,7 +375,7 @@ public class Controller implements Observer<Message> {
     }
 
     @Override public void update(Nickname message) {
-        setNickname(message);
+//        setNickname(message); SOCKET
     }
 
     @Override public void update(InputMessage message) {}

@@ -48,6 +48,9 @@ public class ClientActionController {
     }
 
 
+    public int getID() {
+        return ID;
+    }
 
     public void setup() throws IOException, ClassNotFoundException {
         String string;
@@ -161,7 +164,7 @@ public class ClientActionController {
                     case SD -> this.mmv.printDevMatrix();
                     case SP -> printProd();
                     case SL -> printLeaders();
-                    case SR -> mmv.printShelves(0);
+                    case SR -> /*mmv.printShelves(0);*/ printShelves();
                     case MR -> manageResources();
                     //case END -> resetEnable();
                     default -> cli.printToConsole("Invalid input");
@@ -169,6 +172,20 @@ public class ClientActionController {
             } else
                 cli.printToConsole("Invalid input");
         }
+    }
+
+    private void printShelves() {
+        mmv.getGame().printPlayers(this.ID);
+        int tempID=10;
+        cli.printToConsole("Choose the ID of the player whom resources you want to see : ");
+        boolean valid = false;
+        while (!valid) {
+            tempID = Integer.parseInt(cli.readFromInput());
+            if (mmv.getGame().getPlayerById(tempID) == null) cli.printToConsole("there is no player with this ID associated. try another ID");
+            else valid=true;
+        }
+        mmv.printShelves(tempID);
+        mmv.printStrongbox(tempID);
     }
 
     private void goToMarket() {
