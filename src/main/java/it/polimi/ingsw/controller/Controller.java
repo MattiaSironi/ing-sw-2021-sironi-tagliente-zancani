@@ -113,8 +113,6 @@ public class Controller implements Observer<Message> {
         this.game.sendObject(new ObjectMessage(game.getPlayerById(ID).getPersonalBoard().getWarehouse(), 3, ID));
         this.game.sendObject(new ObjectMessage(game.getPlayerById(ID).getPersonalBoard().getStrongbox(), 4, ID));
         this.game.addDevCardToPlayer(ID, d, posIndex);
-        System.out.println("carta nel controller");
-        d.print();
         this.game.getBoard().getDevDecks().get(choosenIndex - 1).removeCardFromCards(d);
         this.game.sendObject(new ObjectMessage(game.getBoard().getDevDecks(), 2, ID));
     }
@@ -375,7 +373,7 @@ public class Controller implements Observer<Message> {
     }
 
     @Override public void update(Nickname message) {
-//        setNickname(message); SOCKET
+        setNickname(message);
     }
 
     @Override public void update(InputMessage message) {}
@@ -441,7 +439,6 @@ public class Controller implements Observer<Message> {
     }
 
     public void update(BuyDevCardMessage message){
-        System.out.println("Sto per entrare nel controller");
         buyDevCard(message.getChoosenIndex(), message.getID(), message.getD(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getSlot());
     }
 

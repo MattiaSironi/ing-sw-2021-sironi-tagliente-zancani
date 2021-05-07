@@ -31,12 +31,11 @@ public class ClientActionController {
     private boolean actionDone = false;
 
 
-    public ClientActionController(CLI cli, ModelMultiplayerView mmv, SocketServerConnection socketServerConnection, int ID) {
+    public ClientActionController(CLI cli, ModelMultiplayerView mmv, SocketServerConnection socketServerConnection) {
         this.serverConnection = socketServerConnection;
         this.mmv = mmv;
         this.cli = cli;
-        this.ID = ID;
-        setActions();
+//        setActions();
     }
 
     public synchronized boolean isActive() {
@@ -156,7 +155,7 @@ public class ClientActionController {
                     case A -> {
                         if (Actions.A.isEnable()) {
                             noMoreActions();
-                            // do things
+//                            activateProd();
                         } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
                     }
                     case SM -> mmv.printMarket();
@@ -222,10 +221,10 @@ public class ClientActionController {
 //
 //        }
 //        serverConnection.send(new ErrorMessage("resources finished", this.ID));
-//
-//
-//
-//
+    }
+
+    public void activateProduction(){
+//        useBasicProduction();
     }
 
     public void buyDevCard(){
@@ -283,7 +282,7 @@ public class ClientActionController {
                 if(numCoinFromWarehouse != d.getCostRes()[0]) {
                     System.out.println("Choose how many " + ResourceType.COIN.printResourceColouredName() + "(s) you want to take from the Strongbox");
                     int numCoinFromStrongbox = Integer.parseInt(cli.readFromInput());
-                    while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numCoinFromWarehouse, ResourceType.COIN))){
+                    while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numCoinFromStrongbox, ResourceType.COIN))){
                         cli.printToConsole("You don't have " + numCoinFromStrongbox + " " + ResourceType.COIN.printResourceColouredName() + " in your strongbox\nChoose a proper number" );
                         numCoinFromStrongbox = Integer.parseInt(cli.readFromInput());
                     }
@@ -319,7 +318,7 @@ public class ClientActionController {
                 if(numStoneFromWarehouse != d.getCostRes()[1]) {
                     System.out.println("Choose how many " + ResourceType.STONE.printResourceColouredName() + "(s) you want to take from the Strongbox");
                     int numStoneFromStrongbox = Integer.parseInt(cli.readFromInput());
-                    while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numStoneFromWarehouse, ResourceType.STONE))){
+                    while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numStoneFromStrongbox, ResourceType.STONE))){
                         cli.printToConsole("You don't have " + numStoneFromStrongbox + " " + ResourceType.STONE.printResourceColouredName() + " in your strongbox\nChoose a proper number" );
                         numStoneFromStrongbox = Integer.parseInt(cli.readFromInput());
                     }
@@ -356,7 +355,7 @@ public class ClientActionController {
                 if(numServantFromWarehouse != d.getCostRes()[2]) {
                     System.out.println("Choose how many" + ResourceType.SERVANT.printResourceColouredName() + "(s) you want to take from the Strongbox");
                     int numServantFromStrongbox = Integer.parseInt(cli.readFromInput());
-                    while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numServantFromWarehouse, ResourceType.SERVANT))){
+                    while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numServantFromStrongbox, ResourceType.SERVANT))){
                         cli.printToConsole("You don't have " + numServantFromStrongbox + " " + ResourceType.SERVANT.printResourceColouredName() + " in your strongbox\nChoose a proper number" );
                         numServantFromStrongbox = Integer.parseInt(cli.readFromInput());
                     }
@@ -392,7 +391,7 @@ public class ClientActionController {
                 if (numShieldFromWarehouse != d.getCostRes()[3]) {
                     System.out.println("Choose how many " + ResourceType.SHIELD.printResourceColouredName() + "(s) you want to take from the Strongbox");
                     int numShieldFromStrongbox = Integer.parseInt(cli.readFromInput());
-                    while (!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numShieldFromWarehouse, ResourceType.SHIELD))) {
+                    while (!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numShieldFromStrongbox, ResourceType.SHIELD))) {
                         cli.printToConsole("You don't have " + numShieldFromStrongbox + " " + ResourceType.SHIELD.printResourceColouredName() + " in your strongbox\nChoose a proper number");
                         numShieldFromStrongbox = Integer.parseInt(cli.readFromInput());
                     }
@@ -425,7 +424,6 @@ public class ClientActionController {
 
     }
 
-
     public void PlayLeader (){
         boolean correctInput = false;
         int idx;
@@ -442,7 +440,41 @@ public class ClientActionController {
                     correctInput = true;
 //                    mmv.sendNotify(new PlayLeaderMessage(ID,idx));
                 } else cli.printToConsole("Invalid int, you selected " + idx);
-            }
+    }
+
+//    public void useBasicProduction(){
+//        boolean valid = false, validInput = false, validNum = false;
+//        ResourceType newRes, resFromWarehouse, resFromStrongbox;
+//        cli.printToConsole("Choose a new resource to produce\n1 --> COIN\n2 --> STONE\n3 --> SERVANT\n4 --> SCHIELD\n(type 1, 2, 3, or 4)");
+//        while(!valid) {
+//            String input = cli.readFromInput();
+//            if (!(input.equals("1") && input.equals("2") && input.equals("3") && input.equals("4"))) {
+//                cli.printToConsole("Invalid input, try again");
+//            }
+//            int chosenRes = Integer.parseInt(input);
+////            switch(chosenRes){
+////                case 1 -> newRes = ResourceType.COIN;
+////                case 2 -> newRes = ResourceType.STONE;
+////                case 3 -> newRes = ResourceType.SERVANT;
+////                case 4 -> newRes = ResourceType.SHIELD;
+////                default -> cli.printToConsole("Invalid input, try again");
+////            }
+//            valid = true;
+//            if(chosenRes == 1) newRes = ResourceType.COIN;
+//            else if(chosenRes == 2) newRes = ResourceType.STONE;
+//            else if(chosenRes == 3) newRes = ResourceType.SERVANT;
+//            else if(chosenRes == 3) newRes = ResourceType.SHIELD;
+//            else valid = false;
+//        }
+//        valid = false;
+//        cli.printToConsole("Now choose two resources you want to use");
+//
+//        while(!valid){
+//
+//        }
+//
+//
+//    }
 
 
     public void askForResource(ResourceType res) { //public for now, then private TODO
@@ -472,12 +504,14 @@ public class ClientActionController {
         String s;
         while (!valid) {
             cli.printToConsole("Choose the shelf where to put your " + res.printResourceColouredName() + " [1,2,3]");
-            s1 = Integer.parseInt(cli.readFromInput());
+            s = cli.readFromInput().replaceAll("[^0-9]", "");
+            if(!(s.equals(""))){
+                s1 = Integer.parseInt(s);
+            }
             if (1 <= s1 && s1 <= 3) valid = true;
             else cli.printToConsole("Invalid input! retry!");
         }
             mmv.sendNotify(new PlaceResourceMessage(res, s1-1, ID));
-
     }
 
     private void discardRes() {

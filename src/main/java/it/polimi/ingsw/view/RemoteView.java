@@ -45,8 +45,7 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     public void run(){
         this.clientConnection.run();
-
-        clientConnection.getServer().initialPhaseHandler(this); //FASE 1
+        clientConnection.getServer().waitingRoom(this); //FASE 1
         nicknameSetUp();
         //            while (isActive()) {
 //

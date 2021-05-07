@@ -18,6 +18,7 @@ import java.util.concurrent.TimeoutException;
 public class SocketClientConnection extends Observable<Message> implements Runnable {
     private boolean first;
     private Socket socket;
+    private Socket socketPinger;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private ObjectOutputStream pingOut;
@@ -37,39 +38,29 @@ public class SocketClientConnection extends Observable<Message> implements Runna
 
     private boolean active = true;
 
-    public SocketClientConnection(boolean first, Socket socket, Server server) {
+    public SocketClientConnection(boolean first, Socket socket, Server server, Socket socketPinger) {
         this.first = first;
         this.socket = socket;
         this.server = server;
+        this.socketPinger = socketPinger;
 
         this.pinger = new Thread(() -> {
             try {
-                ServerSocket pingSocket = new ServerSocket(50001);
-                Socket newPingSocket = pingSocket.accept();
-                newPingSocket.setSoTimeout(16000);
-                pingOut = new ObjectOutputStream(newPingSocket.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
-                pingIn = new ObjectInputStream(newPingSocket.getInputStream());
+                pingOut = new ObjectOutputStream(socketPinger.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
+                pingIn = new ObjectInputStream(socketPinger.getInputStream());
                 while (isActive()) {
                     pingOut.reset();
-                    pingOut.write(0);
+                    pingOut.writeObject("pong");
                     pingOut.flush();
-                    pingIn.read();
-
+                    for (int i = 0; i < 10000; i++);
+                    System.out.println(pingIn.readObject());
                 }
-
-
-            } catch (IOException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
                 System.out.println("Player # " + this.ID + "has  been disconnected!");
             }
-
-
         });
     }
-
-
-
-
 
     public Server getServer() {
         return server;
@@ -87,7 +78,6 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
-
     }
 
     public Object receive() throws IOException, ClassNotFoundException {
@@ -108,7 +98,6 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         active = false;
     }
 
-
     public void close() {
         closeConnection();
         System.out.println("Deregistering client...");
@@ -118,6 +107,7 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     public void run() {
 
         try {
+            pinger.start();
             out = new ObjectOutputStream(socket.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
             in = new ObjectInputStream(socket.getInputStream());
 

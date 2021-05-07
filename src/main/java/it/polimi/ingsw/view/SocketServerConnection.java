@@ -12,6 +12,27 @@ public class SocketServerConnection {
     private Thread pinger;
     private boolean isActive = true;
 
+
+    public SocketServerConnection() {
+        pinger = new Thread(() -> {
+            try {
+                System.out.println("thread partito");
+                Socket pingerSocket = new Socket("127.0.0.1", 12345);
+                ObjectInputStream pingerIn = new ObjectInputStream(pingerSocket.getInputStream());
+                ObjectOutputStream pingerOut = new ObjectOutputStream(pingerSocket.getOutputStream());
+                while (isActive()) {
+                    for (int i = 0; i < 10000; i++);
+                    System.out.println(pingerIn.readObject());
+                    pingerOut.reset();
+                    pingerOut.writeObject("ping");
+                    pingerOut.flush();
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     public void setActive(boolean active) {
         isActive = active;
     }
@@ -26,27 +47,11 @@ public class SocketServerConnection {
 
     public void run() throws IOException {
         socket = new Socket("127.0.0.1", 1234);
-        System.out.println("Connection established");
+        System.out.println("prestart");
+        pinger.start();
         socketIn = new ObjectInputStream(socket.getInputStream());
         socketOut = new ObjectOutputStream(socket.getOutputStream());
-
-        pinger = new Thread(() -> {
-            try {
-                Socket pingerSocket = new Socket("127.0.0.1", 50001);
-                ObjectInputStream pingerIn = new ObjectInputStream(pingerSocket.getInputStream());
-                ObjectOutputStream pingerOut = new ObjectOutputStream(pingerSocket.getOutputStream());
-                while (isActive()) {
-                    pingerIn.read();
-                    pingerOut.reset();
-                    pingerOut.write(0);
-                    pingerOut.flush();
-
-
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        System.out.println("Connection established");
     }
 
 
