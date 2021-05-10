@@ -261,7 +261,7 @@ public class Controller implements Observer<Message> {
 
 
      public void PlayLeaderCard(int ID, DiscountLCard dc){
-         this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(dc);
+       //  this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(dc);
          if(this.game.getPlayerById(ID).getResDiscount1()==ResourceType.EMPTY){
              this.game.getPlayerById(ID).setResDiscount1(dc.getResType());
          }
@@ -269,12 +269,12 @@ public class Controller implements Observer<Message> {
              this.game.getPlayerById(ID).setResDiscount2(dc.getResType());
          }
          else
-             game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
+             System.out.println(new ErrorMessage("you already have 2 active Leaders", ID));
          RemoveLeaderFromDeck(ID,dc);
      }
 
      public void PlayLeaderCard (int ID, ExtraDepotLCard sc){
-         this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(sc);
+       //  this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(sc);
          if(this.game.getPlayerById(ID).getPersonalBoard().getExtraShelfRes1()==ResourceType.EMPTY){
              this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes1(sc.getResDepot());
              this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum1(0);
@@ -284,12 +284,12 @@ public class Controller implements Observer<Message> {
              this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum2(0);
          }
          else
-             game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
+             System.out.println(new ErrorMessage("you already have 2 active Leaders", ID));
          RemoveLeaderFromDeck(ID,sc);
      }
 
     public void PlayLeaderCard(int ID, ExtraProdLCard c){
-        this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(c);
+     //   this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(c);
         if(this.game.getPlayerById(ID).getInputExtraProduction1()==ResourceType.EMPTY){
 
             this.game.getPlayerById(ID).setInputExtraProduction1(c.getInput());
@@ -298,12 +298,12 @@ public class Controller implements Observer<Message> {
             this.game.getPlayerById(ID).setInputExtraProduction2(c.getInput());
         }
         else
-            game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
+            System.out.println(new ErrorMessage("you already have 2 active Leaders", ID));
         RemoveLeaderFromDeck(ID,c);
     }
 
     public void PlayLeaderCard(int ID, WhiteTrayLCard wc){
-        this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(wc);
+      //  this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(wc);
         if(this.game.getPlayerById(ID).getWhiteConversion1()==ResourceType.EMPTY){
             this.game.getPlayerById(ID).setWhiteConversion1(wc.getResType());
         }
@@ -311,15 +311,19 @@ public class Controller implements Observer<Message> {
             this.game.getPlayerById(ID).setWhiteConversion2(wc.getResType());
         }
         else
-            game.reportError(new ErrorMessage("you already have 2 active Leaders", ID));
+            System.out.println("you already have 2 active Leaders");
         RemoveLeaderFromDeck(ID,wc);
 
     }
 
 
     public void RemoveLeaderFromDeck(int ID,LeaderCard lc){
-        this.game.getPlayerById(ID).getLeaderDeck().getCards().remove(lc);
+        this.game.getPlayerById(ID).getLeaderDeck().getCards().remove(lc); //toglie dal leader deck
         this.game.getPlayerById(ID).getLeaderDeck().setSize(this.game.getPlayerById(ID).getLeaderDeck().getSize()-1);
+        this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(lc); //aggiunge ai leader attivi
+        this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().setSize(this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getSize()+1);
+        game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getLeaderDeck(), 2, ID)); //invio leader della mano
+        game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader(),6,ID));
     }
 
 
@@ -330,13 +334,16 @@ public class Controller implements Observer<Message> {
          {i++;}
          if (i<=this.game.getPlayerById(ID).getLeaderDeck().getSize()) //se trovo la carta leader nel mazzo
          {
-             newLD = new LeaderDeck(this.game.getPlayerById(ID).getLeaderDeck().getSize()-1,1,this.game.getPlayerById(ID).getLeaderDeck().getCards());
+             newLD = new LeaderDeck((this.game.getPlayerById(ID).getLeaderDeck().getSize())-1,1,this.game.getPlayerById(ID).getLeaderDeck().getCards());
              newLD.getCards().remove(i);
              this.game.getPlayerById(ID).setLeaderDeck(newLD);
+
+
          }
         this.game.getPlayerById(ID).moveFaithMarkerPos(1);
          //tutti i controlli vittoria , favore papale e ecc.
-         game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader(), 5, ID));
+
+         game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getLeaderDeck(), 2, ID));
      }
 
 
@@ -443,6 +450,30 @@ public class Controller implements Observer<Message> {
         System.out.println("Sto per entrare nel controller");
         buyDevCard(message.getID(), message.getD(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getSlot());
     }
+
+    @Override
+    public void update(PlayLeaderMessage message){
+            if (message.getAction()) {
+                LeaderCard c = message.getLc();
+                switch (c.getType()) {
+                    case 1 -> {
+                        PlayLeaderCard(message.getID(), (DiscountLCard) c);
+                    }
+                    case 2 -> {
+                        PlayLeaderCard(message.getID(), (ExtraDepotLCard) c);
+                    }
+                    case 3 -> {
+                        PlayLeaderCard(message.getID(), (ExtraProdLCard) c);
+                    }
+                    case 4 -> {
+                        PlayLeaderCard(message.getID(), (WhiteTrayLCard) c);
+                    }
+                }
+            }
+            else {
+                DiscardLeaderCard(message.getID(), message.getLc());
+            }
+        }
 
 
 }

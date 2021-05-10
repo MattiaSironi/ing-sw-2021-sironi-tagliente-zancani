@@ -195,7 +195,6 @@ public class Strongbox implements Printable {
     @Override
     public void print() {
         System.out.println("In your Strongbox you have : ");
-        System.out.println("You have " + this.getInfinityShelf().size() + " shelves");
         for (Shelf s : this.getInfinityShelf()) {
                 System.out.println(s.getCount() + " " + s.getResType().printResourceColouredName() + "(s)");
         }

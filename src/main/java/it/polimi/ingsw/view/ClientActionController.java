@@ -157,7 +157,7 @@ public class ClientActionController {
                         } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
                     }
                     case SM -> mmv.printMarket();
-                    //case SF ->;
+                    case SF -> mmv.printFaithTrack(ID);
                     case SD -> this.mmv.printDevMatrix();
                     case SP -> printProd();
                     case SL -> printLeaders();
@@ -545,22 +545,57 @@ public class ClientActionController {
 //        LeaderCard l3 = new ExtraProdLCard(3,3,CardColor.GREEN,ResourceType.STONE);
 //        LeaderCard l4 = new WhiteTrayLCard(4,4,ResourceType.COIN,CardColor.YELLOW,CardColor.BLUE);
 //        ArrayList<LeaderCard> vett = new ArrayList<LeaderCard>();
+//        ArrayList<LeaderCard> act = new ArrayList<LeaderCard>();
+//        act.add(0,l3);
+//        act.add(1,l4);
 //        vett.add(0,l1);
 //        vett.add(1,l2);
-//        LeaderDeck deck = new LeaderDeck(1,1,vett);
+//        LeaderDeck actDeck = new LeaderDeck(2,1,act);
+//        LeaderDeck deck = new LeaderDeck(2,1,vett);
 //        mmv.getGame().getPlayerById(0).setLeaderDeck(deck);
+//        mmv.getGame().getPlayerById(0).getPersonalBoard().setActiveLeader(actDeck);
 
-        int i=1;
-        for(LeaderCard c : mmv.getGame().getPlayerById(this.ID).getLeaderDeck().getCards()){
-            cli.printToConsole("Leader " + i + " : ");
-            switch (c.getType()){
-                case 1 -> { ((DiscountLCard) c).print();}
-                case 2-> { ((ExtraDepotLCard) c).print();}
-                case 3-> { ((ExtraProdLCard) c).print();}
-                case 4-> { ((WhiteTrayLCard) c).print();}
-            }
-            i++;
-            cli.printToConsole("");
+        cli.printToConsole("Leaders in your hand : ");
+        mmv.getGame().getPlayerById(this.ID).getLeaderDeck().print();
+
+        cli.printToConsole("Your active Leaders : ");
+        mmv.getGame().getPlayerById(this.ID).getPersonalBoard().getActiveLeader().print();
+
+
+        boolean valid = false;
+        String s;
+        int idx;
+        cli.printToConsole("Digit :\n'a' to activate one Leader, \n'd' to discard one Leader Card or \n'x' to return to the action menu");
+        while (!valid) {
+                String input= cli.readFromInput();
+                if (input.equalsIgnoreCase("a")) {
+                    System.out.println("a");
+                    if(this.mmv.getGame().getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().size()<=2) {
+                        cli.printToConsole("Select the leader you want to activate [1/2]");
+                        idx = Integer.parseInt(cli.readFromInput());
+                        if (idx == 1 || idx == 2) {
+                            this.mmv.sendNotify(new PlayLeaderMessage(ID, idx, true, mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1)));
+                        } else
+                            cli.printToConsole("Invalid input");
+                    }
+                    else
+                        cli.printToConsole("you already have 2 active leaders");
+                    valid = true;
+
+                } else if (input.equalsIgnoreCase("d")) {
+                    System.out.println("d");
+                    cli.printToConsole("Select the leader you want to discard [1/2]");
+                    idx = Integer.parseInt(cli.readFromInput());
+                    if(idx==1 || idx==2){
+                    this.mmv.sendNotify(new PlayLeaderMessage(ID,idx,false,this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx-1)));
+                    }
+                    else
+                        cli.printToConsole("Invalid input");
+                    valid = true;
+                } else if (input.equalsIgnoreCase("x")){
+                    System.out.println("x");
+                    valid = true;
+                } else cli.printToConsole("Invalid input! Retry!");
         }
     }
 }

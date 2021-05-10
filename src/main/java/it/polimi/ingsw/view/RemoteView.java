@@ -187,7 +187,10 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
     @Override
     public void update(MarketMessage message) {
 
+    }
 
+    @Override
+    public void update(PlayLeaderMessage message) {
 
     }
 

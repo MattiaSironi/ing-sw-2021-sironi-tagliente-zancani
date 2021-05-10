@@ -63,10 +63,11 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
         notify(message);
     } //local testing
 
-    public void sendNotify(BuyDevCardMessage message){
-        System.out.println("ho fatto la notify");
-        notify(message);
-    }
+    public void sendNotify(BuyDevCardMessage message){ notify(message); }
+
+    public void sendNotify(PlayLeaderMessage message) {
+        System.out.println("faccio la notify");
+        notify((PlayLeaderMessage)message);}
 
     public Game getGame() {
         return game;
@@ -159,12 +160,16 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
         this.game.getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse)message.getObject());
         else if (message.getObjectID()==1)
             this.game.getBoard().setMarket((Market) message.getObject());
+        else if(message.getObjectID()==2)
+            this.game.getPlayerById(message.getID()).setLeaderDeck((LeaderDeck) message.getObject());
         else if(message.getObjectID()==3)
             this.game.getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse)message.getObject());
         else if(message.getObjectID()==4)
             this.game.getPlayerById(message.getID()).getPersonalBoard().setStrongbox((Strongbox)message.getObject());
         else if(message.getObjectID()==5)
             this.game.getPlayerById(message.getID()).getPersonalBoard().setCardSlot((ArrayList<DevDeck>)message.getObject());
+        else if(message.getObjectID()==6)
+            this.game.getPlayerById(message.getID()).getPersonalBoard().setActiveLeader((LeaderDeck)message.getObject());
     }
 
     @Override
@@ -214,6 +219,15 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     }
 
+    @Override
+    public void update(PlayLeaderMessage message) {
 
+    }
+
+
+    public void printFaithTrack(int ID) {
+        int points = getGame().getPlayerById(ID).getVictoryPoints();
+        this.getGame().getPlayerById(ID).getPersonalBoard().printFaithTrack(points);
+    }
 }
 

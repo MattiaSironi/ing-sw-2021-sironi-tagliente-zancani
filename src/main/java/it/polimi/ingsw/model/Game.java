@@ -106,8 +106,7 @@ public class Game extends Observable<Message> implements Cloneable {
         notify(message);
     }
 
-    public void sendObject(ObjectMessage message) {
-        notify(message);
+    public void sendObject(ObjectMessage message) { notify(message);
     }
 
     public void sendResources(ResourceListMessage message)  {

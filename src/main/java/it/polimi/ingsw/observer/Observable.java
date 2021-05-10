@@ -142,5 +142,15 @@ public class Observable<Message> {
         }
 
     }
+
+
+    protected void notify(PlayLeaderMessage message) {
+        synchronized (observers) {
+            for (Observer<Message> observer : observers) {
+                observer.update(message);
+            }
+        }
+
+    }
 }
 

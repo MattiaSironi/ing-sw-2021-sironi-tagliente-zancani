@@ -271,4 +271,26 @@ public class PersonalBoard {
     public void setWarehouse(ShelfWarehouse warehouse) {
         this.warehouse = warehouse;
     }
+
+    public void printFaithTrack (int mypoints){
+        char empty = '\u2E2C';
+        char popeSpace  = '\u271F';
+        char pope2 = '\u271D';
+        char favorSpace = '\u2735';
+        int i=0 ;
+        while(i<=24){
+            if(i!=mypoints){
+                if(i>=0&&i<=4 || i>=9&&i<=11 || i>=17&&i<=18)
+                    System.out.print(empty + " ");
+                else if(i>=5&&i<=7 || i>=12&&i<=15 || i>=19&&i<=23)
+                    System.out.print(favorSpace + " ");
+                else
+                    System.out.print(pope2 + " ");
+            }
+           // else
+            // {System.out.print("X" + " ");}
+            i++;
+        }
+        System.out.println("");
+    }
 }
