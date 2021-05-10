@@ -18,6 +18,17 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
     private SocketClientConnection clientConnection;
     private int ID;
     private static int size;
+    private int turnPhase = 0;
+    private int gamePhase = 0;
+    private boolean active = true;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public static void setSize(int size) {
         RemoteView.size = size;
@@ -44,54 +55,30 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
     }
 
     public void run(){
+        this.clientConnection.setRemoteView(this);
         this.clientConnection.run();
         clientConnection.getServer().waitingRoom(this); //FASE 1
-        nicknameSetUp();
-        //            while (isActive()) {
-//
-//                Object actionMessage = in.readObject();
-//                if (actionMessage instanceof MarketMessage)  {
-//                    goToMarket((MarketMessage) actionMessage);
-//                }
 
-        clientConnection.getPinger().start(); //ping
+        while(isActive()){
 
-
-
-    }
-
-    public void nicknameSetUp() {
-        boolean setup = false;
-        while (!setup) {
-            try {
-                Nickname nickname = (Nickname)clientConnection.receive();
-                if (nickname.getValid()) {
-                    setup = true;
-                } else {
-                    notify(nickname);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
         }
+
     }
 
-    public int setNumPlayers() {
-        int numPlayers = 0;
-        try {
-            numPlayers = ((ChooseNumberOfPlayer)clientConnection.receive()).getNumberOfPlayers();
-            clientConnection.getServer().setReady(true);
-        } catch (/*IOException | */ NoSuchElementException e) {
-            System.err.println("Error!" + e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return numPlayers;
-    }
+//    public int setNumPlayers() {
+//        int numPlayers = 0;
+//        try {
+//            numPlayers = ((ChooseNumberOfPlayer)clientConnection.receive()).getNumberOfPlayers();
+//            clientConnection.getServer().setReady(true);
+//        } catch (/*IOException | */ NoSuchElementException e) {
+//            System.err.println("Error!" + e.getMessage());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        return numPlayers;
+//    }
 
     private void goToMarket(MarketMessage message) throws IOException, ClassNotFoundException {
         notify(message);
@@ -111,30 +98,16 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public void update(Message message) {
     }
 
     @Override
     public void update(Nickname message) {
-        if (message.getID() == this.ID) {
-            clientConnection.send(new OutputMessage("Your nickname is " + message.getString()));
-        } else {
-            clientConnection.send(new OutputMessage("One of your opponents nickname is " + message.getString()));
-        }
+        if(message.getID() == this.ID)
+            clientConnection.send(message);
+        else
+            clientConnection.send(new OutputMessage("One of your opponents is " + message.getString()));
     }
 
     @Override
@@ -218,11 +191,30 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     }
 
-    public void handleAction(Nickname message) {
-        notify(message);
-    }
+    public void handleAction(Object o){
+        if(gamePhase == 0){
+            if(o instanceof Nickname){
+                notify((Nickname)o);
+            }
+        }
+        if(gamePhase == 1){
+            if(turnPhase == 0) {
+                if (o instanceof MarketMessage) {
+                    notify((MarketMessage) o);
+                } else if (o instanceof BuyDevCardMessage) {
+                    notify((BuyDevCardMessage) o);
+                } else if (o instanceof ProductionMessage) {
+                    notify((ProductionMessage) o);
+                } else if (o instanceof PlayLeaderMessage) {
+                    notify((PlayLeaderMessage) o);
+                } else if (o instanceof ManageResourceMessage) {
+                    notify((ManageResourceMessage) o);
+                } else if (o instanceof EndTurnMessage) {
+                    notify((EndTurnMessage) o);
+                } else {
 
-    public void handleAction(MarketMessage message)  {
-        notify(message);
+                }
+            }
+        }
     }
 }

@@ -15,13 +15,13 @@ public class CLI extends Observable<Message> implements Observer<Message> {
     public void run(){
 
     }
-    public String readFromInput(){
+    public synchronized String readFromInput(){
         System.out.print("> ");
         String input = in.nextLine();
         return input;
     }
 
-    public void printToConsole(String message){
+    public synchronized void printToConsole(String message){
         System.out.println(message);
     }
 
@@ -98,6 +98,11 @@ public class CLI extends Observable<Message> implements Observer<Message> {
 
     @Override
     public void update(BuyDevCardMessage message) {
+
+    }
+
+    @Override
+    public void update(PlayLeaderMessage message) {
 
     }
 }

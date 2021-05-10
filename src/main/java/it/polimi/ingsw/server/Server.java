@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
 import it.polimi.ingsw.message.CommonMessages.IdMessage;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.RemoteView;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -54,8 +55,10 @@ public class Server {
     }
 
     public void hostSetup(RemoteView rv){
-        numPlayers = rv.setNumPlayers();
+        while(waitingConnection.size() != numPlayers) {
+        }
         gameSetup();
+
     }
 
 //    public void initialPhaseHandler(RemoteView rv) {
@@ -121,8 +124,6 @@ public class Server {
 //    }
 
     public void gameSetup(){
-        while(waitingConnection.size() != numPlayers) {
-        }
         Game game = new Game();
         Controller controller = new Controller(game);
         List<Integer> keys = new ArrayList<>(waitingConnection.keySet());
@@ -159,21 +160,18 @@ public class Server {
 
 
 
+
     public void run() {
         while (true) {
             try {
                 Socket newSocket = serverSocket.accept();
-                System.out.println("accept1");
-                Socket newPingerSocket = pingerSocket.accept();
-                System.out.println("accept2");
                 if (isFirst) {
                     isFirst = false;
-                    SocketClientConnection socketConnection = new SocketClientConnection(true, newSocket, this, newPingerSocket);
+                    SocketClientConnection socketConnection = new SocketClientConnection(true, newSocket, this);
                     RemoteView remoteView = new RemoteView(socketConnection);
                     executor.submit(remoteView);
                 } else {
-
-                    SocketClientConnection socketConnection = new SocketClientConnection(false, newSocket, this, newPingerSocket);
+                    SocketClientConnection socketConnection = new SocketClientConnection(false, newSocket, this);
                     RemoteView remoteView = new RemoteView(socketConnection);
                     executor.submit(remoteView);
                 }
@@ -201,7 +199,6 @@ public class Server {
 
     public Server() throws IOException {
         this.serverSocket = new ServerSocket(port);
-        this.pingerSocket = new ServerSocket(12345);
     }
 
 

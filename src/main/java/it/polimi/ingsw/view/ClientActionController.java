@@ -51,47 +51,16 @@ public class ClientActionController {
         return ID;
     }
 
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
     public void setup() throws IOException, ClassNotFoundException {
         String string;
         cli.printToConsole("Welcome to the game. This is an alpha version so you will be connected to the loopback address");
         cli.printToConsole("Type any key if you are ready to this experience:");
         string = cli.readFromInput();
         serverConnection.run();
-        this.ID = ((IdMessage) serverConnection.receive()).getID();
-        System.out.println(this.ID);
-        if (ID == 0) {
-            setNumberOfPlayers();
-        } else {
-            cli.printToConsole("Waiting for the host...");
-        }
-        ModelMultiplayerView.setSize(((ChooseNumberOfPlayer)serverConnection.receive()).getNumberOfPlayers());
-        cli.printToConsole("The match is set to " + ModelMultiplayerView.getSize());
-        while (!nameConfirmed) {
-            cli.printToConsole("Choose your nickname");
-            String nickname = cli.readFromInput();
-            serverConnection.send(new Nickname(nickname, ID, false));
-            if (((ErrorMessage) serverConnection.receive()).getString().equals("ko")) {
-                cli.printToConsole("This nickname is already chosen");
-
-            } else {
-                serverConnection.send(new Nickname("", ID, true));
-                nameConfirmed = true;
-            }
-        }
-
-
-        cli.printToConsole(((OutputMessage) serverConnection.receive()).getString());
-        if (ModelMultiplayerView.getSize() >= 2) {
-            cli.printToConsole(((OutputMessage) serverConnection.receive()).getString());
-        }
-        if (ModelMultiplayerView.getSize() >= 3) {
-            cli.printToConsole(((OutputMessage) serverConnection.receive()).getString());
-        }
-        if (ModelMultiplayerView.getSize() == 4) {
-            cli.printToConsole(((OutputMessage) serverConnection.receive()).getString());
-        }
-
-        this.serverConnection.getPinger().start();
 
         while (isActive()) {
 
@@ -442,39 +411,51 @@ public class ClientActionController {
                 } else cli.printToConsole("Invalid int, you selected " + idx);
     }
 
-//    public void useBasicProduction(){
-//        boolean valid = false, validInput = false, validNum = false;
-//        ResourceType newRes, resFromWarehouse, resFromStrongbox;
-//        cli.printToConsole("Choose a new resource to produce\n1 --> COIN\n2 --> STONE\n3 --> SERVANT\n4 --> SCHIELD\n(type 1, 2, 3, or 4)");
-//        while(!valid) {
-//            String input = cli.readFromInput();
-//            if (!(input.equals("1") && input.equals("2") && input.equals("3") && input.equals("4"))) {
-//                cli.printToConsole("Invalid input, try again");
+    public void useBasicProduction(){
+        boolean valid = false, validInput = false, validNum = false;
+        ResourceType newRes, resFromWarehouse, resFromStrongbox;
+        cli.printToConsole("Choose a new resource to produce\n1 --> COIN\n2 --> STONE\n3 --> SERVANT\n4 --> SCHIELD\n(type 1, 2, 3, or 4)");
+        while(!valid) {
+            String input = cli.readFromInput();
+            if (!(input.equals("1") && input.equals("2") && input.equals("3") && input.equals("4"))) {
+                cli.printToConsole("Invalid input, try again");
+            }
+            int chosenRes = Integer.parseInt(input);
+//            switch(chosenRes){
+//                case 1 -> newRes = ResourceType.COIN;
+//                case 2 -> newRes = ResourceType.STONE;
+//                case 3 -> newRes = ResourceType.SERVANT;
+//                case 4 -> newRes = ResourceType.SHIELD;
+//                default -> cli.printToConsole("Invalid input, try again");
 //            }
-//            int chosenRes = Integer.parseInt(input);
-////            switch(chosenRes){
-////                case 1 -> newRes = ResourceType.COIN;
-////                case 2 -> newRes = ResourceType.STONE;
-////                case 3 -> newRes = ResourceType.SERVANT;
-////                case 4 -> newRes = ResourceType.SHIELD;
-////                default -> cli.printToConsole("Invalid input, try again");
-////            }
-//            valid = true;
-//            if(chosenRes == 1) newRes = ResourceType.COIN;
-//            else if(chosenRes == 2) newRes = ResourceType.STONE;
-//            else if(chosenRes == 3) newRes = ResourceType.SERVANT;
-//            else if(chosenRes == 3) newRes = ResourceType.SHIELD;
-//            else valid = false;
-//        }
-//        valid = false;
-//        cli.printToConsole("Now choose two resources you want to use");
-//
-//        while(!valid){
-//
-//        }
-//
-//
-//    }
+            valid = true;
+            if(chosenRes == 1) newRes = ResourceType.COIN;
+            else if(chosenRes == 2) newRes = ResourceType.STONE;
+            else if(chosenRes == 3) newRes = ResourceType.SERVANT;
+            else if(chosenRes == 3) newRes = ResourceType.SHIELD;
+            else valid = false;
+        }
+        valid = false;
+        cli.printToConsole("Now choose the first resource you want to use\n1 --> COIN\n2 --> STONE\n3 --> SERVANT\n4 --> SCHIELD\n(type 1, 2, 3, or 4)");
+
+        while(!valid){
+            mmv.printShelves(ID);
+            mmv.printStrongbox(ID);
+            String input = cli.readFromInput();
+            if (!(input.equals("1") && input.equals("2") && input.equals("3") && input.equals("4"))) {
+                cli.printToConsole("Invalid input, try again");
+            }
+            int chosenRes = Integer.parseInt(input);
+            cli.printToConsole("Where would you like to take it from? (WARE -> warehouse / STRONG -> strongbox");
+            if(cli.readFromInput().equals("WARE")){
+
+            }
+
+
+        }
+
+
+    }
 
 
     public void askForResource(ResourceType res) { //public for now, then private TODO
@@ -650,6 +631,32 @@ public class ClientActionController {
                     valid = true;
                 } else cli.printToConsole("Invalid input! Retry!");
         }
+    }
+
+    public void handleAction(Object o) {
+        if(o instanceof ChooseNumberOfPlayer){
+            ModelMultiplayerView.setSize(((ChooseNumberOfPlayer)o).getNumberOfPlayers());
+            cli.printToConsole("The match is set to " + ModelMultiplayerView.getSize());
+            nicknameSetUp();
+        }
+        if(o instanceof Nickname){
+            if(((Nickname)o).getValid()){
+                cli.printToConsole("Your nickname is " + ((Nickname) o).getString());
+            }
+            else{
+                cli.printToConsole("This nickname is already chosen\nTry again");
+                serverConnection.send(new Nickname(cli.readFromInput(), ID, false));
+            }
+        }
+        if(o instanceof OutputMessage){
+            cli.printToConsole(((OutputMessage) o).getString());
+        }
+    }
+
+    private void nicknameSetUp() {
+        cli.printToConsole("Choose your nickname");
+        String nickname = cli.readFromInput();
+        serverConnection.send(new Nickname(nickname, ID, false));
     }
 }
 

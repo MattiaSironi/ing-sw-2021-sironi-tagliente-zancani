@@ -35,9 +35,9 @@ public class Player {
     private boolean vaticanSection;
     private PersonalBoard personalBoard;
 
-    public Player(String nickname, int id){
-        this.nickname = nickname;
+    public Player(int id, String nickname){
         this.id=id;
+        this.nickname = nickname;
         this.personalBoard = new PersonalBoard();
     }
 

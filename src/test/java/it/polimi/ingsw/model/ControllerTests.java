@@ -37,51 +37,45 @@ public class ControllerTests {
 //-----------------------BASIC PRODUCTION----------------------------------------------------------------------------------------------------
     @Test
     @DisplayName("Use basic production")
-    void useBasicProductionFromWarehouse() {
+    void useBasicProductionFromWarehouse1() {
 
         game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
         game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
         game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
 
+        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
+        ArrayList<ResourceType> resFroStrongbox = new ArrayList<>();
 
-        controller.useBasicProduction(0, ResourceType.COIN, ResourceType.STONE, ResourceType.SHIELD, true, false);
+        resFromWarehouse.add(ResourceType.COIN);
+        resFromWarehouse.add(ResourceType.STONE);
+
+        controller.useBasicProduction(0, resFromWarehouse, resFroStrongbox, ResourceType.SHIELD);
 
         assertEquals(0, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.COIN));
         assertEquals(1, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.STONE));
-
     }
 
     @Test
     @DisplayName("Use basic production")
-    void useBasicProductionFromStrongbox() {
-
-        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 1);
-        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 1);
-        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 1);
-
-
-        controller.useBasicProduction(0, ResourceType.COIN, ResourceType.STONE, ResourceType.SHIELD, false, true);
-
-        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getStrongbox().getResCount(ResourceType.COIN));
-        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getStrongbox().getResCount(ResourceType.STONE));
-
-    }
-
-    @Test
-    @DisplayName("Use basic production")
-    void useBasicProductionFromStrongboxAndFromWarehouse() {
+    void useBasicProductionFromWarehouse2() {
 
         game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
-        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 1);
-        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 1);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
 
-        //it takes the first resource from warehouse and the second from strongbox
-        controller.useBasicProduction(0, ResourceType.COIN, ResourceType.STONE, ResourceType.SHIELD, true, true);
+        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
+        ArrayList<ResourceType> resFroStrongbox = new ArrayList<>();
 
-        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.COIN));
-        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getStrongbox().getResCount(ResourceType.STONE));
+        resFromWarehouse.add(ResourceType.COIN);
+        resFromWarehouse.add(ResourceType.SERVANT);
 
+        controller.useBasicProduction(0, resFromWarehouse, resFroStrongbox, ResourceType.SHIELD);
+
+        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.COIN));
+        assertEquals(2, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.STONE));
     }
+
+
 
 
     //-----------------------LEADER PRODUCTION----------------------------------------------------------------------------------------------------

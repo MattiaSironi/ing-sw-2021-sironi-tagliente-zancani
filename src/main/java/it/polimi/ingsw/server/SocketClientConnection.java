@@ -1,31 +1,27 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.message.*;
-import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.view.RemoteView;
 
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.NoSuchElementException;
-import java.util.concurrent.TimeoutException;
 
 
 public class SocketClientConnection extends Observable<Message> implements Runnable {
     private boolean first;
     private Socket socket;
-    private Socket socketPinger;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private ObjectOutputStream pingOut;
-    private ObjectInputStream pingIn;
     private Server server;
     private int ID;
-    private Thread pinger;
+    private Thread socketListener;
+    private RemoteView remoteView;
 
 
     public int getID() {
@@ -36,24 +32,22 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         this.ID = ID;
     }
 
+    public void setRemoteView(RemoteView remoteView) {
+        this.remoteView = remoteView;
+    }
+
     private boolean active = true;
 
-    public SocketClientConnection(boolean first, Socket socket, Server server, Socket socketPinger) {
+    public SocketClientConnection(boolean first, Socket socket, Server server) {
         this.first = first;
         this.socket = socket;
         this.server = server;
-        this.socketPinger = socketPinger;
 
-        this.pinger = new Thread(() -> {
+        this.socketListener = new Thread(() -> {
             try {
-                pingOut = new ObjectOutputStream(socketPinger.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
-                pingIn = new ObjectInputStream(socketPinger.getInputStream());
                 while (isActive()) {
-                    pingOut.reset();
-                    pingOut.writeObject("pong");
-                    pingOut.flush();
-                    for (int i = 0; i < 10000; i++);
-                    System.out.println(pingIn.readObject());
+                    Object message = receive();
+                    messageHandler(message);
                 }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
@@ -84,10 +78,6 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         return in.readObject();
     }
 
-    public Thread getPinger() {
-        return pinger;
-    }
-
     public synchronized void closeConnection() {
         //send("Connection closed!");
         try {
@@ -107,12 +97,24 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     public void run() {
 
         try {
-            pinger.start();
             out = new ObjectOutputStream(socket.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
             in = new ObjectInputStream(socket.getInputStream());
-
+            socketListener.start();
         } catch (IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
+        }
+    }
+
+    public void messageHandler(Object message){
+//        if(message instanceof PingMessage){
+//            send((PingMessage)message);
+//        }
+        if(message instanceof ChooseNumberOfPlayer){
+            server.setNumPlayers(((ChooseNumberOfPlayer)message).getNumberOfPlayers());
+            server.setReady(true);
+        }
+        else{
+            remoteView.handleAction(message);
         }
     }
 

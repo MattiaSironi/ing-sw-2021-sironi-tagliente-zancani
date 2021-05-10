@@ -17,6 +17,7 @@ import it.polimi.ingsw.observer.Observable;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 
 public class Game extends Observable<Message> implements Cloneable {
@@ -32,11 +33,6 @@ public class Game extends Observable<Message> implements Cloneable {
         board= new Board();
     }
 
-
-    public void createNewPlayer(Nickname nickname) {
-        this.players.add(new Player(nickname.getString(), nickname.getID()));
-        notify(new IdMessage(this.players.size()));
-    }
 
     public void printPlayerNickname(int ID) {
         String realNick = null;
@@ -100,6 +96,10 @@ public class Game extends Observable<Message> implements Cloneable {
         notify(message);
     }
 
+    public void reportError(Nickname message){
+        notify(message);
+    }
+
     public void sendObject(ObjectMessage message) { notify(message);
     }
 
@@ -140,5 +140,9 @@ public class Game extends Observable<Message> implements Cloneable {
             else notify(new Nickname(p.getNickname(), p.getId(), false));
 
         }
+    }
+
+    public void setInkwell(){
+        Collections.shuffle(this.getPlayers());
     }
 }

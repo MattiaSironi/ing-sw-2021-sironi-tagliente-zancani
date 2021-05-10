@@ -10,6 +10,7 @@ import it.polimi.ingsw.observer.Observer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Controller implements Observer<Message> {
     private Game game;
@@ -30,11 +31,12 @@ public class Controller implements Observer<Message> {
 
         }
         if (found) {
-            game.reportError(new ErrorMessage("ko", nickname.getID()));
+            game.reportError(new Nickname(nickname.getString(), nickname.getID(), false));
         } else {
-            game.reportError(new ErrorMessage("ok", nickname.getID()));
-            game.createNewPlayer(nickname);
+            game.reportError(new Nickname(nickname.getString(), nickname.getID(), true));
+            game.getPlayers().add(new Player(nickname.getID(), nickname.getString()));
         }
+
     }
 
     public void swapShelves(int s1, int s2, int ID){
@@ -232,19 +234,41 @@ public class Controller implements Observer<Message> {
         }
     }
 
-    public void useBasicProduction(int ID, ResourceType r1, ResourceType r2, ResourceType newRes, boolean buyFromWarehouse, boolean buyFromStrongbox) {
-        if (buyFromWarehouse == true && buyFromStrongbox == false) {
-            this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r1);
-            this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r2);
-        } else if (buyFromWarehouse == false && buyFromStrongbox == true) {
-            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r1);
-            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r2);
-        } else if (buyFromWarehouse == true && buyFromStrongbox == true) { //r1 è la risorsa da prendere da Warehouse e r2 è la risorsa da prendere da Strongbox
-            this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r1);
-            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r2);
+    public void useBasicProduction(int ID, ArrayList<ResourceType> paidResFromWarehouse, ArrayList<ResourceType> paidResFromStrongbox, ResourceType newRes) {
+        if (!(this.game.getPlayerById(ID).getPersonalBoard()
+                .getWarehouse().canIPay(paidResFromWarehouse.stream()
+                        .filter(x -> x.equals(ResourceType.COIN)).collect(Collectors.toList()).size(), ResourceType.COIN)) || !(this.game.getPlayerById(ID).getPersonalBoard()
+                .getWarehouse().canIPay(paidResFromWarehouse.stream()
+                        .filter(x -> x.equals(ResourceType.STONE)).collect(Collectors.toList()).size(), ResourceType.STONE)) || !(this.game.getPlayerById(ID).getPersonalBoard()
+                .getWarehouse().canIPay(paidResFromWarehouse.stream()
+                        .filter(x -> x.equals(ResourceType.SERVANT)).collect(Collectors.toList()).size(), ResourceType.SERVANT)) || !(this.game.getPlayerById(ID).getPersonalBoard()
+                .getWarehouse().canIPay(paidResFromWarehouse.stream()
+                        .filter(x -> x.equals(ResourceType.SHIELD)).collect(Collectors.toList()).size(), ResourceType.SHIELD))) {
+            this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
+            return;
+        } else if (!(this.game.getPlayerById(ID).getPersonalBoard()
+                .getStrongbox().canIPay(paidResFromStrongbox.stream()
+                        .filter(x -> x.equals(ResourceType.COIN)).collect(Collectors.toList()).size(), ResourceType.COIN)) || !(this.game.getPlayerById(ID).getPersonalBoard()
+                .getStrongbox().canIPay(paidResFromStrongbox.stream()
+                        .filter(x -> x.equals(ResourceType.STONE)).collect(Collectors.toList()).size(), ResourceType.STONE)) || !(this.game.getPlayerById(ID).getPersonalBoard()
+                .getStrongbox().canIPay(paidResFromStrongbox.stream()
+                        .filter(x -> x.equals(ResourceType.SERVANT)).collect(Collectors.toList()).size(), ResourceType.SERVANT)) || !(this.game.getPlayerById(ID).getPersonalBoard()
+                .getStrongbox().canIPay(paidResFromStrongbox.stream()
+                        .filter(x -> x.equals(ResourceType.SHIELD)).collect(Collectors.toList()).size(), ResourceType.SHIELD))) {
+            this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
+            return;
+        } else {
+            for (ResourceType r : paidResFromWarehouse) {
+                this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
+            }
+
+            for (ResourceType r : paidResFromStrongbox) {
+                this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
+            }
         }
-        //consuma r1 ed r2 e produce r3 che mette nello strongbox
     }
+
+
     public void useLeaderProduction(int ID, ResourceType r, ResourceType newRes, boolean buyFromWarehouse){ //if true -> pay from warehouse
          if(buyFromWarehouse == true){
              this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);

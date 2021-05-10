@@ -1,5 +1,9 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
+import it.polimi.ingsw.message.CommonMessages.IdMessage;
+import it.polimi.ingsw.message.CommonMessages.PingMessage;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -9,28 +13,23 @@ public class SocketServerConnection {
     private Socket socket;
     private ObjectInputStream socketIn;
     private ObjectOutputStream socketOut;
-    private Thread pinger;
+    private Thread socketListener;
     private boolean isActive = true;
+    private ClientActionController cac;
 
 
     public SocketServerConnection() {
-        pinger = new Thread(() -> {
-            try {
-                System.out.println("thread partito");
-                Socket pingerSocket = new Socket("127.0.0.1", 12345);
-                ObjectInputStream pingerIn = new ObjectInputStream(pingerSocket.getInputStream());
-                ObjectOutputStream pingerOut = new ObjectOutputStream(pingerSocket.getOutputStream());
-                while (isActive()) {
-                    for (int i = 0; i < 10000; i++);
-                    System.out.println(pingerIn.readObject());
-                    pingerOut.reset();
-                    pingerOut.writeObject("ping");
-                    pingerOut.flush();
-                }
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+        socketListener = new Thread(() -> {
+//            send(new PingMessage());
+            while (isActive()) {
+                Object o = receive();
+                messageHandler(o);
             }
         });
+    }
+
+    public void setCac(ClientActionController cac) {
+        this.cac = cac;
     }
 
     public void setActive(boolean active) {
@@ -41,17 +40,12 @@ public class SocketServerConnection {
         return isActive;
     }
 
-    public Thread getPinger() {
-        return pinger;
-    }
-
     public void run() throws IOException {
         socket = new Socket("127.0.0.1", 1234);
-        System.out.println("prestart");
-        pinger.start();
         socketIn = new ObjectInputStream(socket.getInputStream());
         socketOut = new ObjectOutputStream(socket.getOutputStream());
         System.out.println("Connection established");
+        socketListener.start();
     }
 
 
@@ -80,4 +74,24 @@ public class SocketServerConnection {
         socketOut.close();
         socket.close();
     }
+
+    public void messageHandler(Object o){
+        if(o instanceof IdMessage){
+            cac.getCli().printToConsole("Your ID is " + ((IdMessage) o).getID());
+            cac.setID(((IdMessage)o).getID());
+            if(((IdMessage) o).getID() == 0) {
+                cac.setNumberOfPlayers();
+            }
+            else {
+                cac.getCli().printToConsole("Waiting for the host...");
+            }
+        }
+//        if(o instanceof PingMessage){
+//            send((PingMessage)o);
+//        }
+        else{
+            cac.handleAction(o);
+        }
+    }
+
 }
