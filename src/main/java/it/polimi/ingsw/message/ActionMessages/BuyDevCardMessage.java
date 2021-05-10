@@ -7,12 +7,14 @@ import it.polimi.ingsw.model.ResourceType;
 import java.util.ArrayList;
 
 public class BuyDevCardMessage extends Message {
+    int choosenIndex;
     int ID;
     DevCard d;
     ArrayList<ResourceType> resFromWarehouse, resFromStrongbox;
     int slot;
 
-    public BuyDevCardMessage(int ID, DevCard d, ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox, int slot) {
+    public BuyDevCardMessage(int choosenIndex, int ID, DevCard d, ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox, int slot) {
+        this.choosenIndex = choosenIndex;
         this.ID = ID;
         this.d = d;
         this.resFromWarehouse = resFromWarehouse;
@@ -58,5 +60,9 @@ public class BuyDevCardMessage extends Message {
 
     public void setSlot(int slot) {
         this.slot = slot;
+    }
+
+    public int getChoosenIndex() {
+        return choosenIndex;
     }
 }

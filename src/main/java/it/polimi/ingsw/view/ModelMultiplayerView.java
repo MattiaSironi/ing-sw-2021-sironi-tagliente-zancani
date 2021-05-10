@@ -80,6 +80,9 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
     public void printShelves(int ID)  {
         notify(new PrintableMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse()));
     }
+    public void printStrongbox(int ID)  {
+        notify(new PrintableMessage(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox()));
+    }
 
     public void printDevMatrix(){
         int index = 1;
@@ -111,6 +114,7 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     @Override
     public void update(Nickname message) {
+        notify(message);
 
     }
 
@@ -161,7 +165,7 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
         else if (message.getObjectID()==1)
             this.game.getBoard().setMarket((Market) message.getObject());
         else if(message.getObjectID()==2)
-            this.game.getPlayerById(message.getID()).setLeaderDeck((LeaderDeck) message.getObject());
+            this.game.getBoard().setDevDecks((ArrayList<DevDeck>)message.getObject());
         else if(message.getObjectID()==3)
             this.game.getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse)message.getObject());
         else if(message.getObjectID()==4)
