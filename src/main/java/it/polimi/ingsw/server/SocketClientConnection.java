@@ -6,11 +6,13 @@ import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.view.RemoteView;
 
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
+import java.lang.*;
 
 
 public class SocketClientConnection extends Observable<Message> implements Runnable {
@@ -20,9 +22,9 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     private ObjectInputStream in;
     private Server server;
     private int ID;
-    private Thread socketListener;
+    private Thread socketListener, pingSender;
     private RemoteView remoteView;
-
+    private boolean active = true;
 
     public int getID() {
         return ID;
@@ -36,13 +38,12 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         this.remoteView = remoteView;
     }
 
-    private boolean active = true;
+
 
     public SocketClientConnection(boolean first, Socket socket, Server server) {
         this.first = first;
         this.socket = socket;
         this.server = server;
-
         this.socketListener = new Thread(() -> {
             try {
                 while (isActive()) {
@@ -50,6 +51,17 @@ public class SocketClientConnection extends Observable<Message> implements Runna
                     messageHandler(message);
                 }
             } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+                System.out.println("Player #" + this.ID + " has  been disconnected!");
+            }
+        });
+        this.pingSender =  new Thread(() -> {
+            try {
+                while (isActive()) {
+                    Thread.sleep(10000);
+                    send(new PingMessage());
+                }
+            } catch (InterruptedException e) {
                 e.printStackTrace();
                 System.out.println("Player # " + this.ID + "has  been disconnected!");
             }
@@ -64,18 +76,23 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         return active;
     }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public synchronized void send(Message message) {
         try {
             out.reset();
             out.writeObject(message);
             out.flush();
         } catch (IOException e) {
+            close();
             System.err.println(e.getMessage());
         }
     }
 
     public Object receive() throws IOException, ClassNotFoundException {
-        return in.readObject();
+            return in.readObject();
     }
 
     public synchronized void closeConnection() {
@@ -100,15 +117,16 @@ public class SocketClientConnection extends Observable<Message> implements Runna
             out = new ObjectOutputStream(socket.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
             in = new ObjectInputStream(socket.getInputStream());
             socketListener.start();
+            pingSender.start();
         } catch (IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
         }
     }
 
     public void messageHandler(Object message){
-//        if(message instanceof PingMessage){
-//            send((PingMessage)message);
-//        }
+        if(message instanceof PingMessage){
+
+        }
         if(message instanceof ChooseNumberOfPlayer){
             server.setNumPlayers(((ChooseNumberOfPlayer)message).getNumberOfPlayers());
             server.setReady(true);

@@ -236,27 +236,27 @@ public class Controller implements Observer<Message> {
         }
     }
 
-    public void useBasicProduction(int ID, ArrayList<ResourceType> paidResFromWarehouse, ArrayList<ResourceType> paidResFromStrongbox, ResourceType newRes) {
+    public void useBasicProduction(int ID, ArrayList<ResourceType> paidResFromWarehouse, ArrayList<ResourceType> paidResFromStrongbox) {
         if (!(this.game.getPlayerById(ID).getPersonalBoard()
-                .getWarehouse().canIPay(paidResFromWarehouse.stream()
-                        .filter(x -> x.equals(ResourceType.COIN)).collect(Collectors.toList()).size(), ResourceType.COIN)) || !(this.game.getPlayerById(ID).getPersonalBoard()
-                .getWarehouse().canIPay(paidResFromWarehouse.stream()
-                        .filter(x -> x.equals(ResourceType.STONE)).collect(Collectors.toList()).size(), ResourceType.STONE)) || !(this.game.getPlayerById(ID).getPersonalBoard()
-                .getWarehouse().canIPay(paidResFromWarehouse.stream()
-                        .filter(x -> x.equals(ResourceType.SERVANT)).collect(Collectors.toList()).size(), ResourceType.SERVANT)) || !(this.game.getPlayerById(ID).getPersonalBoard()
-                .getWarehouse().canIPay(paidResFromWarehouse.stream()
-                        .filter(x -> x.equals(ResourceType.SHIELD)).collect(Collectors.toList()).size(), ResourceType.SHIELD))) {
+                .getWarehouse().canIPay((int) paidResFromWarehouse.stream()
+                        .filter(x -> x.equals(ResourceType.COIN)).count(), ResourceType.COIN)) || !(this.game.getPlayerById(ID).getPersonalBoard()
+                .getWarehouse().canIPay((int) paidResFromWarehouse.stream()
+                        .filter(x -> x.equals(ResourceType.STONE)).count(), ResourceType.STONE)) || !(this.game.getPlayerById(ID).getPersonalBoard()
+                .getWarehouse().canIPay((int) paidResFromWarehouse.stream()
+                        .filter(x -> x.equals(ResourceType.SERVANT)).count(), ResourceType.SERVANT)) || !(this.game.getPlayerById(ID).getPersonalBoard()
+                .getWarehouse().canIPay((int) paidResFromWarehouse.stream()
+                        .filter(x -> x.equals(ResourceType.SHIELD)).count(), ResourceType.SHIELD))) {
             this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
             return;
         } else if (!(this.game.getPlayerById(ID).getPersonalBoard()
-                .getStrongbox().canIPay(paidResFromStrongbox.stream()
-                        .filter(x -> x.equals(ResourceType.COIN)).collect(Collectors.toList()).size(), ResourceType.COIN)) || !(this.game.getPlayerById(ID).getPersonalBoard()
-                .getStrongbox().canIPay(paidResFromStrongbox.stream()
-                        .filter(x -> x.equals(ResourceType.STONE)).collect(Collectors.toList()).size(), ResourceType.STONE)) || !(this.game.getPlayerById(ID).getPersonalBoard()
-                .getStrongbox().canIPay(paidResFromStrongbox.stream()
-                        .filter(x -> x.equals(ResourceType.SERVANT)).collect(Collectors.toList()).size(), ResourceType.SERVANT)) || !(this.game.getPlayerById(ID).getPersonalBoard()
-                .getStrongbox().canIPay(paidResFromStrongbox.stream()
-                        .filter(x -> x.equals(ResourceType.SHIELD)).collect(Collectors.toList()).size(), ResourceType.SHIELD))) {
+                .getStrongbox().canIPay((int) paidResFromStrongbox.stream()
+                        .filter(x -> x.equals(ResourceType.COIN)).count(), ResourceType.COIN)) || !(this.game.getPlayerById(ID).getPersonalBoard()
+                .getStrongbox().canIPay((int) paidResFromStrongbox.stream()
+                        .filter(x -> x.equals(ResourceType.STONE)).count(), ResourceType.STONE)) || !(this.game.getPlayerById(ID).getPersonalBoard()
+                .getStrongbox().canIPay((int) paidResFromStrongbox.stream()
+                        .filter(x -> x.equals(ResourceType.SERVANT)).count(), ResourceType.SERVANT)) || !(this.game.getPlayerById(ID).getPersonalBoard()
+                .getStrongbox().canIPay((int) paidResFromStrongbox.stream()
+                        .filter(x -> x.equals(ResourceType.SHIELD)).count(), ResourceType.SHIELD))) {
             this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
             return;
         } else {
@@ -273,12 +273,22 @@ public class Controller implements Observer<Message> {
 
     public void useLeaderProduction(int ID, ResourceType r, ResourceType newRes, boolean buyFromWarehouse){ //if true -> pay from warehouse
          if(buyFromWarehouse == true){
-             this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
-             this.game.getPlayerById(ID).moveFaithMarkerPos(1);
+             if(!(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(1, r))){
+                 this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
+             }
+             else {
+                 this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
+                 this.game.getPlayerById(ID).moveFaithMarkerPos(1);
+             }
          }
          if(buyFromWarehouse == false){
-             this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
-             this.game.getPlayerById(ID).moveFaithMarkerPos(1);
+             if(!(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(1, r))){
+                 this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
+             }
+             else {
+                 this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
+                 this.game.getPlayerById(ID).moveFaithMarkerPos(1);
+             }
          }
      }
 
@@ -497,7 +507,12 @@ public class Controller implements Observer<Message> {
             else {
                 DiscardLeaderCard(message.getID(), message.getLc());
             }
-        }
+    }
+
+    @Override
+    public void update(ProductionMessage message) {
+        useBasicProduction(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox());
+    }
 
 
 }

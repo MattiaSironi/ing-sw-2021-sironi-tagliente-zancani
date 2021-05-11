@@ -67,7 +67,11 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     public void sendNotify(PlayLeaderMessage message) {
         System.out.println("faccio la notify");
-        notify((PlayLeaderMessage)message);}
+        notify((PlayLeaderMessage)message);
+    }
+    public void sendNotify(ProductionMessage message){
+        notify(message);
+    }
 
     public Game getGame() {
         return game;
@@ -132,20 +136,22 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
     public void update(ErrorMessage message) {
 //        notify(message); //socket
 
-        if (message.getString().equals("ko"))  {
-            this.cac.getCli().printToConsole("Invalid move. Try another one!");
-        }
-        else if (!message.getString().equals("ok")) {
+//        if (message.getString().equals("ko"))  {
+//            this.cac.getCli().printToConsole("Invalid move. Try another one!");
+//        }
+//        else if (!message.getString().equals("ok")) {
+//            this.cac.getCli().printToConsole(message.getString());
+//            this.cac.getCli().printToConsole("Try another shelf or discard it!");
+//            this.cac.askForResource(message.getR());
+//
+//        }
+        if(message.getID() == this.getCac().getID())
             this.cac.getCli().printToConsole(message.getString());
-            this.cac.getCli().printToConsole("Try another shelf or discard it!");
-            this.cac.askForResource(message.getR());
-
-        }
     }
 
     @Override
     public void update(OutputMessage message) {
-
+        this.cac.getCli().printToConsole(message.getString());
     }
 
     @Override
@@ -225,6 +231,11 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     @Override
     public void update(PlayLeaderMessage message) {
+
+    }
+
+    @Override
+    public void update(ProductionMessage message) {
 
     }
 

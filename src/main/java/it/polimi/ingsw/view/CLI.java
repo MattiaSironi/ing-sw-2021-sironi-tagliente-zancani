@@ -105,4 +105,9 @@ public class CLI extends Observable<Message> implements Observer<Message> {
     public void update(PlayLeaderMessage message) {
 
     }
+
+    @Override
+    public void update(ProductionMessage message) {
+
+    }
 }

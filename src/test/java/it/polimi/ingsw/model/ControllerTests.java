@@ -49,7 +49,7 @@ public class ControllerTests {
         resFromWarehouse.add(ResourceType.COIN);
         resFromWarehouse.add(ResourceType.STONE);
 
-        controller.useBasicProduction(0, resFromWarehouse, resFroStrongbox, ResourceType.SHIELD);
+        controller.useBasicProduction(0, resFromWarehouse, resFroStrongbox);
 
         assertEquals(0, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.COIN));
         assertEquals(1, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.STONE));
@@ -69,7 +69,7 @@ public class ControllerTests {
         resFromWarehouse.add(ResourceType.COIN);
         resFromWarehouse.add(ResourceType.SERVANT);
 
-        controller.useBasicProduction(0, resFromWarehouse, resFroStrongbox, ResourceType.SHIELD);
+        controller.useBasicProduction(0, resFromWarehouse, resFroStrongbox);
 
         assertEquals(1, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.COIN));
         assertEquals(2, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.STONE));

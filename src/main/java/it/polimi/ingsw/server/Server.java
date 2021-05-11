@@ -165,6 +165,7 @@ public class Server {
         while (true) {
             try {
                 Socket newSocket = serverSocket.accept();
+                newSocket.setSoTimeout(20000);
                 if (isFirst) {
                     isFirst = false;
                     SocketClientConnection socketConnection = new SocketClientConnection(true, newSocket, this);

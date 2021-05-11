@@ -13,17 +13,26 @@ public class SocketServerConnection {
     private Socket socket;
     private ObjectInputStream socketIn;
     private ObjectOutputStream socketOut;
-    private Thread socketListener;
+    private Thread socketListener, pingSender;
     private boolean isActive = true;
     private ClientActionController cac;
 
 
     public SocketServerConnection() {
         socketListener = new Thread(() -> {
-//            send(new PingMessage());
             while (isActive()) {
                 Object o = receive();
                 messageHandler(o);
+            }
+        });
+        pingSender = new Thread(() -> {
+            while (isActive()) {
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                send(new PingMessage());
             }
         });
     }
@@ -45,7 +54,9 @@ public class SocketServerConnection {
         socketIn = new ObjectInputStream(socket.getInputStream());
         socketOut = new ObjectOutputStream(socket.getOutputStream());
         System.out.println("Connection established");
+
         socketListener.start();
+        pingSender.start();
     }
 
 
@@ -86,9 +97,10 @@ public class SocketServerConnection {
                 cac.getCli().printToConsole("Waiting for the host...");
             }
         }
-//        if(o instanceof PingMessage){
-//            send((PingMessage)o);
-//        }
+        if(o instanceof PingMessage){
+
+        }
+
         else{
             cac.handleAction(o);
         }

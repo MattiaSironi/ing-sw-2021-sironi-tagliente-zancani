@@ -123,8 +123,8 @@ public class ClientActionController {
                     }
                     case A -> {
                         if (Actions.A.isEnable()) {
-                            noMoreActions();
-//                            activateProd();
+                            //noMoreActions();
+                            activateProd();
                         } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
                     }
                     case SM -> mmv.printMarket();
@@ -140,6 +140,10 @@ public class ClientActionController {
             } else
                 cli.printToConsole("Invalid input");
         }
+    }
+
+    private void activateProd() {
+        useBasicProduction();
     }
 
     private void printShelves() {
@@ -413,14 +417,22 @@ public class ClientActionController {
 
     public void useBasicProduction(){
         boolean valid = false, validInput = false, validNum = false;
-        ResourceType newRes, resFromWarehouse, resFromStrongbox;
+        ResourceType newRes;
+        String input = null;
+        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
+        ArrayList<ResourceType> resFromStrongbox = new ArrayList<>();
         cli.printToConsole("Choose a new resource to produce\n1 --> COIN\n2 --> STONE\n3 --> SERVANT\n4 --> SCHIELD\n(type 1, 2, 3, or 4)");
         while(!valid) {
-            String input = cli.readFromInput();
-            if (!(input.equals("1") && input.equals("2") && input.equals("3") && input.equals("4"))) {
+        input = cli.readFromInput();
+            if (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4")) {
+                valid = true;
+            }
+            else {
+                cli.printToConsole(input);
                 cli.printToConsole("Invalid input, try again");
             }
-            int chosenRes = Integer.parseInt(input);
+        }
+        int chosenRes = Integer.parseInt(input);
 //            switch(chosenRes){
 //                case 1 -> newRes = ResourceType.COIN;
 //                case 2 -> newRes = ResourceType.STONE;
@@ -428,33 +440,93 @@ public class ClientActionController {
 //                case 4 -> newRes = ResourceType.SHIELD;
 //                default -> cli.printToConsole("Invalid input, try again");
 //            }
-            valid = true;
-            if(chosenRes == 1) newRes = ResourceType.COIN;
-            else if(chosenRes == 2) newRes = ResourceType.STONE;
-            else if(chosenRes == 3) newRes = ResourceType.SERVANT;
-            else if(chosenRes == 3) newRes = ResourceType.SHIELD;
-            else valid = false;
-        }
-        valid = false;
-        cli.printToConsole("Now choose the first resource you want to use\n1 --> COIN\n2 --> STONE\n3 --> SERVANT\n4 --> SCHIELD\n(type 1, 2, 3, or 4)");
+        valid = true;
+        if(chosenRes == 1) newRes = ResourceType.COIN;
+        else if(chosenRes == 2) newRes = ResourceType.STONE;
+        else if(chosenRes == 3) newRes = ResourceType.SERVANT;
+        else if(chosenRes == 4) newRes = ResourceType.SHIELD;
+        else valid = false;
 
-        while(!valid){
-            mmv.printShelves(ID);
-            mmv.printStrongbox(ID);
-            String input = cli.readFromInput();
-            if (!(input.equals("1") && input.equals("2") && input.equals("3") && input.equals("4"))) {
+        valid = false;
+        mmv.printShelves(ID);
+        mmv.printStrongbox(ID);
+        cli.printToConsole("Choose the first resource you want to use\n1 --> COIN\n2 --> STONE\n3 --> SERVANT\n4 --> SCHIELD\n(type 1, 2, 3, or 4)");
+
+        while(!valid) {
+            input = cli.readFromInput();
+            if (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4")) {
+                valid = true;
+            }
+            else {
+                cli.printToConsole(input);
                 cli.printToConsole("Invalid input, try again");
             }
-            int chosenRes = Integer.parseInt(input);
-            cli.printToConsole("Where would you like to take it from? (WARE -> warehouse / STRONG -> strongbox");
-            if(cli.readFromInput().equals("WARE")){
-
-            }
-
-
         }
-
-
+        valid = false;
+        chosenRes = Integer.parseInt(input);
+        cli.printToConsole("Where would you like to take it from? (WARE -> warehouse / STRONG -> strongbox");
+        while(!valid) {
+            input = cli.readFromInput();
+            if (input.equals("WARE")) {
+                switch (chosenRes) {
+                    case 1 -> resFromWarehouse.add(ResourceType.COIN);
+                    case 2 -> resFromWarehouse.add(ResourceType.STONE);
+                    case 3 -> resFromWarehouse.add(ResourceType.SERVANT);
+                    case 4 -> resFromWarehouse.add(ResourceType.SHIELD);
+                }
+                valid = true;
+            }
+            else if(input.equals("STRONG")){
+                switch (chosenRes) {
+                    case 1 -> resFromStrongbox.add(ResourceType.COIN);
+                    case 2 -> resFromStrongbox.add(ResourceType.STONE);
+                    case 3 -> resFromStrongbox.add(ResourceType.SERVANT);
+                    case 4 -> resFromStrongbox.add(ResourceType.SHIELD);
+                }
+                valid = true;
+            }
+            else
+                cli.printToConsole("Invalid input, try again");
+        }
+        valid = false;
+        cli.printToConsole("Choose the second resource you want to use\n1 --> COIN\n2 --> STONE\n3 --> SERVANT\n4 --> SCHIELD\n(type 1, 2, 3, or 4)");
+        while(!valid) {
+            input = cli.readFromInput();
+            if (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4")) {
+                valid = true;
+            }
+            else {
+                cli.printToConsole(input);
+                cli.printToConsole("Invalid input, try again");
+            }
+        }
+        valid = false;
+        chosenRes = Integer.parseInt(input);
+        cli.printToConsole("Where would you like to take it from? (WARE -> warehouse / STRONG -> strongbox");
+        while(!valid) {
+            input = cli.readFromInput();;
+            if (input.equals("WARE")) {
+                switch (chosenRes) {
+                    case 1 -> resFromWarehouse.add(ResourceType.COIN);
+                    case 2 -> resFromWarehouse.add(ResourceType.STONE);
+                    case 3 -> resFromWarehouse.add(ResourceType.SERVANT);
+                    case 4 -> resFromWarehouse.add(ResourceType.SHIELD);
+                }
+                valid = true;
+            }
+            else if(input.equals("STRONG")){
+                switch (chosenRes) {
+                    case 1 -> resFromStrongbox.add(ResourceType.COIN);
+                    case 2 -> resFromStrongbox.add(ResourceType.STONE);
+                    case 3 -> resFromStrongbox.add(ResourceType.SERVANT);
+                    case 4 -> resFromStrongbox.add(ResourceType.SHIELD);
+                }
+                valid = true;
+            }
+            else
+                cli.printToConsole("Invalid input, try again");
+        }
+        this.mmv.sendNotify(new ProductionMessage(resFromWarehouse, resFromStrongbox, this.ID));
     }
 
 
@@ -475,8 +547,6 @@ public class ClientActionController {
                 valid = true;
             } else cli.printToConsole("Invalid input! Retry!");
         }
-
-
     }
 
     private void localWhereToPut(ResourceType res) { //local

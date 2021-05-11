@@ -35,4 +35,6 @@ public interface Observer<Message> {
     void update(BuyDevCardMessage message);
 
     void update(PlayLeaderMessage message);
+
+    void update(ProductionMessage message);
 }
