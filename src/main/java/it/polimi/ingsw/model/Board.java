@@ -78,48 +78,48 @@ public class Board {
     public List<DevDeck> createDevDecks()  {
 
         Gson gson= new Gson();
-        List<DevDeck> returnfinale = new ArrayList<>();
+        List<DevDeck> devDecks = new ArrayList<>();
         Reader reader = new InputStreamReader(Board.class.getResourceAsStream("/json/devcard.json"));
-        DevCard[] tutteLeCarte = gson.fromJson(reader, DevCard[].class);
-        Collections.shuffle(Arrays.asList(tutteLeCarte));
-        DevDeck mazzo1 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.GREEN)
+        DevCard[] allCards = gson.fromJson(reader, DevCard[].class);
+        Collections.shuffle(Arrays.asList(allCards));
+        DevDeck deck1 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.GREEN)
                 && x.getLevel()==1).collect(Collectors.toList()));
-        returnfinale.add(mazzo1);
-        DevDeck mazzo2 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.BLUE)
+        devDecks.add(deck1);
+        DevDeck deck2 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.BLUE)
                 && x.getLevel()==1).collect(Collectors.toList()));
-        returnfinale.add(mazzo2);
-        DevDeck mazzo3 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.YELLOW)
+        devDecks.add(deck2);
+        DevDeck deck3 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.YELLOW)
                 && x.getLevel()==1).collect(Collectors.toList()));
-        returnfinale.add(mazzo3);
-        DevDeck mazzo4 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.PURPLE)
+        devDecks.add(deck3);
+        DevDeck deck4 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.PURPLE)
                 && x.getLevel()==1).collect(Collectors.toList()));
-        returnfinale.add(mazzo4);
-        DevDeck mazzo5 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.GREEN)
+        devDecks.add(deck4);
+        DevDeck deck5 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.GREEN)
                 && x.getLevel()==2).collect(Collectors.toList()));
-        returnfinale.add(mazzo5);
-        DevDeck mazzo6 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.BLUE)
+        devDecks.add(deck5);
+        DevDeck deck6 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.BLUE)
                 && x.getLevel()==2).collect(Collectors.toList()));
-        returnfinale.add(mazzo6);
-        DevDeck mazzo7 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.YELLOW)
+        devDecks.add(deck6);
+        DevDeck deck7 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.YELLOW)
                 && x.getLevel()==2).collect(Collectors.toList()));
-        returnfinale.add(mazzo7);
-        DevDeck mazzo8 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.PURPLE)
+        devDecks.add(deck7);
+        DevDeck deck8 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.PURPLE)
                 && x.getLevel()==2).collect(Collectors.toList()));
-        returnfinale.add(mazzo8);
-        DevDeck mazzo9 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.GREEN)
+        devDecks.add(deck8);
+        DevDeck deck9 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.GREEN)
                 && x.getLevel()==3).collect(Collectors.toList()));
-        returnfinale.add(mazzo9);
-        DevDeck mazzo10 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.BLUE)
+        devDecks.add(deck9);
+        DevDeck deck10 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.BLUE)
                 && x.getLevel()==3).collect(Collectors.toList()));
-        returnfinale.add(mazzo10);
-        DevDeck mazzo11 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.YELLOW)
+        devDecks.add(deck10);
+        DevDeck deck11 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.YELLOW)
                 && x.getLevel()==3).collect(Collectors.toList()));
-        returnfinale.add(mazzo11);
-        DevDeck mazzo12 = new DevDeck(4, 0, Arrays.stream(tutteLeCarte).filter(x -> x.getColor().equals(CardColor.PURPLE)
+        devDecks.add(deck11);
+        DevDeck deck12 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.PURPLE)
                 && x.getLevel()==3).collect(Collectors.toList()));
-        returnfinale.add(mazzo12);
+        devDecks.add(deck12);
 
-        return returnfinale;
+        return devDecks;
 
     }
 

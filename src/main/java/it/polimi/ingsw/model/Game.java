@@ -18,7 +18,9 @@ import it.polimi.ingsw.observer.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 public class Game extends Observable<Message> implements Cloneable {
     private int numPlayer;
@@ -26,11 +28,42 @@ public class Game extends Observable<Message> implements Cloneable {
     private int nextPlayer;
     private ArrayList<Player> players;
     private LorenzoIlMagnifico lori = null;
-    private Board board = null;
+    private Board board;
+    private boolean firstvatican = false;
+    private boolean secondvatican = false;
+    private boolean thirdvatican = false;
+
+    public LorenzoIlMagnifico getLori() {
+        return lori;
+    }
+
+    public boolean isFirstvatican() {
+        return firstvatican;
+    }
+
+    public void setFirstvatican(boolean firstvatican) {
+        this.firstvatican = firstvatican;
+    }
+
+    public boolean isSecondvatican() {
+        return secondvatican;
+    }
+
+    public void setSecondvatican(boolean secondvatican) {
+        this.secondvatican = secondvatican;
+    }
+
+    public boolean isThirdvatican() {
+        return thirdvatican;
+    }
+
+    public void setThirdvatican(boolean thirdvatican) {
+        this.thirdvatican = thirdvatican;
+    }
 
     public Game() {
         players = new ArrayList<>();
-        board= new Board();
+        board = new Board();
     }
 
 
@@ -145,4 +178,33 @@ public class Game extends Observable<Message> implements Cloneable {
     public void setInkwell(){
         Collections.shuffle(this.getPlayers());
     }
+
+    public void checkVatican()  {
+        OptionalInt maxPos = this.players.stream().mapToInt(x -> x.getFaithMarkerPos()).max();
+        if (maxPos.isPresent())  {
+            int maxP = maxPos.getAsInt();
+            if (maxP >= 8 && !firstvatican)  {
+                checkEveryPlayerPos(8, 0);
+                setFirstvatican(true);
+
+            }
+            else if (maxP >= 16 && !secondvatican)  {
+                checkEveryPlayerPos(16, 1);
+                setSecondvatican(true);
+            }
+            else if (maxP ==24 && !thirdvatican)  {
+                checkEveryPlayerPos(24, 2);
+                setThirdvatican(true);
+                // END OF GAME(?)
+            }
+        }
+
+    }
+
+    public void checkEveryPlayerPos(int popeSpace, int vatican)  {
+        for (Player p : this.players)  {
+            if (p.getFaithMarkerPos() >= (popeSpace-3-vatican))  p.getPersonalBoard().setFavorTile(vatican);
+        }
+    }
+
 }

@@ -77,6 +77,7 @@ public class Controller implements Observer<Message> {
         m.setMarbleOut(resources.get(0));
         int faith = (int) resources.stream().filter(x -> x.getRes().equals(ResourceType.FAITH_POINT)).count();
         this.game.getPlayerById(ID).moveFaithMarkerPos(faith);
+        this.game.checkVatican();
 
         game.sendObject(new ObjectMessage(this.game.getBoard().getMarket(), 1, ID));
         game.sendResources(new ResourceListMessage(resources, ID));
@@ -99,6 +100,7 @@ public class Controller implements Observer<Message> {
                 p.moveFaithMarkerPos(1);
             }
         }
+        this.game.checkVatican();
         //tutti i controlli vittoria , favore papale e ecc.
 
     }

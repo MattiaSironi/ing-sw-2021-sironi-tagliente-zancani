@@ -68,6 +68,7 @@ public class Player {
 
     public void moveFaithMarkerPos(int q) {
         this.faithMarkerPos += q;
+        if (faithMarkerPos>24) faithMarkerPos=24;
     }
 
     public void setLeaderDeck(LeaderDeck leaderDeck) {

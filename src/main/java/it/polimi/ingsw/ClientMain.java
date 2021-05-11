@@ -1,6 +1,9 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.PersonalBoard;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.CLI;
 import it.polimi.ingsw.view.ClientActionController;
 import it.polimi.ingsw.view.ModelMultiplayerView;
@@ -25,13 +28,13 @@ public class ClientMain {
 //        Game game = new Game();
 //        Controller controller = new Controller(game);
 //        game.setNumPlayer(1);
-//        game.getPlayers().add(new Player("GIGI", 0));
-//        game.getPlayers().add(new Player("gigino", 1));
+//        game.getPlayers().add(new Player(0, "GIGI"));
+//        game.getPlayers().add(new Player(1, "gigino"));
 //        game.getPlayerById(0).setPersonalBoard(new PersonalBoard());
 //        game.getPlayerById(1).setPersonalBoard(new PersonalBoard());
 //        ModelMultiplayerView mmv = new ModelMultiplayerView(game);
 //        CLI cli = new CLI();
-//        ClientActionController cac= new ClientActionController(cli, mmv, null, 0);
+//        ClientActionController cac= new ClientActionController(cli, mmv, null);
 //        mmv.addObserver(controller);
 //        game.addObserver(mmv);
 //        mmv.setCac(cac);

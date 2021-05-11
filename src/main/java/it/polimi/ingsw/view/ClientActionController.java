@@ -35,7 +35,7 @@ public class ClientActionController {
         this.serverConnection = socketServerConnection;
         this.mmv = mmv;
         this.cli = cli;
-//        setActions();
+        setActions();
     }
 
     public synchronized boolean isActive() {

@@ -1,8 +1,12 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Class PersonalBoard represents the board of each player
@@ -41,15 +45,28 @@ public class PersonalBoard {
         this.favorTile3 = favorTile3;
         this.strongbox = strongbox;
         this.warehouse = warehouse;
+
+    }
+
+    private ArrayList<Slot> createFaithTrack() {
+        Gson gson = new Gson();
+        Reader reader =  new InputStreamReader(PersonalBoard.class.getResourceAsStream("/json/slot.json"));
+        Slot[]  slots  = gson.fromJson(reader, Slot[].class);
+        ArrayList<Slot> faithTrack = new ArrayList<>();
+        faithTrack.addAll(Arrays.asList(slots));
+        return  faithTrack;
+
     }
 
     public PersonalBoard()  {
         warehouse = new ShelfWarehouse();
         strongbox = new Strongbox();
         cardSlot = new ArrayList<DevDeck>();
+        activeLeader = new LeaderDeck(0,1,new ArrayList<>()); //lea modifica pure
         cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
         cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
         cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
+        this.faithTrack = createFaithTrack();
     }
 
     public boolean totalPaymentChecker(int resArray[]){
@@ -225,6 +242,18 @@ public class PersonalBoard {
 
     public void setFavorTile3(boolean favorTile3) {
         this.favorTile3 = favorTile3;
+    }
+
+    public void setFavorTile(int ft) {
+        switch (ft) {
+            case 0:
+                this.favorTile1 = true;
+            case 1:
+                this.favorTile2 = true;
+            case 2:
+                this.favorTile3 = true;
+            default:
+        }
     }
 
     public ArrayList<DevDeck> getCardSlot() {
