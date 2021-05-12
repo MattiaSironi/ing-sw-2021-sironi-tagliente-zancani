@@ -37,4 +37,8 @@ public interface Observer<Message> {
     void update(PlayLeaderMessage message);
 
     void update(ProductionMessage message);
+
+    void update(EndTurnMessage message);
+
+    void update(EndActionMessage message);
 }

@@ -2,13 +2,15 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.constants.Color;
 
+import java.io.Serializable;
+
 /**
  * Enum ResourceType represents the type of a resource used in the game in order to buy cards
  *
  * @author Mattia Sironi
  */
 
-public enum ResourceType {
+public enum ResourceType implements Serializable {
     COIN,
     STONE,
     SERVANT,

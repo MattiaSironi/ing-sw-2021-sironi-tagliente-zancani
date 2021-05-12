@@ -1,12 +1,14 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * Class ExtraDepotLCard represents the model of the Leader Card with ExtraDepot Ability
  *
  * @author Mattia Sironi
  */
 
-public class ExtraDepotLCard extends LeaderCard implements Printable{
+public class ExtraDepotLCard extends LeaderCard implements Printable, Serializable {
     //type=2?
     private final ResourceType resType;
     private final ResourceType resDepot;

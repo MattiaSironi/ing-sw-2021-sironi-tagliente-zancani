@@ -4,6 +4,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.constants.Ball;
 import it.polimi.ingsw.constants.Color;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  * @see Marble
  */
 
-public class Market implements Printable {
+public class Market implements Printable, Serializable {
     private Marble[][] marketBoard;
     private Marble marbleOut;
 

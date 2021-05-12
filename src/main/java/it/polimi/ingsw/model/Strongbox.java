@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,7 +9,7 @@ import java.util.ArrayList;
  * @author Simone Tagliente
  */
 
-public class Strongbox implements Printable {
+public class Strongbox implements Printable, Serializable {
 //    private int coinNum;
 //    private int stoneNum;
 //    private int servantNum;
@@ -42,6 +43,10 @@ public class Strongbox implements Printable {
 
     public void setInfinityShelf(ArrayList<Shelf> infinityShelf) {
         this.infinityShelf = infinityShelf;
+    }
+
+    public int numberOfResources()  {
+        return  this.infinityShelf.stream().mapToInt(x -> x.getCount()).sum();
     }
 
     /*  public int getCoinNum() {

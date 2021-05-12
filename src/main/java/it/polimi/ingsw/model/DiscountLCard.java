@@ -1,12 +1,14 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * Class DiscountLCard represents the model of the Leader Card with Discount Ability
  *
  * @author Mattia Sironi
  */
 
-public class DiscountLCard extends LeaderCard implements Printable {
+public class DiscountLCard extends LeaderCard implements Printable, Serializable {
     //type=1?
     private final CardColor color1;
     private final CardColor color2;

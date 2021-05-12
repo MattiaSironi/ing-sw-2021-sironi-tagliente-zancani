@@ -133,7 +133,7 @@ public class Server {
         rv1.addObserver(controller);
         game.addObserver(rv1);
         if (numPlayers >= 2) {
-            RemoteView.setSize(2); // per adesso
+//            RemoteView.setSize(2); // per adesso
             RemoteView rv2 = waitingConnection.get(keys.get(1));
             rv2.setID(keys.get(1));
             rv2.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
@@ -141,7 +141,7 @@ public class Server {
             game.addObserver(rv2);
         }
         if (numPlayers >= 3) {
-            RemoteView.setSize(3); // per adesso
+//            RemoteView.setSize(3); // per adesso
             RemoteView rv3 = waitingConnection.get(keys.get(2));
             rv3.setID(keys.get(2));
             rv3.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
@@ -149,13 +149,14 @@ public class Server {
             game.addObserver(rv3);
         }
         if (numPlayers == 4) {
-            RemoteView.setSize(4); // per adesso
+//            RemoteView.setSize(4); // per adesso
             RemoteView rv4 = waitingConnection.get(keys.get(3));
             rv4.setID(keys.get(3));
             rv4.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
             rv4.addObserver(controller);
             game.addObserver(rv4);
         }
+        game.setNumPlayer(numPlayers);
     }
 
 
@@ -165,7 +166,7 @@ public class Server {
         while (true) {
             try {
                 Socket newSocket = serverSocket.accept();
-                newSocket.setSoTimeout(20000);
+//                newSocket.setSoTimeout(20000);
                 if (isFirst) {
                     isFirst = false;
                     SocketClientConnection socketConnection = new SocketClientConnection(true, newSocket, this);

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
+import it.polimi.ingsw.message.CommonMessages.ErrorMessage;
 import it.polimi.ingsw.message.CommonMessages.IdMessage;
 import it.polimi.ingsw.message.CommonMessages.PingMessage;
 
@@ -18,6 +19,8 @@ public class SocketServerConnection {
     private ClientActionController cac;
 
 
+
+
     public SocketServerConnection() {
         socketListener = new Thread(() -> {
             while (isActive()) {
@@ -25,6 +28,7 @@ public class SocketServerConnection {
                 messageHandler(o);
             }
         });
+
         pingSender = new Thread(() -> {
             while (isActive()) {
                 try {
@@ -56,6 +60,7 @@ public class SocketServerConnection {
         System.out.println("Connection established");
 
         socketListener.start();
+
         pingSender.start();
     }
 
@@ -99,6 +104,9 @@ public class SocketServerConnection {
         }
         if(o instanceof PingMessage){
 
+        }
+        if (o instanceof ErrorMessage)  {
+            cac.getCli().printToConsole(((ErrorMessage) o).getString());
         }
 
         else{

@@ -19,7 +19,7 @@ public class PersonalBoardTest {
     @BeforeEach
     void init() {
         p = new PersonalBoard(new ArrayList<Slot>(), new ArrayList<DevDeck>(), new LeaderDeck(0, 1, new ArrayList<LeaderCard>()),
-                0, false, false, false, new Strongbox(), new ShelfWarehouse());
+                0, new Strongbox(), new ShelfWarehouse());
 
     }
 

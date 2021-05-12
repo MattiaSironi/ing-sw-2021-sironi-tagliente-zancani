@@ -1,12 +1,15 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  * Class Player represents the player
  *
  * @author Lea Zancani
  */
 
-public class Player {
+public class Player implements Serializable {
     private int id;
     private String nickname;
     private int faithMarkerPos;
@@ -39,6 +42,7 @@ public class Player {
         this.id=id;
         this.nickname = nickname;
         this.personalBoard = new PersonalBoard();
+        this.leaderDeck = new LeaderDeck(0,0,new ArrayList<>());
     }
 
     public Player(int id, String nickname, int faithMarkerPos, boolean inkwell, LeaderDeck leaderDeck, int victoryPoints, ResourceType resDiscount1, ResourceType resDiscount2, ResourceType whiteConversion1, ResourceType whiteConversion2, ResourceType inputExtraProduction1, ResourceType inputExtraProduction2, boolean vaticanSection, PersonalBoard personalBoard) {
@@ -165,5 +169,37 @@ public class Player {
 
     public PersonalBoard getPersonalBoard() {
         return personalBoard;
+    }
+
+    public int sumDevs() {
+        int value = 0;
+        for (DevDeck dd : this.getPersonalBoard().getCardSlot()) {
+            for (DevCard dc : dd.getCards()) {
+                value += dc.getVictoryPoints();
+            }
+        }
+        return value;
+    }
+
+    public int sumLeads() {
+        int value = 0;
+        for (LeaderCard lc : this.getLeaderDeck().getCards()) {
+            value += lc.getVictoryPoints();
+        }
+        return value;
+    }
+
+    public int sumPope() {
+
+        return ((personalBoard.getFavorTile1() * 2) + (personalBoard.getFavorTile2() * 3) + (personalBoard.getFavorTile3() * 4));
+
+    }
+
+    public int getValuePos() {
+        return this.getPersonalBoard().getFaithTrack().get(this.getFaithMarkerPos()).getCurrentVictoryPoints();
+    }
+
+    public int getValueResources() {
+        return (this.personalBoard.getStrongbox().numberOfResources() + this.personalBoard.getWarehouse().numberOfResources());
     }
 }

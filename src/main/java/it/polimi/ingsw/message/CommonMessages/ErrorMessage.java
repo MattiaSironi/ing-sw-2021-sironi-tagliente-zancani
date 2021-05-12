@@ -8,18 +8,14 @@ import java.util.Optional;
 public class ErrorMessage extends Message {
     private String string;
     private int ID;
-    private ResourceType r= null;
+
 
     public ErrorMessage(String string, int ID) {
         this.string = string;
         this.ID = ID;
     }
 
-    public ErrorMessage(String string, int ID, ResourceType r) {
-        this.string = string;
-        this.ID = ID;
-        this.r = r;
-    }
+
 
     public String getString() {
         return string;
@@ -33,7 +29,5 @@ public class ErrorMessage extends Message {
         this.ID = ID;
     }
 
-    public ResourceType getR() {
-        return r;
-    }
+
 }

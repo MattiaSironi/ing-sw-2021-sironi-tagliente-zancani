@@ -165,7 +165,7 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
     }
 
     @Override
-    public void update(ObjectMessage message) {
+    public void update(ObjectMessage message) { //local
         if (message.getObjectID()==0)
         this.game.getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse)message.getObject());
         else if (message.getObjectID()==1)
@@ -194,29 +194,6 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     @Override
     public void update(ResourceListMessage message) { //just for local testing
-        this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print();
-
-        for (Marble m : message.getMarbles()) {
-
-
-            switch (m.getRes()) {
-                case COIN, STONE, SERVANT, SHIELD: {
-                    this.cac.getCli().printToConsole("you received a " + m.getRes().printResourceColouredName() + "!");
-                    this.cac.askForResource(m.getRes());
-                    this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print(); //local TODO
-                    break;
-                }
-                case FAITH_POINT: {
-                    cac.getCli().printToConsole("you received a " + m.getRes().printResourceColouredName());
-                    break;
-                }
-                default: {
-                    cac.getCli().printToConsole("you got nothing from White tray :(");
-                    break;
-                } //caso EMPTY, vari controlli!
-            }
-
-        }
     }
 
     @Override
@@ -239,10 +216,28 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     }
 
+    @Override
+    public void update(EndTurnMessage message) {
+
+    }
+
+    @Override
+    public void update(EndActionMessage message) {
+
+    }
+
 
     public void printFaithTrack(int ID) {
         int points = getGame().getPlayerById(ID).getVictoryPoints();
         this.getGame().getPlayerById(ID).getPersonalBoard().printFaithTrack(points);
+    }
+
+    public void printPlayers(int ID)  {
+        for (Player p : this.game.getPlayers())  {
+            if (p.getId()== ID) notify(new Nickname(p.getNickname(), p.getId(), true));
+            else notify(new Nickname(p.getNickname(), p.getId(), false));
+
+        }
     }
 }
 

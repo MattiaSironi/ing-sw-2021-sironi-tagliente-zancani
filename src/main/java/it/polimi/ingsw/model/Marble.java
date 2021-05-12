@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * Class Tray represents the single tray placed in the market
  *
@@ -7,7 +9,7 @@ package it.polimi.ingsw.model;
  * @see Market
  */
 
-public class Marble {
+public class Marble implements Serializable {
     private ResourceType res;
 
     public Marble(ResourceType res) {

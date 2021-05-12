@@ -16,13 +16,14 @@ import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.observer.Observable;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.OptionalInt;
 
-public class Game extends Observable<Message> implements Cloneable {
+public class Game extends Observable<Message> implements Cloneable , Serializable {
     private int numPlayer;
     private int currPlayer;
     private int nextPlayer;
@@ -32,6 +33,8 @@ public class Game extends Observable<Message> implements Cloneable {
     private boolean firstvatican = false;
     private boolean secondvatican = false;
     private boolean thirdvatican = false;
+    private boolean gameOver;
+
 
     public LorenzoIlMagnifico getLori() {
         return lori;
@@ -167,13 +170,7 @@ public class Game extends Observable<Message> implements Cloneable {
         return clone;
     }
 
-    public void printPlayers(int ID)  {
-        for (Player p : this.players)  {
-            if (p.getId()== ID) notify(new Nickname(p.getNickname(), p.getId(), true));
-            else notify(new Nickname(p.getNickname(), p.getId(), false));
 
-        }
-    }
 
     public void setInkwell(){
         Collections.shuffle(this.getPlayers());
@@ -207,4 +204,51 @@ public class Game extends Observable<Message> implements Cloneable {
         }
     }
 
+    public Player findWinner() {
+        Player winner = null;
+        int maxVictoryPoints = 0;
+        int winnerResources = 0;
+
+        for (Player p : this.players) {
+            int resources = p.getValueResources();
+            int victoryPoints = p.sumDevs() + p.sumLeads() + p.sumPope() + p.getValuePos() + resources/5;
+
+            if (victoryPoints > maxVictoryPoints) {
+                winner = p;
+                maxVictoryPoints = victoryPoints;
+                winnerResources = resources;
+            } else if (victoryPoints == maxVictoryPoints) {
+                if (resources >= winnerResources) {
+                    winner = p;
+                    winnerResources = resources;
+                }
+            }
+        }
+        return winner;
+
+    }
+
+    public void endTurn(int lastPlayerID) {
+
+        int position = this.players.indexOf(getPlayerById(lastPlayerID));
+        if (position == (this.players.size()-1))  {
+            if (!gameOver) {
+                position=-1;
+
+            }
+            // else GAMEOVER
+        }
+        notify(new EndTurnMessage(players.get(position+1).getId()));
+
+
+
+    }
+
+    public void sendSingleResource(ResourceType r, int shelfIndex, int id, String s) {
+        notify(new PlaceResourceMessage(r,shelfIndex,id, s ));
+    }
+
+    public void sendActionOver(EndActionMessage message) {
+        notify(message);
+    }
 }

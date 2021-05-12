@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * Class Shelf represents the single shelf of the ShelfWarehouse. The player has a maximum of three shelves, one made by one slot, one made by two slots and the last with three slots,
  * excluding the ones you can obtain with the ExtraDepot Leader Card
@@ -8,7 +10,7 @@ package it.polimi.ingsw.model;
  * @see ShelfWarehouse
  */
 
-public class Shelf {
+public class Shelf implements Serializable {
     private ResourceType resType;
     private int count;
 

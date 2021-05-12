@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,7 +10,7 @@ import java.util.ArrayList;
  * @author Mattia Sironi
  */
 
-public class LeaderDeck implements Printable{
+public class LeaderDeck implements Printable, Serializable {
     private int size;
     private int type; // using int for type of card recognition
     private ArrayList<LeaderCard> cards;

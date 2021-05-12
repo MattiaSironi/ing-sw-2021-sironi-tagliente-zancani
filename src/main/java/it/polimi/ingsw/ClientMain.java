@@ -24,7 +24,7 @@ public class ClientMain {
         view.addObserver(cli);
         cms.setup();
 
-//        /*         ------------- INITIAL PHASE FOR TESTING ACTIONS -------------------------------*/
+        /*         ------------- INITIAL PHASE FOR TESTING ACTIONS -------------------------------*/
 //        Game game = new Game();
 //        Controller controller = new Controller(game);
 //        game.setNumPlayer(1);

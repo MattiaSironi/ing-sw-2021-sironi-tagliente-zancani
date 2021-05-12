@@ -9,17 +9,18 @@ import it.polimi.ingsw.observer.Observer;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.Random;
 
 public class Controller implements Observer<Message> {
     private Game game;
+    private int expectedActions;
 
     public Controller(Game game) {
         this.game = game;
     }
 
-    public void setNickname(Nickname nickname) {
+    public synchronized void setNickname(Nickname nickname) {
         String nick = nickname.getString();
         boolean found = false;
         ArrayList<Player> p = game.getPlayers();
@@ -35,6 +36,15 @@ public class Controller implements Observer<Message> {
         } else {
             game.reportError(new Nickname(nickname.getString(), nickname.getID(), true));
             game.getPlayers().add(new Player(nickname.getID(), nickname.getString()));
+            if (game.getPlayers().size() == game.getNumPlayer())  {
+                Collections.shuffle(game.getPlayers(), new Random(game.getNumPlayer()));
+                game.getPlayers().get(0).setInkwell(true);
+                game.sendObject(new ObjectMessage(game, -1, -1));
+                game.endTurn(game.getPlayers().get(game.getPlayers().size()-1).getId());
+
+
+
+            }
         }
 
     }
@@ -50,8 +60,9 @@ public class Controller implements Observer<Message> {
             game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
         }
         else{
-            game.reportError(new ErrorMessage("ko", ID));
+            game.reportError(new ErrorMessage("invalid move", ID));
         }
+        game.sendActionOver(new EndActionMessage(ID));
     }
 
     public void goToMarket(boolean row, int index, int ID) {
@@ -75,21 +86,40 @@ public class Controller implements Observer<Message> {
             }
         }
         m.setMarbleOut(resources.get(0));
+        expectedActions = resources.size();
         int faith = (int) resources.stream().filter(x -> x.getRes().equals(ResourceType.FAITH_POINT)).count();
+        expectedActions -=faith;
+        if (game.getPlayerById(ID).getWhiteConversion1()== null && game.getPlayerById(ID).getWhiteConversion2()==null )
+            expectedActions -= (int) resources.stream().filter(x -> x.getRes().equals(ResourceType.EMPTY)).count();
+
         this.game.getPlayerById(ID).moveFaithMarkerPos(faith);
         this.game.checkVatican();
 
         game.sendObject(new ObjectMessage(this.game.getBoard().getMarket(), 1, ID));
         game.sendResources(new ResourceListMessage(resources, ID));
+        if (expectedActions==0) game.sendActionOver(new EndActionMessage(ID));
     }
 
 
     public void placeRes(ResourceType r, int shelfIndex, int ID)  {
          //mette la risorsa al posto giusto se può
          //manda reportError con ok o ko a seconda che rispetti le regole
+        if (r.equals(ResourceType.FAITH_POINT))  {
+            discardRes(ID);
+            expectedActions--;
+            //aggiorno parte del game
+        }
+        else {
+            String s = this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().addResource(r, shelfIndex);
 
-         String s = this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().addResource(r, shelfIndex);
-         game.reportError(new ErrorMessage(s,ID, r));
+            if (s.equals("ok")) {
+                game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
+                expectedActions --;
+            }
+
+            else game.sendSingleResource(r, shelfIndex, ID, s );
+        }
+        if (expectedActions==0)  game.sendActionOver(new EndActionMessage(ID));
     }
 
     public void discardRes(int ID) {
@@ -111,7 +141,7 @@ public class Controller implements Observer<Message> {
         for(ResourceType r : resFromWarehouse)
             this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
         if(this.game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(posIndex).getSize() == 3){
-            this.game.reportError(new ErrorMessage("Could not add this card in slot " + posIndex + " because it is full. Try again", ID, null));
+            this.game.reportError(new ErrorMessage("Could not add this card in slot " + posIndex + " because it is full. Try again", ID));
             return;
         }
         this.game.sendObject(new ObjectMessage(game.getPlayerById(ID).getPersonalBoard().getWarehouse(), 3, ID));
@@ -428,11 +458,7 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(ErrorMessage message) {
-        if (message.getString().equals("all set"))  {
-
-            game.printPlayerNickname(message.getID());
-        }
-        else if (message.getString().equals("discard"))  {
+        if (message.getString().equals("discard"))  {
             discardRes(message.getID());
         }
 
@@ -446,7 +472,7 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update (ChooseNumberOfPlayer message)  {
-        game.setNumPlayer(message.getNumberOfPlayers());
+
 
     }
 
@@ -467,6 +493,7 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(MarketMessage message) {
+
         goToMarket(message.isRow(), message.getIndex(), message.getID());
     }
 
@@ -477,6 +504,7 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(PlaceResourceMessage message) {
+
         placeRes(message.getRes(), message.getShelf(), message.getID());
 
     }
@@ -512,6 +540,17 @@ public class Controller implements Observer<Message> {
     @Override
     public void update(ProductionMessage message) {
         useBasicProduction(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox());
+    }
+
+    @Override
+    public void update(EndTurnMessage message) {
+        game.endTurn(message.getID());
+
+    }
+
+    @Override
+    public void update(EndActionMessage message) {
+
     }
 
 

@@ -80,7 +80,7 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 //        return numPlayers;
 //    }
 
-    private void goToMarket(MarketMessage message) throws IOException, ClassNotFoundException {
+    private void goToMarket(MarketMessage message) throws IOException, ClassNotFoundException { //  TODO
         notify(message);
         boolean done = false;
 
@@ -117,18 +117,16 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(IdMessage message) {
-        if (message.getID()==size)  {
-            notify(new ChooseNumberOfPlayer(size));
-            notify(new ErrorMessage("all set", this.ID));
-        }
+
+
+
 
     }
 
     @Override
     public void update(ErrorMessage message) {
-        if(message.getID() == this.ID){
-            clientConnection.send(message);
-        }
+        if (message.getID()==ID) clientConnection.send(message);
+
     }
 
     @Override
@@ -148,7 +146,7 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(ObjectMessage message) {
-
+        clientConnection.send(message);
     }
 
     @Override
@@ -172,7 +170,20 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
     }
 
     @Override
+    public void update(EndTurnMessage message) {
+        clientConnection.send(message);
+    }
+
+    @Override
+    public void update(EndActionMessage message) {
+        if (message.getID()==ID)   {
+            clientConnection.send(message);
+        }
+    }
+
+    @Override
     public void update(ResourceListMessage message) {
+        if (message.getID() == ID)
         clientConnection.send(message);
 
 
@@ -180,6 +191,9 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(PlaceResourceMessage message) {
+        if (message.getID()==ID)  {
+            clientConnection.send(message);
+        }
 
     }
 
@@ -197,12 +211,24 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
     }
 
     public void handleAction(Object o){
-        if(gamePhase == 0){
+        if (o instanceof EndTurnMessage)  {
+            notify((EndTurnMessage)o);
+        }
+        else if (o instanceof MarketMessage)  {
+            notify((MarketMessage) o);
+        }
+        else if (o instanceof PlaceResourceMessage)  {
+            notify((PlaceResourceMessage )o);
+        }
+        else if (o instanceof ManageResourceMessage)  {
+            notify((ManageResourceMessage) o);
+        }
+        else if(gamePhase == 0){
             if(o instanceof Nickname){
                 notify((Nickname)o);
             }
         }
-        if(gamePhase == 1){
+         else if(gamePhase == 1){
             if(turnPhase == 0) {
                 if (o instanceof MarketMessage) {
                     notify((MarketMessage) o);
@@ -216,7 +242,8 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
                     notify((ManageResourceMessage) o);
                 } else if (o instanceof EndTurnMessage) {
                     notify((EndTurnMessage) o);
-                } else {
+                } else if (o instanceof PlaceResourceMessage)  {
+                    notify((PlaceResourceMessage)o);
 
                 }
             }

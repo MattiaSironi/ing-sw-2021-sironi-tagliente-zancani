@@ -5,6 +5,7 @@ import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -19,14 +20,14 @@ import java.util.Arrays;
  * @see Slot
  */
 
-public class PersonalBoard {
+public class PersonalBoard implements Serializable {
     private  ArrayList<Slot> faithTrack;
     private ArrayList<DevDeck> cardSlot;
     private LeaderDeck activeLeader;
     private int numDevCards;
-    private boolean favorTile1;
-    private boolean favorTile2;
-    private boolean favorTile3;
+    private int favorTile1;
+    private int favorTile2;
+    private int favorTile3;
     private Strongbox strongbox;
     private ShelfWarehouse warehouse;
     private ResourceType extraShelfRes1;
@@ -35,14 +36,12 @@ public class PersonalBoard {
     private int extraShelfNum2;
 
 
-    public PersonalBoard(ArrayList<Slot> faithTrack, ArrayList<DevDeck> cardSlot, LeaderDeck activeLeader, int numDevCards, boolean favorTile1, boolean favorTile2, boolean favorTile3, Strongbox strongbox, ShelfWarehouse warehouse) {
+    public PersonalBoard(ArrayList<Slot> faithTrack, ArrayList<DevDeck> cardSlot, LeaderDeck activeLeader, int numDevCards,Strongbox strongbox, ShelfWarehouse warehouse) {
         this.faithTrack = faithTrack;
         this.cardSlot = cardSlot;
         this.activeLeader = activeLeader;
         this.numDevCards = numDevCards;
-        this.favorTile1 = favorTile1;
-        this.favorTile2 = favorTile2;
-        this.favorTile3 = favorTile3;
+
         this.strongbox = strongbox;
         this.warehouse = warehouse;
 
@@ -232,26 +231,18 @@ public class PersonalBoard {
         this.numDevCards = numDevCards;
     }
 
-    public void setFavorTile1(boolean favorTile1) {
-        this.favorTile1 = favorTile1;
-    }
-
-    public void setFavorTile2(boolean favorTile2) {
-        this.favorTile2 = favorTile2;
-    }
-
-    public void setFavorTile3(boolean favorTile3) {
-        this.favorTile3 = favorTile3;
-    }
 
     public void setFavorTile(int ft) {
         switch (ft) {
             case 0:
-                this.favorTile1 = true;
+                this.favorTile1 = 1;
+                break;
             case 1:
-                this.favorTile2 = true;
+                this.favorTile2 = 1;
+                break;
             case 2:
-                this.favorTile3 = true;
+                this.favorTile3 = 1;
+                break;
             default:
         }
     }
@@ -268,18 +259,17 @@ public class PersonalBoard {
         return numDevCards;
     }
 
-    public boolean isFavorTile1() {
+    public int getFavorTile1() {
         return favorTile1;
     }
 
-    public boolean isFavorTile2() {
+    public int getFavorTile2() {
         return favorTile2;
     }
 
-    public boolean isFavorTile3() {
+    public int getFavorTile3() {
         return favorTile3;
     }
-
 
     public ArrayList<Slot> getFaithTrack() {
         return faithTrack;

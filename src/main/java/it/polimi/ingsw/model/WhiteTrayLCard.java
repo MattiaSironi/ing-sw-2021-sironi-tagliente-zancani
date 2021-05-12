@@ -1,12 +1,14 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * Class ExtraDepotLCard represents the model of the Leader Card with WhiteTray Ability
  *
  * @author Mattia Sironi
  */
 
-public class WhiteTrayLCard extends LeaderCard implements Printable{
+public class WhiteTrayLCard extends LeaderCard implements Printable, Serializable {
     //type=4?
     private final ResourceType resType;
     private final CardColor x1Color;

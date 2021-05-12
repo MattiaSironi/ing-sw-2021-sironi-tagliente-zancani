@@ -1,12 +1,14 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * Class ExtraProdLCard represents the model of the Leader Card with ExtraProduction Ability
  *
  * @author Mattia Sironi
  */
 
-public class ExtraProdLCard extends LeaderCard implements Printable{
+public class ExtraProdLCard extends LeaderCard implements Printable, Serializable {
     //type=3?
     private final CardColor color;
     private final ResourceType input;

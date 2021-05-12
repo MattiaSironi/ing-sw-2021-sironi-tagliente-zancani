@@ -17,7 +17,10 @@ public class CLI extends Observable<Message> implements Observer<Message> {
     }
     public synchronized String readFromInput(){
         System.out.print("> ");
-        String input = in.nextLine();
+        Scanner s = new Scanner(System.in);
+        String input = s.nextLine();
+
+
         return input;
     }
 
@@ -108,6 +111,16 @@ public class CLI extends Observable<Message> implements Observer<Message> {
 
     @Override
     public void update(ProductionMessage message) {
+
+    }
+
+    @Override
+    public void update(EndTurnMessage message) {
+
+    }
+
+    @Override
+    public void update(EndActionMessage message) {
 
     }
 }

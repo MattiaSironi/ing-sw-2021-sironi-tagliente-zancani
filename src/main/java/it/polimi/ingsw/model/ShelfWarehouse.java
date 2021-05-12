@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import org.apache.maven.model.Resource;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  * @see Shelf
  */
 
-public class ShelfWarehouse implements Printable {
+public class ShelfWarehouse implements Printable, Serializable {
     private ArrayList<Shelf> shelves;
 
     public ShelfWarehouse() {
@@ -90,7 +91,8 @@ public class ShelfWarehouse implements Printable {
                 return "ok";
             } else
                 return "Error. The shelf you keep your " + r.printResourceColouredName() + " resources is full or it is used by another ResourceType";
-        } else return "Error. There is another shelf taken by " + r.printResourceColouredName() + " resources.";
+        }
+        else return "Error. There is another shelf taken by " + r.printResourceColouredName() + " resources.";
     }
 
     /**
@@ -135,5 +137,9 @@ public class ShelfWarehouse implements Printable {
     public boolean canIPay(int i, ResourceType r){
         if(getResCount(r) < i) return false;
         else return true;
+    }
+
+    public int numberOfResources()  {
+        return  this.shelves.stream().mapToInt(x -> x.getCount()).sum();
     }
 }

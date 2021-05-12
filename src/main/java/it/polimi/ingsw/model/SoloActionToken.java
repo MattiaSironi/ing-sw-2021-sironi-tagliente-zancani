@@ -1,12 +1,14 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * Class SoloActionToken represents the model of the Solo Action Token used in single player mode
  *
  * @author Simone Tagliente
  */
 
-public class SoloActionToken {
+public class SoloActionToken implements Serializable {
     private CardColor discard2Card;
     private boolean moveBlack2;
     private boolean moveBlackAndShuffle;

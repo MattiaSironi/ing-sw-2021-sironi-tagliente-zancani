@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * Class Slot represents the single slot of the Faith Track of the Personal Board
  *
@@ -7,7 +9,7 @@ package it.polimi.ingsw.model;
  * @see PersonalBoard
  */
 
-public class Slot {
+public class Slot implements Serializable {
     private int posIndex; //apparentemente inutile
     private int currentVictoryPoints;
 

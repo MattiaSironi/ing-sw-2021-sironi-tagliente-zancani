@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @see DevCard
  */
 
-public class DevDeck implements Printable {
+public class DevDeck implements Printable, Serializable {
     private int size;
     private int type; // using int for type of card recognition
     private List<DevCard> cards;
