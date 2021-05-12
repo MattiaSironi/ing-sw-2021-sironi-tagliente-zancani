@@ -7,13 +7,22 @@ import java.util.ArrayList;
 
 public class ProductionMessage extends Message {
 
-    ArrayList<ResourceType> resFromWarehouse, resFromStrongbox;
+    ArrayList<ResourceType> resFromWarehouse, resFromStrongbox, resToBuy;
     int ID;
 
-    public ProductionMessage(ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox, int ID) {
+    public ProductionMessage(ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox,ArrayList<ResourceType> tobuy, int ID) {
         this.resFromWarehouse = resFromWarehouse;
         this.resFromStrongbox = resFromStrongbox;
+        this.resToBuy = tobuy;
         this.ID = ID;
+    }
+
+    public ArrayList<ResourceType> getResToBuy() {
+        return resToBuy;
+    }
+
+    public void setResToBuy(ArrayList<ResourceType> resToBuy) {
+        this.resToBuy = resToBuy;
     }
 
     public ArrayList<ResourceType> getResFromWarehouse() {

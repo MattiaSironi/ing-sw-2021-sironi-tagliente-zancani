@@ -38,7 +38,6 @@ public interface Observer<Message> {
 
     void update(ProductionMessage message);
 
-    void update(EndTurnMessage message);
 
-    void update(EndActionMessage message);
+  //  void update(LeaderProdMessage message);
 }
