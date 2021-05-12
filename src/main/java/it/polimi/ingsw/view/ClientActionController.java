@@ -143,7 +143,31 @@ public class ClientActionController {
     }
 
     private void activateProd() {
-        useBasicProduction();
+        boolean stop = false;
+        ArrayList<ResourceType> buy = new ArrayList<>();
+        ArrayList<ResourceType> Str = new ArrayList<>();
+        ArrayList<ResourceType> Ware = new ArrayList<>();
+
+        while(!stop) {
+            cli.printToConsole("Choose the productions you want to activate in this turn:\nType:\n 1 to activate the basic prodcution" +
+                    "\n2 to activate the leader production\n3 to activate the development card production\n0 to end the production phase");
+            int prod = Integer.parseInt(cli.readFromInput());
+            switch (prod) {
+                case 1 -> {
+                    ProductionMessage p1 = useBasicProduction();
+                    Str.addAll(p1.getResFromStrongbox());
+                    Ware.addAll(p1.getResFromWarehouse());
+                }
+                case 2 -> {
+
+                }
+                case 3 -> {
+
+                }
+                case 0-> stop = true;
+            }
+        }
+        this.mmv.sendNotify(new ProductionMessage(Ware,Str,buy,ID));
     }
 
     private void printShelves() {
@@ -415,10 +439,12 @@ public class ClientActionController {
                 } else cli.printToConsole("Invalid int, you selected " + idx);
     }
 
-    public void useBasicProduction(){
+    public ProductionMessage useBasicProduction(){
         boolean valid = false, validInput = false, validNum = false;
         ResourceType newRes;
         String input = null;
+        ProductionMessage m;
+        ArrayList<ResourceType> resToBuy = new ArrayList<>();
         ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
         ArrayList<ResourceType> resFromStrongbox = new ArrayList<>();
         cli.printToConsole("Choose a new resource to produce\n1 --> COIN\n2 --> STONE\n3 --> SERVANT\n4 --> SCHIELD\n(type 1, 2, 3, or 4)");
@@ -526,7 +552,10 @@ public class ClientActionController {
             else
                 cli.printToConsole("Invalid input, try again");
         }
-        this.mmv.sendNotify(new ProductionMessage(resFromWarehouse, resFromStrongbox, this.ID));
+
+        m = new ProductionMessage(resFromWarehouse, resFromStrongbox,resToBuy, this.ID);
+        this.mmv.sendNotify(m);
+        return m;
     }
 
 
@@ -702,6 +731,48 @@ public class ClientActionController {
                 } else cli.printToConsole("Invalid input! Retry!");
         }
     }
+
+
+    public void useDevProduction(){
+        boolean valid = false, validInput = false, validNum = false;
+        int input = 0;
+        ResourceType newRes, resFromWarehouse, resFromStrongbox;
+        cli.printToConsole("Choose the leader whose production you want to activate");
+        while(!valid) {
+            input = Integer.parseInt(cli.readFromInput());
+            if (!(input>0 && input<=this.mmv.getGame().getPlayerById(this.ID).getPersonalBoard().getActiveLeader().getSize() &&
+                    this.mmv.getGame().getPlayerById(this.ID).getPersonalBoard().getActiveLeader().getCards().get(input-1).getType()==3)){
+                     cli.printToConsole("Invalid input, try again");
+            }
+            else
+                valid = true;
+            }
+
+        valid = false;
+        LeaderCard l = this.mmv.getGame().getPlayerById(this.ID).getPersonalBoard().getActiveLeader().getCards().get(input-1);
+        cli.printToConsole("Now choose the resource you want to use\n1 --> COIN\n2 --> STONE\n3 --> SERVANT\n4 --> SCHIELD\n(type 1, 2, 3, or 4)");
+        while(!valid){
+            String in = cli.readFromInput();
+            if (!(in.equals("1") && in.equals("2") && in.equals("3") && in.equals("4"))) {
+                cli.printToConsole("Invalid input, try again");
+            }
+            int chosenRes = Integer.parseInt(in);
+            ResourceType res = ResourceType.EMPTY;
+            if(chosenRes == 1) res = ResourceType.COIN;
+            else if(chosenRes == 2) res = ResourceType.STONE;
+            else if(chosenRes == 3) res = ResourceType.SERVANT;
+            else if(chosenRes == 4) res = ResourceType.SHIELD;
+            System.out.println("sendnotify dal clientcontroller");
+            this.mmv.sendNotify(new LeaderProdMessage(this.ID,l,res));
+        }
+
+
+        }
+
+
+
+
+
 
     public void handleAction(Object o) {
         if(o instanceof ChooseNumberOfPlayer){

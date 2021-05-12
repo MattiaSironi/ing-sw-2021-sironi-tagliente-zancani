@@ -73,6 +73,8 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
         notify(message);
     }
 
+
+
     public Game getGame() {
         return game;
     }
@@ -238,6 +240,13 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
     public void update(ProductionMessage message) {
 
     }
+
+//    @Override
+//    public void update(LeaderProdMessage message){
+//
+//    }
+
+
 
 
     public void printFaithTrack(int ID) {

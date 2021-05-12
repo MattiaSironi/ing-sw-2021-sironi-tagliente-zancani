@@ -220,15 +220,16 @@ public class Controller implements Observer<Message> {
             this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(r, 1);
         }
      }
-
-    public void payResources(int ID, ArrayList<ResourceType> paidResFromWarehouse, ArrayList<ResourceType> paidResFromStrongbox){
-        for(ResourceType r : paidResFromWarehouse){
-            this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
-        }
-        for(ResourceType r : paidResFromStrongbox){
-            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
-        }
-    }
+     //TODO aggiungere i punti vittoria se richiesti
+//
+//    public void payResources(int ID, ArrayList<ResourceType> paidResFromWarehouse, ArrayList<ResourceType> paidResFromStrongbox){
+//        for(ResourceType r : paidResFromWarehouse){
+//            this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
+//        }
+//        for(ResourceType r : paidResFromStrongbox){
+//            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
+//        }
+//    }
 
     public void addResources(int ID, ArrayList<ResourceType> boughtRes){
         for(ResourceType r : boughtRes){
@@ -236,7 +237,7 @@ public class Controller implements Observer<Message> {
         }
     }
 
-    public void useBasicProduction(int ID, ArrayList<ResourceType> paidResFromWarehouse, ArrayList<ResourceType> paidResFromStrongbox) {
+    public boolean payResources(int ID, ArrayList<ResourceType> paidResFromWarehouse, ArrayList<ResourceType> paidResFromStrongbox) {
         if (!(this.game.getPlayerById(ID).getPersonalBoard()
                 .getWarehouse().canIPay((int) paidResFromWarehouse.stream()
                         .filter(x -> x.equals(ResourceType.COIN)).count(), ResourceType.COIN)) || !(this.game.getPlayerById(ID).getPersonalBoard()
@@ -247,7 +248,7 @@ public class Controller implements Observer<Message> {
                 .getWarehouse().canIPay((int) paidResFromWarehouse.stream()
                         .filter(x -> x.equals(ResourceType.SHIELD)).count(), ResourceType.SHIELD))) {
             this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
-            return;
+            return false;
         } else if (!(this.game.getPlayerById(ID).getPersonalBoard()
                 .getStrongbox().canIPay((int) paidResFromStrongbox.stream()
                         .filter(x -> x.equals(ResourceType.COIN)).count(), ResourceType.COIN)) || !(this.game.getPlayerById(ID).getPersonalBoard()
@@ -258,7 +259,7 @@ public class Controller implements Observer<Message> {
                 .getStrongbox().canIPay((int) paidResFromStrongbox.stream()
                         .filter(x -> x.equals(ResourceType.SHIELD)).count(), ResourceType.SHIELD))) {
             this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
-            return;
+            return false;
         } else {
             for (ResourceType r : paidResFromWarehouse) {
                 this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
@@ -267,6 +268,7 @@ public class Controller implements Observer<Message> {
             for (ResourceType r : paidResFromStrongbox) {
                 this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
             }
+            return true;
         }
     }
 
@@ -509,11 +511,30 @@ public class Controller implements Observer<Message> {
             }
     }
 
+
+
+
     @Override
     public void update(ProductionMessage message) {
-        useBasicProduction(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox());
+        if(payResources(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox())){
+            this.addResourceToStrongFromProduction(message.getID(), message.getResToBuy());
+        };
+       // useBasicProduction(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox());
     }
 
+
+
+    public void checkRequirements(int b,int d,int l){
+
+    }
+
+
+
+//
+//        @Override
+//        public void update(LeaderProdMessage message){
+//            this.activateDevProduction(message.getId(), message.getL(),);
+//        }
 
 }
 

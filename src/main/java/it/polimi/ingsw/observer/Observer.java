@@ -37,4 +37,7 @@ public interface Observer<Message> {
     void update(PlayLeaderMessage message);
 
     void update(ProductionMessage message);
+
+
+  //  void update(LeaderProdMessage message);
 }
