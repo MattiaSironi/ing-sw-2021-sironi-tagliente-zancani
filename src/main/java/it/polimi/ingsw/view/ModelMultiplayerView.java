@@ -6,7 +6,7 @@ import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
-import it.polimi.ingsw.server.SocketClientConnection;
+
 
 import java.util.ArrayList;
 
@@ -93,7 +93,7 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
     public void printDevMatrix(){
         int index = 1;
         for(DevDeck d : this.game.getBoard().getDevDecks()){
-            System.out.println("Card numeber: " + index);
+            System.out.println("Card number: " + index);
             index++;
             notify(new PrintableMessage((d.getCards().get(0))));
         }
@@ -196,29 +196,29 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     @Override
     public void update(ResourceListMessage message) { //just for local testing
-        this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print();
-
-        for (Marble m : message.getMarbles()) {
-
-
-            switch (m.getRes()) {
-                case COIN, STONE, SERVANT, SHIELD: {
-                    this.cac.getCli().printToConsole("you received a " + m.getRes().printResourceColouredName() + "!");
-                    this.cac.askForResource(m.getRes());
-                    this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print(); //local TODO
-                    break;
-                }
-                case FAITH_POINT: {
-                    cac.getCli().printToConsole("you received a " + m.getRes().printResourceColouredName());
-                    break;
-                }
-                default: {
-                    cac.getCli().printToConsole("you got nothing from White tray :(");
-                    break;
-                } //caso EMPTY, vari controlli!
-            }
-
-        }
+//        this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print();
+//
+//        for (Marble m : message.getMarbles()) {
+//
+//
+//            switch (m.getRes()) {
+//                case COIN, STONE, SERVANT, SHIELD: {
+//                    this.cac.getCli().printToConsole("you received a " + m.getRes().printResourceColouredName() + "!");
+//                    this.cac.askForResource(m.getRes());
+//                    this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print(); //local TODO
+//                    break;
+//                }
+//                case FAITH_POINT: {
+//                    cac.getCli().printToConsole("you received a " + m.getRes().printResourceColouredName());
+//                    break;
+//                }
+//                default: {
+//                    cac.getCli().printToConsole("you got nothing from White tray :(");
+//                    break;
+//                } //caso EMPTY, vari controlli!
+//            }
+//
+//        }
     }
 
     @Override
@@ -238,6 +238,16 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     @Override
     public void update(ProductionMessage message) {
+
+    }
+
+    @Override
+    public void update(EndActionMessage message) {
+
+    }
+
+    @Override
+    public void update(EndTurnMessage message) {
 
     }
 

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable;
 
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class ControllerTests {
 //-----------------------BASIC PRODUCTION----------------------------------------------------------------------------------------------------
     @Test
     @DisplayName("Use basic production")
+    @Disabled("incorrect")
     void useBasicProductionFromWarehouse1() {
 
         game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);

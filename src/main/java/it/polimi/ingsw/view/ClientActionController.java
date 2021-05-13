@@ -76,7 +76,7 @@ public class ClientActionController {
         int numPlayers;
         Boolean valid = false;
         do {
-            cli.printToConsole("Choose number of player");
+            cli.printToConsole("Choose number of players:");
             numPlayers = Integer.parseInt(cli.readFromInput());
             if (numPlayers > 1 && numPlayers <= 4) {
                 valid = true;
@@ -870,7 +870,7 @@ public class ClientActionController {
     private void handleObject(ObjectMessage message)  {
         if (message.getObjectID() == -1)  { //GAME
             this.mmv.setGame((Game) message.getObject());
-            this.mmv.printPlayers(ID);
+
 
         }
         else if (message.getObjectID()==0) //SHELVES
@@ -897,7 +897,7 @@ public class ClientActionController {
     }
 
     private void nicknameSetUp() {
-        cli.printToConsole("Choose your nickname");
+        cli.printToConsole("Choose your nickname:");
         String nickname = cli.readFromInput();
         serverConnection.send(new Nickname(nickname, ID, false));
     }
