@@ -37,16 +37,52 @@ public class Controller implements Observer<Message> {
             game.reportError(new Nickname(nickname.getString(), nickname.getID(), true));
             game.getPlayers().add(new Player(nickname.getID(), nickname.getString()));
             if (game.getPlayers().size() == game.getNumPlayer())  {
-                Collections.shuffle(game.getPlayers(), new Random(game.getNumPlayer()));
-                game.getPlayers().get(0).setInkwell(true);
-                game.sendObject(new ObjectMessage(game, -1, -1));
-                game.endTurn(game.getPlayers().get(game.getPlayers().size()-1).getId());
+                initialPhase();
 
 
 
             }
         }
 
+    }
+
+    public void initialPhase(){
+        Collections.shuffle(game.getPlayers(), new Random(game.getNumPlayer()));
+        game.getPlayers().get(0).setInkwell(true);
+        game.sendObject(new ObjectMessage(game, -1, -1));
+        for(Player p : game.getPlayers()){
+            switch (game.getPlayers().indexOf(p)){
+                case 0 : {
+                    p.setReady(true);
+                    if(checkReadyPlayers()){
+                        game.sendObject(new ObjectMessage(game, -1, -1));
+                        game.endTurn(game.getPlayers().get(game.getPlayers().size()-1).getId());
+                    }
+                    game.reportError(new ErrorMessage("You are the first!", p.getId()));
+                    break;
+                }
+                case 1 : {
+                    p.setStartResCount(1);
+                    game.sendSingleResource(null, -1, p.getId(), "");
+                    break;
+                }
+                case 2 : {
+                    p.setStartResCount(1);
+                    p.moveFaithMarkerPos(1);
+                    game.reportError(new ErrorMessage("You received 1 Faith Point!", p.getId()));
+                    game.sendSingleResource(null, -1, p.getId(), "");
+                    break;
+                }
+                case 3 : {
+                    p.setStartResCount(2);
+                    p.moveFaithMarkerPos(1);
+                    game.reportError(new ErrorMessage("You received 1 Faith Point!", p.getId()));
+                    game.sendSingleResource(null, -1, p.getId(), "");
+                    game.sendSingleResource(null, -1, p.getId(), "");
+                    break;
+                }
+            }
+        }
     }
 
     public void swapShelves(int s1, int s2, int ID){
@@ -268,6 +304,9 @@ public class Controller implements Observer<Message> {
     }
 
     public boolean payResources(int ID, ArrayList<ResourceType> paidResFromWarehouse, ArrayList<ResourceType> paidResFromStrongbox) {
+        if(!(this.game.getPlayerById(ID).getResDiscount1().equals(ResourceType.EMPTY))){
+
+        }
         if (!(this.game.getPlayerById(ID).getPersonalBoard()
                 .getWarehouse().canIPay((int) paidResFromWarehouse.stream()
                         .filter(x -> x.equals(ResourceType.COIN)).count(), ResourceType.COIN)) || !(this.game.getPlayerById(ID).getPersonalBoard()
@@ -413,6 +452,27 @@ public class Controller implements Observer<Message> {
          game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getLeaderDeck(), 2, ID));
      }
 
+     public void placeInitialRes(ResourceType res, int shelfIndex, int ID){
+
+        String s = this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().addResource(res, shelfIndex);
+            if (s.equals("ok")) {
+                game.getPlayerById(ID).setStartResCount(game.getPlayerById(ID).getStartResCount() - 1);
+                if(game.getPlayerById(ID).getStartResCount() == 0){
+                    game.getPlayerById(ID).setReady(true);
+                    if(checkReadyPlayers()){
+                        game.sendObject(new ObjectMessage(game, -1, -1));
+                        game.endTurn(game.getPlayers().get(game.getPlayers().size()-1).getId());
+                    }
+                }
+            }
+            else game.sendSingleResource(null, shelfIndex, ID, s);
+
+    }
+
+    public synchronized boolean checkReadyPlayers(){
+        return game.getPlayers().stream().filter(x -> x.isReady()).count() == game.getNumPlayer();
+    }
+
 
      public ResourceType FromIntToRes (int i){
         switch (i){
@@ -506,8 +566,15 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(PlaceResourceMessage message) {
+        System.out.println("prima if");
+        if(message.getError().equals("initial phase")) {
+            System.out.println("dopo if");
+            placeInitialRes(message.getRes(), message.getShelf(), message.getID());
+        }
+        else{
+            placeRes(message.getRes(), message.getShelf(), message.getID());
+        }
 
-        placeRes(message.getRes(), message.getShelf(), message.getID());
 
     }
 

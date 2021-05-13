@@ -10,6 +10,8 @@ import java.util.ArrayList;
  */
 
 public class Player implements Serializable {
+    private boolean ready = false;
+    private int startResCount;
     private int id;
     private String nickname;
     private int faithMarkerPos;
@@ -201,5 +203,21 @@ public class Player implements Serializable {
 
     public int getValueResources() {
         return (this.personalBoard.getStrongbox().numberOfResources() + this.personalBoard.getWarehouse().numberOfResources());
+    }
+
+    public boolean isReady() {
+        return ready;
+    }
+
+    public void setReady(boolean ready) {
+        this.ready = ready;
+    }
+
+    public int getStartResCount() {
+        return startResCount;
+    }
+
+    public void setStartResCount(int startResCount) {
+        this.startResCount = startResCount;
     }
 }

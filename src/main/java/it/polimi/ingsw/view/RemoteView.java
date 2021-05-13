@@ -104,8 +104,10 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(Nickname message) {
-        if(message.getID() == this.ID)
+        if(message.getID() == this.ID) {
+            if(message.getValid()) gamePhase = 1;
             clientConnection.send(message);
+        }
         else if(message.getValid())
             clientConnection.send(new OutputMessage("One of your opponents is " + message.getString()));
     }
@@ -171,12 +173,15 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(EndTurnMessage message) {
+        turnPhase = 0;
         clientConnection.send(message);
+
     }
 
     @Override
     public void update(EndActionMessage message) {
         if (message.getID()==ID)   {
+            turnPhase = 0;
             clientConnection.send(message);
         }
     }
@@ -211,25 +216,30 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
     }
 
     public void handleAction(Object o){
-        if (o instanceof EndTurnMessage)  {
-            notify((EndTurnMessage)o);
+//        if (o instanceof EndTurnMessage)  {
+//            notify((EndTurnMessage)o);
+//        }
+//        else if (o instanceof MarketMessage)  {
+//            notify((MarketMessage) o);
+//        }
+//        else if (o instanceof PlaceResourceMessage)  {
+//            notify((PlaceResourceMessage )o);
+//        }
+//        else if (o instanceof ManageResourceMessage)  {
+//            notify((ManageResourceMessage) o);
+//        }
+        if (o instanceof PlaceResourceMessage)  {
+            notify((PlaceResourceMessage)o);
+
         }
-        else if (o instanceof MarketMessage)  {
-            notify((MarketMessage) o);
-        }
-        else if (o instanceof PlaceResourceMessage)  {
-            notify((PlaceResourceMessage )o);
-        }
-        else if (o instanceof ManageResourceMessage)  {
-            notify((ManageResourceMessage) o);
-        }
-        else if(gamePhase == 0){
+        if(gamePhase == 0){
             if(o instanceof Nickname){
                 notify((Nickname)o);
             }
         }
          else if(gamePhase == 1){
             if(turnPhase == 0) {
+                turnPhase = 1;
                 if (o instanceof MarketMessage) {
                     notify((MarketMessage) o);
                 } else if (o instanceof BuyDevCardMessage) {
@@ -242,9 +252,6 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
                     notify((ManageResourceMessage) o);
                 } else if (o instanceof EndTurnMessage) {
                     notify((EndTurnMessage) o);
-                } else if (o instanceof PlaceResourceMessage)  {
-                    notify((PlaceResourceMessage)o);
-
                 }
             }
         }

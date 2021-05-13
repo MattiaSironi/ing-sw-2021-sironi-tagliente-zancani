@@ -127,7 +127,7 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         if(message instanceof PingMessage){
 
         }
-        if(message instanceof ChooseNumberOfPlayer){
+        else if(message instanceof ChooseNumberOfPlayer){
             server.setNumPlayers(((ChooseNumberOfPlayer)message).getNumberOfPlayers());
             server.setReady(true);
         }

@@ -1,16 +1,10 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.observer.Observer;
-import it.polimi.ingsw.view.*;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -169,7 +163,7 @@ public class ClientActionController {
                     Ware.addAll(p1.getResFromWarehouse());
                 }
                 case 2 -> {
-
+                    ProductionMessage p2 = useLeaderProduction();
                 }
                 case 3 -> {
 
@@ -568,6 +562,76 @@ public class ClientActionController {
         return m;
     }
 
+    public ProductionMessage useLeaderProduction(){
+        ArrayList<ResourceType> resToBuy = new ArrayList<>();
+        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
+        ArrayList<ResourceType> resFromStrongbox = new ArrayList<>();
+        boolean valid = false;
+        //this.mmv.getGame().getPlayerById(ID).getLeaderDeck();
+        //this.mmv.printActiveLeaders();
+        cli.printToConsole("Choose the leader you want to use");
+        String input = cli.readFromInput();
+        if (input.equals("1") || input.equals("2")){
+            int index = Integer.parseInt(input);
+            switch(index){
+                case 1 -> {
+                    LeaderCard leaderCard = this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(index - 1);
+                    if(!(leaderCard instanceof ExtraProdLCard)){
+                        cli.printToConsole("This card does not provide you an extra production");
+                        return null;
+                    }
+                    ExtraDepotLCard extraProdLCard = (ExtraDepotLCard) leaderCard;
+                    cli.printToConsole("Choose a new resource to produce\n1 --> COIN\n2 --> STONE\n3 --> SERVANT\n4 --> SCHIELD\n(type 1, 2, 3, or 4)");
+                    while(!valid) {
+                        input = cli.readFromInput();
+                        if (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4")) {
+                            valid = true;
+                        }
+                        else {
+                            cli.printToConsole(input);
+                            cli.printToConsole("Invalid input, try again");
+                        }
+                    }
+                    int chosenRes = Integer.parseInt(input);
+                    if(chosenRes == 1) resToBuy.add(ResourceType.COIN);
+                    else if(chosenRes == 2) resToBuy.add(ResourceType.STONE);
+                    else if(chosenRes == 3) resToBuy.add(ResourceType.SERVANT);
+                    else if(chosenRes == 4) resToBuy.add(ResourceType.SHIELD);
+
+                    cli.printToConsole("Where would you like to take the " + extraProdLCard.getResType().printResourceColouredName()+ " from? (WARE -> warehouse / STRONG -> strongbox");
+                    while(!valid) {
+                        input = cli.readFromInput();
+                        if (input.equals("WARE")) {
+                            switch (chosenRes) {
+                                case 1 -> resFromWarehouse.add(ResourceType.COIN);
+                                case 2 -> resFromWarehouse.add(ResourceType.STONE);
+                                case 3 -> resFromWarehouse.add(ResourceType.SERVANT);
+                                case 4 -> resFromWarehouse.add(ResourceType.SHIELD);
+                            }
+                            valid = true;
+                        }
+                        else if(input.equals("STRONG")){
+                            switch (chosenRes) {
+                                case 1 -> resFromStrongbox.add(ResourceType.COIN);
+                                case 2 -> resFromStrongbox.add(ResourceType.STONE);
+                                case 3 -> resFromStrongbox.add(ResourceType.SERVANT);
+                                case 4 -> resFromStrongbox.add(ResourceType.SHIELD);
+                            }
+                            valid = true;
+                        }
+                        else
+                            cli.printToConsole("Invalid input, try again");
+                    }
+
+
+
+                }
+            }
+        }
+        return(new ProductionMessage(resFromWarehouse, resFromStrongbox, resToBuy, ID));
+    }
+
+
 
     public void askForResource(ResourceType res) { //public for now, then private TODO
 
@@ -585,6 +649,28 @@ public class ClientActionController {
                 valid = true;
             } else cli.printToConsole("Invalid input! Retry!");
         }
+    }
+
+    public void chooseInitialResources(){
+        ArrayList<ResourceType> possibleRes = new ArrayList<>();
+        possibleRes.add(ResourceType.COIN);
+        possibleRes.add(ResourceType.STONE);
+        possibleRes.add(ResourceType.SERVANT);
+        possibleRes.add(ResourceType.SHIELD);
+        ResourceType selectedRes = null;
+        boolean valid = false;
+        String input;
+        cli.printToConsole("Choose your starting Resource");
+        while(!valid) {
+            input = cli.readFromInput();
+            String finalInput = input;
+            if (possibleRes.stream().anyMatch(v -> v.name().equals(finalInput))) {
+                selectedRes = ResourceType.valueOf(finalInput);
+                valid = true;
+            }
+            else cli.printToConsole("Invalid input, try again!");
+        }
+        whereToPut(selectedRes);
     }
 
 //    private void localWhereToPut(ResourceType res) { //local
@@ -628,7 +714,7 @@ public class ClientActionController {
             if (1 <= s1 && s1 <= 3) valid = true;
             else cli.printToConsole("Invalid input! retry!");
         }
-        serverConnection.send(new PlaceResourceMessage(res, s1-1, ID, ""));
+        serverConnection.send(new PlaceResourceMessage(res, s1-1, ID, "initial phase"));
     }
 
 
@@ -810,7 +896,7 @@ public class ClientActionController {
             handleResourceList((ResourceListMessage) o);
         }
         else if (o instanceof PlaceResourceMessage)  {
-            handleErrorPlacing((PlaceResourceMessage)o);
+            handlePlacing((PlaceResourceMessage)o);
         }
         else if (o instanceof EndActionMessage) {
             chooseAction();
@@ -818,9 +904,15 @@ public class ClientActionController {
 
     }
 
-    private void handleErrorPlacing(PlaceResourceMessage o) {
-        cli.printToConsole(o.getError());
-        askForResource(o.getRes());
+    private void handlePlacing(PlaceResourceMessage o) {
+        if(o.getRes() == null){
+            cli.printToConsole(o.getError());
+            chooseInitialResources();
+        }
+        else {
+            cli.printToConsole(o.getError());
+            askForResource(o.getRes());
+        }
     }
 
     private void handleResourceList(ResourceListMessage o) {
