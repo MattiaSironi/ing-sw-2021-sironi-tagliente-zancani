@@ -23,12 +23,14 @@ public class Board implements Serializable {
     private LeaderDeck leaderDeck;
     private List<DevDeck> devDecks;
     private ArrayList<SoloActionToken> tokenArray;
+    private DevelopmentCardMatrix matrix;
 
     public Board() { //for now just for multiplayer
         market = createMarket();
         devDecks = createDevDecks();
         leaderDeck = createLeaderDeck();
     }
+
 
     private LeaderDeck createLeaderDeck() {
                 Gson gson= new Gson();
@@ -173,6 +175,12 @@ public class Board implements Serializable {
         }
     }
 
+    public DevelopmentCardMatrix getMatrix() {
+        return matrix;
+    }
 
+    public void setMatrix(DevelopmentCardMatrix matrix) {
+        this.matrix = matrix;
+    }
 }
 

@@ -19,8 +19,6 @@ import it.polimi.ingsw.observer.Observable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Optional;
 import java.util.OptionalInt;
 
 public class Game extends Observable<Message> implements Cloneable , Serializable {
@@ -153,7 +151,8 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         notify(message);
     }
 
-    public void sendObject(ObjectMessage message) { notify(message);
+    public void sendGame(){
+        notify(new ObjectMessage(this, -1, -1));
     }
 
     public void sendResources(ResourceListMessage message)  {
@@ -187,7 +186,41 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         return clone;
     }
 
+    public void setMarketHand(ArrayList<Marble> resources){
+        getBoard().getMarket().setHand(resources);
+        notify(new ObjectMessage(getBoard().getMarket(), 1, -1));
+    }
 
+    public void removeFromMarketHand(){
+        getBoard().getMarket().getHand().remove(0);
+        notify(new ObjectMessage(getBoard().getMarket(), 1, -1));
+    }
+
+    public void setTurn(int ID, String phase, boolean error, ErrorList errorType){
+        getTurn().setPlayerPlayingID(ID);
+        getTurn().setPhase(phase);
+        getTurn().setError(error);
+        getTurn().setErrorType(errorType);
+        System.out.println("is playing " + turn.getPlayerPlayingID() + " phase: " + turn.getPhase());
+        notify(new ObjectMessage(getTurn(), 10, -1));
+
+    }
+
+    public void moveFaithPosByID(int ID, int faith){
+        getPlayerById(ID).moveFaithMarkerPos(faith);
+        notify(new ObjectMessage(getPlayerById(ID).getFaithMarkerPos(), 13, ID));
+        checkVatican();
+
+    }
+
+    public boolean swapShelvesByID(int s1, int s2, int ID){
+        if(getPlayerById(ID).getPersonalBoard().getWarehouse().swapShelves(s1, s2)) {
+            notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 3, ID));
+            return true;
+        }
+        else
+            return false;
+    }
 
     public void setInkwell(){
         Collections.shuffle(this.getPlayers());
@@ -200,15 +233,18 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
             if (maxP >= 8 && !firstvatican)  {
                 checkEveryPlayerPos(8, 0);
                 setFirstvatican(true);
+                notify(new ObjectMessage(true, -1, 0));
 
             }
             else if (maxP >= 16 && !secondvatican)  {
                 checkEveryPlayerPos(16, 1);
                 setSecondvatican(true);
+                notify(new ObjectMessage(true, -1, 1));
             }
             else if (maxP ==24 && !thirdvatican)  {
                 checkEveryPlayerPos(24, 2);
                 setThirdvatican(true);
+                notify(new ObjectMessage(true, -1, 2));
                 // END OF GAME(?)
             }
         }
@@ -217,7 +253,11 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
 
     public void checkEveryPlayerPos(int popeSpace, int vatican)  {
         for (Player p : this.players)  {
-            if (p.getFaithMarkerPos() >= (popeSpace-3-vatican))  p.getPersonalBoard().setFavorTile(vatican);
+            if (p.getFaithMarkerPos() >= (popeSpace-3-vatican)){
+                p.getPersonalBoard().setFavorTile(vatican);
+                notify(new ObjectMessage(vatican, 12, p.getId()));
+            }
+
         }
     }
 
@@ -255,14 +295,16 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
             }
             // else GAMEOVER
         }
-        notify(new EndTurnMessage(players.get(position+1).getId()));
-
-
-
+        setTurn(players.get(position+1).getId(), "WAITING FOR ACTION", false, null);
     }
 
-    public void sendSingleResource(ResourceType r, int shelfIndex, int id, String s) {
-        notify(new PlaceResourceMessage(r,shelfIndex,id, s ));
+    public boolean addResourceToWarehouse(int ID, int shelfIndex, ResourceType r){
+        if(getPlayerById(ID).getPersonalBoard().getWarehouse().addResource(r, shelfIndex)) {
+            notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 3, ID));
+            return true;
+        }
+        else
+            return false;
     }
 
     public void sendActionOver(EndActionMessage message) {

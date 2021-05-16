@@ -228,202 +228,210 @@ public class ClientActionController {
 //        useBasicProduction();
         }
 
-        public void buyDevCard(){
-            boolean buyFromWarehouse = false,
-                    buyFromStrongbox = false,
-                    validChoice = false,
-                    coinNumValid = false,
-                    stoneNumValid = false,
-                    servantNumValid = false,
-                    shieldNumValid = false;
-            ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
-            ArrayList<ResourceType> resFromStrongbox = new ArrayList<>();
-            int index = 0;
+        public void buyDevCard() {
             this.mmv.printDevMatrix();
-            cli.printToConsole("Are you sure you want to go on? type 'quit' to return\n");
-            String string = cli.readFromInput();
-            if(string.equals("quit")) return;
-            cli.printToConsole("Choose the Development Card you want to buy\n");
-            while(!validChoice) {
-                index = Integer.parseInt(cli.readFromInput());
-                System.out.println("This card has cost:" + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[0]
-                        + " " + ResourceType.COIN.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[1]
-                        + " " + ResourceType.STONE.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[2]
-                        + " " + ResourceType.SERVANT.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[3]
-                        + " " + ResourceType.SHIELD.printResourceColouredName());
+            while(!chooseCard());
 
-                if (mmv.getGame().getPlayerById(ID).getPersonalBoard().totalPaymentChecker(mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes())) {
-                    validChoice = true;
-                    for (DevDeck dd : mmv.getGame().getPlayerById(ID).getPersonalBoard().getCardSlot()) {
-                        if (dd.getCards().size() == 0 && mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getLevel() == 1)
-                            break;
-                        else if (dd.getCards().get(0).getLevel() == mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getLevel() - 1)
-                            break;
-                        else {
-                            validChoice = false;
-                            cli.printToConsole("You can't buy this Development Card because you don't have an avaiable slot to place it");
-                        }
-                    }
-                }
-                else System.out.println("You dont have enough resources to pay this card!\nChoose another Development Card");
-            }
-            DevCard d = mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0);
-            if(d.getCostRes()[0] != 0){
-                while(!coinNumValid) {
-                    if (d.getCostRes()[0] == 1)
-                        System.out.println("Required 1 " + ResourceType.COIN.printResourceColouredName());
-                    else
-                        System.out.println("Required " + d.getCostRes()[0] + " " + ResourceType.COIN.printResourceColouredName() + "(s)");
-                    System.out.println("Choose how many " + ResourceType.COIN.printResourceColouredName() + " you want to take from the Warehouse");
-                    int numCoinFromWarehouse = Integer.parseInt(cli.readFromInput());
-                    while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(numCoinFromWarehouse, ResourceType.COIN))){
-                        cli.printToConsole("You don't have " + numCoinFromWarehouse + " " + ResourceType.COIN.printResourceColouredName() + " in your warehouse\nChoose a proper number" );
-                        numCoinFromWarehouse = Integer.parseInt(cli.readFromInput());
-                    }
-                    if(numCoinFromWarehouse != d.getCostRes()[0]) {
-                        System.out.println("Choose how many " + ResourceType.COIN.printResourceColouredName() + "(s) you want to take from the Strongbox");
-                        int numCoinFromStrongbox = Integer.parseInt(cli.readFromInput());
-                        while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numCoinFromStrongbox, ResourceType.COIN))){
-                            cli.printToConsole("You don't have " + numCoinFromStrongbox + " " + ResourceType.COIN.printResourceColouredName() + " in your strongbox\nChoose a proper number" );
-                            numCoinFromStrongbox = Integer.parseInt(cli.readFromInput());
-                        }
-                        if (numCoinFromStrongbox + numCoinFromWarehouse == d.getCostRes()[0])
-                            coinNumValid = true;
-                        else
-                            cli.printToConsole(ResourceType.COIN.printResourceColouredName() + "(s) must be " + d.getCostRes()[0]);
-                    if (coinNumValid) {
-                        for (int num1 = 0; num1 < numCoinFromStrongbox; num1++) {
-                            resFromStrongbox.add(ResourceType.COIN);
-                        }
-                    }
-                }
-                else coinNumValid = true;
-                for (int num0 = 0; num0 < numCoinFromWarehouse; num0++) {
-                    resFromWarehouse.add(ResourceType.COIN);
-                }
-            }
+
+
+
+
         }
-        if(d.getCostRes()[1] != 0) {
-            while (!stoneNumValid) {
-                if (d.getCostRes()[1] == 1) {
-                    System.out.println("Required 1 " + ResourceType.STONE.printResourceColouredName());
-                } else {
-                    System.out.println("Required " + d.getCostRes()[0] + " " +  ResourceType.STONE.printResourceColouredName() + "(s)");
-                }
-                System.out.println("Choose how many " + ResourceType.STONE.printResourceColouredName() + "(s) you want to take from the Warehouse");
-                int numStoneFromWarehouse = Integer.parseInt(cli.readFromInput());
-                while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(numStoneFromWarehouse, ResourceType.STONE))){
-                    cli.printToConsole("You don't have " + numStoneFromWarehouse + " " + ResourceType.STONE.printResourceColouredName() + " in your warehouse\nChoose a proper number" );
-                    numStoneFromWarehouse = Integer.parseInt(cli.readFromInput());
-                }
-                if(numStoneFromWarehouse != d.getCostRes()[1]) {
-                    System.out.println("Choose how many " + ResourceType.STONE.printResourceColouredName() + "(s) you want to take from the Strongbox");
-                    int numStoneFromStrongbox = Integer.parseInt(cli.readFromInput());
-                    while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numStoneFromStrongbox, ResourceType.STONE))){
-                        cli.printToConsole("You don't have " + numStoneFromStrongbox + " " + ResourceType.STONE.printResourceColouredName() + " in your strongbox\nChoose a proper number" );
-                        numStoneFromStrongbox = Integer.parseInt(cli.readFromInput());
-                    }
-                    if (numStoneFromWarehouse + numStoneFromStrongbox == d.getCostRes()[1])
-                        stoneNumValid = true;
-                    else
-                        cli.printToConsole(ResourceType.STONE.printResourceColouredName() + "(s) must be " + d.getCostRes()[1]);
-                    if(stoneNumValid) {
-                        for (int num = 0; num < numStoneFromStrongbox; num++) {
-                            resFromStrongbox.add(ResourceType.STONE);
-                        }
-                    }
-                }
-                else stoneNumValid = true;
-                for (int num = 0; num < numStoneFromWarehouse; num++) {
-                    resFromWarehouse.add(ResourceType.STONE);
-                }
+
+        public boolean chooseCard(){
+            String input;
+            int index;
+            cli.printToConsole("Choose the Development Card you want to buy");
+            index = Integer.parseInt(cli.readFromInput().replaceAll("[^0-9]", ""));
+            if(!(index >= 0 && index <= 12)){
+                cli.printToConsole("Invalid input");
+                return false;
+            }
+            cli.printToConsole("This card has cost:" + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[0]
+                    + " " + ResourceType.COIN.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[1]
+                    + " " + ResourceType.STONE.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[2]
+                    + " " + ResourceType.SERVANT.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[3]
+                    + " " + ResourceType.SHIELD.printResourceColouredName());
+            cli.printToConsole("Continue? [y/n]");
+            input = cli.readFromInput();
+            if(input.equals("y")){
+                serverConnection.send(new BuyDevCardMessage(index - 1, ID, mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0), null, null, 0));
+                return true;
+            }
+            else if(input.equals("n")){
+                cli.printToConsole("Aborted");
+                return false;
+            }
+            else{
+                cli.printToConsole("Invalid input, try again");
+                return false;
             }
 
         }
-        if(d.getCostRes()[2] != 0) {
-            while(!servantNumValid) {
-                if (d.getCostRes()[2] == 1) {
-                    System.out.println("Required 1" +  ResourceType.SERVANT.printResourceColouredName());
-                } else {
-                    System.out.println("Required " + d.getCostRes()[0] + " " + ResourceType.SERVANT.printResourceColouredName() + "(s)");
-                }
-                System.out.println("Choose how many " +  ResourceType.SERVANT.printResourceColouredName() + "(s) you want to take from the Warehouse");
-                int numServantFromWarehouse = Integer.parseInt(cli.readFromInput());
-                while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(numServantFromWarehouse, ResourceType.SERVANT))){
-                    cli.printToConsole("You don't have " + numServantFromWarehouse + " " + ResourceType.SERVANT.printResourceColouredName() + " in your warehouse\nChoose a proper number" );
-                    numServantFromWarehouse = Integer.parseInt(cli.readFromInput());
-                }
-                if(numServantFromWarehouse != d.getCostRes()[2]) {
-                    System.out.println("Choose how many" + ResourceType.SERVANT.printResourceColouredName() + "(s) you want to take from the Strongbox");
-                    int numServantFromStrongbox = Integer.parseInt(cli.readFromInput());
-                    while(!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numServantFromStrongbox, ResourceType.SERVANT))){
-                        cli.printToConsole("You don't have " + numServantFromStrongbox + " " + ResourceType.SERVANT.printResourceColouredName() + " in your strongbox\nChoose a proper number" );
-                        numServantFromStrongbox = Integer.parseInt(cli.readFromInput());
-                    }
-                    if (numServantFromStrongbox + numServantFromWarehouse == d.getCostRes()[2])
-                        servantNumValid = true;
-                    else
-                        cli.printToConsole(ResourceType.SERVANT.printResourceColouredName() + "(s) must be " + d.getCostRes()[2]);
-                    if(servantNumValid) {
-                        for (int num = 0; num < numServantFromStrongbox; num++) {
-                            resFromStrongbox.add(ResourceType.SERVANT);
-                        }
-                    }
-                }
-                else servantNumValid = true;
-                for (int num = 0; num < numServantFromWarehouse; num++) {
-                    resFromWarehouse.add(ResourceType.SERVANT);
-                }
-            }
-        }
-        if(d.getCostRes()[3] != 0) {
-            while(!shieldNumValid) {
-                if (d.getCostRes()[3] == 1) {
-                    System.out.println("Required 1 " + ResourceType.SHIELD.printResourceColouredName());
-                } else {
-                    System.out.println("Required " + d.getCostRes()[3] + " " + ResourceType.SHIELD.printResourceColouredName() + "(s)");
-                }
-                System.out.println("Choose how many " + ResourceType.SHIELD.printResourceColouredName() + "(s) you want to take from the Warehouse");
-                int numShieldFromWarehouse = Integer.parseInt(cli.readFromInput());
-                while (!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(numShieldFromWarehouse, ResourceType.SHIELD))) {
-                    cli.printToConsole("You don't have " + numShieldFromWarehouse + " " + ResourceType.SHIELD.printResourceColouredName() + " in your warehouse\nChoose a proper number");
-                    numShieldFromWarehouse = Integer.parseInt(cli.readFromInput());
-                }
-                if (numShieldFromWarehouse != d.getCostRes()[3]) {
-                    System.out.println("Choose how many " + ResourceType.SHIELD.printResourceColouredName() + "(s) you want to take from the Strongbox");
-                    int numShieldFromStrongbox = Integer.parseInt(cli.readFromInput());
-                    while (!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numShieldFromStrongbox, ResourceType.SHIELD))) {
-                        cli.printToConsole("You don't have " + numShieldFromStrongbox + " " + ResourceType.SHIELD.printResourceColouredName() + " in your strongbox\nChoose a proper number");
-                        numShieldFromStrongbox = Integer.parseInt(cli.readFromInput());
-                    }
-                    if (numShieldFromStrongbox + numShieldFromWarehouse == d.getCostRes()[3])
-                        shieldNumValid = true;
-                    else
-                        cli.printToConsole(ResourceType.SHIELD.printResourceColouredName() + "(s) must be " + d.getCostRes()[3]);
-                    if(shieldNumValid) {
-                        for (int num = 0; num < numShieldFromStrongbox; num++) {
-                            resFromStrongbox.add(ResourceType.SHIELD);
-                        }
-                    }
-                }
-                else shieldNumValid = true;
-                for (int num = 0; num < numShieldFromWarehouse; num++) {
-                    resFromWarehouse.add(ResourceType.SHIELD);
-                }
 
 
-            }
 
-        }
-        cli.printToConsole("Place your new Development Card. Select the number of the slot (1, 2 or 3)");
-        int slot = Integer.parseInt(cli.readFromInput());
-        while(slot < 1 || slot > 3){
-            cli.printToConsole("Invalid input! Choose another slot");
-            slot = Integer.parseInt(cli.readFromInput());
-        }
-        this.mmv.sendNotify(new BuyDevCardMessage(index, ID, d, resFromWarehouse, resFromStrongbox, slot - 1));
 
-    }
+//        public void buyDevCard(){
+//            boolean buyFromWarehouse = false,
+//                    buyFromStrongbox = false,
+//                    validChoice = false,
+//                    coinNumValid = false,
+//                    stoneNumValid = false,
+//                    servantNumValid = false,
+//                    shieldNumValid = false;
+//            ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
+//            ArrayList<ResourceType> resFromStrongbox = new ArrayList<>();
+//            int index = 0;
+//            this.mmv.printDevMatrix();
+//            cli.printToConsole("Are you sure you want to go on? type 'quit' to return\n");
+//            String string = cli.readFromInput();
+//            if(string.equals("quit")) return;
+//            cli.printToConsole("Choose the Development Card you want to buy\n");
+//            while(!validChoice) {
+//                index = Integer.parseInt(cli.readFromInput());
+//                cli.printToConsole("This card has cost:" + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[0]
+//                        + " " + ResourceType.COIN.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[1]
+//                        + " " + ResourceType.STONE.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[2]
+//                        + " " + ResourceType.SERVANT.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[3]
+//                        + " " + ResourceType.SHIELD.printResourceColouredName());
+//            }
+//            DevCard d = mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0);
+//            if(d.getCostRes()[0] != 0){
+//                while(!coinNumValid) {
+//                    if (d.getCostRes()[0] == 1)
+//                        System.out.println("Required 1 " + ResourceType.COIN.printResourceColouredName());
+//                    else
+//                        System.out.println("Required " + d.getCostRes()[0] + " " + ResourceType.COIN.printResourceColouredName() + "(s)");
+//                    System.out.println("Choose how many " + ResourceType.COIN.printResourceColouredName() + " you want to take from the Warehouse");
+//                    int numCoinFromWarehouse = Integer.parseInt(cli.readFromInput());
+//
+//                    if(numCoinFromWarehouse != d.getCostRes()[0]) {
+//                        System.out.println("Choose how many " + ResourceType.COIN.printResourceColouredName() + "(s) you want to take from the Strongbox");
+//                        int numCoinFromStrongbox = Integer.parseInt(cli.readFromInput());
+//
+//                        if (numCoinFromStrongbox + numCoinFromWarehouse == d.getCostRes()[0])
+//                            coinNumValid = true;
+//                        else
+//                            cli.printToConsole(ResourceType.COIN.printResourceColouredName() + "(s) must be " + d.getCostRes()[0]);
+//                    if (coinNumValid) {
+//                        for (int num1 = 0; num1 < numCoinFromStrongbox; num1++) {
+//                            resFromStrongbox.add(ResourceType.COIN);
+//                        }
+//                    }
+//                }
+//                else coinNumValid = true;
+//                for (int num0 = 0; num0 < numCoinFromWarehouse; num0++) {
+//                    resFromWarehouse.add(ResourceType.COIN);
+//                }
+//            }
+//        }
+//        if(d.getCostRes()[1] != 0) {
+//            while (!stoneNumValid) {
+//                if (d.getCostRes()[1] == 1) {
+//                    System.out.println("Required 1 " + ResourceType.STONE.printResourceColouredName());
+//                } else {
+//                    System.out.println("Required " + d.getCostRes()[0] + " " +  ResourceType.STONE.printResourceColouredName() + "(s)");
+//                }
+//                System.out.println("Choose how many " + ResourceType.STONE.printResourceColouredName() + "(s) you want to take from the Warehouse");
+//                int numStoneFromWarehouse = Integer.parseInt(cli.readFromInput());
+//
+//                if(numStoneFromWarehouse != d.getCostRes()[1]) {
+//                    System.out.println("Choose how many " + ResourceType.STONE.printResourceColouredName() + "(s) you want to take from the Strongbox");
+//                    int numStoneFromStrongbox = Integer.parseInt(cli.readFromInput());
+//                    if (numStoneFromWarehouse + numStoneFromStrongbox == d.getCostRes()[1])
+//                        stoneNumValid = true;
+//                    else
+//                        cli.printToConsole(ResourceType.STONE.printResourceColouredName() + "(s) must be " + d.getCostRes()[1]);
+//                    if(stoneNumValid) {
+//                        for (int num = 0; num < numStoneFromStrongbox; num++) {
+//                            resFromStrongbox.add(ResourceType.STONE);
+//                        }
+//                    }
+//                }
+//                else stoneNumValid = true;
+//                for (int num = 0; num < numStoneFromWarehouse; num++) {
+//                    resFromWarehouse.add(ResourceType.STONE);
+//                }
+//            }
+//
+//        }
+//        if(d.getCostRes()[2] != 0) {
+//            while(!servantNumValid) {
+//                if (d.getCostRes()[2] == 1) {
+//                    System.out.println("Required 1" +  ResourceType.SERVANT.printResourceColouredName());
+//                } else {
+//                    System.out.println("Required " + d.getCostRes()[0] + " " + ResourceType.SERVANT.printResourceColouredName() + "(s)");
+//                }
+//                System.out.println("Choose how many " +  ResourceType.SERVANT.printResourceColouredName() + "(s) you want to take from the Warehouse");
+//                int numServantFromWarehouse = Integer.parseInt(cli.readFromInput());
+//                if(numServantFromWarehouse != d.getCostRes()[2]) {
+//                    System.out.println("Choose how many" + ResourceType.SERVANT.printResourceColouredName() + "(s) you want to take from the Strongbox");
+//                    int numServantFromStrongbox = Integer.parseInt(cli.readFromInput());
+//                    if (numServantFromStrongbox + numServantFromWarehouse == d.getCostRes()[2])
+//                        servantNumValid = true;
+//                    else
+//                        cli.printToConsole(ResourceType.SERVANT.printResourceColouredName() + "(s) must be " + d.getCostRes()[2]);
+//                    if(servantNumValid) {
+//                        for (int num = 0; num < numServantFromStrongbox; num++) {
+//                            resFromStrongbox.add(ResourceType.SERVANT);
+//                        }
+//                    }
+//                }
+//                else servantNumValid = true;
+//                for (int num = 0; num < numServantFromWarehouse; num++) {
+//                    resFromWarehouse.add(ResourceType.SERVANT);
+//                }
+//            }
+//        }
+//        if(d.getCostRes()[3] != 0) {
+//            while(!shieldNumValid) {
+//                if (d.getCostRes()[3] == 1) {
+//                    System.out.println("Required 1 " + ResourceType.SHIELD.printResourceColouredName());
+//                } else {
+//                    System.out.println("Required " + d.getCostRes()[3] + " " + ResourceType.SHIELD.printResourceColouredName() + "(s)");
+//                }
+//                System.out.println("Choose how many " + ResourceType.SHIELD.printResourceColouredName() + "(s) you want to take from the Warehouse");
+//                int numShieldFromWarehouse = Integer.parseInt(cli.readFromInput());
+//                while (!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(numShieldFromWarehouse, ResourceType.SHIELD))) {
+//                    cli.printToConsole("You don't have " + numShieldFromWarehouse + " " + ResourceType.SHIELD.printResourceColouredName() + " in your warehouse\nChoose a proper number");
+//                    numShieldFromWarehouse = Integer.parseInt(cli.readFromInput());
+//                }
+//                if (numShieldFromWarehouse != d.getCostRes()[3]) {
+//                    System.out.println("Choose how many " + ResourceType.SHIELD.printResourceColouredName() + "(s) you want to take from the Strongbox");
+//                    int numShieldFromStrongbox = Integer.parseInt(cli.readFromInput());
+//                    while (!(mmv.getGame().getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(numShieldFromStrongbox, ResourceType.SHIELD))) {
+//                        cli.printToConsole("You don't have " + numShieldFromStrongbox + " " + ResourceType.SHIELD.printResourceColouredName() + " in your strongbox\nChoose a proper number");
+//                        numShieldFromStrongbox = Integer.parseInt(cli.readFromInput());
+//                    }
+//                    if (numShieldFromStrongbox + numShieldFromWarehouse == d.getCostRes()[3])
+//                        shieldNumValid = true;
+//                    else
+//                        cli.printToConsole(ResourceType.SHIELD.printResourceColouredName() + "(s) must be " + d.getCostRes()[3]);
+//                    if(shieldNumValid) {
+//                        for (int num = 0; num < numShieldFromStrongbox; num++) {
+//                            resFromStrongbox.add(ResourceType.SHIELD);
+//                        }
+//                    }
+//                }
+//                else shieldNumValid = true;
+//                for (int num = 0; num < numShieldFromWarehouse; num++) {
+//                    resFromWarehouse.add(ResourceType.SHIELD);
+//                }
+//
+//
+//            }
+//
+//        }
+//        cli.printToConsole("Place your new Development Card. Select the number of the slot (1, 2 or 3)");
+//        int slot = Integer.parseInt(cli.readFromInput());
+//        while(slot < 1 || slot > 3){
+//            cli.printToConsole("Invalid input! Choose another slot");
+//            slot = Integer.parseInt(cli.readFromInput());
+//        }
+//        this.mmv.sendNotify(new BuyDevCardMessage(index, ID, d, resFromWarehouse, resFromStrongbox, slot - 1));
+//
+//    }
 
     public void PlayLeader (){
         boolean correctInput = false;
@@ -890,31 +898,18 @@ public class ClientActionController {
         else if (o instanceof ObjectMessage)  {
             handleObject((ObjectMessage)o);
         }
-        else if (o instanceof EndTurnMessage)  {
-            handleTurn((EndTurnMessage) o);
-        }
-        else if (o instanceof ResourceListMessage)  {
-            handleResourceList((ResourceListMessage) o);
-        }
-        else if (o instanceof PlaceResourceMessage)  {
-            handlePlacing((PlaceResourceMessage)o);
-        }
-        else if (o instanceof EndActionMessage) {
-            chooseAction();
-        }
-
     }
 
-    private void handlePlacing(PlaceResourceMessage o) {
-        if(o.getRes() == null){
-            cli.printToConsole(o.getError());
-            chooseInitialResources();
-        }
-        else {
-            cli.printToConsole(o.getError());
-            askForResource(o.getRes());
-        }
-    }
+//    private void handlePlacing(PlaceResourceMessage o) {
+//        if(o.getRes() == null){
+//            cli.printToConsole(o.getError());
+//            chooseInitialResources();
+//        }
+//        else {
+//            cli.printToConsole(o.getError());
+//            askForResource(o.getRes());
+//        }
+//    }
 
     private void handleResourceList(ResourceListMessage o) {
 
@@ -949,33 +944,15 @@ public class ClientActionController {
 
     }
 
-
-
-    private void handleTurn(EndTurnMessage o) {
-        if (o.getID() == ID)  {
-            chooseAction();
-        }
-        else {
-            cli.printToConsole(mmv.getGame().getPlayerById(o.getID()).getNickname() + " is playing");
-        }
-    }
-
     private void handleObject(ObjectMessage message)  {
         if (message.getObjectID() == -1)  { //GAME
             this.mmv.setGame((Game) message.getObject());
-
-
         }
-        else if (message.getObjectID()==0) //SHELVES
-        {
+        else if (message.getObjectID()==0){
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse) message.getObject());
-
         }
-
         else if (message.getObjectID()==1) {  //MARKET
             this.mmv.getGame().getBoard().setMarket((Market) message.getObject());
-
-
         }
         else if(message.getObjectID()==2) //DEVDECKS
             this.mmv.getGame().getBoard().setDevDecks((ArrayList<DevDeck>)message.getObject());
@@ -987,24 +964,43 @@ public class ClientActionController {
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setCardSlot((ArrayList<DevDeck>)message.getObject());
         else if(message.getObjectID()==6) //LEADER
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setActiveLeader((LeaderDeck)message.getObject());
-
         else if (message.getObjectID()==10)  {
             this.mmv.getGame().setTurn((Turn) message.getObject());
-            if (mmv.getGame().getTurn().getPlayerPlayingID() == ID)  {
-                switch (mmv.getGame().getTurn().getPhase()) {
-                    case "MARKET"  : {
-                        selectResourceFromHand();
-                        break;
+            handleTurn((mmv.getGame().getTurn()));
+        }
+        else if(message.getObjectID() == 11) {
+            if (message.getID() == 0)
+                this.mmv.getGame().setFirstvatican(true);
+            else if (message.getID() == 1)
+                this.mmv.getGame().setSecondvatican(true);
+            else
+                this.mmv.getGame().setThirdvatican(true);
+        }
+        else if(message.getObjectID() == 12){
+            this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setFavorTile((int)message.getObject());
+        }
+        else if(message.getObjectID() == 13)
+            this.mmv.getGame().getPlayerById(message.getID()).setFaithMarkerPos((int)message.getObject());
+    }
 
-                    }
-                    case "WAITING FOR ACTION" : {
-                        chooseAction();
-                        break;
-                    }
+    public void handleTurn(Turn turn){
+        if (mmv.getGame().getTurn().getPlayerPlayingID() == ID)  {
+            if(turn.isError()){
+                cli.printToConsole(turn.getErrorType().getString());
+            }
+            switch (turn.getPhase()) {
+                case "MARKET"  : {
+                    selectResourceFromHand();
+                    break;
 
+                }
+                case "WAITING FOR ACTION" : {
+                    chooseAction();
+                    break;
                 }
             }
         }
+
     }
 
     private void selectResourceFromHand() {

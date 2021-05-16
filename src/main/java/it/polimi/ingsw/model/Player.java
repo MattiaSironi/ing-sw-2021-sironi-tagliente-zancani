@@ -21,6 +21,12 @@ public class Player implements Serializable {
     private ResourceType resDiscount1;
     private ResourceType resDiscount2;
     private ResourceType whiteConversion1;
+    private int actionPhase;
+    private ResourceType whiteConversion2;
+    private ResourceType inputExtraProduction1;
+    private ResourceType inputExtraProduction2;
+    private boolean vaticanSection;
+    private PersonalBoard personalBoard;
 
     public void setFaithMarkerPos(int faithMarkerPos) {
         this.faithMarkerPos = faithMarkerPos;
@@ -34,17 +40,12 @@ public class Player implements Serializable {
         this.personalBoard = personalBoard;
     }
 
-    private ResourceType whiteConversion2;
-    private ResourceType inputExtraProduction1;
-    private ResourceType inputExtraProduction2;
-    private boolean vaticanSection;
-    private PersonalBoard personalBoard;
-
     public Player(int id, String nickname){
         this.id=id;
         this.nickname = nickname;
         this.personalBoard = new PersonalBoard();
         this.leaderDeck = new LeaderDeck(0,0,new ArrayList<>());
+        this.actionPhase = 0;
     }
 
     public Player(int id, String nickname, int faithMarkerPos, boolean inkwell, LeaderDeck leaderDeck, int victoryPoints, ResourceType resDiscount1, ResourceType resDiscount2, ResourceType whiteConversion1, ResourceType whiteConversion2, ResourceType inputExtraProduction1, ResourceType inputExtraProduction2, boolean vaticanSection, PersonalBoard personalBoard) {
@@ -171,6 +172,14 @@ public class Player implements Serializable {
 
     public PersonalBoard getPersonalBoard() {
         return personalBoard;
+    }
+
+    public int getActionPhase() {
+        return actionPhase;
+    }
+
+    public void setActionPhase(int actionPhase) {
+        this.actionPhase = actionPhase;
     }
 
     public int sumDevs() {

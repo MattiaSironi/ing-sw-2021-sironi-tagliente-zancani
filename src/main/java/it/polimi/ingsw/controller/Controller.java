@@ -14,7 +14,6 @@ import java.util.Random;
 
 public class Controller implements Observer<Message> {
     private Game game;
-    private int expectedActions;
 
     public Controller(Game game) {
         this.game = game;
@@ -37,7 +36,9 @@ public class Controller implements Observer<Message> {
             game.reportError(new Nickname(nickname.getString(), nickname.getID(), true));
             game.getPlayers().add(new Player(nickname.getID(), nickname.getString()));
             if (game.getPlayers().size() == game.getNumPlayer())  {
-                initialPhase();
+                game.sendGame();
+                game.setTurn(game.getPlayers().get(0).getId(), "WAITING FOR ACTION", false, null);
+                //initialPhase(); TODO
 
 
 
@@ -46,59 +47,51 @@ public class Controller implements Observer<Message> {
 
     }
 
-    public void initialPhase(){
-        Collections.shuffle(game.getPlayers(), new Random(game.getNumPlayer()));
-        game.getPlayers().get(0).setInkwell(true);
-        game.sendObject(new ObjectMessage(game, -1, -1));
-        for(Player p : game.getPlayers()){
-            switch (game.getPlayers().indexOf(p)){
-                case 0 : {
-                    p.setReady(true);
-                    if(checkReadyPlayers()){
-                        game.sendObject(new ObjectMessage(game, -1, -1));
-                        game.endTurn(game.getPlayers().get(game.getPlayers().size()-1).getId());
-                    }
-                    game.reportError(new ErrorMessage("You are the first!", p.getId()));
-                    break;
-                }
-                case 1 : {
-                    p.setStartResCount(1);
-                    game.sendSingleResource(null, -1, p.getId(), "");
-                    break;
-                }
-                case 2 : {
-                    p.setStartResCount(1);
-                    p.moveFaithMarkerPos(1);
-                    game.reportError(new ErrorMessage("You received 1 Faith Point!", p.getId()));
-                    game.sendSingleResource(null, -1, p.getId(), "");
-                    break;
-                }
-                case 3 : {
-                    p.setStartResCount(2);
-                    p.moveFaithMarkerPos(1);
-                    game.reportError(new ErrorMessage("You received 1 Faith Point!", p.getId()));
-                    game.sendSingleResource(null, -1, p.getId(), "");
-                    game.sendSingleResource(null, -1, p.getId(), "");
-                    break;
-                }
-            }
-        }
-    }
+//    public void initialPhase(){
+//        Collections.shuffle(game.getPlayers(), new Random(game.getNumPlayer()));
+//        game.getPlayers().get(0).setInkwell(true);
+//        game.sendObject(new ObjectMessage(game, -1, -1));
+//        for(Player p : game.getPlayers()){
+//            switch (game.getPlayers().indexOf(p)){
+//                case 0 : {
+//                    p.setReady(true);
+//                    if(checkReadyPlayers()){
+//                        game.sendObject(new ObjectMessage(game, -1, -1));
+//                        game.endTurn(game.getPlayers().get(game.getPlayers().size()-1).getId());
+//                    }
+//                    game.reportError(new ErrorMessage("You are the first!", p.getId()));
+//                    break;
+//                }
+//                case 1 : {
+//                    p.setStartResCount(1);
+//                    game.sendSingleResource(null, -1, p.getId(), "");
+//                    break;
+//                }
+//                case 2 : {
+//                    p.setStartResCount(1);
+//                    p.moveFaithMarkerPos(1);
+//                    game.reportError(new ErrorMessage("You received 1 Faith Point!", p.getId()));
+//                    game.sendSingleResource(null, -1, p.getId(), "");
+//                    break;
+//                }
+//                case 3 : {
+//                    p.setStartResCount(2);
+//                    p.moveFaithMarkerPos(1);
+//                    game.reportError(new ErrorMessage("You received 1 Faith Point!", p.getId()));
+//                    game.sendSingleResource(null, -1, p.getId(), "");
+//                    game.sendSingleResource(null, -1, p.getId(), "");
+//                    break;
+//                }
+//            }
+//        }
+//    }
 
     public void swapShelves(int s1, int s2, int ID){
-        ArrayList<Shelf> shelves = this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves();
-        Shelf temp;
-        if(shelves.get(s1).getCount() <= s2 + 1 && shelves.get(s2).getCount() <= s1 + 1 ){
-            temp = shelves.get(s1);
-            shelves.set(s1, shelves.get(s2));
-            shelves.set(s2, temp);
-            this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().setShelves(shelves);
-            game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
+        if(!(game.swapShelvesByID(s1, s2, ID))){
+            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
         }
-        else{
-            game.reportError(new ErrorMessage("invalid move", ID));
-        }
-        game.sendActionOver(new EndActionMessage(ID));
+        else
+            game.setTurn(game.getTurn().getPlayerPlayingID(), "WAITING FOR ACTION", false, null);
     }
 
     public void goToMarket(boolean row, int index, int ID) {
@@ -128,44 +121,33 @@ public class Controller implements Observer<Message> {
 //        if (game.getPlayerById(ID).getWhiteConversion1()== null && game.getPlayerById(ID).getWhiteConversion2()==null )
 //            expectedActions -= (int) resources.stream().filter(x -> x.getRes().equals(ResourceType.EMPTY)).count();
 
-        this.game.getPlayerById(ID).moveFaithMarkerPos(faith);
-        this.game.checkVatican();
-        game.getBoard().getMarket().setHand(resources);
-        game.sendObject(new ObjectMessage(this.game.getBoard().getMarket(), 1, ID));
-        game.getTurn().setPlayerPlayingID(ID); //TODO TEMPORANEO
-        game.getTurn().setPhase("MARKET");
-        game.sendObject(new ObjectMessage(game.getTurn(), 10, -1));
+        this.game.moveFaithPosByID(ID, faith);
+        game.setMarketHand(resources);
+        game.setTurn(ID, "MARKET", false, null);
    //     game.sendResources(new ResourceListMessage(resources, ID));
 //        if (expectedActions==0) game.sendActionOver(new EndActionMessage(ID));
     }
 
 
-    public void placeRes(ResourceType r, int shelfIndex, int ID)  {
-         //mette la risorsa al posto giusto se può
-         //manda reportError con ok o ko a seconda che rispetti le regole
-        if (r.equals(ResourceType.FAITH_POINT))  {
+    public void placeRes(ResourceType r, int shelfIndex, int ID) {
+
+        //mette la risorsa al posto giusto se può
+        //manda reportError con ok o ko a seconda che rispetti le regole
+        if (r.equals(ResourceType.FAITH_POINT)) {
             discardRes(ID);
-            expectedActions--;
-            game.getBoard().getMarket().getHand().remove(0);
-            game.sendObject(new ObjectMessage(game.getBoard().getMarket(), 1, ID));
-
-        }
-        else {
-            String s = this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().addResource(r, shelfIndex);
-
-            if (s.equals("ok")) {
-                game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
-                game.getBoard().getMarket().getHand().remove(0);
-                game.sendObject(new ObjectMessage(game.getBoard().getMarket(), 1, -1));
+            game.removeFromMarketHand();
+        } else {
+            if (this.game.addResourceToWarehouse(ID, shelfIndex, r))
+                game.removeFromMarketHand();
+            else {
+                game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
+                return;
             }
-
-            else game.reportError(new ErrorMessage(s, ID));
         }
-        if (game.getBoard().getMarket().getHand().size()==0)  {
-            game.getTurn().setPhase("WAITING FOR ACTION");
-
-        }
-        game.sendObject(new ObjectMessage(game.getTurn(), 10, -1));
+        if (game.getBoard().getMarket().getHand().size() == 0) {
+            game.setTurn(game.getTurn().getPlayerPlayingID(), "WAITING FOR ACTION", false, null);
+        } else
+            game.setTurn(game.getTurn().getPlayerPlayingID(), "MARKET", false, null);
     }
 
     public void discardRes(int ID) {
@@ -173,28 +155,34 @@ public class Controller implements Observer<Message> {
         ArrayList<Player> others = this.game.getPlayers();
         for (Player p : others) {
             if (p.getId() != ID) {
-                p.moveFaithMarkerPos(1);
+                this.game.moveFaithPosByID(p.getId(), 1);
             }
         }
-        this.game.checkVatican();
         //tutti i controlli vittoria , favore papale e ecc.
 
     }
-    public void buyDevCard(int choosenIndex, int ID, DevCard d, ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox, int posIndex){
-        for(ResourceType r : resFromStrongbox) {
-            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
+    public void handleChosenDevCard(int choosenIndex, DevCard d, int posIndex, int ID){
+        if(!game.getPlayerById(ID).getPersonalBoard().totalPaymentChecker(d.getCostRes())){
+            game.getBoard().getMatrix().setError(ErrorList.NOT_ENOUGH_RES);
         }
-        for(ResourceType r : resFromWarehouse)
-            this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
-        if(this.game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(posIndex).getSize() == 3){
-            this.game.reportError(new ErrorMessage("Could not add this card in slot " + posIndex + " because it is full. Try again", ID));
-            return;
+        else if(!(checkDevCardPlacement(d, game.getPlayerById(ID)))){
+//            game.getBoard().getMatrix().setError(ErrorList.CAN_NOT_PLACE);
         }
-        this.game.sendObject(new ObjectMessage(game.getPlayerById(ID).getPersonalBoard().getWarehouse(), 3, ID));
-        this.game.sendObject(new ObjectMessage(game.getPlayerById(ID).getPersonalBoard().getStrongbox(), 4, ID));
-        this.game.addDevCardToPlayer(ID, d, posIndex);
-        this.game.getBoard().getDevDecks().get(choosenIndex - 1).removeCardFromCards(d);
-        this.game.sendObject(new ObjectMessage(game.getBoard().getDevDecks(), 2, ID));
+        else{
+            game.getBoard().getMatrix().getDevDecks().get(choosenIndex).removeCardFromCards(d);
+            game.getBoard().getMatrix().setChosenCard(d);
+//            game.sendObject(new ObjectMessage(game.getBoard().getMatrix(), 6, ID));
+        }
+    }
+
+    public boolean checkDevCardPlacement(DevCard devCard, Player player){
+        for(DevDeck dd : player.getPersonalBoard().getCardSlot()){
+            if(dd.getCards().get(0) == null) return true;
+            else if(dd.getCards().get(0).getLevel() < devCard.getLevel())
+                return true;
+            else return false;
+        }
+        return true;
     }
 
      public void activateDevProduction(int ID, DevCard d, int num1FromWarehouse, int num1FromStrongbox, int num2FromWarehouse, int num2FromStrongbox){
@@ -286,8 +274,8 @@ public class Controller implements Observer<Message> {
          //aggiunta punti fede
          this.game.getPlayerById(ID).moveFaithMarkerPos(d.getOutputRes()[4]);
 
-         game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse(), 3, ID));
-         game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox(), 4, ID));
+//         game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse(), 3, ID));
+//         game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox(), 4, ID));
 
      }
 
@@ -438,8 +426,8 @@ public class Controller implements Observer<Message> {
         this.game.getPlayerById(ID).getLeaderDeck().setSize(this.game.getPlayerById(ID).getLeaderDeck().getSize()-1);
         this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(lc); //aggiunge ai leader attivi
         this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().setSize(this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getSize()+1);
-        game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getLeaderDeck(), 2, ID)); //invio leader della mano
-        game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader(),6,ID));
+//        game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getLeaderDeck(), 2, ID)); //invio leader della mano
+//        game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader(),6,ID));
     }
 
 
@@ -459,25 +447,25 @@ public class Controller implements Observer<Message> {
         this.game.getPlayerById(ID).moveFaithMarkerPos(1);
          //tutti i controlli vittoria , favore papale e ecc.
 
-         game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getLeaderDeck(), 2, ID));
+//         game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getLeaderDeck(), 2, ID));
      }
 
-     public void placeInitialRes(ResourceType res, int shelfIndex, int ID){
-
-        String s = this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().addResource(res, shelfIndex);
-            if (s.equals("ok")) {
-                game.getPlayerById(ID).setStartResCount(game.getPlayerById(ID).getStartResCount() - 1);
-                if(game.getPlayerById(ID).getStartResCount() == 0){
-                    game.getPlayerById(ID).setReady(true);
-                    if(checkReadyPlayers()){
-                        game.sendObject(new ObjectMessage(game, -1, -1));
-                        game.endTurn(game.getPlayers().get(game.getPlayers().size()-1).getId());
-                    }
-                }
-            }
-            else game.sendSingleResource(null, shelfIndex, ID, s);
-
-    }
+//     public void placeInitialRes(ResourceType res, int shelfIndex, int ID){
+//
+//        boolean s = this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().addResource(res, shelfIndex);
+//            if (s.equals("ok")) {
+//                game.getPlayerById(ID).setStartResCount(game.getPlayerById(ID).getStartResCount() - 1);
+//                if(game.getPlayerById(ID).getStartResCount() == 0){
+//                    game.getPlayerById(ID).setReady(true);
+//                    if(checkReadyPlayers()){
+//                        game.sendObject(new ObjectMessage(game, -1, -1));
+//                        game.endTurn(game.getPlayers().get(game.getPlayers().size()-1).getId());
+//                    }
+//                }
+//            }
+//            else game.sendSingleResource(null, shelfIndex, ID, s);
+//
+//    }
 
     public synchronized boolean checkReadyPlayers(){
         return game.getPlayers().stream().filter(x -> x.isReady()).count() == game.getNumPlayer();
@@ -565,7 +553,6 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(MarketMessage message) {
-
         goToMarket(message.isRow(), message.getIndex(), message.getID());
     }
 
@@ -576,20 +563,11 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(PlaceResourceMessage message) {
-        System.out.println("prima if");
-        if(message.getError().equals("initial phase")) {
-            System.out.println("dopo if");
-            placeInitialRes(message.getRes(), message.getShelf(), message.getID());
-        }
-        else{
             placeRes(message.getRes(), message.getShelf(), message.getID());
-        }
-
-
     }
 
     public void update(BuyDevCardMessage message){
-        buyDevCard(message.getChoosenIndex(), message.getID(), message.getD(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getSlot());
+        handleChosenDevCard(message.getChoosenIndex(), message.getD(), message.getSlot(), message.getID());
     }
 
     @Override

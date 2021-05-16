@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import org.apache.maven.model.Resource;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -45,13 +43,14 @@ public class ShelfWarehouse implements Printable, Serializable {
      * @param s1 is the first shelf that the player wants to swap
      * @param s2 is the second shelf that the player wants to swap
      */
-    public void swapShelves(int s1, int s2) {
+    public boolean swapShelves(int s1, int s2) {
         Shelf temp;
         if (this.shelves.get(s1).getCount() <= s2 + 1 && this.shelves.get(s2).getCount() <= s1 + 1) {
             temp = this.shelves.get(s1);
             this.shelves.set(s1, this.shelves.get(s2));
             this.shelves.set(s2, temp);
-        } else System.out.println("Error. Not a valid operation. Check the game rules!\n ");
+            return true;
+        } else return false;
     }
 
   /*  public boolean checkRules(){
@@ -73,7 +72,7 @@ public class ShelfWarehouse implements Printable, Serializable {
      * @param r        is the resource that the player wants to add
      * @param shelfNum is the shelf selected by the player
      */
-    public String addResource(ResourceType r, int shelfNum) {
+    public boolean addResource(ResourceType r, int shelfNum) {
         boolean error = false;
         int i;
         for (i = 0; i < 3; i++) {
@@ -88,11 +87,11 @@ public class ShelfWarehouse implements Printable, Serializable {
                 if (this.shelves.get(shelfNum).getCount() == 0)
                     this.shelves.get(shelfNum).setResType(r);
                 this.shelves.get(shelfNum).setCount(this.shelves.get(shelfNum).getCount() + 1);
-                return "ok";
+                return true;
             } else
-                return "Error. The shelf you keep your " + r.printResourceColouredName() + " resources is full or it is used by another ResourceType";
+                return false;
         }
-        else return "Error. There is another shelf taken by " + r.printResourceColouredName() + " resources.";
+        else return false;
     }
 
     /**
