@@ -5,6 +5,7 @@ import it.polimi.ingsw.constants.Ball;
 import it.polimi.ingsw.constants.Color;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +20,15 @@ import java.util.List;
 public class Market implements Printable, Serializable {
     private Marble[][] marketBoard;
     private Marble marbleOut;
+    private ArrayList<Marble> hand;
+
+    public ArrayList<Marble> getHand() {
+        return hand;
+    }
+
+    public void setHand(ArrayList<Marble> hand) {
+        this.hand = hand;
+    }
 
     public Market(Marble[][] marketBoard, Marble trayOut) {
         this.marketBoard = marketBoard;

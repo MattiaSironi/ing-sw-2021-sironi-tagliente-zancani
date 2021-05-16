@@ -640,7 +640,7 @@ public class ClientActionController {
         while (!valid) {
             String input= cli.readFromInput();
             if (input.equalsIgnoreCase("y")) {
-                whereToPut(res);
+                whereToPut(res, false);
                 valid=true;
 
 
@@ -670,7 +670,7 @@ public class ClientActionController {
             }
             else cli.printToConsole("Invalid input, try again!");
         }
-        whereToPut(selectedRes);
+        whereToPut(selectedRes, true);
     }
 
 //    private void localWhereToPut(ResourceType res) { //local
@@ -701,7 +701,7 @@ public class ClientActionController {
         return cli;
     }
 
-    private void whereToPut(ResourceType res) {
+    private void whereToPut(ResourceType res, boolean initialPhase) {
         int s1 = 0;
         boolean valid = false;
         String s;
@@ -714,7 +714,8 @@ public class ClientActionController {
             if (1 <= s1 && s1 <= 3) valid = true;
             else cli.printToConsole("Invalid input! retry!");
         }
-        serverConnection.send(new PlaceResourceMessage(res, s1-1, ID, "initial phase"));
+        if (initialPhase) serverConnection.send(new PlaceResourceMessage(res, s1-1, ID, "initial phase"));
+        else serverConnection.send(new PlaceResourceMessage(res, s1-1, ID, ""));
     }
 
 
@@ -986,6 +987,46 @@ public class ClientActionController {
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setCardSlot((ArrayList<DevDeck>)message.getObject());
         else if(message.getObjectID()==6) //LEADER
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setActiveLeader((LeaderDeck)message.getObject());
+
+        else if (message.getObjectID()==10)  {
+            this.mmv.getGame().setTurn((Turn) message.getObject());
+            if (mmv.getGame().getTurn().getPlayerPlayingID() == ID)  {
+                switch (mmv.getGame().getTurn().getPhase()) {
+                    case "MARKET"  : {
+                        selectResourceFromHand();
+                        break;
+
+                    }
+                    case "WAITING FOR ACTION" : {
+                        chooseAction();
+                        break;
+                    }
+
+                }
+            }
+        }
+    }
+
+    private void selectResourceFromHand() {
+        ResourceType res = mmv.getGame().getBoard().getMarket().getHand().get(0).getRes();
+
+        switch (res) {
+            case COIN, STONE, SERVANT, SHIELD: {
+                cli.printToConsole("you received a " + res.printResourceColouredName() + "!");
+                askForResource(res);
+
+                break;
+            }
+            case FAITH_POINT: {
+                cli.printToConsole("you received a " + res.printResourceColouredName() + "!");
+                break;
+            }
+            default: {
+                cli.printToConsole("you got nothing from White tray :(");
+                break;
+            } //caso EMPTY, vari controlli!
+        }
+
     }
 
     private void nicknameSetUp() {

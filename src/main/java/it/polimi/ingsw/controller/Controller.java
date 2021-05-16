@@ -122,18 +122,21 @@ public class Controller implements Observer<Message> {
             }
         }
         m.setMarbleOut(resources.get(0));
-        expectedActions = resources.size();
+//        expectedActions = resources.size();
         int faith = (int) resources.stream().filter(x -> x.getRes().equals(ResourceType.FAITH_POINT)).count();
-        expectedActions -=faith;
-        if (game.getPlayerById(ID).getWhiteConversion1()== null && game.getPlayerById(ID).getWhiteConversion2()==null )
-            expectedActions -= (int) resources.stream().filter(x -> x.getRes().equals(ResourceType.EMPTY)).count();
+//        expectedActions -=faith;
+//        if (game.getPlayerById(ID).getWhiteConversion1()== null && game.getPlayerById(ID).getWhiteConversion2()==null )
+//            expectedActions -= (int) resources.stream().filter(x -> x.getRes().equals(ResourceType.EMPTY)).count();
 
         this.game.getPlayerById(ID).moveFaithMarkerPos(faith);
         this.game.checkVatican();
-
+        game.getBoard().getMarket().setHand(resources);
         game.sendObject(new ObjectMessage(this.game.getBoard().getMarket(), 1, ID));
-        game.sendResources(new ResourceListMessage(resources, ID));
-        if (expectedActions==0) game.sendActionOver(new EndActionMessage(ID));
+        game.getTurn().setPlayerPlayingID(ID); //TODO TEMPORANEO
+        game.getTurn().setPhase("MARKET");
+        game.sendObject(new ObjectMessage(game.getTurn(), 10, -1));
+   //     game.sendResources(new ResourceListMessage(resources, ID));
+//        if (expectedActions==0) game.sendActionOver(new EndActionMessage(ID));
     }
 
 
@@ -143,19 +146,26 @@ public class Controller implements Observer<Message> {
         if (r.equals(ResourceType.FAITH_POINT))  {
             discardRes(ID);
             expectedActions--;
-            //aggiorno parte del game
+            game.getBoard().getMarket().getHand().remove(0);
+            game.sendObject(new ObjectMessage(game.getBoard().getMarket(), 1, ID));
+
         }
         else {
             String s = this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().addResource(r, shelfIndex);
 
             if (s.equals("ok")) {
                 game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
-                expectedActions --;
+                game.getBoard().getMarket().getHand().remove(0);
+                game.sendObject(new ObjectMessage(game.getBoard().getMarket(), 1, -1));
             }
 
-            else game.sendSingleResource(r, shelfIndex, ID, s );
+            else game.reportError(new ErrorMessage(s, ID));
         }
-        if (expectedActions==0)  game.sendActionOver(new EndActionMessage(ID));
+        if (game.getBoard().getMarket().getHand().size()==0)  {
+            game.getTurn().setPhase("WAITING FOR ACTION");
+
+        }
+        game.sendObject(new ObjectMessage(game.getTurn(), 10, -1));
     }
 
     public void discardRes(int ID) {

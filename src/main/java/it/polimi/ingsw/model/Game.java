@@ -34,7 +34,23 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
     private boolean secondvatican = false;
     private boolean thirdvatican = false;
     private boolean gameOver;
+    private Turn turn;
 
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    public Turn getTurn() {
+        return turn;
+    }
+
+    public void setTurn(Turn turn) {
+        this.turn = turn;
+    }
 
     public LorenzoIlMagnifico getLori() {
         return lori;
@@ -67,6 +83,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
     public Game() {
         players = new ArrayList<>();
         board = new Board();
+        turn = new Turn();
     }
 
 
