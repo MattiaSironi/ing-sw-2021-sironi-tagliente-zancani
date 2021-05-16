@@ -29,6 +29,7 @@ public class Board implements Serializable {
         market = createMarket();
         devDecks = createDevDecks();
         leaderDeck = createLeaderDeck();
+        matrix = new DevelopmentCardMatrix(devDecks);
     }
 
 
@@ -169,11 +170,7 @@ public class Board implements Serializable {
         this.tokenArray = tokenArray;
     }
 
-    public void printDevMatrix(){
-        for(DevDeck dd : devDecks){
-            dd.print();
-        }
-    }
+
 
     public DevelopmentCardMatrix getMatrix() {
         return matrix;

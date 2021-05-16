@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Turn implements Serializable { //objectID = 10
 
     private int playerPlayingID;
-    private String phase;
+    private ActionPhase phase;
     private boolean error;
     private ErrorList errorType;
 
@@ -20,11 +20,11 @@ public class Turn implements Serializable { //objectID = 10
         this.playerPlayingID = playerPlayingID;
     }
 
-    public String getPhase() {
+    public ActionPhase getPhase() {
         return phase;
     }
 
-    public void setPhase(String phase) {
+    public void setPhase(ActionPhase phase) {
         this.phase = phase;
     }
 

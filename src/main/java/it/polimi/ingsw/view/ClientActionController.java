@@ -112,6 +112,7 @@ public class ClientActionController {
                         if (Actions.B.isEnable()) {
                             noMoreActions();
                             buyDevCard();
+                            actionEnded = true;
 
                             // do things
                         } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
@@ -222,50 +223,45 @@ public class ClientActionController {
 //        serverConnection.send(new ErrorMessage("resources finished", this.ID));
         }
 
-        public void activateProduction(){
+    public void activateProduction(){
 //        useBasicProduction();
+    }
+
+    public void buyDevCard() {
+        this.mmv.printDevMatrix();
+        while(!chooseCard());
+    }
+
+    public boolean chooseCard(){
+        String input;
+        int index;
+        cli.printToConsole("Choose the Development Card you want to buy");
+        index = Integer.parseInt(cli.readFromInput().replaceAll("[^0-9]", ""));
+        if(!(index >= 0 && index <= 12)){
+            cli.printToConsole("Invalid input");
+            return false;
+        }
+        cli.printToConsole("This card has cost:" + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[0]
+                + " " + ResourceType.COIN.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[1]
+                + " " + ResourceType.STONE.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[2]
+                + " " + ResourceType.SERVANT.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[3]
+                + " " + ResourceType.SHIELD.printResourceColouredName());
+        cli.printToConsole("Continue? [y/n]");
+        input = cli.readFromInput();
+        if(input.equals("y")){
+            serverConnection.send(new BuyDevCardMessage(index - 1, ID, mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0), null, null, 0));
+            return true;
+        }
+        else if(input.equals("n")){
+            cli.printToConsole("Aborted");
+            return false;
+        }
+        else{
+            cli.printToConsole("Invalid input, try again");
+            return false;
         }
 
-        public void buyDevCard() {
-            this.mmv.printDevMatrix();
-            while(!chooseCard());
-
-
-
-
-
-        }
-
-        public boolean chooseCard(){
-            String input;
-            int index;
-            cli.printToConsole("Choose the Development Card you want to buy");
-            index = Integer.parseInt(cli.readFromInput().replaceAll("[^0-9]", ""));
-            if(!(index >= 0 && index <= 12)){
-                cli.printToConsole("Invalid input");
-                return false;
-            }
-            cli.printToConsole("This card has cost:" + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[0]
-                    + " " + ResourceType.COIN.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[1]
-                    + " " + ResourceType.STONE.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[2]
-                    + " " + ResourceType.SERVANT.printResourceColouredName() + " " + mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[3]
-                    + " " + ResourceType.SHIELD.printResourceColouredName());
-            cli.printToConsole("Continue? [y/n]");
-            input = cli.readFromInput();
-            if(input.equals("y")){
-                serverConnection.send(new BuyDevCardMessage(index - 1, ID, mmv.getGame().getBoard().getDevDecks().get(index - 1).getCards().get(0), null, null, 0));
-                return true;
-            }
-            else if(input.equals("n")){
-                cli.printToConsole("Aborted");
-                return false;
-            }
-            else{
-                cli.printToConsole("Invalid input, try again");
-                return false;
-            }
-
-        }
+    }
 
 
 
@@ -690,11 +686,87 @@ public class ClientActionController {
     private void discardRes(ResourceType res) {
         serverConnection.send(new PlaceResourceMessage(res, -1, ID, false, true));
         cli.printToConsole("Other players will receive one faith point.");
-
-
-
-
     }
+
+    public void payDevCard(){
+        boolean valid = false;
+        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
+        ArrayList<ResourceType> resFromStrongbox = new ArrayList<>();
+        DevCard d = mmv.getGame().getBoard().getMatrix().getChosenCard();
+        System.out.println("carta ritirata -------------");
+        if (d.getCostRes()[0] != 0) {
+            cli.printToConsole("You have to pick " + d.getCostRes()[0] + " " + ResourceType.COIN.printResourceColouredName());
+            cli.printToConsole("How many " + ResourceType.COIN.printResourceColouredName() + " would you like to pick from your warehouse?");
+            String input = cli.readFromInput();
+            int numCoinFromWarehouse = Integer.parseInt(input);
+            for (int i = 0; i < numCoinFromWarehouse; i++) {
+                resFromWarehouse.add(ResourceType.COIN);
+            }
+            cli.printToConsole("How many " + ResourceType.COIN.printResourceColouredName() + " would you like to pick from your strongbox?");
+            input = cli.readFromInput();
+            int numCoinFromStrongbox = Integer.parseInt(input);
+            for (int i = 0; i < numCoinFromStrongbox; i++) {
+                resFromStrongbox.add(ResourceType.COIN);
+            }
+        }
+        if (d.getCostRes()[1] != 0) {
+            cli.printToConsole("You have to pick " + d.getCostRes()[1] + " " + ResourceType.STONE.printResourceColouredName());
+            cli.printToConsole("How many " + ResourceType.STONE.printResourceColouredName() + " would you like to pick from your warehouse?");
+            String input = cli.readFromInput();
+            int numStoneFromWarehouse = Integer.parseInt(input);
+            for (int i = 0; i < numStoneFromWarehouse; i++) {
+                resFromWarehouse.add(ResourceType.STONE);
+            }
+            cli.printToConsole("How many " + ResourceType.STONE.printResourceColouredName() + " would you like to pick from your strongbox?");
+            input = cli.readFromInput();
+            int numStoneFromStrongbox = Integer.parseInt(input);
+            for (int i = 0; i < numStoneFromStrongbox; i++) {
+                resFromStrongbox.add(ResourceType.STONE);
+            }
+        }
+        if (d.getCostRes()[2] != 0) {
+            cli.printToConsole("You have to pick " + d.getCostRes()[2] + " " + ResourceType.SERVANT.printResourceColouredName());
+            cli.printToConsole("How many " + ResourceType.SERVANT.printResourceColouredName() + " would you like to pick from your warehouse?");
+            String input = cli.readFromInput();
+            int numServantFromWarehouse = Integer.parseInt(input);
+            for (int i = 0; i < numServantFromWarehouse; i++) {
+                resFromWarehouse.add(ResourceType.SERVANT);
+            }
+            cli.printToConsole("How many " + ResourceType.SERVANT.printResourceColouredName() + " would you like to pick from your strongbox?");
+            input = cli.readFromInput();
+            int numServantFromStrongbox = Integer.parseInt(input);
+            for (int i = 0; i < numServantFromStrongbox; i++) {
+                resFromStrongbox.add(ResourceType.SERVANT);
+            }
+        }
+        if (d.getCostRes()[3] != 0) {
+            cli.printToConsole("You have to pick " + d.getCostRes()[3] + " " + ResourceType.SHIELD.printResourceColouredName());
+            cli.printToConsole("How many " + ResourceType.SHIELD.printResourceColouredName() + " would you like to pick from your warehouse?");
+            String input = cli.readFromInput();
+            int numShieldFromWarehouse = Integer.parseInt(input);
+            for (int i = 0; i < numShieldFromWarehouse; i++) {
+                resFromWarehouse.add(ResourceType.SHIELD);
+            }
+            cli.printToConsole("How many " + ResourceType.SHIELD.printResourceColouredName() + " would you like to pick from your strongbox?");
+            input = cli.readFromInput();
+            int numShieldFromStrongbox = Integer.parseInt(input);
+            for (int i = 0; i < numShieldFromStrongbox; i++) {
+                resFromStrongbox.add(ResourceType.SHIELD);
+            }
+        }
+
+        serverConnection.send(new BuyDevCardMessage(-1, ID, mmv.getGame().getBoard().getMatrix().getChosenCard(), resFromWarehouse, resFromStrongbox, -1));
+    }
+
+    public void placeDevCard(){
+        this.mmv.printProd(0, ID);
+        cli.printToConsole("Where would you like to place your new development card? (Choose slot 1, 2 or 3)");
+        String input = cli.readFromInput();
+        int chosenIndex = Integer.parseInt(input);
+        serverConnection.send(new BuyDevCardMessage(-1, ID, null, null, null, chosenIndex));
+    }
+
+
 
     public CLI getCli() {
         return cli;
@@ -860,7 +932,7 @@ public class ClientActionController {
         }
 
 
-        }
+    }
 
 
 
@@ -904,14 +976,12 @@ public class ClientActionController {
         else if (message.getObjectID()==1) {  //MARKET
             this.mmv.getGame().getBoard().setMarket((Market) message.getObject());
         }
-        else if(message.getObjectID()==2) //DEVDECKS
-            this.mmv.getGame().getBoard().setDevDecks((ArrayList<DevDeck>)message.getObject());
-        else if(message.getObjectID()==3) //DOPPIONE
-            this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse)message.getObject());
-        else if(message.getObjectID()==4) //STRONGBOX
+        else if(message.getObjectID()==2) //MATRIX OF DEV CARD
+            this.mmv.getGame().getBoard().setMatrix((DevelopmentCardMatrix) message.getObject());
+        else if(message.getObjectID()==3) //STRONGBOX
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setStrongbox((Strongbox)message.getObject());
-        else if(message.getObjectID()==5) //DOPPIONE
-            this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setCardSlot((ArrayList<DevDeck>)message.getObject());
+        else if(message.getObjectID()==4) //CARDSLOT
+            this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setCardSlot((ArrayList<DevDeck>) message.getObject());
         else if(message.getObjectID()==6) //LEADER
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setActiveLeader((LeaderDeck)message.getObject());
         else if (message.getObjectID()==10)  {
@@ -933,25 +1003,34 @@ public class ClientActionController {
             this.mmv.getGame().getPlayerById(message.getID()).setFaithMarkerPos((int)message.getObject());
     }
 
-    public void handleTurn(Turn turn){
-        if (mmv.getGame().getTurn().getPlayerPlayingID() == ID)  {
-            if(turn.isError()){
+    public void handleTurn(Turn turn) {
+
+        if (mmv.getGame().getTurn().getPlayerPlayingID() == ID) {
+            if (turn.isError()) {
                 cli.printToConsole(turn.getErrorType().getString());
             }
             switch (turn.getPhase()) {
-                case "MARKET"  : {
+                case WAITING_FOR_ACTION: {
+                    chooseAction();
+                    break;
+                }
+                case MARKET: {
                     selectResourceFromHand();
                     break;
-
                 }
-                case "WAITING FOR ACTION" : {
-                    chooseAction();
+
+                case B_PAYMENT: {
+                    payDevCard();
+                    break;
+                }
+                case CHOOSE_SLOT: {
+                    placeDevCard();
                     break;
                 }
             }
         }
-
     }
+
 
     private void selectResourceFromHand() {
         ResourceType res = mmv.getGame().getBoard().getMarket().getHand().get(0).getRes();

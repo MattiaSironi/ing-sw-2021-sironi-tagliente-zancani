@@ -106,11 +106,6 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         this.board = board;
     }
 
-    public void addDevCardToPlayer(int ID, DevCard d, int pos ){
-        getPlayerById(ID).getPersonalBoard().addDevCard(d, pos, ID);
-        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getCardSlot(), 5, ID));
-    }
-
     public void setCurrPlayer(int currPlayer) {
         this.currPlayer = currPlayer;
     }
@@ -196,7 +191,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         notify(new ObjectMessage(getBoard().getMarket(), 1, -1));
     }
 
-    public void setTurn(int ID, String phase, boolean error, ErrorList errorType){
+    public void setTurn(int ID, ActionPhase phase, boolean error, ErrorList errorType){
         getTurn().setPlayerPlayingID(ID);
         getTurn().setPhase(phase);
         getTurn().setError(error);
@@ -215,11 +210,18 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
 
     public boolean swapShelvesByID(int s1, int s2, int ID){
         if(getPlayerById(ID).getPersonalBoard().getWarehouse().swapShelves(s1, s2)) {
-            notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 3, ID));
+            notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
             return true;
         }
         else
             return false;
+    }
+
+    public void setChosenDevCard(DevCard d, int chosenIndex){
+        getBoard().getMatrix().setChosenIndex(chosenIndex);
+        getBoard().getMatrix().setChosenCard(d);
+        notify(new ObjectMessage(getBoard().getMatrix(), 2, -1));
+
     }
 
     public void setInkwell(){
@@ -233,18 +235,18 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
             if (maxP >= 8 && !firstvatican)  {
                 checkEveryPlayerPos(8, 0);
                 setFirstvatican(true);
-                notify(new ObjectMessage(true, -1, 0));
+                notify(new ObjectMessage(true, 11, 0));
 
             }
             else if (maxP >= 16 && !secondvatican)  {
                 checkEveryPlayerPos(16, 1);
                 setSecondvatican(true);
-                notify(new ObjectMessage(true, -1, 1));
+                notify(new ObjectMessage(true, 11, 1));
             }
             else if (maxP ==24 && !thirdvatican)  {
                 checkEveryPlayerPos(24, 2);
                 setThirdvatican(true);
-                notify(new ObjectMessage(true, -1, 2));
+                notify(new ObjectMessage(true, 11, 2));
                 // END OF GAME(?)
             }
         }
@@ -295,16 +297,33 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
             }
             // else GAMEOVER
         }
-        setTurn(players.get(position+1).getId(), "WAITING FOR ACTION", false, null);
+        setTurn(players.get(position+1).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
     }
 
     public boolean addResourceToWarehouse(int ID, int shelfIndex, ResourceType r){
         if(getPlayerById(ID).getPersonalBoard().getWarehouse().addResource(r, shelfIndex)) {
-            notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 3, ID));
+            notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
             return true;
         }
         else
             return false;
+    }
+
+    public void payDevCardFromWarehouse(int q, ResourceType r, int ID){
+        getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
+    }
+
+    public void payDevCardFromStrongbox(int q, ResourceType r, int ID){
+        getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox(), 3, ID));
+    }
+
+    public void addDevCardToPlayer(int ID, int pos ){
+        getBoard().getMatrix().getDevDecks().get(getBoard().getMatrix().getChosenIndex()).removeCardFromCards();
+        getPlayerById(ID).getPersonalBoard().addDevCard(getBoard().getMatrix().getChosenCard(), pos - 1, ID);
+        notify(new ObjectMessage(getBoard().getMatrix(), 2, -1));
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getCardSlot(), 4, ID));
     }
 
     public void sendActionOver(EndActionMessage message) {

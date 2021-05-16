@@ -1,16 +1,16 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class DevelopmentCardMatrix {
+public class DevelopmentCardMatrix implements Serializable {
 
     private List<DevDeck> devDecks;
     private DevCard chosenCard;
-    private ErrorList error;
+    private int chosenIndex;
 
-    public DevelopmentCardMatrix(List<DevDeck> devDecks, DevCard chosenCard) {
+    public DevelopmentCardMatrix(List<DevDeck> devDecks) {
         this.devDecks = devDecks;
-        this.chosenCard = chosenCard;
     }
 
     public List<DevDeck> getDevDecks() {
@@ -29,11 +29,17 @@ public class DevelopmentCardMatrix {
         this.chosenCard = chosenCard;
     }
 
-    public ErrorList getError() {
-        return error;
+    public int getChosenIndex() {
+        return chosenIndex;
     }
 
-    public void setError(ErrorList error) {
-        this.error = error;
+    public void setChosenIndex(int chosenIndex) {
+        this.chosenIndex = chosenIndex;
+    }
+
+    public void printDevMatrix(){
+        for(DevDeck dd : devDecks){
+            dd.print();
+        }
     }
 }

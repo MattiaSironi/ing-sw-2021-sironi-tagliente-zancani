@@ -1,9 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.PersonalBoard;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.CLI;
 import it.polimi.ingsw.view.ClientActionController;
 import it.polimi.ingsw.view.ModelMultiplayerView;
