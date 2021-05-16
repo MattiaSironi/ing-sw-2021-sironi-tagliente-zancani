@@ -5,9 +5,7 @@ import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.model.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -653,7 +651,7 @@ public class ClientActionController {
 
 
             } else if (input.equalsIgnoreCase("n")) {
-                discardRes();
+                discardRes(res);
                 valid = true;
             } else cli.printToConsole("Invalid input! Retry!");
         }
@@ -669,15 +667,7 @@ public class ClientActionController {
         boolean valid = false;
         String input;
         cli.printToConsole("Choose your starting Resource");
-        while(!valid) {
-            input = cli.readFromInput();
-            String finalInput = input;
-            if (possibleRes.stream().anyMatch(v -> v.name().equals(finalInput))) {
-                selectedRes = ResourceType.valueOf(finalInput);
-                valid = true;
-            }
-            else cli.printToConsole("Invalid input, try again!");
-        }
+        selectedRes = getResourceType(possibleRes, false, null);
         whereToPut(selectedRes, true);
     }
 
@@ -697,9 +687,10 @@ public class ClientActionController {
 //            mmv.sendNotify(new PlaceResourceMessage(res, s1-1, ID));
 //    }
 
-    private void discardRes() {
+    private void discardRes(ResourceType res) {
+        serverConnection.send(new PlaceResourceMessage(res, -1, ID, false, true));
         cli.printToConsole("Other players will receive one faith point.");
-        serverConnection.send(new PlaceResourceMessage(ResourceType.FAITH_POINT, -1, ID, ""));
+
 
 
 
@@ -722,8 +713,7 @@ public class ClientActionController {
             if (1 <= s1 && s1 <= 3) valid = true;
             else cli.printToConsole("Invalid input! retry!");
         }
-        if (initialPhase) serverConnection.send(new PlaceResourceMessage(res, s1-1, ID, "initial phase"));
-        else serverConnection.send(new PlaceResourceMessage(res, s1-1, ID, ""));
+        serverConnection.send(new PlaceResourceMessage(res, s1-1, ID, initialPhase, false));
     }
 
 
@@ -900,49 +890,9 @@ public class ClientActionController {
         }
     }
 
-//    private void handlePlacing(PlaceResourceMessage o) {
-//        if(o.getRes() == null){
-//            cli.printToConsole(o.getError());
-//            chooseInitialResources();
-//        }
-//        else {
-//            cli.printToConsole(o.getError());
-//            askForResource(o.getRes());
-//        }
-//    }
-
-    private void handleResourceList(ResourceListMessage o) {
 
 
 
-
-        for (Marble m : o.getMarbles()) {
-
-
-            switch (m.getRes()) {
-                case COIN, STONE, SERVANT, SHIELD: {
-                    cli.printToConsole("you received a " + m.getRes().printResourceColouredName() + "!");
-                    askForResource(m.getRes());
-
-                    break;
-                }
-                case FAITH_POINT: {
-                    cli.printToConsole("you received a " + m.getRes().printResourceColouredName() + "!");
-                    break;
-                }
-                default: {
-                    cli.printToConsole("you got nothing from White tray :(");
-                    break;
-                } //caso EMPTY, vari controlli!
-            }
-
-
-        }
-
-
-
-
-    }
 
     private void handleObject(ObjectMessage message)  {
         if (message.getObjectID() == -1)  { //GAME
@@ -1015,15 +965,75 @@ public class ClientActionController {
             }
             case FAITH_POINT: {
                 cli.printToConsole("you received a " + res.printResourceColouredName() + "!");
+                serverConnection.send(new PlaceResourceMessage(ResourceType.FAITH_POINT, -1, ID, false, false));
                 break;
             }
             default: {
-                cli.printToConsole("you got nothing from White tray :(");
+                whiteMarbleCase();
                 break;
             } //caso EMPTY, vari controlli!
         }
 
     }
+
+    private void whiteMarbleCase() {
+        ArrayList<ResourceType> possibleRes = new ArrayList<>();
+        possibleRes.add(this.mmv.getGame().getPlayerById(ID).getWhiteConversion1());
+        possibleRes.add(this.mmv.getGame().getPlayerById(ID).getWhiteConversion2());
+        int count = (int) possibleRes.stream().filter(Objects::nonNull).count();
+
+        switch (count) {
+            case 0: {
+                getCli().printToConsole("You did not receive any Resource Type from the white marble");
+                serverConnection.send(new PlaceResourceMessage(ResourceType.EMPTY, -1, ID, false, false));
+                break;
+            }
+            case 1: {
+
+                getCli().printToConsole("due to your Leader Cards you received a " + possibleRes.get(0).printResourceColouredName()  + " from the white marble!");
+                askForResource(possibleRes.get(0));
+                break;
+
+
+            }
+            default: {
+                getCli().printToConsole("due to your Leader Cards you can generate one of the following Resources from the white marble : "
+                        + possibleRes.get(0).printResourceColouredName() +" or "
+                        + possibleRes.get(1).printResourceColouredName() + ". "  );
+                getCli().printToConsole("Select one of them: ");
+
+
+                ResourceType selectedRes;
+
+                selectedRes = getResourceType(possibleRes, false, null);
+                askForResource(selectedRes);
+                break;
+            }
+
+
+
+
+
+
+            }
+
+
+        }
+
+    private ResourceType getResourceType(ArrayList<ResourceType> possibleRes, boolean valid, ResourceType selectedRes) {
+        String input;
+        while(!valid) {
+            input = cli.readFromInput();
+            String finalInput = input;
+            if (possibleRes.stream().anyMatch(v -> v.name().equals(finalInput))) {
+                selectedRes = ResourceType.valueOf(finalInput);
+                valid = true;
+            }
+            else cli.printToConsole("Invalid input, try again!");
+        }
+        return selectedRes;
+    }
+
 
     private void nicknameSetUp() {
         cli.printToConsole("Choose your nickname:");

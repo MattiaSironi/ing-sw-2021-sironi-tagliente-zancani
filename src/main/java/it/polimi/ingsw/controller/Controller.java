@@ -36,6 +36,15 @@ public class Controller implements Observer<Message> {
             game.reportError(new Nickname(nickname.getString(), nickname.getID(), true));
             game.getPlayers().add(new Player(nickname.getID(), nickname.getString()));
             if (game.getPlayers().size() == game.getNumPlayer())  {
+
+                /* testing */
+//                game.getPlayerById(1).setWhiteConversion1(ResourceType.COIN);
+//                game.getPlayerById(2).setWhiteConversion1(ResourceType.SHIELD);
+//                game.getPlayerById(2).setWhiteConversion2(ResourceType.SERVANT);
+
+
+
+
                 game.sendGame();
                 game.setTurn(game.getPlayers().get(0).getId(), "WAITING FOR ACTION", false, null);
                 //initialPhase(); TODO
@@ -116,12 +125,12 @@ public class Controller implements Observer<Message> {
         }
         m.setMarbleOut(resources.get(0));
 //        expectedActions = resources.size();
-        int faith = (int) resources.stream().filter(x -> x.getRes().equals(ResourceType.FAITH_POINT)).count();
+
 //        expectedActions -=faith;
 //        if (game.getPlayerById(ID).getWhiteConversion1()== null && game.getPlayerById(ID).getWhiteConversion2()==null )
 //            expectedActions -= (int) resources.stream().filter(x -> x.getRes().equals(ResourceType.EMPTY)).count();
 
-        this.game.moveFaithPosByID(ID, faith);
+
         game.setMarketHand(resources);
         game.setTurn(ID, "MARKET", false, null);
    //     game.sendResources(new ResourceListMessage(resources, ID));
@@ -129,26 +138,35 @@ public class Controller implements Observer<Message> {
     }
 
 
-    public void placeRes(ResourceType r, int shelfIndex, int ID) {
+    public void placeRes(ResourceType r, int shelfIndex, int ID, boolean discard) {
 
         //mette la risorsa al posto giusto se può
         //manda reportError con ok o ko a seconda che rispetti le regole
-        if (r.equals(ResourceType.FAITH_POINT)) {
+        if (discard) {
             discardRes(ID);
             game.removeFromMarketHand();
+
         } else {
-            if (this.game.addResourceToWarehouse(ID, shelfIndex, r))
+
+            if (r.equals(ResourceType.FAITH_POINT)) {
+                game.moveFaithPosByID(ID, 1);
                 game.removeFromMarketHand();
+            } else if (r.equals(ResourceType.EMPTY)) game.removeFromMarketHand();
             else {
-                game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
-                return;
+                if (this.game.addResourceToWarehouse(ID, shelfIndex, r))
+                    game.removeFromMarketHand();
+                else {
+                    game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
+                    return;
+                }
             }
         }
-        if (game.getBoard().getMarket().getHand().size() == 0) {
-            game.setTurn(game.getTurn().getPlayerPlayingID(), "WAITING FOR ACTION", false, null);
-        } else
-            game.setTurn(game.getTurn().getPlayerPlayingID(), "MARKET", false, null);
-    }
+            if (game.getBoard().getMarket().getHand().size() == 0) {
+                game.setTurn(game.getTurn().getPlayerPlayingID(), "WAITING FOR ACTION", false, null);
+            } else
+                game.setTurn(game.getTurn().getPlayerPlayingID(), "MARKET", false, null);
+        }
+
 
     public void discardRes(int ID) {
 
@@ -518,9 +536,7 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(ErrorMessage message) {
-        if (message.getString().equals("discard"))  {
-            discardRes(message.getID());
-        }
+
 
 
     }
@@ -563,7 +579,7 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(PlaceResourceMessage message) {
-            placeRes(message.getRes(), message.getShelf(), message.getID());
+            placeRes(message.getRes(), message.getShelf(), message.getID(), message.isDiscard());
     }
 
     public void update(BuyDevCardMessage message){

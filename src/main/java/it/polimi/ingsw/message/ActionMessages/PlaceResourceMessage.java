@@ -11,13 +11,15 @@ public class PlaceResourceMessage extends Message {
     private ResourceType res;
     private int shelf;
     private int ID;
-    private String error;
+    private boolean initialPhase;
+    private boolean discard;
 
-    public PlaceResourceMessage(ResourceType res, int shelf, int ID, String error) {
+    public PlaceResourceMessage(ResourceType res, int shelf, int ID, boolean initialPhase, boolean discard) {
         this.res = res;
         this.shelf = shelf;
         this.ID = ID;
-        this.error = error;
+        this.initialPhase = initialPhase;
+        this.discard = discard;
     }
 
     public ResourceType getRes() {
@@ -32,7 +34,12 @@ public class PlaceResourceMessage extends Message {
         return ID;
     }
 
-    public String getError() {
-        return error;
+    public boolean isInitialPhase() {
+        return initialPhase;
+    }
+
+
+    public boolean isDiscard() {
+        return discard;
     }
 }
