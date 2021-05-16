@@ -45,6 +45,12 @@ public class ClientMain {
 //        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 1);
 //
 
+        /*    ---------------- MANAGE RESOURCE ACTION ----------------------------*/
+
+
+
+
+
 
     }
 }
