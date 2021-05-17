@@ -361,4 +361,24 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         getPlayerById(ID).getPersonalBoard().setLeaderChosen((ExtraProdLCard) leader);
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getLeaderChosen(), 7, ID));
     }
+
+    public void setNewPlayerCards (int ID, LeaderCard lc){
+        int i=0;
+        LeaderCard plc = getPlayerById(ID).getLeaderDeck().getCards().get(i);
+        while(!plc.same(lc)){
+            i++;
+            plc=getPlayerById(ID).getLeaderDeck().getCards().get(i);
+        }
+        getPlayerById(ID).getLeaderDeck().getCards().remove(plc); //toglie dal leader deck
+        getPlayerById(ID).getLeaderDeck().setSize(getPlayerById(ID).getLeaderDeck().getSize()-1);
+        getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(lc); //aggiunge ai leader attivi
+        getPlayerById(ID).getPersonalBoard().getActiveLeader().setSize(getPlayerById(ID).getPersonalBoard().getActiveLeader().getSize()+1);
+        notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck(), 8, ID)));
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getActiveLeader(),6,ID));
+    }
+
+    public void discard(int ID,LeaderDeck newLd){
+        getPlayerById(ID).setLeaderDeck(newLd);
+        notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck(), 8, ID)));
+    }
 }

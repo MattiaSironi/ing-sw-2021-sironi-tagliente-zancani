@@ -48,6 +48,7 @@ public class Player implements Serializable {
         this.actionPhase = 0;
     }
 
+
     public Player(int id, String nickname, int faithMarkerPos, boolean inkwell, LeaderDeck leaderDeck, int victoryPoints, ResourceType resDiscount1, ResourceType resDiscount2, ResourceType whiteConversion1, ResourceType whiteConversion2, ResourceType inputExtraProduction1, ResourceType inputExtraProduction2, boolean vaticanSection, PersonalBoard personalBoard) {
         this.id = id;
         this.nickname = nickname;
@@ -64,6 +65,9 @@ public class Player implements Serializable {
         this.vaticanSection = vaticanSection;
         this.personalBoard = personalBoard;
     }
+
+
+
 
     public void setId(int id) {
         this.id = id;

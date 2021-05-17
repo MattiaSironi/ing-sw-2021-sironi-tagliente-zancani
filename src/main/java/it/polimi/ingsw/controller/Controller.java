@@ -64,7 +64,7 @@ public class Controller implements Observer<Message> {
 //                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.STONE, 0));
                 game.getPlayerById(0).getPersonalBoard().getActiveLeader().setCards(new ArrayList<>());
                 game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(game.getBoard().getLeaderDeck().getCards().get(0));
-                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD));
+             //   game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD));
 
 
 
@@ -521,7 +521,7 @@ public class Controller implements Observer<Message> {
              this.game.getPlayerById(ID).setResDiscount2(dc.getResType());
          }
          else
-             System.out.println(new ErrorMessage("you already have 2 active Leaders", ID));
+             game.setTurn(ID,ActionPhase.P_LEADER,true,ErrorList.TWO_LEADERS);
          RemoveLeaderFromDeck(ID,dc);
      }
 
@@ -536,7 +536,7 @@ public class Controller implements Observer<Message> {
              this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum2(0);
          }
          else
-             System.out.println(new ErrorMessage("you already have 2 active Leaders", ID));
+             game.setTurn(ID,ActionPhase.P_LEADER,true,ErrorList.TWO_LEADERS);
          RemoveLeaderFromDeck(ID,sc);
      }
 
@@ -550,12 +550,13 @@ public class Controller implements Observer<Message> {
             this.game.getPlayerById(ID).setInputExtraProduction2(c.getInput());
         }
         else
-            System.out.println(new ErrorMessage("you already have 2 active Leaders", ID));
+            game.setTurn(ID,ActionPhase.P_LEADER,true,ErrorList.TWO_LEADERS);
         RemoveLeaderFromDeck(ID,c);
     }
 
     public void PlayLeaderCard(int ID, WhiteTrayLCard wc){
-      //  this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(wc);
+        Player p = this.game.getPlayerById(ID);
+        this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(wc);
         if(this.game.getPlayerById(ID).getWhiteConversion1()==ResourceType.EMPTY){
             this.game.getPlayerById(ID).setWhiteConversion1(wc.getResType());
         }
@@ -563,41 +564,74 @@ public class Controller implements Observer<Message> {
             this.game.getPlayerById(ID).setWhiteConversion2(wc.getResType());
         }
         else
-            System.out.println("you already have 2 active Leaders");
+            game.setTurn(ID,ActionPhase.P_LEADER,true,ErrorList.TWO_LEADERS);
         RemoveLeaderFromDeck(ID,wc);
 
     }
 
 
     public void RemoveLeaderFromDeck(int ID,LeaderCard lc){
-        this.game.getPlayerById(ID).getLeaderDeck().getCards().remove(lc); //toglie dal leader deck
-        this.game.getPlayerById(ID).getLeaderDeck().setSize(this.game.getPlayerById(ID).getLeaderDeck().getSize()-1);
-        this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(lc); //aggiunge ai leader attivi
-        this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().setSize(this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getSize()+1);
+
+       this.game.setNewPlayerCards(ID,lc);
 //        game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getLeaderDeck(), 2, ID)); //invio leader della mano
 //        game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader(),6,ID));
-        System.out.println("setto il turno");
-        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.P_LEADER,false,null);
+        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION,false,null);
     }
+
+    public boolean checkRequirements(int ID,LeaderCard lc){
+        boolean ok = false;
+        boolean found = false;
+        int j;
+        DevDeck dd;
+        switch (lc.getType()){
+            case 1-> {
+                    DiscountLCard dc = (DiscountLCard)lc;
+                    if(searchColor(dc.getColor1(),ID)&&searchColor(dc.getColor2(),ID))
+                        return true;
+            }
+            case 2->{
+
+            }
+
+        }
+
+        return ok;
+    }
+
+    public boolean searchColor(CardColor cc, int ID){
+       boolean found = false;
+       DevDeck dd;
+        for(int i = 0;i<4 && found == false;i++){
+            int j=0;
+            dd = game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(i);
+            while(cc!=dd.getCards().get(j).getColor()){
+                j++;
+            }
+            if(j<dd.getCards().size())
+                found = true;
+        }
+        return found;
+    }
+
 
 
      public void DiscardLeaderCard(int ID,LeaderCard lc){
          int i = 0;
          LeaderDeck newLD;
-         while(this.game.getPlayerById(ID).getLeaderDeck().getCards().get(i).getType()!=lc.getType() || this.game.getPlayerById(ID).getLeaderDeck().getCards().get(i).getVictoryPoints()!=lc.getVictoryPoints() )
+         while(!(this.game.getPlayerById(ID).getLeaderDeck().getCards().get(i).same(lc)) )
          {i++;}
-         if (i<=this.game.getPlayerById(ID).getLeaderDeck().getSize()) //se trovo la carta leader nel mazzo
+         if (this.game.getPlayerById(ID).getLeaderDeck().getCards().size()>0) //se trovo la carta leader nel mazzo
          {
              newLD = new LeaderDeck((this.game.getPlayerById(ID).getLeaderDeck().getSize())-1,1,this.game.getPlayerById(ID).getLeaderDeck().getCards());
              newLD.getCards().remove(i);
-             System.out.println("setto il turno");
-             this.game.getPlayerById(ID).setLeaderDeck(newLD);
-
-
+             game.discard(ID,newLD);
+            // this.game.getPlayerById(ID).setLeaderDeck(newLD);
+             game.moveFaithPosByID(ID,1);
+             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION,false,null);
          }
-        this.game.getPlayerById(ID).moveFaithMarkerPos(1);
-         //tutti i controlli vittoria , favore papale e ecc.
-         game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.D_LEADER,false,null);
+         else
+             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.D_LEADER,true,ErrorList.ZERO_CARDS);
+
 //         game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getLeaderDeck(), 2, ID));
      }
 
