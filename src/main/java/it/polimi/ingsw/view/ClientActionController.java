@@ -125,7 +125,7 @@ public class ClientActionController {
                         } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
                     }
                     case SM -> mmv.printMarket();
-                    case SF -> mmv.printFaithTrack(ID);
+                    case SF -> mmv.printFaithTrack(ID); //TODO others
                     case SD -> this.mmv.printDevMatrix();
                     case SP -> printProd();
                     case SL -> {
@@ -928,11 +928,8 @@ public class ClientActionController {
             else
                 this.mmv.getGame().setThirdvatican(true);
         }
-        else if(message.getObjectID() == 12){
-            this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setFavorTile((int)message.getObject());
-        }
-        else if(message.getObjectID() == 13)
-            this.mmv.getGame().getPlayerById(message.getID()).setFaithMarkerPos((int)message.getObject());
+        else if(message.getObjectID() == 12)
+            this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setFaithTrack((FaithTrack) message.getObject());
     }
 
     public void handleTurn(Turn turn) {

@@ -383,7 +383,8 @@ public class Controller implements Observer<Message> {
 
 
          //aggiunta punti fede
-         this.game.getPlayerById(ID).moveFaithMarkerPos(d.getOutputRes()[4]);
+
+         this.game.moveFaithPosByID(ID, d.getOutputRes()[4]);
 
 //         game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse(), 3, ID));
 //         game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox(), 4, ID));
@@ -488,26 +489,25 @@ public class Controller implements Observer<Message> {
 
     }
 
-    public void useLeaderProduction(int ID, ResourceType r, ResourceType newRes, boolean buyFromWarehouse){ //if true -> pay from warehouse
-         if(buyFromWarehouse == true){
-             if(!(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(1, r))){
-                 this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
-             }
-             else {
-                 this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
-                 this.game.getPlayerById(ID).moveFaithMarkerPos(1);
-             }
-         }
-         if(buyFromWarehouse == false){
-             if(!(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(1, r))){
-                 this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
-             }
-             else {
-                 this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
-                 this.game.getPlayerById(ID).moveFaithMarkerPos(1);
-             }
-         }
-     }
+    public void useLeaderProduction(int ID, ResourceType r, ResourceType newRes, boolean buyFromWarehouse) { //if true -> pay from warehouse
+        if (buyFromWarehouse == true) {
+            if (!(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(1, r))) {
+                this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
+            } else {
+                this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
+                this.game.moveFaithPosByID(ID, 1);
+
+            }
+        }
+        if (buyFromWarehouse == false) {
+            if (!(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(1, r))) {
+                this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
+            } else {
+                this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
+                this.game.moveFaithPosByID(ID, 1);
+            }
+        }
+    }
 
 
 

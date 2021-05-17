@@ -87,12 +87,12 @@ public class FindWinnerTest {
     @DisplayName("pope favor")
     public void popeFavor()  {
         strongBoxTest();
-        game.getPlayerById(0).getPersonalBoard().setFavorTile(0);
-        game.getPlayerById(1).getPersonalBoard().setFavorTile(0);
-        game.getPlayerById(1).getPersonalBoard().setFavorTile(2);
-        game.getPlayerById(2).getPersonalBoard().setFavorTile(0);
-        game.getPlayerById(2).getPersonalBoard().setFavorTile(2);
-        game.getPlayerById(2).getPersonalBoard().setFavorTile(1);
+        game.getPlayerById(0).getPersonalBoard().getFaithTrack().setFavorTile(0);
+        game.getPlayerById(1).getPersonalBoard().getFaithTrack().setFavorTile(0);
+        game.getPlayerById(1).getPersonalBoard().getFaithTrack().setFavorTile(2);
+        game.getPlayerById(2).getPersonalBoard().getFaithTrack().setFavorTile(0);
+        game.getPlayerById(2).getPersonalBoard().getFaithTrack().setFavorTile(2);
+        game.getPlayerById(2).getPersonalBoard().getFaithTrack().setFavorTile(1);
         assertEquals(2, game.findWinner().getId());
 
 
@@ -103,9 +103,9 @@ public class FindWinnerTest {
     @DisplayName("faith marker")
     public void faithMarker()  {
         popeFavor();
-        game.getPlayerById(0).moveFaithMarkerPos(300);
-        game.getPlayerById(1).moveFaithMarkerPos(20);
-        game.getPlayerById(2).moveFaithMarkerPos(12);
+        game.getPlayerById(0).getPersonalBoard().getFaithTrack().moveFaithMarkerPos(300);
+        game.getPlayerById(1).getPersonalBoard().getFaithTrack().moveFaithMarkerPos(20);
+        game.getPlayerById(2).getPersonalBoard().getFaithTrack().moveFaithMarkerPos(12);
         assertEquals(0, game.findWinner().getId());
 
 

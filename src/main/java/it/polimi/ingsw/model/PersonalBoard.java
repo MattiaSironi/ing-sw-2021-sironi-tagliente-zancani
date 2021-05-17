@@ -21,13 +21,11 @@ import java.util.Arrays;
  */
 
 public class PersonalBoard implements Serializable {
-    private  ArrayList<Slot> faithTrack;
+    private FaithTrack faithTrack;
     private ArrayList<DevDeck> cardSlot;
     private LeaderDeck activeLeader;
     private int numDevCards;
-    private int favorTile1;
-    private int favorTile2;
-    private int favorTile3;
+
     private Strongbox strongbox;
     private ShelfWarehouse warehouse;
     private ResourceType extraShelfRes1;
@@ -37,25 +35,22 @@ public class PersonalBoard implements Serializable {
     private ExtraProdLCard leaderChosen;
 
 
-    public PersonalBoard(ArrayList<Slot> faithTrack, ArrayList<DevDeck> cardSlot, LeaderDeck activeLeader, int numDevCards, Strongbox strongbox, ShelfWarehouse warehouse) {
+    public PersonalBoard(FaithTrack faithTrack, ArrayList<DevDeck> cardSlot, LeaderDeck activeLeader, int numDevCards, Strongbox strongbox, ShelfWarehouse warehouse) {
         this.faithTrack = faithTrack;
         this.cardSlot = cardSlot;
         this.activeLeader = activeLeader;
         this.numDevCards = numDevCards;
-
         this.strongbox = strongbox;
         this.warehouse = warehouse;
 
     }
 
-    private ArrayList<Slot> createFaithTrack() {
-        Gson gson = new Gson();
-        Reader reader =  new InputStreamReader(PersonalBoard.class.getResourceAsStream("/json/slot.json"));
-        Slot[]  slots  = gson.fromJson(reader, Slot[].class);
-        ArrayList<Slot> faithTrack = new ArrayList<>();
-        faithTrack.addAll(Arrays.asList(slots));
-        return  faithTrack;
+    public FaithTrack getFaithTrack() {
+        return faithTrack;
+    }
 
+    public void setFaithTrack(FaithTrack faithTrack) {
+        this.faithTrack = faithTrack;
     }
 
     public PersonalBoard()  {
@@ -66,7 +61,7 @@ public class PersonalBoard implements Serializable {
         cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
         cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
         cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
-        this.faithTrack = createFaithTrack();
+        this.faithTrack = new FaithTrack();
     }
 
     public boolean totalPaymentChecker(int resArray[]){
@@ -241,20 +236,7 @@ public class PersonalBoard implements Serializable {
     }
 
 
-    public void setFavorTile(int ft) {
-        switch (ft) {
-            case 0:
-                this.favorTile1 = 1;
-                break;
-            case 1:
-                this.favorTile2 = 1;
-                break;
-            case 2:
-                this.favorTile3 = 1;
-                break;
-            default:
-        }
-    }
+
 
     public ArrayList<DevDeck> getCardSlot() {
         return cardSlot;
@@ -268,21 +250,7 @@ public class PersonalBoard implements Serializable {
         return numDevCards;
     }
 
-    public int getFavorTile1() {
-        return favorTile1;
-    }
 
-    public int getFavorTile2() {
-        return favorTile2;
-    }
-
-    public int getFavorTile3() {
-        return favorTile3;
-    }
-
-    public ArrayList<Slot> getFaithTrack() {
-        return faithTrack;
-    }
 
     public Strongbox getStrongbox() {
         return strongbox;

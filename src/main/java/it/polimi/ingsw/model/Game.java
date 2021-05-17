@@ -202,8 +202,8 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
     }
 
     public void moveFaithPosByID(int ID, int faith){
-        getPlayerById(ID).moveFaithMarkerPos(faith);
-        notify(new ObjectMessage(getPlayerById(ID).getFaithMarkerPos(), 13, ID));
+        getPlayerById(ID).getPersonalBoard().getFaithTrack().moveFaithMarkerPos(faith);
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getFaithTrack(), 12, ID));
         checkVatican();
 
     }
@@ -226,12 +226,10 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
 
     }
 
-    public void setInkwell(){
-        Collections.shuffle(this.getPlayers());
-    }
+
 
     public void checkVatican()  {
-        OptionalInt maxPos = this.players.stream().mapToInt(x -> x.getFaithMarkerPos()).max();
+        OptionalInt maxPos = this.players.stream().mapToInt(x -> x.getPersonalBoard().getFaithTrack().getMarker()).max();
         if (maxPos.isPresent())  {
             int maxP = maxPos.getAsInt();
             if (maxP >= 8 && !firstvatican)  {
@@ -257,9 +255,9 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
 
     public void checkEveryPlayerPos(int popeSpace, int vatican)  {
         for (Player p : this.players)  {
-            if (p.getFaithMarkerPos() >= (popeSpace-3-vatican)){
-                p.getPersonalBoard().setFavorTile(vatican);
-                notify(new ObjectMessage(vatican, 12, p.getId()));
+            if (p.getPersonalBoard().getFaithTrack().getMarker() >= (popeSpace-3-vatican)){
+                p.getPersonalBoard().getFaithTrack().setFavorTile(vatican);
+                notify(new ObjectMessage(p.getPersonalBoard().getFaithTrack(), 12, p.getId()));
             }
 
         }

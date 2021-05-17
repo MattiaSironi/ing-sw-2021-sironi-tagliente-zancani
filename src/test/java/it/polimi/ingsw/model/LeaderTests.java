@@ -26,7 +26,7 @@ public class LeaderTests {
         personalBoard = new PersonalBoard();
         strongbox = new Strongbox();
         warehouse = new ShelfWarehouse();
-        player = new Player(0, "lea", 3, true, new LeaderDeck(0, 1, new ArrayList<LeaderCard>()), 10, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, false, personalBoard);
+        player = new Player(0, "lea",  true, new LeaderDeck(0, 1, new ArrayList<LeaderCard>()), 10, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, false, personalBoard);
         game.getPlayers().add(player);
         game.getPlayers().get(0).setId(0);
         game.getPlayerById(0).setPersonalBoard(personalBoard);
@@ -46,13 +46,13 @@ public class LeaderTests {
         leaderCards.add(2,c3);
         LeaderDeck leaderDeck = new LeaderDeck(3,1,leaderCards);
         game.getPlayerById(0).setLeaderDeck(leaderDeck);
-        game.getPlayerById(0).setFaithMarkerPos(6);
+        game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(6);
 
         controller.DiscardLeaderCard(0, new LeaderCard(3,2));
         ArrayList<LeaderCard> lctest = new ArrayList<LeaderCard>();
         lctest.add(0,c1);
         lctest.add(1,c3);
-        assertEquals(7, game.getPlayerById(0).getFaithMarkerPos());
+        assertEquals(7, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker());
         assertEquals(lctest,game.getPlayerById(0).getLeaderDeck().getCards());
 
     }
@@ -70,7 +70,7 @@ public class LeaderTests {
         LeaderDeck leaderDeck = new LeaderDeck(1,1,leaderCards);
         game.getPlayerById(0).setLeaderDeck(unused);
         game.getPlayerById(0).getPersonalBoard().setActiveLeader(leaderDeck);
-        game.getPlayerById(0).setFaithMarkerPos(6);
+        game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(6);
         game.getPlayerById(0).setResDiscount1(ResourceType.SERVANT);
         game.getPlayerById(0).setResDiscount2(ResourceType.EMPTY);
 
@@ -101,7 +101,7 @@ public class LeaderTests {
         LeaderDeck unused = new LeaderDeck(1,2,hand);
         LeaderDeck leaderDeck = new LeaderDeck(0,1,leaderCards);
         game.getPlayerById(0).getPersonalBoard().setActiveLeader(leaderDeck);
-        game.getPlayerById(0).setFaithMarkerPos(6);
+        game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(6);
         game.getPlayerById(0).getPersonalBoard().setExtraShelfRes1(ResourceType.EMPTY);
         game.getPlayerById(0).getPersonalBoard().setExtraShelfRes2(ResourceType.EMPTY);
 
@@ -127,7 +127,7 @@ public class LeaderTests {
         leaderCards.add(0,c1);
         LeaderDeck leaderDeck = new LeaderDeck(1,1,leaderCards);
         game.getPlayerById(0).getPersonalBoard().setActiveLeader(leaderDeck);
-        game.getPlayerById(0).setFaithMarkerPos(6);
+        game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(6);
         game.getPlayerById(0).setInputExtraProduction1(ResourceType.STONE);
         game.getPlayerById(0).setInputExtraProduction2(ResourceType.EMPTY);
 
@@ -153,7 +153,7 @@ public class LeaderTests {
 
         LeaderDeck leaderDeck = new LeaderDeck(0,1,leaderCards);
         game.getPlayerById(0).getPersonalBoard().setActiveLeader(leaderDeck);
-        game.getPlayerById(0).setFaithMarkerPos(6);
+        game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(6);
         game.getPlayerById(0).setWhiteConversion1(ResourceType.EMPTY);
         game.getPlayerById(0).setWhiteConversion2(ResourceType.EMPTY);
 

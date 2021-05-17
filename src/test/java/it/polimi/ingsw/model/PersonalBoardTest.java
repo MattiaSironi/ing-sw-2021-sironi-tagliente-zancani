@@ -18,7 +18,7 @@ public class PersonalBoardTest {
 
     @BeforeEach
     void init() {
-        p = new PersonalBoard(new ArrayList<Slot>(), new ArrayList<DevDeck>(), new LeaderDeck(0, 1, new ArrayList<LeaderCard>()),
+        p = new PersonalBoard(new FaithTrack(), new ArrayList<DevDeck>(), new LeaderDeck(0, 1, new ArrayList<LeaderCard>()),
                 0, new Strongbox(), new ShelfWarehouse());
 
     }

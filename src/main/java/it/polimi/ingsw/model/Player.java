@@ -14,7 +14,6 @@ public class Player implements Serializable {
     private int startResCount;
     private int id;
     private String nickname;
-    private int faithMarkerPos;
     private boolean inkwell;
     private LeaderDeck leaderDeck;
     private int victoryPoints;
@@ -28,9 +27,7 @@ public class Player implements Serializable {
     private boolean vaticanSection;
     private PersonalBoard personalBoard;
 
-    public void setFaithMarkerPos(int faithMarkerPos) {
-        this.faithMarkerPos = faithMarkerPos;
-    }
+
 
     public void setInkwell(boolean inkwell) {
         this.inkwell = inkwell;
@@ -49,10 +46,9 @@ public class Player implements Serializable {
     }
 
 
-    public Player(int id, String nickname, int faithMarkerPos, boolean inkwell, LeaderDeck leaderDeck, int victoryPoints, ResourceType resDiscount1, ResourceType resDiscount2, ResourceType whiteConversion1, ResourceType whiteConversion2, ResourceType inputExtraProduction1, ResourceType inputExtraProduction2, boolean vaticanSection, PersonalBoard personalBoard) {
+    public Player(int id, String nickname, boolean inkwell, LeaderDeck leaderDeck, int victoryPoints, ResourceType resDiscount1, ResourceType resDiscount2, ResourceType whiteConversion1, ResourceType whiteConversion2, ResourceType inputExtraProduction1, ResourceType inputExtraProduction2, boolean vaticanSection, PersonalBoard personalBoard) {
         this.id = id;
         this.nickname = nickname;
-        this.faithMarkerPos = faithMarkerPos;
         this.inkwell = inkwell;
         this.leaderDeck = leaderDeck;
         this.victoryPoints = victoryPoints;
@@ -77,10 +73,7 @@ public class Player implements Serializable {
         this.nickname = nickname;
     }
 
-    public void moveFaithMarkerPos(int q) {
-        this.faithMarkerPos += q;
-        if (faithMarkerPos>24) faithMarkerPos=24;
-    }
+
 
     public void setLeaderDeck(LeaderDeck leaderDeck) {
         this.leaderDeck = leaderDeck;
@@ -126,9 +119,7 @@ public class Player implements Serializable {
         return nickname;
     }
 
-    public int getFaithMarkerPos() {
-        return faithMarkerPos;
-    }
+
 
     public boolean isInkwell() {
         return inkwell;
@@ -206,12 +197,12 @@ public class Player implements Serializable {
 
     public int sumPope() {
 
-        return ((personalBoard.getFavorTile1() * 2) + (personalBoard.getFavorTile2() * 3) + (personalBoard.getFavorTile3() * 4));
+        return ((personalBoard.getFaithTrack().getFavorTile1() * 2) + (personalBoard.getFaithTrack().getFavorTile2() * 3) + (personalBoard.getFaithTrack().getFavorTile3() * 4));
 
     }
 
     public int getValuePos() {
-        return this.getPersonalBoard().getFaithTrack().get(this.getFaithMarkerPos()).getCurrentVictoryPoints();
+        return this.getPersonalBoard().getFaithTrack().getFaithTrackSlot().get(this.getPersonalBoard().getFaithTrack().getMarker()).getCurrentVictoryPoints();
     }
 
     public int getValueResources() {
