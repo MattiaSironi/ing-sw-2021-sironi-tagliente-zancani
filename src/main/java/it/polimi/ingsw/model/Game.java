@@ -356,4 +356,9 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         getPlayerById(id).setStartResCount(i);
         notify(new ObjectMessage(i, 5, id));
     }
+
+    public void setChosenLeader(LeaderCard leader, int ID){
+        getPlayerById(ID).getPersonalBoard().setLeaderChosen((ExtraProdLCard) leader);
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getLeaderChosen(), 7, ID));
+    }
 }

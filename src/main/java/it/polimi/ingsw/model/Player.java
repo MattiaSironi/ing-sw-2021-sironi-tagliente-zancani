@@ -194,7 +194,7 @@ public class Player implements Serializable {
 
     public int sumLeads() {
         int value = 0;
-        for (LeaderCard lc : this.getLeaderDeck().getCards()) {
+        for (LeaderCard lc : this.personalBoard.getActiveLeader().getCards()) {
             value += lc.getVictoryPoints();
         }
         return value;

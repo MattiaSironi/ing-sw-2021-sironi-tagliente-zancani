@@ -62,9 +62,9 @@ public class Controller implements Observer<Message> {
 
 //                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(4, new Shelf(ResourceType.SERVANT, 0));
 //                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.STONE, 0));
-//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().setCards(new ArrayList<>());
-//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(game.getBoard().getLeaderDeck().getCards().get(0));
-//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(game.getBoard().getLeaderDeck().getCards().get(1));
+                game.getPlayerById(0).getPersonalBoard().getActiveLeader().setCards(new ArrayList<>());
+                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(game.getBoard().getLeaderDeck().getCards().get(0));
+                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD));
 
 
 
@@ -443,6 +443,10 @@ public class Controller implements Observer<Message> {
                 !(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(shieldStrong, ResourceType.SHIELD))) {
             this.game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
         } else {
+            int faithPoints = (int) boughtRes.stream().filter(x -> x.equals(ResourceType.FAITH_POINT)).count();
+            if(!(faithPoints == 0)) {
+                game.moveFaithPosByID(ID, faithPoints);
+            }
             for (ResourceType r : paidResFromWarehouse) {
                 game.payFromWarehouse(1, r, ID);
             }
@@ -471,7 +475,16 @@ public class Controller implements Observer<Message> {
         game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
     }
 
-    public void isExtraProd(LeaderCard leaderCard){
+    public void isExtraProd(LeaderCard leaderCard, int ID){
+        if(!(leaderCard instanceof ExtraProdLCard )){
+            System.out.println("non lo è");
+            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
+        }
+        else {
+            System.out.println("lo è");
+            game.setChosenLeader(leaderCard, ID);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.SELECT_RES, false, null);
+        }
 
     }
 
@@ -747,7 +760,7 @@ public class Controller implements Observer<Message> {
         if(message.isEndAction())
             collectNewRes(message.getID());
         else if(!(message.getD() == null)){
-            isExtraProd(message.getD());
+            isExtraProd(message.getD(), message.getID());
         }
         else if(!(message.getDc()==null)){
            payResources(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getResToBuy());

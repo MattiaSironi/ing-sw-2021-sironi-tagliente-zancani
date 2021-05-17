@@ -150,7 +150,6 @@ public class Observable<Message> {
                 observer.update(message);
             }
         }
-
     }
 
     protected void notify(ProductionMessage message) {

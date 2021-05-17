@@ -128,7 +128,10 @@ public class ClientActionController {
                     case SF -> mmv.printFaithTrack(ID);
                     case SD -> this.mmv.printDevMatrix();
                     case SP -> printProd();
-                    case SL -> printLeaders();
+                    case SL -> {
+                        //printLeaders();
+                        mmv.printActiveLeaders(ID);
+                    }
                     case SR -> /*mmv.printShelves(0);*/ printShelves();
                     case MR -> {
                         manageResources();
@@ -523,7 +526,51 @@ public class ClientActionController {
         }
     }
 
+    public void payLeaderProd() {
+        ArrayList<ResourceType> resToBuy = new ArrayList<>();
+        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
+        ArrayList<ResourceType> resFromStrongbox = new ArrayList<>();
+        String input = "";
+        boolean valid = false;
+        this.mmv.getGame().getPlayerById(ID).getPersonalBoard().getLeaderChosen().print();
+        cli.printToConsole("This card requires 1 " + this.mmv.getGame().getPlayerById(ID).getPersonalBoard().getLeaderChosen().getInput().printResourceColouredName());
+        cli.printToConsole("Where would you like to take it from? (WARE -> warehouse / STRONG -> strongbox");
+        while (!valid) {
+            input = cli.readFromInput();
+            if (input.equals("WARE")) {
+                resFromWarehouse.add(this.mmv.getGame().getPlayerById(ID).getPersonalBoard().getLeaderChosen().getInput());
+                valid = true;
+            } else if (input.equals("STRONG")) {
+                resFromStrongbox.add(this.mmv.getGame().getPlayerById(ID).getPersonalBoard().getLeaderChosen().getInput());
+                valid = true;
+            } else
+                cli.printToConsole("Invalid input, try again");
+        }
+        valid = false;
+        cli.printToConsole("Choose a new resource to produce\n1 --> "
+                + ResourceType.COIN.printResourceColouredName() + "\n2 --> "
+                + ResourceType.STONE.printResourceColouredName() + "\n3 --> "
+                + ResourceType.SERVANT.printResourceColouredName() + "\n4 --> "
+                + ResourceType.SHIELD.printResourceColouredName());
+        while(!valid) {
+            input = cli.readFromInput();
 
+            if (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4")) {
+                valid = true;
+            }
+            else {
+                cli.printToConsole(input);
+                cli.printToConsole("Invalid input, try again");
+            }
+        }
+        resToBuy.add(ResourceType.FAITH_POINT);
+        int chosenRes = Integer.parseInt(input);
+        if(chosenRes == 1) resToBuy.add(ResourceType.COIN);
+        else if(chosenRes == 2) resToBuy.add(ResourceType.STONE);
+        else if(chosenRes == 3) resToBuy.add(ResourceType.SERVANT);
+        else if(chosenRes == 4) resToBuy.add(ResourceType.SHIELD);
+        serverConnection.send(new ProductionMessage(resFromWarehouse, resFromStrongbox, resToBuy, null, null, ID, false));
+    }
 
     public void askForResource(ResourceType res) { //public for now, then private TODO
 
@@ -902,6 +949,9 @@ public class ClientActionController {
         }
         else if(message.getObjectID()==6) //LEADER
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setActiveLeader((LeaderDeck)message.getObject());
+        else if(message.getObjectID() == 7){
+            this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setLeaderChosen((ExtraProdLCard) message.getObject());
+        }
         else if (message.getObjectID()==10)  {
             this.mmv.getGame().setTurn((Turn) message.getObject());
             handleTurn((mmv.getGame().getTurn()));
@@ -956,6 +1006,11 @@ public class ClientActionController {
                     cli.printToConsole("These are your new active Leaders");
                     mmv.printActiveLeaders(this.ID);
                     chooseAction();
+                }
+
+                case SELECT_RES: {
+                    payLeaderProd();
+                    break;
                 }
             }
         }

@@ -34,7 +34,7 @@ public class PersonalBoard implements Serializable {
     private ResourceType extraShelfRes2;
     private int extraShelfNum1;
     private int extraShelfNum2;
-    private LeaderCard leaderChosen;
+    private ExtraProdLCard leaderChosen;
 
 
     public PersonalBoard(ArrayList<Slot> faithTrack, ArrayList<DevDeck> cardSlot, LeaderDeck activeLeader, int numDevCards, Strongbox strongbox, ShelfWarehouse warehouse) {
@@ -78,6 +78,14 @@ public class PersonalBoard implements Serializable {
 
         if(totCoin < resArray[0] || totStone < resArray[1] || totServant < resArray[2] || totShield < resArray[3]) return false;
         else return true;
+    }
+
+    public ExtraProdLCard getLeaderChosen() {
+        return leaderChosen;
+    }
+
+    public void setLeaderChosen(ExtraProdLCard leaderChosen) {
+        this.leaderChosen = leaderChosen;
     }
 
     public boolean checkLCardRequirements(LeaderCard lc) {
