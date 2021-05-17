@@ -7,5 +7,6 @@ public enum ActionPhase {
     B_PAYMENT,
     CHOOSE_SLOT,
     A_PAYMENT,
+    P_LEADER, D_LEADER,
 
 }

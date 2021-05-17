@@ -45,6 +45,21 @@ public class Controller implements Observer<Message> {
                 game.getPlayerById(1).setWhiteConversion1(ResourceType.COIN);
                 game.getPlayerById(1).setWhiteConversion2(ResourceType.SERVANT);
 
+                LeaderCard l1 = new DiscountLCard(1,3,CardColor.BLUE,CardColor.YELLOW,ResourceType.COIN);
+                LeaderCard l2 = new ExtraDepotLCard(2,2,ResourceType.SERVANT,ResourceType.SHIELD);
+                LeaderCard l3 = new ExtraProdLCard(3,3,CardColor.GREEN,ResourceType.STONE);
+                LeaderCard l4 = new WhiteTrayLCard(4,4,ResourceType.COIN,CardColor.YELLOW,CardColor.BLUE);
+                ArrayList<LeaderCard> vett = new ArrayList<LeaderCard>();
+                ArrayList<LeaderCard> act = new ArrayList<LeaderCard>();
+                act.add(0,l3);
+               // act.add(1,l4);
+                vett.add(0,l1);
+                vett.add(1,l2);
+                LeaderDeck actDeck = new LeaderDeck(2,1,act);
+                LeaderDeck deck = new LeaderDeck(2,1,vett);
+                game.getPlayerById(0).setLeaderDeck(deck);
+                game.getPlayerById(0).getPersonalBoard().setActiveLeader(actDeck);
+
 //                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(4, new Shelf(ResourceType.SERVANT, 0));
 //                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.STONE, 0));
 //                game.getPlayerById(0).getPersonalBoard().getActiveLeader().setCards(new ArrayList<>());
@@ -293,14 +308,12 @@ public class Controller implements Observer<Message> {
          ArrayList<Shelf> w = this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves();
          Strongbox st = this.game.getPlayerById(ID).getPersonalBoard().getStrongbox();
 
-
          for(i=0;i<4 &&!found1;i++){
              if(d.getInputRes()[i]>0){
                  r1 = i;
                  found1=true;
              }
          }
-
          for(h=i;i<4 &&!found2;i++){
              if(d.getInputRes()[i]>0){
                  r2 = h;
@@ -550,6 +563,8 @@ public class Controller implements Observer<Message> {
         this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().setSize(this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getSize()+1);
 //        game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getLeaderDeck(), 2, ID)); //invio leader della mano
 //        game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader(),6,ID));
+        System.out.println("setto il turno");
+        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.P_LEADER,false,null);
     }
 
 
@@ -562,13 +577,14 @@ public class Controller implements Observer<Message> {
          {
              newLD = new LeaderDeck((this.game.getPlayerById(ID).getLeaderDeck().getSize())-1,1,this.game.getPlayerById(ID).getLeaderDeck().getCards());
              newLD.getCards().remove(i);
+             System.out.println("setto il turno");
              this.game.getPlayerById(ID).setLeaderDeck(newLD);
 
 
          }
         this.game.getPlayerById(ID).moveFaithMarkerPos(1);
          //tutti i controlli vittoria , favore papale e ecc.
-
+         game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.D_LEADER,false,null);
 //         game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getLeaderDeck(), 2, ID));
      }
 
@@ -732,6 +748,9 @@ public class Controller implements Observer<Message> {
             collectNewRes(message.getID());
         else if(!(message.getD() == null)){
             isExtraProd(message.getD());
+        }
+        else if(!(message.getDc()==null)){
+           payResources(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getResToBuy());
         }
         else
             payResources(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getResToBuy());

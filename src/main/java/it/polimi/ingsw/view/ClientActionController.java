@@ -163,10 +163,10 @@ public class ClientActionController {
                 useLeaderProduction();
             }
             case 3 -> {
-                ProductionMessage p3 = useDevProduction();
+               useDevProduction();
             }
             case 0 -> {
-                serverConnection.send(new ProductionMessage(null, null, null, null, ID, true));
+                serverConnection.send(new ProductionMessage(null, null, null, null,null, ID, true));
             }
         }
     }
@@ -392,7 +392,7 @@ public class ClientActionController {
         else if(chosenRes == 2) resToBuy.add(ResourceType.STONE);
         else if(chosenRes == 3) resToBuy.add(ResourceType.SERVANT);
         else if(chosenRes == 4) resToBuy.add(ResourceType.SHIELD);
-        serverConnection.send(new ProductionMessage(resFromWarehouse, resFromStrongbox, resToBuy, null, ID, false));
+        serverConnection.send(new ProductionMessage(resFromWarehouse, resFromStrongbox, resToBuy, null,null, ID, false));
     }
 
 
@@ -513,13 +513,13 @@ public class ClientActionController {
         ArrayList<ResourceType> resFromStrongbox = new ArrayList<>();
         boolean valid = false;
         //this.mmv.getGame().getPlayerById(ID).getLeaderDeck();
-        this.mmv.printActiveLeaders(ID);
+     //   this.mmv.printActiveLeaders(ID);
         cli.printToConsole("Choose the leader you want to use");
         String input = cli.readFromInput();
         if (input.equals("1") || input.equals("2")){
             int index = Integer.parseInt(input);
             LeaderCard leaderCard = this.mmv.getGame().getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().get(index - 1);
-            serverConnection.send(new ProductionMessage(null, null, null, leaderCard, ID, false));
+            serverConnection.send(new ProductionMessage(null, null, null, leaderCard,null, ID, false));
         }
     }
 
@@ -702,15 +702,7 @@ public class ClientActionController {
         serverConnection.send(new ManageResourceMessage(s1-1, s2-1,  ID));
     }
 
-    //metodo per il gotoMarket : seleziona la riga del mercato e aspetta le risorse per decidere cosa farci
 
-    //showDevToBuy : fa vedere le DevCard che puoi comprare e
-    // fa selezionare all'utente colore e livello della carta scelta
-    //controlla che la carta possa essere pagata e come
-
-    //ActivateProduction : mostra produzioni possibili
-    //fa scegliere quale produzione attivare
-    //fa scegliere le risorse da usare e cosa ottenere eventualmente
 
     private void resetEnable() {
         for (Actions a : actions) {
@@ -741,31 +733,35 @@ public class ClientActionController {
 //        LeaderDeck deck = new LeaderDeck(2,1,vett);
 //        mmv.getGame().getPlayerById(0).setLeaderDeck(deck);
 //        mmv.getGame().getPlayerById(0).getPersonalBoard().setActiveLeader(actDeck);
+        int p = 0;
 
-        cli.printToConsole("Leaders in your hand : ");
-        mmv.getGame().getPlayerById(this.ID).getLeaderDeck().print();
+        cli.printToConsole("Choose the ID of the player whose leaders you want to see");
+        p = Integer.parseInt(cli.readFromInput());
 
-        cli.printToConsole("Your active Leaders : ");
-        mmv.getGame().getPlayerById(this.ID).getPersonalBoard().getActiveLeader().print();
+        cli.printToConsole("Leaders in hand : ");
+        mmv.getGame().getPlayerById(p).getLeaderDeck().print();
 
+        cli.printToConsole("Active Leaders : ");
+        mmv.getGame().getPlayerById(p).getPersonalBoard().getActiveLeader().print();
 
-        boolean valid = false;
-        String s;
-        int idx;
-        cli.printToConsole("Digit :\n'a' to activate one Leader, \n'd' to discard one Leader Card or \n'x' to return to the action menu");
-        while (!valid) {
-                String input= cli.readFromInput();
+        if(p==this.ID) {
+            boolean valid = false;
+            String s;
+            int idx;
+            cli.printToConsole("Digit :\n'a' to activate one Leader, \n'd' to discard one Leader Card or \n'x' to return to the action menu");
+            while (!valid) {
+                String input = cli.readFromInput();
                 if (input.equalsIgnoreCase("a")) {
                     System.out.println("a");
-                    if(this.mmv.getGame().getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().size()<=2) {
+                    if (this.mmv.getGame().getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().size() <= 2) {
                         cli.printToConsole("Select the leader you want to activate [1/2]");
                         idx = Integer.parseInt(cli.readFromInput());
                         if (idx == 1 || idx == 2) {
-                            this.mmv.sendNotify(new PlayLeaderMessage(ID, idx, true, mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1)));
+                         //   System.out.println("send");
+                            serverConnection.send(new PlayLeaderMessage(ID, idx, true, mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1)));
                         } else
                             cli.printToConsole("Invalid input");
-                    }
-                    else
+                    } else
                         cli.printToConsole("you already have 2 active leaders");
                     valid = true;
 
@@ -773,21 +769,24 @@ public class ClientActionController {
                     System.out.println("d");
                     cli.printToConsole("Select the leader you want to discard [1/2]");
                     idx = Integer.parseInt(cli.readFromInput());
-                    if(idx==1 || idx==2){
-                    this.mmv.sendNotify(new PlayLeaderMessage(ID,idx,false,this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx-1)));
-                    }
-                    else
+                    if (idx == 1 || idx == 2) {
+                     //   System.out.println("send");
+                        serverConnection.send(new PlayLeaderMessage(ID, idx, false, this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1)));
+                    } else
                         cli.printToConsole("Invalid input");
                     valid = true;
-                } else if (input.equalsIgnoreCase("x")){
+                } else if (input.equalsIgnoreCase("x")) {
                     System.out.println("x");
                     valid = true;
                 } else cli.printToConsole("Invalid input! Retry!");
+            }
+
+
         }
     }
 
 
-    public ProductionMessage useDevProduction() {
+    public void useDevProduction() {
         boolean valid = false, validInput = false, validNum = false;
         int input = 0;
         ProductionMessage m;
@@ -827,8 +826,6 @@ public class ClientActionController {
                 n--;
             }
         }
-
-
         for (int i = 0; i < 5; i++) {
             int n = d.getOutputRes()[i];
             while (n > 0) {
@@ -836,11 +833,7 @@ public class ClientActionController {
                 n--;
             }
         }
-
-
-        m = new ProductionMessage(resFromWarehouse, resFromStrongbox,resToBuy, null, this.ID, false);
-        this.mmv.sendNotify(m);
-        return m;
+        serverConnection.send(new ProductionMessage(resFromWarehouse, resFromStrongbox,resToBuy, null, d,this.ID, false));
 
     }
 
@@ -958,6 +951,11 @@ public class ClientActionController {
                 case CHOOSE_SLOT: {
                     placeDevCard();
                     break;
+                }
+                case P_LEADER:{
+                    cli.printToConsole("These are your new active Leaders");
+                    mmv.printActiveLeaders(this.ID);
+                    chooseAction();
                 }
             }
         }
