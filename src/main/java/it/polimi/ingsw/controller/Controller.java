@@ -45,8 +45,13 @@ public class Controller implements Observer<Message> {
                 game.getPlayerById(1).setWhiteConversion1(ResourceType.COIN);
                 game.getPlayerById(1).setWhiteConversion2(ResourceType.SERVANT);
 
-                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(4, new Shelf(ResourceType.SERVANT, 0));
-                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.STONE, 0));
+//                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(4, new Shelf(ResourceType.SERVANT, 0));
+//                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.STONE, 0));
+//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().setCards(new ArrayList<>());
+//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(game.getBoard().getLeaderDeck().getCards().get(0));
+//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(game.getBoard().getLeaderDeck().getCards().get(1));
+
+
 
 
 //                game.sendGame();
@@ -453,6 +458,10 @@ public class Controller implements Observer<Message> {
         game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
     }
 
+    public void isExtraProd(LeaderCard leaderCard){
+
+    }
+
     public void useLeaderProduction(int ID, ResourceType r, ResourceType newRes, boolean buyFromWarehouse){ //if true -> pay from warehouse
          if(buyFromWarehouse == true){
              if(!(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(1, r))){
@@ -721,6 +730,9 @@ public class Controller implements Observer<Message> {
     public void update(ProductionMessage message) {
         if(message.isEndAction())
             collectNewRes(message.getID());
+        else if(!(message.getD() == null)){
+            isExtraProd(message.getD());
+        }
         else
             payResources(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getResToBuy());
        // useBasicProduction(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox());

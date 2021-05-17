@@ -265,5 +265,11 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
         int points = getGame().getPlayerById(ID).getVictoryPoints();
         this.getGame().getPlayerById(ID).getPersonalBoard().printFaithTrack(points);
     }
+
+    public void printActiveLeaders(int ID) {
+        for(LeaderCard d : this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards()){
+            notify(new PrintableMessage(d));
+        }
+    }
 }
 

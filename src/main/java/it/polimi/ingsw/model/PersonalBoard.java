@@ -34,6 +34,7 @@ public class PersonalBoard implements Serializable {
     private ResourceType extraShelfRes2;
     private int extraShelfNum1;
     private int extraShelfNum2;
+    private LeaderCard leaderChosen;
 
 
     public PersonalBoard(ArrayList<Slot> faithTrack, ArrayList<DevDeck> cardSlot, LeaderDeck activeLeader, int numDevCards, Strongbox strongbox, ShelfWarehouse warehouse) {

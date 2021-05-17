@@ -1,6 +1,7 @@
 package it.polimi.ingsw.message.ActionMessages;
 
 import it.polimi.ingsw.message.Message;
+import it.polimi.ingsw.model.LeaderCard;
 import it.polimi.ingsw.model.ResourceType;
 
 import java.util.ArrayList;
@@ -10,13 +11,15 @@ public class ProductionMessage extends Message {
     ArrayList<ResourceType> resFromWarehouse, resFromStrongbox, resToBuy;
     int ID;
     boolean endAction;
+    LeaderCard d;
 
-    public ProductionMessage(ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox,ArrayList<ResourceType> tobuy, int ID, boolean endAction) {
+    public ProductionMessage(ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox,ArrayList<ResourceType> tobuy, LeaderCard d, int ID, boolean endAction) {
         this.resFromWarehouse = resFromWarehouse;
         this.resFromStrongbox = resFromStrongbox;
         this.resToBuy = tobuy;
         this.ID = ID;
         this.endAction = endAction;
+        this.d = d;
     }
 
     public ArrayList<ResourceType> getResToBuy() {
@@ -57,5 +60,13 @@ public class ProductionMessage extends Message {
 
     public void setEndAction(boolean endAction) {
         this.endAction = endAction;
+    }
+
+    public LeaderCard getD() {
+        return d;
+    }
+
+    public void setD(LeaderCard d) {
+        this.d = d;
     }
 }

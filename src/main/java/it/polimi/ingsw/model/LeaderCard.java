@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author Mattia Sironi
  */
 //Modifiche al Model UML: attributo requirements type non è più un boolean ma è un int, perché ho 4 sottoclassi
-public class LeaderCard implements Serializable {
+public class LeaderCard implements Serializable, Printable {
     private final int type;
     private final int victoryPoints;
 
@@ -28,6 +28,8 @@ public class LeaderCard implements Serializable {
         return victoryPoints;
     }
 
-
-
+    @Override
+    public void print() {
+        System.out.println("non devo printare questa");
+    }
 }
