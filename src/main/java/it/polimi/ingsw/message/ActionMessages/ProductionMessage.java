@@ -9,12 +9,14 @@ public class ProductionMessage extends Message {
 
     ArrayList<ResourceType> resFromWarehouse, resFromStrongbox, resToBuy;
     int ID;
+    boolean endAction;
 
-    public ProductionMessage(ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox,ArrayList<ResourceType> tobuy, int ID) {
+    public ProductionMessage(ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox,ArrayList<ResourceType> tobuy, int ID, boolean endAction) {
         this.resFromWarehouse = resFromWarehouse;
         this.resFromStrongbox = resFromStrongbox;
         this.resToBuy = tobuy;
         this.ID = ID;
+        this.endAction = endAction;
     }
 
     public ArrayList<ResourceType> getResToBuy() {
@@ -47,5 +49,13 @@ public class ProductionMessage extends Message {
 
     public void setID(int ID) {
         this.ID = ID;
+    }
+
+    public boolean isEndAction() {
+        return endAction;
+    }
+
+    public void setEndAction(boolean endAction) {
+        this.endAction = endAction;
     }
 }

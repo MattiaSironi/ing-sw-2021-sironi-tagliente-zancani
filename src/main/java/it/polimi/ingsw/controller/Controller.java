@@ -9,8 +9,6 @@ import it.polimi.ingsw.observer.Observer;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
 
 public class Controller implements Observer<Message> {
     private Game game;
@@ -180,7 +178,7 @@ public class Controller implements Observer<Message> {
     }
     public void handleChosenDevCard(int chosenIndex, DevCard d, int posIndex, int ID){
         if(!game.getPlayerById(ID).getPersonalBoard().totalPaymentChecker(d.getCostRes())){
-            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
         }
         else if(!(checkDevCardPlacement(d, game.getPlayerById(ID)))){
             game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
@@ -206,7 +204,7 @@ public class Controller implements Observer<Message> {
                         .filter(x -> x.equals(ResourceType.SERVANT)).count(), ResourceType.SERVANT)) || !(this.game.getPlayerById(ID).getPersonalBoard()
                 .getWarehouse().canIPay((int) paidResFromWarehouse.stream()
                         .filter(x -> x.equals(ResourceType.SHIELD)).count(), ResourceType.SHIELD))) {
-            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
         } else if (!(this.game.getPlayerById(ID).getPersonalBoard()
                 .getStrongbox().canIPay((int) paidResFromStrongbox.stream()
                         .filter(x -> x.equals(ResourceType.COIN)).count(), ResourceType.COIN)) || !(this.game.getPlayerById(ID).getPersonalBoard()
@@ -216,14 +214,14 @@ public class Controller implements Observer<Message> {
                         .filter(x -> x.equals(ResourceType.SERVANT)).count(), ResourceType.SERVANT)) || !(this.game.getPlayerById(ID).getPersonalBoard()
                 .getStrongbox().canIPay((int) paidResFromStrongbox.stream()
                         .filter(x -> x.equals(ResourceType.SHIELD)).count(), ResourceType.SHIELD))) {
-            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
         } else {
             for (ResourceType r : paidResFromWarehouse) {
-                game.payDevCardFromWarehouse(1, r, ID);
+                game.payFromWarehouse(1, r, ID);
             }
 
             for (ResourceType r : paidResFromStrongbox) {
-                game.payDevCardFromStrongbox(1, r, ID);
+                game.payFromStrongbox(1, r, ID);
             }
 
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.CHOOSE_SLOT, false, null);
@@ -371,44 +369,64 @@ public class Controller implements Observer<Message> {
         }
     }
 
-    public boolean payResources(int ID, ArrayList<ResourceType> paidResFromWarehouse, ArrayList<ResourceType> paidResFromStrongbox) {
-        if(!(this.game.getPlayerById(ID).getResDiscount1().equals(ResourceType.EMPTY))){
+    public void payResources(int ID, ArrayList<ResourceType> paidResFromWarehouse, ArrayList<ResourceType> paidResFromStrongbox, ArrayList<ResourceType> boughtRes) {
 
-        }
-        if (!(this.game.getPlayerById(ID).getPersonalBoard()
-                .getWarehouse().canIPay((int) paidResFromWarehouse.stream()
-                        .filter(x -> x.equals(ResourceType.COIN)).count(), ResourceType.COIN)) || !(this.game.getPlayerById(ID).getPersonalBoard()
-                .getWarehouse().canIPay((int) paidResFromWarehouse.stream()
-                        .filter(x -> x.equals(ResourceType.STONE)).count(), ResourceType.STONE)) || !(this.game.getPlayerById(ID).getPersonalBoard()
-                .getWarehouse().canIPay((int) paidResFromWarehouse.stream()
-                        .filter(x -> x.equals(ResourceType.SERVANT)).count(), ResourceType.SERVANT)) || !(this.game.getPlayerById(ID).getPersonalBoard()
-                .getWarehouse().canIPay((int) paidResFromWarehouse.stream()
-                        .filter(x -> x.equals(ResourceType.SHIELD)).count(), ResourceType.SHIELD))) {
-            this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
-            return false;
-        } else if (!(this.game.getPlayerById(ID).getPersonalBoard()
-                .getStrongbox().canIPay((int) paidResFromStrongbox.stream()
-                        .filter(x -> x.equals(ResourceType.COIN)).count(), ResourceType.COIN)) || !(this.game.getPlayerById(ID).getPersonalBoard()
-                .getStrongbox().canIPay((int) paidResFromStrongbox.stream()
-                        .filter(x -> x.equals(ResourceType.STONE)).count(), ResourceType.STONE)) || !(this.game.getPlayerById(ID).getPersonalBoard()
-                .getStrongbox().canIPay((int) paidResFromStrongbox.stream()
-                        .filter(x -> x.equals(ResourceType.SERVANT)).count(), ResourceType.SERVANT)) || !(this.game.getPlayerById(ID).getPersonalBoard()
-                .getStrongbox().canIPay((int) paidResFromStrongbox.stream()
-                        .filter(x -> x.equals(ResourceType.SHIELD)).count(), ResourceType.SHIELD))) {
-            this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
-            return false;
+        int coinWare = (int) paidResFromWarehouse.stream().filter(x -> x.equals(ResourceType.COIN)).count();
+        int stoneWare = (int) paidResFromWarehouse.stream().filter(x -> x.equals(ResourceType.STONE)).count();
+        int servantWare = (int) paidResFromWarehouse.stream().filter(x -> x.equals(ResourceType.SERVANT)).count();
+        int shieldWare = (int) paidResFromWarehouse.stream().filter(x -> x.equals(ResourceType.SHIELD)).count();
+        int coinStrong = (int) paidResFromStrongbox.stream().filter(x -> x.equals(ResourceType.COIN)).count();
+        int stoneStrong = (int) paidResFromStrongbox.stream().filter(x -> x.equals(ResourceType.STONE)).count();
+        int servantStrong = (int) paidResFromStrongbox.stream().filter(x -> x.equals(ResourceType.SERVANT)).count();
+        int shieldStrong = (int) paidResFromStrongbox.stream().filter(x -> x.equals(ResourceType.SHIELD)).count();
+
+        System.out.println(coinWare);
+        System.out.println(stoneWare);
+        System.out.println(servantWare);
+        System.out.println(shieldWare);
+        System.out.println(coinStrong);
+        System.out.println(stoneStrong);
+        System.out.println(servantStrong);
+        System.out.println(shieldStrong);
+
+        if (!(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(coinWare, ResourceType.COIN)) ||
+                !(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(stoneWare, ResourceType.STONE)) ||
+                !(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(servantWare, ResourceType.SERVANT)) ||
+                !(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(shieldWare, ResourceType.SHIELD))) {
+            this.game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
+        } else if (!(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(coinStrong, ResourceType.COIN)) ||
+                !(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(stoneStrong, ResourceType.STONE)) ||
+                !(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(servantStrong, ResourceType.SERVANT)) ||
+                !(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(shieldStrong, ResourceType.SHIELD))) {
+            this.game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
         } else {
             for (ResourceType r : paidResFromWarehouse) {
-                this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
+                game.payFromWarehouse(1, r, ID);
             }
 
             for (ResourceType r : paidResFromStrongbox) {
-                this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
+                game.payFromStrongbox(1, r, ID);
             }
-            return true;
+
+            int earnedCoin = (int)boughtRes.stream().filter(x -> x.equals(ResourceType.COIN)).count();
+            int earnedStone = (int)boughtRes.stream().filter(x -> x.equals(ResourceType.STONE)).count();
+            int earnedServant = (int)boughtRes.stream().filter(x -> x.equals(ResourceType.SERVANT)).count();
+            int earnedShield = (int)boughtRes.stream().filter(x -> x.equals(ResourceType.SHIELD)).count();
+
+            System.out.println(earnedCoin);
+            System.out.println(earnedStone);
+            System.out.println(earnedServant);
+            System.out.println(earnedShield);
+
+            game.addEarnedResourcesByID(ID, earnedCoin, earnedStone, earnedServant, earnedShield);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT, false, null);
         }
     }
 
+    public void collectNewRes(int ID){
+        game.addResourceToStrongbox(ID);
+        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
+    }
 
     public void useLeaderProduction(int ID, ResourceType r, ResourceType newRes, boolean buyFromWarehouse){ //if true -> pay from warehouse
          if(buyFromWarehouse == true){
@@ -676,9 +694,10 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(ProductionMessage message) {
-        if(payResources(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox())){
-            this.addResourceToStrongFromProduction(message.getID(), message.getResToBuy());
-        };
+        if(message.isEndAction())
+            collectNewRes(message.getID());
+        else
+            payResources(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getResToBuy());
        // useBasicProduction(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox());
     }
 

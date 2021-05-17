@@ -309,13 +309,25 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
             return false;
     }
 
-    public void payDevCardFromWarehouse(int q, ResourceType r, int ID){
-        getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
+    public void addResourceToStrongbox(int ID){
+        getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedCoin());
+        getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedStone());
+        getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedServant());
+        getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedShield());
+        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedCoin(0);
+        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedStone(0);
+        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedServant(0);
+        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedShield(0);
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox(), 3, ID));
+    }
+
+    public void payFromWarehouse(int q, ResourceType r, int ID){
+        getPlayerById(ID).getPersonalBoard().getWarehouse().pay(q, r);
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
     }
 
-    public void payDevCardFromStrongbox(int q, ResourceType r, int ID){
-        getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
+    public void payFromStrongbox(int q, ResourceType r, int ID){
+        getPlayerById(ID).getPersonalBoard().getStrongbox().pay(q, r);
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox(), 3, ID));
     }
 
@@ -324,6 +336,14 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         getPlayerById(ID).getPersonalBoard().addDevCard(getBoard().getMatrix().getChosenCard(), pos - 1, ID);
         notify(new ObjectMessage(getBoard().getMatrix(), 2, -1));
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getCardSlot(), 4, ID));
+    }
+
+    public void addEarnedResourcesByID(int ID, int numCoin, int numStone, int numServant, int numShield){
+        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedCoin(numCoin);
+        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedStone(numStone);
+        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedServant(numServant);
+        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedShield(numShield);
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox(), 3, ID));
     }
 
     public void sendActionOver(EndActionMessage message) {

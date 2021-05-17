@@ -36,7 +36,7 @@ public class PersonalBoard implements Serializable {
     private int extraShelfNum2;
 
 
-    public PersonalBoard(ArrayList<Slot> faithTrack, ArrayList<DevDeck> cardSlot, LeaderDeck activeLeader, int numDevCards,Strongbox strongbox, ShelfWarehouse warehouse) {
+    public PersonalBoard(ArrayList<Slot> faithTrack, ArrayList<DevDeck> cardSlot, LeaderDeck activeLeader, int numDevCards, Strongbox strongbox, ShelfWarehouse warehouse) {
         this.faithTrack = faithTrack;
         this.cardSlot = cardSlot;
         this.activeLeader = activeLeader;

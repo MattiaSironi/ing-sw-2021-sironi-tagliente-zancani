@@ -36,46 +36,46 @@ public class ControllerTests {
         game.getPlayerById(0).getPersonalBoard().setWarehouse(warehouse);
     }
 //-----------------------PRODUCTION----------------------------------------------------------------------------------------------------
-    @Test
-    @DisplayName("Use basic production")
-    @Disabled("incorrect")
-    void useBasicProductionFromWarehouse1() {
+//    @Test
+//    @DisplayName("Use basic production")
+//    @Disabled("incorrect")
+//    void useBasicProductionFromWarehouse1() {
+//
+//        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
+//        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+//        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+//
+//        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
+//        ArrayList<ResourceType> resFroStrongbox = new ArrayList<>();
+//
+//        resFromWarehouse.add(ResourceType.COIN);
+//        resFromWarehouse.add(ResourceType.STONE);
+//
+//        controller.payResources(0, resFromWarehouse, resFroStrongbox);
+//
+//        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.COIN));
+//        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.STONE));
+//    }
 
-        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
-        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-
-        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
-        ArrayList<ResourceType> resFroStrongbox = new ArrayList<>();
-
-        resFromWarehouse.add(ResourceType.COIN);
-        resFromWarehouse.add(ResourceType.STONE);
-
-        controller.payResources(0, resFromWarehouse, resFroStrongbox);
-
-        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.COIN));
-        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.STONE));
-    }
-
-    @Test
-    @DisplayName("Use basic production")
-    void useBasicProductionFromWarehouse2() {
-
-        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
-        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-
-        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
-        ArrayList<ResourceType> resFroStrongbox = new ArrayList<>();
-
-        resFromWarehouse.add(ResourceType.COIN);
-        resFromWarehouse.add(ResourceType.SERVANT);
-
-        controller.payResources(0, resFromWarehouse, resFroStrongbox);
-
-        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.COIN));
-        assertEquals(2, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.STONE));
-    }
+//    @Test
+//    @DisplayName("Use basic production")
+//    void useBasicProductionFromWarehouse2() {
+//
+//        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
+//        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+//        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+//
+//        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
+//        ArrayList<ResourceType> resFroStrongbox = new ArrayList<>();
+//
+//        resFromWarehouse.add(ResourceType.COIN);
+//        resFromWarehouse.add(ResourceType.SERVANT);
+//
+//        controller.payResources(0, resFromWarehouse, resFroStrongbox);
+//
+//        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.COIN));
+//        assertEquals(2, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.STONE));
+//    }
 
 
 
