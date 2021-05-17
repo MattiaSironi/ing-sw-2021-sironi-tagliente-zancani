@@ -36,9 +36,19 @@ public class Controller implements Observer<Message> {
             if (game.getPlayers().size() == game.getNumPlayer())  {
 
                 /* testing */
-                game.getPlayerById(1).setWhiteConversion1(ResourceType.COIN);
                 game.getPlayerById(0).setWhiteConversion1(ResourceType.SHIELD);
-                game.getPlayerById(0).setWhiteConversion2(ResourceType.SERVANT);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.COIN, 0));
+
+
+                game.getPlayerById(1).setWhiteConversion1(ResourceType.COIN);
+                game.getPlayerById(1).setWhiteConversion2(ResourceType.SERVANT);
+
+                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(4, new Shelf(ResourceType.SERVANT, 0));
+                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.STONE, 0));
+
+
+
+
 
 
 
@@ -93,6 +103,10 @@ public class Controller implements Observer<Message> {
 //    }
 
     public void swapShelves(int s1, int s2, int ID){
+        if ((s1== 3 || s1 == 4) && (s2== 3 || s2== 4)) {
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, true, ErrorList.INVALID_MOVE);
+            return;
+        }
         if(!(game.swapShelvesByID(s1, s2, ID))){
             game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
         }

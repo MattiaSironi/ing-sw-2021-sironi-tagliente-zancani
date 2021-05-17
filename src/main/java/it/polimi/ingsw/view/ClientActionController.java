@@ -719,12 +719,12 @@ public class ClientActionController {
         boolean valid = false;
         String s;
         while (!valid) {
-            cli.printToConsole("Choose the shelf where to put your " + res.printResourceColouredName() + " [1,2,3]");
+            cli.printToConsole("Choose the shelf where to put your " + res.printResourceColouredName() + " [1,2,3,4,5]");
             s = cli.readFromInput().replaceAll("[^0-9]", "");
             if(!(s.equals(""))){
                 s1 = Integer.parseInt(s);
             }
-            if (1 <= s1 && s1 <= 3) valid = true;
+            if (1 <= s1 && s1 <= 5) valid = true;
             else cli.printToConsole("Invalid input! retry!");
         }
         serverConnection.send(new PlaceResourceMessage(res, s1-1, ID, initialPhase, false));
@@ -747,7 +747,7 @@ public class ClientActionController {
             s1 = Integer.parseInt(cli.readFromInput());
             cli.printToConsole("Select the second shelf:");
             s2 = Integer.parseInt(cli.readFromInput());
-            if (s1 != s2 && s1 >= 1 && s1 <= 3 && s2 >= 1 && s2 <= 3) {
+            if (s1 != s2 && s1 >= 1 && s1 <= 5 && s2 >= 1 && s2 <= 5) {
                 valid = true;
             } else cli.printToConsole("Invalid input! Retry!");
 
@@ -986,6 +986,7 @@ public class ClientActionController {
                     break;
                 }
                 case MARKET: {
+                    mmv.printShelves(ID);
                     selectResourceFromHand();
                     break;
                 }

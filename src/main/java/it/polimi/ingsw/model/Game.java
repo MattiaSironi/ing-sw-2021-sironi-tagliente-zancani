@@ -209,7 +209,9 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
     }
 
     public boolean swapShelvesByID(int s1, int s2, int ID){
-        if(getPlayerById(ID).getPersonalBoard().getWarehouse().swapShelves(s1, s2)) {
+        ShelfWarehouse temp = getPlayerById(ID).getPersonalBoard().getWarehouse().clone();
+        if(temp.swap(s1, s2)) {
+            getPlayerById(ID).getPersonalBoard().setWarehouse(temp);
             notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
             return true;
         }
