@@ -9,6 +9,8 @@ import it.polimi.ingsw.observer.Observer;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 public class Controller implements Observer<Message> {
     private Game game;
@@ -33,7 +35,7 @@ public class Controller implements Observer<Message> {
         } else {
             game.reportError(new Nickname(nickname.getString(), nickname.getID(), true));
             game.getPlayers().add(new Player(nickname.getID(), nickname.getString()));
-            if (game.getPlayers().size() == game.getNumPlayer())  {
+            if (game.getPlayers().size() == game.getNumPlayer()) {
 
                 /* testing */
                 game.getPlayerById(0).setWhiteConversion1(ResourceType.SHIELD);
@@ -47,15 +49,9 @@ public class Controller implements Observer<Message> {
                 game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.STONE, 0));
 
 
-
-
-
-
-
-                game.sendGame();
-                game.setTurn(game.getPlayers().get(0).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
-                //initialPhase(); TODO
-
+//                game.sendGame();
+//                game.setTurn(game.getPlayers().get(0).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
+                initialPhase();
 
 
             }
@@ -63,54 +59,51 @@ public class Controller implements Observer<Message> {
 
     }
 
-//    public void initialPhase(){
-//        Collections.shuffle(game.getPlayers(), new Random(game.getNumPlayer()));
-//        game.getPlayers().get(0).setInkwell(true);
-//        game.sendObject(new ObjectMessage(game, -1, -1));
-//        for(Player p : game.getPlayers()){
-//            switch (game.getPlayers().indexOf(p)){
-//                case 0 : {
-//                    p.setReady(true);
-//                    if(checkReadyPlayers()){
-//                        game.sendObject(new ObjectMessage(game, -1, -1));
-//                        game.endTurn(game.getPlayers().get(game.getPlayers().size()-1).getId());
-//                    }
-//                    game.reportError(new ErrorMessage("You are the first!", p.getId()));
-//                    break;
-//                }
-//                case 1 : {
-//                    p.setStartResCount(1);
-//                    game.sendSingleResource(null, -1, p.getId(), "");
-//                    break;
-//                }
-//                case 2 : {
-//                    p.setStartResCount(1);
-//                    p.moveFaithMarkerPos(1);
-//                    game.reportError(new ErrorMessage("You received 1 Faith Point!", p.getId()));
-//                    game.sendSingleResource(null, -1, p.getId(), "");
-//                    break;
-//                }
-//                case 3 : {
-//                    p.setStartResCount(2);
-//                    p.moveFaithMarkerPos(1);
-//                    game.reportError(new ErrorMessage("You received 1 Faith Point!", p.getId()));
-//                    game.sendSingleResource(null, -1, p.getId(), "");
-//                    game.sendSingleResource(null, -1, p.getId(), "");
-//                    break;
-//                }
-//            }
-//        }
-//    }
+    public void initialPhase() {
+        Collections.shuffle(game.getPlayers(), new Random(game.getNumPlayer()));
+        game.getPlayers().get(0).setInkwell(true);
+        game.sendGame();
 
-    public void swapShelves(int s1, int s2, int ID){
-        if ((s1== 3 || s1 == 4) && (s2== 3 || s2== 4)) {
+        for (Player p : game.getPlayers()) {
+            switch (game.getPlayers().indexOf(p)) {
+                case 0: {
+                    p.setReady(true);
+                    if (checkReadyPlayers()) {
+                        game.setTurn(game.getPlayers().get(0).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
+                    }
+
+                    break;
+                }
+                case 1: {
+
+                    game.setStartResCountByID(p.getId(), 1);
+                    break;
+                }
+                case 2: {
+                    game.setStartResCountByID(p.getId(), 1);
+
+                    game.moveFaithPosByID(p.getId(), 1);
+
+                    break;
+                }
+                case 3: {
+                    game.setStartResCountByID(p.getId(), 2);
+                    game.moveFaithPosByID(p.getId(), 1);
+                    break;
+                }
+            }
+        }
+
+    }
+
+    public void swapShelves(int s1, int s2, int ID) {
+        if ((s1 == 3 || s1 == 4) && (s2 == 3 || s2 == 4)) {
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, true, ErrorList.INVALID_MOVE);
             return;
         }
-        if(!(game.swapShelvesByID(s1, s2, ID))){
+        if (!(game.swapShelvesByID(s1, s2, ID))) {
             game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
-        }
-        else
+        } else
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
     }
 
@@ -123,10 +116,9 @@ public class Controller implements Observer<Message> {
             resources = m.getRow(index);
             for (int j = 3; j >= 0; j--) {
                 if (j == 3) m.setMarble(index, j, m.getMarbleOut());
-                else  m.setMarble(index, j, resources.get(j + 1));
+                else m.setMarble(index, j, resources.get(j + 1));
             }
-        }
-        else {
+        } else {
             index = 3 - index;
             resources = m.getColumn(index);
             for (int k = 2; k >= 0; k--) {
@@ -144,39 +136,58 @@ public class Controller implements Observer<Message> {
 
         game.setMarketHand(resources);
         game.setTurn(ID, ActionPhase.MARKET, false, null);
-   //     game.sendResources(new ResourceListMessage(resources, ID));
+        //     game.sendResources(new ResourceListMessage(resources, ID));
 //        if (expectedActions==0) game.sendActionOver(new EndActionMessage(ID));
     }
 
 
-    public void placeRes(ResourceType r, int shelfIndex, int ID, boolean discard) {
+    public void placeRes(ResourceType r, int shelfIndex, int ID, boolean discard, boolean initialPhase) {
 
         //mette la risorsa al posto giusto se può
         //manda reportError con ok o ko a seconda che rispetti le regole
-        if (discard) {
-            discardRes(ID);
-            game.removeFromMarketHand();
+        if (initialPhase) {
+            int resRemaining = game.getPlayerById(ID).getStartResCount();
+            if (this.game.addResourceToWarehouse(ID, shelfIndex, r)) resRemaining--;
+            game.setStartResCountByID(ID, resRemaining);
+            if (resRemaining == 0) {
+                this.game.getPlayerById(ID).setReady(true);
+                if (checkReadyPlayers()) {
+                    game.setTurn(game.getPlayers().get(0).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
+                }
+
+
+            }
+
 
         } else {
-
-            if (r.equals(ResourceType.FAITH_POINT)) {
-                game.moveFaithPosByID(ID, 1);
+            if (discard) {
+                discardRes(ID);
                 game.removeFromMarketHand();
-            } else if (r.equals(ResourceType.EMPTY)) game.removeFromMarketHand();
-            else {
-                if (this.game.addResourceToWarehouse(ID, shelfIndex, r))
+
+            } else {
+
+                if (r.equals(ResourceType.FAITH_POINT)) {
+                    game.moveFaithPosByID(ID, 1);
                     game.removeFromMarketHand();
+                } else if (r.equals(ResourceType.EMPTY)) game.removeFromMarketHand();
                 else {
-                    game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
-                    return;
+                    if (this.game.addResourceToWarehouse(ID, shelfIndex, r))
+                        game.removeFromMarketHand();
+                    else {
+                        game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
+                        return;
+                    }
                 }
             }
-        }
+
             if (game.getBoard().getMarket().getHand().size() == 0) {
                 game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
             } else
                 game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.MARKET, false, null);
         }
+    }
+
+
 
 
     public void discardRes(int ID) {
@@ -663,7 +674,7 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(PlaceResourceMessage message) {
-        placeRes(message.getRes(), message.getShelf(), message.getID(), message.isDiscard());
+        placeRes(message.getRes(), message.getShelf(), message.getID(), message.isDiscard(), message.isInitialPhase());
 
     }
 

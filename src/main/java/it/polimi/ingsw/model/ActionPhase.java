@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 public enum ActionPhase {
+
     WAITING_FOR_ACTION,
     MARKET,
     B_PAYMENT,

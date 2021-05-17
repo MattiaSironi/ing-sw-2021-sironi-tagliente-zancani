@@ -953,6 +953,13 @@ public class ClientActionController {
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setStrongbox((Strongbox)message.getObject());
         else if(message.getObjectID()==4) //CARDSLOT
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setCardSlot((ArrayList<DevDeck>) message.getObject());
+        else if(message.getObjectID()==5) //initialResource
+        {
+            this.mmv.getGame().getPlayerById(message.getID()).setStartResCount((int) message.getObject());
+            if (message.getID() == ID)  {
+                if (this.mmv.getGame().getPlayerById(ID).getStartResCount() > 0) chooseInitialResources();
+            }
+        }
         else if(message.getObjectID()==6) //LEADER
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setActiveLeader((LeaderDeck)message.getObject());
         else if (message.getObjectID()==10)  {
@@ -976,7 +983,8 @@ public class ClientActionController {
 
     public void handleTurn(Turn turn) {
 
-        if (mmv.getGame().getTurn().getPlayerPlayingID() == ID) {
+
+         if (mmv.getGame().getTurn().getPlayerPlayingID() == ID) {
             if (turn.isError()) {
                 cli.printToConsole(turn.getErrorType().getString());
             }

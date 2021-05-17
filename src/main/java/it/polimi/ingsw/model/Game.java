@@ -351,4 +351,9 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
     public void sendActionOver(EndActionMessage message) {
         notify(message);
     }
+
+    public void setStartResCountByID(int id, int i) {
+        getPlayerById(id).setStartResCount(i);
+        notify(new ObjectMessage(i, 5, id));
+    }
 }
