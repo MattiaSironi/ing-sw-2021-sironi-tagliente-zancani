@@ -365,22 +365,32 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
     }
 
     public void setNewPlayerCards (int ID, LeaderCard lc){
+
         int i=0;
-        LeaderCard plc = getPlayerById(ID).getLeaderDeck().getCards().get(i);
-        while(!plc.same(lc)){
+         while(i<2 &&!(getPlayerById(ID).getLeaderDeck().getCards().get(i).equals(lc))){
             i++;
-            plc=getPlayerById(ID).getLeaderDeck().getCards().get(i);
         }
-        getPlayerById(ID).getLeaderDeck().getCards().remove(plc); //toglie dal leader deck
+//        getPlayerById(ID).getLeaderDeck().getCards().remove(plc); //toglie dal leader deck
+        getPlayerById(ID).getLeaderDeck().getCards().remove(getPlayerById(ID).getLeaderDeck().getCards().get(i));
         getPlayerById(ID).getLeaderDeck().setSize(getPlayerById(ID).getLeaderDeck().getSize()-1);
         getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(lc); //aggiunge ai leader attivi
         getPlayerById(ID).getPersonalBoard().getActiveLeader().setSize(getPlayerById(ID).getPersonalBoard().getActiveLeader().getSize()+1);
+
         notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck(), 8, ID)));
-        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getActiveLeader(),6,ID));
+        notify((new ObjectMessage(getPlayerById(ID).getPersonalBoard().getActiveLeader(),6,ID)));
+        notify(new ObjectMessage(this.getPlayerById(ID),15,ID));
+
+        setTurn(getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION,false,null);
     }
+
+
+
 
     public void discard(int ID,LeaderDeck newLd){
         getPlayerById(ID).setLeaderDeck(newLd);
+       // System.out.println("nuovo mazzo modificato");
+       // this.getPlayerById(ID).getLeaderDeck().print();
         notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck(), 8, ID)));
+        moveFaithPosByID(ID,1);
     }
 }

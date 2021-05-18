@@ -132,8 +132,7 @@ public class ClientActionController {
                     case SD -> this.mmv.printDevMatrix();
                     case SP -> printProd();
                     case SL -> {
-                        printLeaders();
-                        actionEnded = true;
+                        actionEnded = printLeaders();
                     }
                     case SR -> /*mmv.printShelves(0);*/ printShelves();
                     case MR -> {
@@ -737,26 +736,13 @@ public class ClientActionController {
     }
 
 
-    public void printLeaders(){
-        //inizializzazione per testare
-//        LeaderCard l1 = new DiscountLCard(1,3,CardColor.BLUE,CardColor.YELLOW,ResourceType.COIN);
-//        LeaderCard l2 = new ExtraDepotLCard(2,2,ResourceType.SERVANT,ResourceType.SHIELD);
-//        LeaderCard l3 = new ExtraProdLCard(3,3,CardColor.GREEN,ResourceType.STONE);
-//        LeaderCard l4 = new WhiteTrayLCard(4,4,ResourceType.COIN,CardColor.YELLOW,CardColor.BLUE);
-//        ArrayList<LeaderCard> vett = new ArrayList<LeaderCard>();
-//        ArrayList<LeaderCard> act = new ArrayList<LeaderCard>();
-//        act.add(0,l3);
-//        act.add(1,l4);
-//        vett.add(0,l1);
-//        vett.add(1,l2);
-//        LeaderDeck actDeck = new LeaderDeck(2,1,act);
-//        LeaderDeck deck = new LeaderDeck(2,1,vett);
-//        mmv.getGame().getPlayerById(0).setLeaderDeck(deck);
-//        mmv.getGame().getPlayerById(0).getPersonalBoard().setActiveLeader(actDeck);
+    public boolean printLeaders(){
+        boolean ok=true;
         int p = 0;
-
-        cli.printToConsole("Choose the ID of the player whose leaders you want to see");
-        p = Integer.parseInt(cli.readFromInput());
+        p= this.chooseID();
+//
+//        cli.printToConsole("Choose the ID of the player whose leaders you want to see");
+//        p = Integer.parseInt(cli.readFromInput());
 
         cli.printToConsole("Leaders in hand : ");
         mmv.getGame().getPlayerById(p).getLeaderDeck().print();
@@ -772,13 +758,13 @@ public class ClientActionController {
             while (!valid) {
                 String input = cli.readFromInput();
                 if (input.equalsIgnoreCase("a")) {
-                    System.out.println("a");
                     if (this.mmv.getGame().getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().size() <= 2) {
                         cli.printToConsole("Select the leader you want to activate [1/2]");
                         idx = Integer.parseInt(cli.readFromInput());
                         if (idx == 1 || idx == 2) {
-                         //   System.out.println("send");
+                            //   System.out.println("send");
                             serverConnection.send(new PlayLeaderMessage(ID, idx, true, mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1)));
+                            return true;
                         } else
                             cli.printToConsole("Invalid input");
                     } else
@@ -786,28 +772,26 @@ public class ClientActionController {
                     valid = true;
 
                 } else if (input.equalsIgnoreCase("d")) {
-                    System.out.println("d");
                     cli.printToConsole("Select the leader you want to discard [1/2]");
                     idx = Integer.parseInt(cli.readFromInput());
                     if ((idx == 1 || idx == 2)&&idx<=mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().size()) {
-                     //   System.out.println("send");
+                        //   System.out.println("send");
                         serverConnection.send(new PlayLeaderMessage(ID, idx, false, this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1)));
+                        return true;
                     } else{
                         cli.printToConsole("Invalid input");
                         if(idx>mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().size())
-                            chooseAction();
+                            return false;
                     }
                     valid = true;
                 } else if (input.equalsIgnoreCase("x")) {
-                    System.out.println("x");
                     valid = true;
                 } else cli.printToConsole("Invalid input! Retry!");
             }
-
-
+            return false;
         }
         else
-            this.chooseAction();
+            return false;
     }
 
 
@@ -925,12 +909,14 @@ public class ClientActionController {
                 if (this.mmv.getGame().getPlayerById(ID).getStartResCount() > 0) chooseInitialResources();
             }
         }
-        else if(message.getObjectID()==6) //LEADER
-            this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setActiveLeader((LeaderDeck)message.getObject());
-        else if(message.getObjectID() == 7){
+        else if(message.getObjectID()==6) { //LEADER
+            this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setActiveLeader((LeaderDeck) message.getObject());
+        }
+            else if(message.getObjectID() == 7){
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setLeaderChosen((ExtraProdLCard) message.getObject());
         }
         else if(message.getObjectID()==8){ //leaderDeck
+
             this.mmv.getGame().getPlayerById(message.getID()).setLeaderDeck((LeaderDeck) message.getObject());
         }
         else if (message.getObjectID()==10)  {

@@ -5,7 +5,8 @@ public enum ErrorList {
     NOT_ENOUGH_RES ("You do not have enough resources!"),
     NO_SLOTS ("No places available"),
     ZERO_CARDS("No Leaders to discard"),
-    TWO_LEADERS("You already have 2 active Leaders");
+    TWO_LEADERS("You already have 2 active Leaders"),
+    NO_REQUIREMENTS("Can't activate this card");
 
 
 

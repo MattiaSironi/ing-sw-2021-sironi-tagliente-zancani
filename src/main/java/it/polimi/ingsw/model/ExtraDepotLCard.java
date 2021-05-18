@@ -27,6 +27,21 @@ public class ExtraDepotLCard extends LeaderCard implements Printable, Serializab
         return resDepot;
     }
 
+    @Override
+    public boolean equals(LeaderCard lc) {
+        if(!(lc instanceof ExtraDepotLCard))
+            return false;
+        else{
+            ExtraDepotLCard c = (ExtraDepotLCard)lc;
+            if(!(this.getResDepot()==c.getResDepot()&&
+                    this.getResType()==c.getResType()))
+                return false;
+            else
+                return true;
+        }
+    }
+
+
 
     @Override
     public void print() {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Lea Zancani
  */
 
-public class Player implements Serializable {
+public class Player implements Serializable, Cloneable{
     private boolean ready = false;
     private int startResCount;
     private int id;
@@ -62,8 +62,36 @@ public class Player implements Serializable {
         this.personalBoard = personalBoard;
     }
 
+    public Player(boolean ready, int startResCount, int id, String nickname, boolean inkwell,
+                  LeaderDeck leaderDeck, int victoryPoints, ResourceType resDiscount1, ResourceType resDiscount2,
+                  ResourceType whiteConversion1, int actionPhase, ResourceType whiteConversion2,
+                  ResourceType inputExtraProduction1, ResourceType inputExtraProduction2, boolean vaticanSection,
+                  PersonalBoard personalBoard) {
+        this.ready = ready;
+        this.startResCount = startResCount;
+        this.id = id;
+        this.nickname = nickname;
+        this.inkwell = inkwell;
+        this.leaderDeck = leaderDeck;
+        this.victoryPoints = victoryPoints;
+        this.resDiscount1 = resDiscount1;
+        this.resDiscount2 = resDiscount2;
+        this.whiteConversion1 = whiteConversion1;
+        this.actionPhase = actionPhase;
+        this.whiteConversion2 = whiteConversion2;
+        this.inputExtraProduction1 = inputExtraProduction1;
+        this.inputExtraProduction2 = inputExtraProduction2;
+        this.vaticanSection = vaticanSection;
+        this.personalBoard = personalBoard;
+    }
 
 
+    public Player clone(){
+        Player p = new Player(this.ready,this.startResCount,this.id,this.nickname,this.inkwell,
+                this.leaderDeck,this.victoryPoints, this.resDiscount1,this.resDiscount2,this.whiteConversion1,this.actionPhase,
+                this.whiteConversion2,this.inputExtraProduction1,this.inputExtraProduction2,this.vaticanSection,this.personalBoard);
+        return p;
+    }
 
     public void setId(int id) {
         this.id = id;

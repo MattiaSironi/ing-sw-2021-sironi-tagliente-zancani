@@ -36,6 +36,24 @@ public class WhiteTrayLCard extends LeaderCard implements Printable, Serializabl
 
 
     @Override
+    public boolean equals(LeaderCard lc) {
+        if(!(lc instanceof WhiteTrayLCard))
+            return false;
+        else{
+            WhiteTrayLCard c = (WhiteTrayLCard)lc;
+            if(!(getResType()==c.getResType()&&
+                    getX1Color()==c.getX1Color()&&
+                    getX2Color()==c.getX2Color()
+            ))
+                return false;
+            else
+                return true;
+        }
+    }
+
+
+
+    @Override
     public void print() {
         System.out.println("Leader Card details" +
                 "\n - Type : White Marble Card "+

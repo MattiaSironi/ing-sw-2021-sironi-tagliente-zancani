@@ -38,32 +38,34 @@ public class Controller implements Observer<Message> {
             if (game.getPlayers().size() == game.getNumPlayer()) {
 
                 /* testing */
-//                game.getPlayerById(0).setWhiteConversion1(ResourceType.SHIELD);
-//                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.COIN, 0));
-//
-//
-//                game.getPlayerById(1).setWhiteConversion1(ResourceType.COIN);
-//                game.getPlayerById(1).setWhiteConversion2(ResourceType.SERVANT);
-//
-//                LeaderCard l1 = new DiscountLCard(1,3,CardColor.BLUE,CardColor.YELLOW,ResourceType.COIN);
-//                LeaderCard l2 = new ExtraDepotLCard(2,2,ResourceType.SERVANT,ResourceType.SHIELD);
-//                LeaderCard l3 = new ExtraProdLCard(3,3,CardColor.GREEN,ResourceType.STONE);
-//                LeaderCard l4 = new WhiteTrayLCard(4,4,ResourceType.COIN,CardColor.YELLOW,CardColor.BLUE);
-//                ArrayList<LeaderCard> vett = new ArrayList<LeaderCard>();
-//                ArrayList<LeaderCard> act = new ArrayList<LeaderCard>();
-//                act.add(0,l3);
-//               // act.add(1,l4);
-//                vett.add(0,l1);
-//                vett.add(1,l2);
-//                LeaderDeck actDeck = new LeaderDeck(2,1,act);
-//                LeaderDeck deck = new LeaderDeck(2,1,vett);
-//                game.getPlayerById(0).setLeaderDeck(deck);
-//                game.getPlayerById(0).getPersonalBoard().setActiveLeader(actDeck);
+
+                game.getPlayerById(0).setWhiteConversion1(ResourceType.SHIELD);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.COIN, 0));
+
+
+                game.getPlayerById(1).setWhiteConversion1(ResourceType.COIN);
+                game.getPlayerById(1).setWhiteConversion2(ResourceType.SERVANT);
+
+                LeaderCard l1 = new DiscountLCard(1,3,CardColor.BLUE,CardColor.YELLOW,ResourceType.COIN);
+                LeaderCard l2 = new ExtraDepotLCard(2,2,ResourceType.SERVANT,ResourceType.SHIELD);
+                LeaderCard l3 = new ExtraProdLCard(3,3,CardColor.GREEN,ResourceType.STONE);
+                LeaderCard l4 = new WhiteTrayLCard(4,4,ResourceType.COIN,CardColor.YELLOW,CardColor.BLUE);
+                ArrayList<LeaderCard> vett = new ArrayList<LeaderCard>();
+                ArrayList<LeaderCard> act = new ArrayList<LeaderCard>();
+                act.add(0,l3);
+               // act.add(1,l4);
+                vett.add(0,l1);
+                vett.add(1,l2);
+                LeaderDeck actDeck = new LeaderDeck(2,1,act);
+                LeaderDeck deck = new LeaderDeck(2,1,vett);
+                game.getPlayerById(0).setLeaderDeck(deck);
+                game.getPlayerById(0).getPersonalBoard().setActiveLeader(actDeck);
 
 //                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(4, new Shelf(ResourceType.SERVANT, 0));
 //                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.STONE, 0));
-//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().setCards(new ArrayList<>());
-//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(game.getBoard().getLeaderDeck().getCards().get(0));
+                game.getPlayerById(0).getPersonalBoard().getActiveLeader().setCards(new ArrayList<>());
+                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(game.getBoard().getLeaderDeck().getCards().get(0));
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(2).setCount(4); // 4 servant
              //   game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD));
 
 
@@ -513,59 +515,80 @@ public class Controller implements Observer<Message> {
 
 
      public void PlayLeaderCard(int ID, DiscountLCard dc){
-       //  this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(dc);
-         if(this.game.getPlayerById(ID).getResDiscount1()==ResourceType.EMPTY){
-             this.game.getPlayerById(ID).setResDiscount1(dc.getResType());
-         }
-         else if (this.game.getPlayerById(ID).getResDiscount2()==ResourceType.EMPTY){
-             this.game.getPlayerById(ID).setResDiscount2(dc.getResType());
-         }
-         else
-             game.setTurn(ID,ActionPhase.P_LEADER,true,ErrorList.TWO_LEADERS);
-         RemoveLeaderFromDeck(ID,dc);
+        Player p = null;
+        if(game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(dc)) {
+            if (this.game.getPlayerById(ID).getResDiscount1() == null) {
+                game.getPlayerById(ID).setResDiscount1(dc.getResType());
+            } else if (this.game.getPlayerById(ID).getResDiscount2() == null) {
+                this.game.getPlayerById(ID).setResDiscount2(dc.getResType());
+            }
+            else {
+                game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.TWO_LEADERS);
+                return;
+            }
+        }
+         else {
+            game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.NO_REQUIREMENTS);
+            return;
+        }
+             RemoveLeaderFromDeck(ID,dc);
      }
 
      public void PlayLeaderCard (int ID, ExtraDepotLCard sc){
-       //  this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(sc);
-         if(this.game.getPlayerById(ID).getPersonalBoard().getExtraShelfRes1()==ResourceType.EMPTY){
-             this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes1(sc.getResDepot());
-             this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum1(0);
-         }
-         else if (this.game.getPlayerById(ID).getPersonalBoard().getExtraShelfRes2()==ResourceType.EMPTY){
-             this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes2(sc.getResDepot());
-             this.game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum2(0);
-         }
-         else
-             game.setTurn(ID,ActionPhase.P_LEADER,true,ErrorList.TWO_LEADERS);
-         RemoveLeaderFromDeck(ID,sc);
+        if(game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(sc)) {
+            if (this.game.getPlayerById(ID).getPersonalBoard().getExtraShelfRes1() == null) {
+                game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes1(sc.getResDepot());
+                game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum1(0);
+            } else if (this.game.getPlayerById(ID).getPersonalBoard().getExtraShelfRes2() == null) {
+                game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes2(sc.getResDepot());
+                game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum2(0);
+            }else{
+                game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.TWO_LEADERS);
+                return;
+            }
+        }
+         else {
+            game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.NO_REQUIREMENTS);
+            return;
+        }
+             RemoveLeaderFromDeck(ID,sc);
      }
 
     public void PlayLeaderCard(int ID, ExtraProdLCard c){
-     //   this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(c);
-        if(this.game.getPlayerById(ID).getInputExtraProduction1()==ResourceType.EMPTY){
-
-            this.game.getPlayerById(ID).setInputExtraProduction1(c.getInput());
+        if(game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(c)) {
+            if (this.game.getPlayerById(ID).getInputExtraProduction1() == null) {
+                game.getPlayerById(ID).setInputExtraProduction1(c.getInput());
+            } else if (this.game.getPlayerById(ID).getInputExtraProduction2() == null) {
+               game.getPlayerById(ID).setInputExtraProduction2(c.getInput());
+            }else{
+                game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.TWO_LEADERS);
+                return;
+            }
         }
-        else if (this.game.getPlayerById(ID).getInputExtraProduction2()==ResourceType.EMPTY){
-            this.game.getPlayerById(ID).setInputExtraProduction2(c.getInput());
+        else {
+            game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.NO_REQUIREMENTS);
+            return;
         }
-        else
-            game.setTurn(ID,ActionPhase.P_LEADER,true,ErrorList.TWO_LEADERS);
-        RemoveLeaderFromDeck(ID,c);
+            RemoveLeaderFromDeck(ID,c);
     }
 
     public void PlayLeaderCard(int ID, WhiteTrayLCard wc){
-        Player p = this.game.getPlayerById(ID);
-        this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(wc);
-        if(this.game.getPlayerById(ID).getWhiteConversion1()==ResourceType.EMPTY){
-            this.game.getPlayerById(ID).setWhiteConversion1(wc.getResType());
+        if(game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(wc)) {
+            if (this.game.getPlayerById(ID).getWhiteConversion1() == null) {
+                game.getPlayerById(ID).setWhiteConversion1(wc.getResType());
+            } else if (this.game.getPlayerById(ID).getWhiteConversion2() == null) {
+                game.getPlayerById(ID).setWhiteConversion2(wc.getResType());
+            }else{
+                game.setTurn(ID,ActionPhase.P_LEADER,true,ErrorList.TWO_LEADERS);
+                return;
+            }
         }
-        else if(this.game.getPlayerById(ID).getWhiteConversion2()==ResourceType.EMPTY){
-            this.game.getPlayerById(ID).setWhiteConversion2(wc.getResType());
+        else {
+            game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.NO_REQUIREMENTS);
+            return;
         }
-        else
-            game.setTurn(ID,ActionPhase.P_LEADER,true,ErrorList.TWO_LEADERS);
-        RemoveLeaderFromDeck(ID,wc);
+
+            RemoveLeaderFromDeck(ID,wc);
 
     }
 
@@ -575,52 +598,20 @@ public class Controller implements Observer<Message> {
        this.game.setNewPlayerCards(ID,lc);
 //        game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getLeaderDeck(), 2, ID)); //invio leader della mano
 //        game.sendObject(new ObjectMessage(this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader(),6,ID));
-        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION,false,null);
+       //game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION,false,null);
     }
 
-    public boolean checkRequirements(int ID,LeaderCard lc){
-        boolean ok = false;
-        boolean found = false;
-        int j;
-        DevDeck dd;
-        switch (lc.getType()){
-            case 1-> {
-                    DiscountLCard dc = (DiscountLCard)lc;
-                    if(searchColor(dc.getColor1(),ID)&&searchColor(dc.getColor2(),ID))
-                        return true;
-            }
-            case 2->{
-
-            }
-
-        }
-
-        return ok;
-    }
-
-    public boolean searchColor(CardColor cc, int ID){
-       boolean found = false;
-       DevDeck dd;
-        for(int i = 0;i<4 && found == false;i++){
-            int j=0;
-            dd = game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(i);
-            while(cc!=dd.getCards().get(j).getColor()){
-                j++;
-            }
-            if(j<dd.getCards().size())
-                found = true;
-        }
-        return found;
-    }
 
 
 
      public void DiscardLeaderCard(int ID,LeaderCard lc){
          int i = 0;
          LeaderDeck newLD;
-         while(!(this.game.getPlayerById(ID).getLeaderDeck().getCards().get(i).same(lc)) )
-         {i++;}
-         if (this.game.getPlayerById(ID).getLeaderDeck().getCards().size()>0) //se trovo la carta leader nel mazzo
+         boolean found  = false;
+         while(!(lc.equals(this.game.getPlayerById(ID).getLeaderDeck().getCards().get(i)))) {
+            i++;
+         }
+         if (this.game.getPlayerById(ID).getLeaderDeck().getCards().size()>0)
          {
              newLD = new LeaderDeck((this.game.getPlayerById(ID).getLeaderDeck().getSize())-1,1,this.game.getPlayerById(ID).getLeaderDeck().getCards());
              newLD.getCards().remove(i);
@@ -651,6 +642,10 @@ public class Controller implements Observer<Message> {
 //            else game.sendSingleResource(null, shelfIndex, ID, s);
 //
 //    }
+
+
+
+
 
     public synchronized boolean checkReadyPlayers(){
         return game.getPlayers().stream().filter(x -> x.isReady()).count() == game.getNumPlayer();

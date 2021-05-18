@@ -66,7 +66,6 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
     public void sendNotify(BuyDevCardMessage message){ notify(message); }
 
     public void sendNotify(PlayLeaderMessage message) {
-        System.out.println("faccio la notify");
         notify((PlayLeaderMessage)message);
     }
     public void sendNotify(ProductionMessage message){
@@ -180,8 +179,13 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
             this.game.getPlayerById(message.getID()).getPersonalBoard().setStrongbox((Strongbox)message.getObject());
         else if(message.getObjectID()==5)
             this.game.getPlayerById(message.getID()).getPersonalBoard().setCardSlot((ArrayList<DevDeck>)message.getObject());
-        else if(message.getObjectID()==6)
-            this.game.getPlayerById(message.getID()).getPersonalBoard().setActiveLeader((LeaderDeck)message.getObject());
+        else if(message.getObjectID()==6) {
+            this.game.getPlayerById(message.getID()).getPersonalBoard().setActiveLeader((LeaderDeck) message.getObject());
+        }
+        else if(message.getObjectID()==8) {
+            this.game.getPlayerById(message.getID()).setLeaderDeck((LeaderDeck) message.getObject());
+        }
+
     }
 
     @Override

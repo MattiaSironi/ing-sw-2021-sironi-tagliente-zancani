@@ -34,6 +34,21 @@ public class DiscountLCard extends LeaderCard implements Printable, Serializable
     }
 
     @Override
+    public boolean equals(LeaderCard lc) {
+        if (!(lc instanceof DiscountLCard))
+            return false;
+        else {
+            DiscountLCard other = (DiscountLCard) lc;
+            if (!(getColor1() == other.getColor1() &&
+                    getColor2() == other.getColor2() &&
+                    getResType() == other.getResType()))
+                return false;
+            else
+                return true;
+        }
+    }
+
+    @Override
     public void print() {
         System.out.println("Leader Card details" +
                 "\n - Type : Discount Card "+

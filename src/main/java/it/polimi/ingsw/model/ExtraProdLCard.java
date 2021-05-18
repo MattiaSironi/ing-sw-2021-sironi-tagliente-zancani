@@ -29,6 +29,21 @@ public class ExtraProdLCard extends LeaderCard implements Printable, Serializabl
     }
 
     @Override
+    public boolean equals(LeaderCard lc) {
+        if(!(lc instanceof ExtraProdLCard))
+            return false;
+        else{
+            ExtraProdLCard nc = (ExtraProdLCard)lc;
+            if(!(getInput()==nc.getInput()&& getColor()==nc.getColor()))
+                return false;
+            else
+                return true;
+
+        }
+    }
+
+
+    @Override
     public void print() {
         System.out.println("Leader Card details" +
                 "\n - Type : Extra production Card "+
