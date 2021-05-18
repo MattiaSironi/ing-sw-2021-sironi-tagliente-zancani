@@ -90,6 +90,7 @@ public class Controller implements Observer<Message> {
             switch (game.getPlayers().indexOf(p)) {
                 case 0: {
                     p.setReady(true);
+                    game.setCommunication(p.getId(), CommunicationList.FIRST);
                     if (checkReadyPlayers()) {
                         game.setTurn(game.getPlayers().get(0).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
                     }
@@ -97,11 +98,13 @@ public class Controller implements Observer<Message> {
                     break;
                 }
                 case 1: {
+                    game.setCommunication(p.getId(), CommunicationList.SECOND);
 
                     game.setStartResCountByID(p.getId(), 1);
                     break;
                 }
                 case 2: {
+                    game.setCommunication(p.getId(), CommunicationList.THIRD);
                     game.setStartResCountByID(p.getId(), 1);
 
                     game.moveFaithPosByID(p.getId(), 1);
@@ -109,6 +112,7 @@ public class Controller implements Observer<Message> {
                     break;
                 }
                 case 3: {
+                    game.setCommunication(p.getId(), CommunicationList.FOURTH);
                     game.setStartResCountByID(p.getId(), 2);
                     game.moveFaithPosByID(p.getId(), 1);
                     break;

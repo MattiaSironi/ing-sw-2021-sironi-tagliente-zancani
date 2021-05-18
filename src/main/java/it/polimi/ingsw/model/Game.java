@@ -33,6 +33,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
     private boolean thirdvatican = false;
     private boolean gameOver;
     private Turn turn;
+    private Communication communication;
 
     public boolean isGameOver() {
         return gameOver;
@@ -78,10 +79,19 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         this.thirdvatican = thirdvatican;
     }
 
+    public Communication getCommunication() {
+        return communication;
+    }
+
+    public void setCommunication(Communication communication) {
+        this.communication = communication;
+    }
+
     public Game() {
         players = new ArrayList<>();
         board = new Board();
         turn = new Turn();
+        communication = new Communication();
     }
 
 
@@ -191,6 +201,8 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         notify(new ObjectMessage(getBoard().getMarket(), 1, -1));
     }
 
+
+
     public void setTurn(int ID, ActionPhase phase, boolean error, ErrorList errorType){
         getTurn().setPlayerPlayingID(ID);
         getTurn().setPhase(phase);
@@ -199,6 +211,12 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         System.out.println("is playing " + turn.getPlayerPlayingID() + " phase: " + turn.getPhase());
         notify(new ObjectMessage(getTurn(), 10, -1));
 
+    }
+
+    public void setCommunication(int ID, CommunicationList cl)  {
+        getCommunication().setAddresseeID(ID);
+        getCommunication().setCommunication(cl);
+        notify(new ObjectMessage(getCommunication(), 9, -1));
     }
 
     public void moveFaithPosByID(int ID, int faith){

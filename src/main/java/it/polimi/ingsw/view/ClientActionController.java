@@ -929,6 +929,10 @@ public class ClientActionController {
 
             this.mmv.getGame().getPlayerById(message.getID()).setLeaderDeck((LeaderDeck) message.getObject());
         }
+        else if(message.getObjectID() == 9) { //Communication
+            this.mmv.getGame().setCommunication((Communication) message.getObject());
+            handleCommunication(mmv.getGame().getCommunication());
+        }
         else if (message.getObjectID()==10)  {
             this.mmv.getGame().setTurn((Turn) message.getObject());
             handleTurn((mmv.getGame().getTurn()));
@@ -943,6 +947,11 @@ public class ClientActionController {
         }
         else if(message.getObjectID() == 12)
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setFaithTrack((FaithTrack) message.getObject());
+    }
+
+    private void handleCommunication(Communication communication) {
+
+        if (communication.getAddresseeID() == ID) cli.printToConsole(communication.getCommunication().getString());
     }
 
     public void handleTurn(Turn turn) {
