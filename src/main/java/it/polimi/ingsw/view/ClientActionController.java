@@ -125,7 +125,7 @@ public class ClientActionController {
                         } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
                     }
                     case SM -> mmv.printMarket();
-                    case SF -> mmv.printFaithTrack(ID); //TODO others
+                    case SF -> printFaithTrack();
                     case SD -> this.mmv.printDevMatrix();
                     case SP -> printProd();
                     case SL -> {
@@ -148,6 +148,8 @@ public class ClientActionController {
                 cli.printToConsole("Invalid input");
         }
     }
+
+
 
     private void activateProd() {
         boolean stop = false;
@@ -177,16 +179,25 @@ public class ClientActionController {
 
     private void printShelves() {
 
-        int tempID=10;
-        cli.printToConsole("Choose the ID of the player whom resources you want to see : ");
+        int chosenID = chooseID();
+        mmv.printShelves(chosenID);
+        mmv.printStrongbox(chosenID);
+    }
+    private void printFaithTrack() {
+        int chosenID = chooseID();
+        mmv.printFaithTrack(chosenID);
+    }
+
+    public int chooseID()  {
+        int tempID=-1;
+        cli.printToConsole("Choose the ID: ");
         boolean valid = false;
         while (!valid) {
             tempID = Integer.parseInt(cli.readFromInput());
             if (mmv.getGame().getPlayerById(tempID) == null) cli.printToConsole("there is no player with this ID associated. try another ID");
             else valid=true;
         }
-        mmv.printShelves(tempID);
-        mmv.printStrongbox(tempID);
+        return tempID;
     }
 
     private void goToMarket() {
