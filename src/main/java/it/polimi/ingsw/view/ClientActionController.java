@@ -103,9 +103,9 @@ public class ClientActionController {
                 switch (selectedAction) {
                     case M -> {
                         if (Actions.M.isEnable()) {
-                            noMoreActions();
-                            goToMarket();
-                            actionEnded = true;
+
+                            actionEnded = goToMarket();
+                            if (actionEnded) noMoreActions();
 
                             // do things
                         } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
@@ -206,7 +206,7 @@ public class ClientActionController {
         return tempID;
     }
 
-    private void goToMarket() {
+    private boolean goToMarket() {
         mmv.printMarket();
         int index = 0;
 
@@ -216,9 +216,10 @@ public class ClientActionController {
         String inputcleaned;
         while (!valid) {
             cli.printToConsole("Choose the row or column you prefer. you can choose between r1, r2, r3 and " +
-                    " c1,c2,c3,c4");
+                    " c1,c2,c3,c4. Type 'q' if you want to quit");
             input = cli.readFromInput();
             inputcleaned= input.replaceAll("[0-9]", " ");
+            if (inputcleaned.equals("q")) return false;
             if (inputcleaned.equals("r ") || inputcleaned.equals("c ")) {
                 row = input.charAt(0) == 'r';
                 index = Integer.parseInt(input.replaceAll("[^0-9]", ""));
@@ -227,7 +228,8 @@ public class ClientActionController {
                 } else cli.printToConsole("Invalid int, you selected " + index);
                 } else cli.printToConsole("Invalid command");
             }
-            serverConnection.send(new MarketMessage(row, index-1, ID)); // socket
+            serverConnection.send(new MarketMessage(row, index-1, ID));
+            return true;// socket
 //        this.mmv.sendNotify(new MarketMessage(row, index-1, ID)); //local
 //        ResourceListMessage resourceList= (ResourceListMessage) serverConnection.receive(); //socket  TODO
 //        for (Marble m : resourceList.getMarbles() )  {
@@ -706,14 +708,22 @@ public class ClientActionController {
     }
 
     private void manageResources() {
+        mmv.printShelves(ID);
+        String input;
         int s1 = 0;
         int s2 = 0;
         boolean valid = false;
         while (!valid) {
             cli.printToConsole("Select the first shelf:");
-            s1 = Integer.parseInt(cli.readFromInput());
+            input = cli.readFromInput().replaceAll("[^0-9]", "");
+            if (input.equals("")) s1 = -1;
+            else s1=Integer.parseInt(input);
+
             cli.printToConsole("Select the second shelf:");
-            s2 = Integer.parseInt(cli.readFromInput());
+            input = cli.readFromInput().replaceAll("[^0-9]", "");
+            if (input.equals("")) s2 = -1;
+            else s2=Integer.parseInt(input);
+
             if (s1 != s2 && s1 >= 1 && s1 <= 5 && s2 >= 1 && s2 <= 5) {
                 valid = true;
             } else cli.printToConsole("Invalid input! Retry!");
