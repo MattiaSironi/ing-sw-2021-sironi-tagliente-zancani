@@ -933,9 +933,13 @@ public class ClientActionController {
     }
 
     public void handleTurn(Turn turn) {
+        if (turn.getPhase() == ActionPhase.GAME_OVER)  {
+            if (turn.getPlayerPlayingID()==ID) cli.printToConsole("you win!");
+            else cli.printToConsole("you lose!");
+        }
 
 
-         if (mmv.getGame().getTurn().getPlayerPlayingID() == ID) {
+         if (turn.getPlayerPlayingID() == ID) {
             if (turn.isError()) {
                 cli.printToConsole(turn.getErrorType().getString());
             }

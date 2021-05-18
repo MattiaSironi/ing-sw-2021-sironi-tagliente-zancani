@@ -246,6 +246,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
             else if (maxP ==24 && !thirdvatican)  {
                 checkEveryPlayerPos(24, 2);
                 setThirdvatican(true);
+                setGameOver(true);
                 notify(new ObjectMessage(true, 11, 2));
                 // END OF GAME(?)
             }
@@ -295,7 +296,10 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
                 position=-1;
 
             }
-            // else GAMEOVER
+            else {
+                setTurn(findWinner().getId(), ActionPhase.GAME_OVER, false, null );
+                return;
+            }
         }
         setTurn(players.get(position+1).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
     }

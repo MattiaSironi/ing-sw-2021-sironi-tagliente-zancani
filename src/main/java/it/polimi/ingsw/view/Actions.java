@@ -11,8 +11,8 @@ public enum Actions {
     SP ("Show Productions", true),
     SL ("Show Leader Cards", true),
     SR ("Show Resources", true),
-    MR ("Manage your Resources", true),
-    NV ("Invalid input", true);
+    MR ("Manage your Resources", true);
+
 
 
     private final String string;
