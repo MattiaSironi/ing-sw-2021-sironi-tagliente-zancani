@@ -65,11 +65,14 @@ public class ClientActionController {
 
 
     public void setNumberOfPlayers() {
+        String input;
         int numPlayers;
         Boolean valid = false;
         do {
             cli.printToConsole("Choose number of players:");
-            numPlayers = Integer.parseInt(cli.readFromInput());
+            input = cli.readFromInput().replaceAll("[^0-9]", "");
+            if (input.equals("")) numPlayers= -1;
+            else numPlayers = Integer.parseInt(input);
             if (numPlayers > 1 && numPlayers <= 4) {
                 valid = true;
                 cli.printToConsole("Number of players set to " + numPlayers);
@@ -188,14 +191,17 @@ public class ClientActionController {
         mmv.printFaithTrack(chosenID);
     }
 
-    public int chooseID()  {
-        int tempID=-1;
+    public int chooseID() {
+        String input;
+        int tempID = -1;
         cli.printToConsole("Choose the ID: ");
         boolean valid = false;
         while (!valid) {
-            tempID = Integer.parseInt(cli.readFromInput());
-            if (mmv.getGame().getPlayerById(tempID) == null) cli.printToConsole("there is no player with this ID associated. try another ID");
-            else valid=true;
+            input = cli.readFromInput().replaceAll("[^0-9]", "");
+            if (!input.equals("")) tempID = Integer.parseInt(input);
+            if (mmv.getGame().getPlayerById(tempID) == null)
+                cli.printToConsole("there is no player with this ID associated. try another ID");
+            else valid = true;
         }
         return tempID;
     }
