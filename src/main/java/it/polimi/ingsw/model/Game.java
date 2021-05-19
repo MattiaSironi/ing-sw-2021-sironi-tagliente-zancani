@@ -382,7 +382,19 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         getPlayerById(id).setStartResCount(i);
         notify(new ObjectMessage(i, 5, id));
     }
+    public void setLeaderCardsToDiscard(int id, int i) {
+        getPlayerById(id).setLeaderCardsToDiscard(i);
+        notify(new ObjectMessage(i, 13, id));
+        if (getPlayerById(id).getLeaderCardsToDiscard() == 0) {
+            getPlayerById(id).setReady(true);
+            if (checkReadyPlayers())  setTurn(getPlayers().get(0).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
+        }
+    }
 
+
+    public synchronized boolean checkReadyPlayers(){
+        return getPlayers().stream().filter(x -> x.isReady()).count() == getNumPlayer();
+    }
     public void setChosenLeader(LeaderCard leader, int ID){
         getPlayerById(ID).getPersonalBoard().setLeaderChosen((ExtraProdLCard) leader);
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getLeaderChosen(), 7, ID));
@@ -415,6 +427,20 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
        // System.out.println("nuovo mazzo modificato");
        // this.getPlayerById(ID).getLeaderDeck().print();
         notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck(), 8, ID)));
-        moveFaithPosByID(ID,1);
+      //  moveFaithPosByID(ID,1);
+    }
+
+    public  synchronized void  giveLeaderCards() {
+        for (Player p : players)  {
+            p.getLeaderDeck().getCards().add(getBoard().getLeaderDeck().getCards().get(0));
+            p.getLeaderDeck().getCards().add(getBoard().getLeaderDeck().getCards().get(1));
+            p.getLeaderDeck().getCards().add(getBoard().getLeaderDeck().getCards().get(2));
+            p.getLeaderDeck().getCards().add(getBoard().getLeaderDeck().getCards().get(3));
+            getBoard().getLeaderDeck().getCards().remove(0);
+            getBoard().getLeaderDeck().getCards().remove(0);
+            getBoard().getLeaderDeck().getCards().remove(0);
+            getBoard().getLeaderDeck().getCards().remove(0);
+        }
+
     }
 }

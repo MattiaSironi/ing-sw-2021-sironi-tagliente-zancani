@@ -35,38 +35,41 @@ public class Controller implements Observer<Message> {
         } else {
             game.reportError(new Nickname(nickname.getString(), nickname.getID(), true));
             game.getPlayers().add(new Player(nickname.getID(), nickname.getString()));
+
             if (game.getPlayers().size() == game.getNumPlayer()) {
 
                 /* testing */
 
-                game.getPlayerById(0).setWhiteConversion1(ResourceType.SHIELD);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.COIN, 0));
+                game.giveLeaderCards();
 
-
-                game.getPlayerById(1).setWhiteConversion1(ResourceType.COIN);
-                game.getPlayerById(1).setWhiteConversion2(ResourceType.SERVANT);
-
-                LeaderCard l1 = new DiscountLCard(1,3,CardColor.BLUE,CardColor.YELLOW,ResourceType.COIN);
-                LeaderCard l2 = new ExtraDepotLCard(2,2,ResourceType.SERVANT,ResourceType.SHIELD);
-                LeaderCard l3 = new ExtraProdLCard(3,3,CardColor.GREEN,ResourceType.STONE);
-                LeaderCard l4 = new WhiteTrayLCard(4,4,ResourceType.COIN,CardColor.YELLOW,CardColor.BLUE);
-                ArrayList<LeaderCard> vett = new ArrayList<LeaderCard>();
-                ArrayList<LeaderCard> act = new ArrayList<LeaderCard>();
-                act.add(0,l3);
-               // act.add(1,l4);
-                vett.add(0,l1);
-                vett.add(1,l2);
-                LeaderDeck actDeck = new LeaderDeck(2,1,act);
-                LeaderDeck deck = new LeaderDeck(2,1,vett);
-                game.getPlayerById(0).setLeaderDeck(deck);
-                game.getPlayerById(0).getPersonalBoard().setActiveLeader(actDeck);
-
-//                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(4, new Shelf(ResourceType.SERVANT, 0));
-//                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.STONE, 0));
-                game.getPlayerById(0).getPersonalBoard().getActiveLeader().setCards(new ArrayList<>());
-                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(game.getBoard().getLeaderDeck().getCards().get(0));
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(2).setCount(4); // 4 servant
-             //   game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD));
+//                game.getPlayerById(0).setWhiteConversion1(ResourceType.SHIELD);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.COIN, 0));
+//
+//
+//                game.getPlayerById(1).setWhiteConversion1(ResourceType.COIN);
+//                game.getPlayerById(1).setWhiteConversion2(ResourceType.SERVANT);
+//
+//                LeaderCard l1 = new DiscountLCard(1,3,CardColor.BLUE,CardColor.YELLOW,ResourceType.COIN);
+//                LeaderCard l2 = new ExtraDepotLCard(2,2,ResourceType.SERVANT,ResourceType.SHIELD);
+//                LeaderCard l3 = new ExtraProdLCard(3,3,CardColor.GREEN,ResourceType.STONE);
+//                LeaderCard l4 = new WhiteTrayLCard(4,4,ResourceType.COIN,CardColor.YELLOW,CardColor.BLUE);
+//                ArrayList<LeaderCard> vett = new ArrayList<LeaderCard>();
+//                ArrayList<LeaderCard> act = new ArrayList<LeaderCard>();
+//                act.add(0,l3);
+//               // act.add(1,l4);
+//                vett.add(0,l1);
+//                vett.add(1,l2);
+//                LeaderDeck actDeck = new LeaderDeck(2,1,act);
+//                LeaderDeck deck = new LeaderDeck(2,1,vett);
+//                game.getPlayerById(0).setLeaderDeck(deck);
+//                game.getPlayerById(0).getPersonalBoard().setActiveLeader(actDeck);
+//
+////                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(4, new Shelf(ResourceType.SERVANT, 0));
+////                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.STONE, 0));
+//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().setCards(new ArrayList<>());
+//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(game.getBoard().getLeaderDeck().getCards().get(0));
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(2).setCount(4); // 4 servant
+//             //   game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD));
 
 
 
@@ -87,13 +90,14 @@ public class Controller implements Observer<Message> {
         game.sendGame();
 
         for (Player p : game.getPlayers()) {
+
+
             switch (game.getPlayers().indexOf(p)) {
                 case 0: {
-                    p.setReady(true);
+
                     game.setCommunication(p.getId(), CommunicationList.FIRST);
-                    if (checkReadyPlayers()) {
-                        game.setTurn(game.getPlayers().get(0).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
-                    }
+                    game.setLeaderCardsToDiscard(p.getId(), 2);
+
 
                     break;
                 }
@@ -105,16 +109,18 @@ public class Controller implements Observer<Message> {
                 }
                 case 2: {
                     game.setCommunication(p.getId(), CommunicationList.THIRD);
+                    game.moveFaithPosByID(p.getId(), 1);
                     game.setStartResCountByID(p.getId(), 1);
 
-                    game.moveFaithPosByID(p.getId(), 1);
+
 
                     break;
                 }
                 case 3: {
                     game.setCommunication(p.getId(), CommunicationList.FOURTH);
-                    game.setStartResCountByID(p.getId(), 2);
                     game.moveFaithPosByID(p.getId(), 1);
+                    game.setStartResCountByID(p.getId(), 2);
+
                     break;
                 }
             }
@@ -176,16 +182,7 @@ public class Controller implements Observer<Message> {
             int resRemaining = game.getPlayerById(ID).getStartResCount();
             if (this.game.addResourceToWarehouse(ID, shelfIndex, r)) resRemaining--;
             game.setStartResCountByID(ID, resRemaining);
-            if (resRemaining == 0) {
-                this.game.getPlayerById(ID).setReady(true);
-                if (checkReadyPlayers()) {
-                    game.setTurn(game.getPlayers().get(0).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
-                }
-
-
-            }
-
-
+            if (resRemaining == 0)  this.game.setLeaderCardsToDiscard(ID, 2);
         } else {
             if (discard) {
                 discardRes(ID);
@@ -615,21 +612,25 @@ public class Controller implements Observer<Message> {
 
 
 
-     public void DiscardLeaderCard(int ID,LeaderCard lc){
+     public void DiscardLeaderCard(int ID, LeaderCard lc, boolean initialPhase){
          int i = 0;
          LeaderDeck newLD;
          boolean found  = false;
          while(!(lc.equals(this.game.getPlayerById(ID).getLeaderDeck().getCards().get(i)))) {
             i++;
          }
-         if (this.game.getPlayerById(ID).getLeaderDeck().getCards().size()>0)
-         {
-             newLD = new LeaderDeck((this.game.getPlayerById(ID).getLeaderDeck().getSize())-1,1,this.game.getPlayerById(ID).getLeaderDeck().getCards());
+         if (this.game.getPlayerById(ID).getLeaderDeck().getCards().size()>0) {
+             newLD = new LeaderDeck((this.game.getPlayerById(ID).getLeaderDeck().getSize()) - 1, 1, this.game.getPlayerById(ID).getLeaderDeck().getCards());
              newLD.getCards().remove(i);
-             game.discard(ID,newLD);
-            // this.game.getPlayerById(ID).setLeaderDeck(newLD);
-             game.moveFaithPosByID(ID,1);
-             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION,false,null);
+             game.discard(ID, newLD);
+             // this.game.getPlayerById(ID).setLeaderDeck(newLD);
+
+             if (initialPhase) {
+                 game.setLeaderCardsToDiscard(ID, game.getPlayerById(ID).getLeaderCardsToDiscard()-1);
+             } else {
+                 game.moveFaithPosByID(ID, 1);
+                 game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
+             }
          }
          else
              game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.D_LEADER,true,ErrorList.ZERO_CARDS);
@@ -658,9 +659,7 @@ public class Controller implements Observer<Message> {
 
 
 
-    public synchronized boolean checkReadyPlayers(){
-        return game.getPlayers().stream().filter(x -> x.isReady()).count() == game.getNumPlayer();
-    }
+
 
 
      public ResourceType FromIntToRes (int i){
@@ -788,7 +787,8 @@ public class Controller implements Observer<Message> {
                 }
             }
             else {
-                DiscardLeaderCard(message.getID(), message.getLc());
+
+                DiscardLeaderCard(message.getID(), message.getLc(), message.isInitialPhase());
             }
     }
 

@@ -761,7 +761,7 @@ public class ClientActionController {
                         idx = Integer.parseInt(cli.readFromInput());
                         if (idx == 1 || idx == 2) {
                             //   System.out.println("send");
-                            serverConnection.send(new PlayLeaderMessage(ID, idx, true, mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1)));
+                            serverConnection.send(new PlayLeaderMessage(ID, idx, true, mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1), false));
                             return true;
                         } else
                             cli.printToConsole("Invalid input");
@@ -774,7 +774,7 @@ public class ClientActionController {
                     idx = Integer.parseInt(cli.readFromInput());
                     if ((idx == 1 || idx == 2)&&idx<=mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().size()) {
                         //   System.out.println("send");
-                        serverConnection.send(new PlayLeaderMessage(ID, idx, false, this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1)));
+                        serverConnection.send(new PlayLeaderMessage(ID, idx, false, this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1), false));
                         return true;
                     } else{
                         cli.printToConsole("Invalid input");
@@ -790,6 +790,28 @@ public class ClientActionController {
         }
         else
             return false;
+    }
+    private void discardLead(int remaining) {
+
+        mmv.getGame().getPlayerById(ID).getLeaderDeck().print();
+        cli.printToConsole(" REMAINING CARD(S) TO DISCARD :  " + remaining);
+        boolean valid = false;
+        String input;
+        int idx = 0;
+        while (!valid)  {
+            cli.printToConsole("select one card to discard by typing its index : ");
+            input = cli.readFromInput().replaceAll("[^0-9]", "");
+            if (input.equals("")) idx = -1;
+            else idx= Integer.parseInt(input);
+            if (idx > 0 && idx<= mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().size()) valid = true;
+            else cli.printToConsole("Invalid value!");
+
+
+        }
+
+        serverConnection.send(new PlayLeaderMessage(ID,idx ,false, this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx-1), true ));
+
+
     }
 
 
@@ -935,7 +957,13 @@ public class ClientActionController {
         }
         else if(message.getObjectID() == 12)
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setFaithTrack((FaithTrack) message.getObject());
+        else if (message.getObjectID() == 13)  {
+            this.mmv.getGame().getPlayerById(message.getID()).setLeaderCardsToDiscard((int) message.getObject());
+            if (message.getID()== ID &&  this.mmv.getGame().getPlayerById(message.getID()).getLeaderCardsToDiscard()>0) discardLead(this.mmv.getGame().getPlayerById(message.getID()).getLeaderCardsToDiscard());
+        }
     }
+
+
 
     private void handleCommunication(Communication communication) {
 

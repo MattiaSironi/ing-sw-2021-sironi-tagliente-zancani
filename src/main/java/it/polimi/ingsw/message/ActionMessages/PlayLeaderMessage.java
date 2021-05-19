@@ -8,12 +8,14 @@ public class PlayLeaderMessage extends Message {
     int idx;
     boolean action; //true = play, false = discard
     LeaderCard lc;
+    private boolean initialPhase;
 
-    public PlayLeaderMessage(int ID, int idx, boolean b, LeaderCard lc) {
+    public PlayLeaderMessage(int ID, int idx, boolean b, LeaderCard lc, boolean initialPhase) {
         this.ID = ID;
         this.idx = idx;
         this.action = b;
         this.lc = lc;
+        this.initialPhase = initialPhase;
     }
 
     public int getID() {
@@ -31,4 +33,9 @@ public class PlayLeaderMessage extends Message {
     public LeaderCard getLc() {
         return lc;
     }
+
+    public boolean isInitialPhase() {
+        return initialPhase;
+    }
+
 }

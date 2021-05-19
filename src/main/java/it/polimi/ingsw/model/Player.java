@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class Player implements Serializable, Cloneable{
     private boolean ready = false;
     private int startResCount;
+    private int leaderCardsToDiscard;
     private int id;
     private String nickname;
     private boolean inkwell;
@@ -27,7 +28,13 @@ public class Player implements Serializable, Cloneable{
     private boolean vaticanSection;
     private PersonalBoard personalBoard;
 
+    public int getLeaderCardsToDiscard() {
+        return leaderCardsToDiscard;
+    }
 
+    public void setLeaderCardsToDiscard(int leaderCardsToDiscard) {
+        this.leaderCardsToDiscard = leaderCardsToDiscard;
+    }
 
     public void setInkwell(boolean inkwell) {
         this.inkwell = inkwell;
