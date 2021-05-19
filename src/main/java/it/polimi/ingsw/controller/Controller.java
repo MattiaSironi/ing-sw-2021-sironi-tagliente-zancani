@@ -123,7 +123,8 @@ public class Controller implements Observer<Message> {
     }
 
     public void swapShelves(int s1, int s2, int ID) {
-        if ((s1 == 3 || s1 == 4) && (s2 == 3 || s2 == 4)) {
+
+        if (((s1 == 3 || s1 == 4) && (s2 == 3 || s2 == 4)) || (s1==s2) || (s1<0 ) || (s1>4) || (s2<0) || (s2>4)) {
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, true, ErrorList.INVALID_MOVE);
             return;
         }
@@ -214,7 +215,13 @@ public class Controller implements Observer<Message> {
     }
 
 
+    public Game getGame() {
+        return game;
+    }
 
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
     public void discardRes(int ID) {
 

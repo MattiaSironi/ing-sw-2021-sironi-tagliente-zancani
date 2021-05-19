@@ -77,21 +77,21 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 //        return numPlayers;
 //    }
 
-    private void goToMarket(MarketMessage message) throws IOException, ClassNotFoundException { //  TODO
-        notify(message);
-        boolean done = false;
-        while (!done) {
-            Object obj = clientConnection.receive();
-            if (obj instanceof ErrorMessage) {
-                if (((ErrorMessage) obj).getString().equals("discard")) {
-                    notify((ErrorMessage) obj);
-                } else if (((ErrorMessage) obj).getString().equals("resources finished")) done = true;
-            } else if (obj instanceof PlaceResourceMessage) {
-                notify((PlaceResourceMessage) obj);
-            }
-
-        }
-    }
+//    private void goToMarket(MarketMessage message) throws IOException, ClassNotFoundException { //
+//        notify(message);
+//        boolean done = false;
+//        while (!done) {
+//            Object obj = clientConnection.receive();
+//            if (obj instanceof ErrorMessage) {
+//                if (((ErrorMessage) obj).getString().equals("discard")) {
+//                    notify((ErrorMessage) obj);
+//                } else if (((ErrorMessage) obj).getString().equals("resources finished")) done = true;
+//            } else if (obj instanceof PlaceResourceMessage) {
+//                notify((PlaceResourceMessage) obj);
+//            }
+//
+//        }
+//    }
 
     @Override
     public void update(Message message) {

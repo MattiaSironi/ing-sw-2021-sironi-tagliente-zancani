@@ -209,7 +209,7 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 //                case COIN, STONE, SERVANT, SHIELD: {
 //                    this.cac.getCli().printToConsole("you received a " + m.getRes().printResourceColouredName() + "!");
 //                    this.cac.askForResource(m.getRes());
-//                    this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print(); //local TODO
+//                    this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print(); //local
 //                    break;
 //                }
 //                case FAITH_POINT: {

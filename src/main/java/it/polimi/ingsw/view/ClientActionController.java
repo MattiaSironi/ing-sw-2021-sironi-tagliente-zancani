@@ -228,19 +228,7 @@ public class ClientActionController {
                 } else cli.printToConsole("Invalid command");
             }
             serverConnection.send(new MarketMessage(row, index-1, ID));
-            return true;// socket
-//        this.mmv.sendNotify(new MarketMessage(row, index-1, ID)); //local
-//        ResourceListMessage resourceList= (ResourceListMessage) serverConnection.receive(); //socket  TODO
-//        for (Marble m : resourceList.getMarbles() )  {
-//
-//            switch (m.getRes())  {
-//                case COIN,STONE,SERVANT,SHIELD: askForResource(m.getRes());
-//                case FAITH_POINT: cli.printToConsole("you got a faith point!");
-//                default: //caso EMPTY, vari controlli!
-//            }
-//
-//        }
-//        serverConnection.send(new ErrorMessage("resources finished", this.ID));
+            return true;
         }
 
     public void activateProduction(){
@@ -951,7 +939,7 @@ public class ClientActionController {
 
     private void handleCommunication(Communication communication) {
 
-        if (communication.getAddresseeID() == ID) cli.printToConsole(communication.getCommunication().getString());
+        if (communication.getAddresseeID() == ID || communication.getAddresseeID()== -1) cli.printToConsole(communication.getCommunication().getString());
     }
 
     public void handleTurn(Turn turn) {
@@ -1013,7 +1001,6 @@ public class ClientActionController {
                 break;
             }
             case FAITH_POINT: {
-                cli.printToConsole("you received a " + res.printResourceColouredName() + "!");
                 serverConnection.send(new PlaceResourceMessage(ResourceType.FAITH_POINT, -1, ID, false, false));
                 break;
             }

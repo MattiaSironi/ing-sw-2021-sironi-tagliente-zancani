@@ -174,7 +174,7 @@ public class PersonalBoard implements Serializable {
                 }
             }
         }
-        return (x1c >= 5);
+        return (x1c >= 1);
     }
 
     public void addDevCard(DevCard d, int pos, int ID){
@@ -195,7 +195,7 @@ public class PersonalBoard implements Serializable {
         int sum;
         ResourceType r = lc.getResType();
         sum = this.strongbox.getResCount(r) + this.warehouse.getResCount(r);
-        return (sum >= 1);
+        return (sum >= 5);
     }
 
     /**
