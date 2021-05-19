@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class ShelfWarehouse implements Printable, Serializable {
     private ArrayList<Shelf> shelves;
+    private ResourceType bought;
 
     public ShelfWarehouse() {
         ArrayList<Shelf> s = new ArrayList<Shelf>();
@@ -241,6 +242,14 @@ public class ShelfWarehouse implements Printable, Serializable {
 
     }
 
+    public void payFromFirstExtraShelf(int q){
+        this.shelves.get(4).setCount(this.shelves.get(4).getCount() - 1);
+    }
+
+    public void payFromSecondExtraShelf(int q){
+        this.shelves.get(5).setCount(this.shelves.get(5).getCount() - 1);
+    }
+
     public ArrayList<Shelf> getShelves() {
         return shelves;
     }
@@ -272,5 +281,13 @@ public class ShelfWarehouse implements Printable, Serializable {
 
     public int numberOfResources()  {
         return  this.shelves.stream().mapToInt(x -> x.getCount()).sum();
+    }
+
+    public ResourceType getBought() {
+        return bought;
+    }
+
+    public void setBought(ResourceType bought) {
+        this.bought = bought;
     }
 }

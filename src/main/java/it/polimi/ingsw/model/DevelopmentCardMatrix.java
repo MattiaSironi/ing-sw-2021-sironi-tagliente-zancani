@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DevelopmentCardMatrix implements Serializable {
@@ -8,6 +9,7 @@ public class DevelopmentCardMatrix implements Serializable {
     private List<DevDeck> devDecks;
     private DevCard chosenCard;
     private int chosenIndex;
+    private ArrayList<ResourceType> resToPay;
 
     public DevelopmentCardMatrix(List<DevDeck> devDecks) {
         this.devDecks = devDecks;
@@ -37,9 +39,18 @@ public class DevelopmentCardMatrix implements Serializable {
         this.chosenIndex = chosenIndex;
     }
 
+    public ArrayList<ResourceType> getResToPay() {
+        return resToPay;
+    }
+
+    public void setResToPay(ArrayList<ResourceType> resToPay) {
+        this.resToPay = resToPay;
+    }
+
     public void printDevMatrix(){
         for(DevDeck dd : devDecks){
             dd.print();
         }
     }
+
 }

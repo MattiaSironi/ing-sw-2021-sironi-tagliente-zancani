@@ -10,6 +10,8 @@ public enum ActionPhase {
     SELECT_RES,
     P_LEADER,
     D_LEADER,
-    GAME_OVER;
+    GAME_OVER,
+    BASIC,
+    PAYMENT;
 
 }

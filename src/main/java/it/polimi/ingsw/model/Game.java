@@ -17,6 +17,7 @@ import it.polimi.ingsw.observer.Observable;
 
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.OptionalInt;
@@ -245,7 +246,15 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
 
     }
 
+    public void setBoughtResByBasic(ResourceType r, int ID){
+        getPlayerById(ID).getPersonalBoard().getWarehouse().setBought(r);
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
+    }
 
+    public void setPaidResForBasic(ArrayList<ResourceType> r){
+        getBoard().getMatrix().setResToPay(r);
+        notify(new ObjectMessage(getBoard().getMatrix(), 2, -1));
+    }
 
     public void checkVatican()  {
         OptionalInt maxPos = this.players.stream().mapToInt(x -> x.getPersonalBoard().getFaithTrack().getMarker()).max();
@@ -349,6 +358,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox(), 3, ID));
     }
 
+
     public void payFromWarehouse(int q, ResourceType r, int ID){
         getPlayerById(ID).getPersonalBoard().getWarehouse().pay(q, r);
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
@@ -364,6 +374,73 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         getPlayerById(ID).getPersonalBoard().addDevCard(getBoard().getMatrix().getChosenCard(), pos - 1, ID);
         notify(new ObjectMessage(getBoard().getMatrix(), 2, -1));
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getCardSlot(), 4, ID));
+    }
+
+    public void setResToPay(DevCard d, int ID){
+        ArrayList<ResourceType> resToPay = new ArrayList<>();
+        int count;
+        for (count = 0; count < d.getCostRes()[0]; count++){
+            resToPay.add(ResourceType.COIN);
+        }
+        for (count = 0; count < d.getCostRes()[1]; count++){
+            resToPay.add(ResourceType.STONE);
+        }
+        for (count = 0; count < d.getCostRes()[2]; count++){
+            resToPay.add(ResourceType.SERVANT);
+        }
+        for (count = 0; count < d.getCostRes()[3]; count++){
+            resToPay.add(ResourceType.SHIELD);
+        }
+        if(getPlayerById(ID).getResDiscount1() == ResourceType.COIN && d.getCostRes()[0] > 0) {
+            resToPay.remove(ResourceType.COIN);
+            setCommunication(ID, CommunicationList.COINDISCOUNT);
+        }
+        else if(getPlayerById(ID).getResDiscount1() == ResourceType.STONE && d.getCostRes()[1] > 0) {
+            resToPay.remove(ResourceType.STONE);
+            setCommunication(ID, CommunicationList.STONEDISCOUNT);
+        }
+        else if(getPlayerById(ID).getResDiscount1() == ResourceType.SERVANT && d.getCostRes()[2] > 0) {
+            resToPay.remove(ResourceType.SERVANT);
+            setCommunication(ID, CommunicationList.SERVANTDISCOUNT);
+        }
+        else if(getPlayerById(ID).getResDiscount1() == ResourceType.SHIELD && d.getCostRes()[3] > 0) {
+            resToPay.remove(ResourceType.SHIELD);
+            setCommunication(ID, CommunicationList.SHIELDDISCOUNT);
+        }
+        if(getPlayerById(ID).getResDiscount2() == ResourceType.COIN && d.getCostRes()[0] > 0) {
+            resToPay.remove(ResourceType.COIN);
+            setCommunication(ID, CommunicationList.COINDISCOUNT);
+        }
+        else if(getPlayerById(ID).getResDiscount2() == ResourceType.STONE && d.getCostRes()[1] > 0) {
+            resToPay.remove(ResourceType.STONE);
+            setCommunication(ID, CommunicationList.STONEDISCOUNT);
+        }
+        else if(getPlayerById(ID).getResDiscount2() == ResourceType.SERVANT && d.getCostRes()[2] > 0) {
+            resToPay.remove(ResourceType.SERVANT);
+            setCommunication(ID, CommunicationList.SERVANTDISCOUNT);
+        }
+        else if(getPlayerById(ID).getResDiscount2() == ResourceType.SHIELD && d.getCostRes()[3] > 0) {
+            resToPay.remove(ResourceType.SHIELD);
+            setCommunication(ID, CommunicationList.SHIELDDISCOUNT);
+        }
+
+        getBoard().getMatrix().setResToPay(resToPay);
+        notify(new ObjectMessage(getBoard().getMatrix(), 2, -1));
+    }
+
+    public void removeResToPay(){
+        getBoard().getMatrix().getResToPay().remove(0);
+        notify(new ObjectMessage(getBoard().getMatrix(), 2, -1));
+    }
+
+    public void payFromFirstExtraShelf(int ID, int q){
+        getPlayerById(ID).getPersonalBoard().getWarehouse().payFromFirstExtraShelf(q);
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
+    }
+
+    public void payFromSecondExtraShelf(int ID, int q){
+        getPlayerById(ID).getPersonalBoard().getWarehouse().payFromFirstExtraShelf(q);
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
     }
 
     public void addEarnedResourcesByID(int ID, int numCoin, int numStone, int numServant, int numShield){
