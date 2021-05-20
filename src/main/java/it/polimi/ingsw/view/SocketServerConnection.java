@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class SocketServerConnection {
     private Socket socket;
@@ -54,7 +55,10 @@ public class SocketServerConnection {
     }
 
     public void run() throws IOException {
-        socket = new Socket("127.0.0.1", 1234);
+        System.out.println("Insert IP Address : ");
+        System.out.print("> ");
+        String s = new Scanner(System.in).nextLine();
+        socket = new Socket(s, 1234);
         socketIn = new ObjectInputStream(socket.getInputStream());
         socketOut = new ObjectOutputStream(socket.getOutputStream());
         System.out.println("Connection established");

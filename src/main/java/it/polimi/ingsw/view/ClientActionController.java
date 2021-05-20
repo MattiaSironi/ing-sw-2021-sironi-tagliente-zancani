@@ -50,7 +50,7 @@ public class ClientActionController {
 
     public void setup() throws IOException, ClassNotFoundException {
         String string;
-        cli.printToConsole("Welcome to the game. This is an alpha version so you will be connected to the loopback address");
+        cli.printToConsole("Welcome to the game.");
         cli.printToConsole("Type any key if you are ready to this experience:");
         string = cli.readFromInput();
         serverConnection.run();
