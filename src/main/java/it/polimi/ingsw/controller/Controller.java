@@ -517,7 +517,6 @@ public class Controller implements Observer<Message> {
             game.moveFaithPosByID(ID, 1);
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.SELECT_RES, false, null);
         }
-
     }
 
     public void useLeaderProduction(int ID, ResourceType r, ResourceType newRes, boolean buyFromWarehouse) { //if true -> pay from warehouse

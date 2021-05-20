@@ -71,6 +71,5 @@ public class LeaderCard implements Serializable, Printable {
 
     @Override
     public void print() {
-        System.out.println("non devo printare questa");
     }
 }

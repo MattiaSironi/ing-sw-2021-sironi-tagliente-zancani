@@ -154,13 +154,12 @@ public class ClientActionController {
 
         cli.printToConsole("Choose the productions you want to activate in this turn:\nType:\n1 to activate the basic prodcution" +
                 "\n2 to activate the leader production\n3 to activate the development card production\n0 to end the production phase");
-
         while (!valid) {
-            String input = cli.readFromInput();
+            String input = cli.readFromInput().replaceAll("[^0-9]", "");
             if (input.equals(""))
                 cli.printToConsole("Invalid input, try again");
             else {
-                int prod = Integer.parseInt(cli.readFromInput());
+                int prod = Integer.parseInt(input);
                 switch (prod) {
                     case 1 -> {
                         valid = true;
@@ -316,7 +315,7 @@ public class ClientActionController {
                 case "SERVANT" -> {
                     bought = ResourceType.SERVANT;
                     valid = true;
-                    break;
+                break;
                 }
                 case "SHIELD" -> {
                     bought = ResourceType.SHIELD;
@@ -573,19 +572,9 @@ public class ClientActionController {
     }
 
     public void printProd() {
-        boolean valid = false;
         cli.printToConsole("Choose the player whose you would like to see the production");
-        while(!valid) {
-            String input = cli.readFromInput().replaceAll("[^0-9]", "");
-            if (input.equals("")) {
-                cli.printToConsole("Invalid input, try again");
-            }
-            else {
-                valid = true;
-                int chosenID = Integer.parseInt(cli.readFromInput());
-                mmv.printProd(chosenID, this.ID);
-            }
-        }
+        int chosenID = chooseID();
+        mmv.printProd(chosenID, this.ID);
     }
 
 
