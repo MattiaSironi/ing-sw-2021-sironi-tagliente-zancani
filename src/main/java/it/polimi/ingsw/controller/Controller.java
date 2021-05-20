@@ -50,19 +50,19 @@ public class Controller implements Observer<Message> {
 //                game.getPlayerById(1).setWhiteConversion2(ResourceType.SERVANT);
 //
 //                LeaderCard l1 = new DiscountLCard(1,3,CardColor.BLUE,CardColor.YELLOW,ResourceType.COIN);
-                LeaderCard l2 = new ExtraDepotLCard(2,2,ResourceType.SERVANT,ResourceType.SHIELD);
-                LeaderCard l3 = new ExtraProdLCard(3,3,CardColor.GREEN,ResourceType.STONE);
-//                LeaderCard l4 = new WhiteTrayLCard(4,4,ResourceType.COIN,CardColor.YELLOW,CardColor.BLUE);
-//                ArrayList<LeaderCard> vett = new ArrayList<LeaderCard>();
-                ArrayList<LeaderCard> act = new ArrayList<LeaderCard>();
-                act.add(0,l2);
-                act.add(1,l3);
-//                vett.add(0,l1);
-//                vett.add(1,l2);
-                LeaderDeck actDeck = new LeaderDeck(2,1,act);
-//                LeaderDeck deck = new LeaderDeck(2,1,vett);
-//                game.getPlayerById(0).setLeaderDeck(deck);
-                game.getPlayerById(1).getPersonalBoard().setActiveLeader(actDeck);
+//                LeaderCard l2 = new ExtraDepotLCard(2,2,ResourceType.SERVANT,ResourceType.SHIELD);
+//                LeaderCard l3 = new ExtraProdLCard(3,3,CardColor.GREEN,ResourceType.STONE);
+////                LeaderCard l4 = new WhiteTrayLCard(4,4,ResourceType.COIN,CardColor.YELLOW,CardColor.BLUE);
+////                ArrayList<LeaderCard> vett = new ArrayList<LeaderCard>();
+//                ArrayList<LeaderCard> act = new ArrayList<LeaderCard>();
+//                act.add(0,l2);
+//                act.add(1,l3);
+////                vett.add(0,l1);
+////                vett.add(1,l2);
+//                LeaderDeck actDeck = new LeaderDeck(2,1,act);
+////                LeaderDeck deck = new LeaderDeck(2,1,vett);
+////                game.getPlayerById(0).setLeaderDeck(deck);
+//                game.getPlayerById(1).getPersonalBoard().setActiveLeader(actDeck);
 //
 ////                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(4, new Shelf(ResourceType.SERVANT, 0));
 ////                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.STONE, 0));
