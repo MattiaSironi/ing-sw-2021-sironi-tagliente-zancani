@@ -191,7 +191,7 @@ public class ClientActionController {
         boolean valid = false;
         while (!valid) {
             input = cli.readFromInput().replaceAll("[^0-9]", "");
-            if (!input.equals("")) tempID = Integer.parseInt(input);
+            if (!input.equals("") && input.length() < 10) tempID = Integer.parseInt(input);
             if (mmv.getGame().getPlayerById(tempID) == null)
                 cli.printToConsole("there is no player with this ID associated. try another ID");
             else valid = true;
@@ -484,7 +484,7 @@ public class ClientActionController {
         while (!valid) {
             cli.printToConsole("Choose the shelf where to put your " + res.printResourceColouredName() + " [1,2,3,4,5]");
             s = cli.readFromInput().replaceAll("[^0-9]", "");
-            if (!(s.equals(""))) {
+            if (!(s.equals("")) && s.length() == 1 ) {
                 s1 = Integer.parseInt(s);
             }
             if (1 <= s1 && s1 <= 5) valid = true;
@@ -509,12 +509,12 @@ public class ClientActionController {
         while (!valid) {
             cli.printToConsole("Select the first shelf:");
             input = cli.readFromInput().replaceAll("[^0-9]", "");
-            if (input.equals("")) s1 = -1;
+            if (input.equals("") && input.length() == 1) s1 = -1;
             else s1 = Integer.parseInt(input);
 
             cli.printToConsole("Select the second shelf:");
             input = cli.readFromInput().replaceAll("[^0-9]", "");
-            if (input.equals("")) s2 = -1;
+            if (input.equals("") && input.length() == 1) s2 = -1;
             else s2 = Integer.parseInt(input);
 
             if (s1 != s2 && s1 >= 1 && s1 <= 5 && s2 >= 1 && s2 <= 5) {
@@ -617,7 +617,7 @@ public class ClientActionController {
         while (!valid) {
             cli.printToConsole("select one card to discard by typing its index : ");
             input = cli.readFromInput().replaceAll("[^0-9]", "");
-            if (input.equals("")) idx = -1;
+            if (input.equals("") || input.length() != 1 ) idx = -1;
             else idx = Integer.parseInt(input);
             if (idx > 0 && idx <= mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().size()) valid = true;
             else cli.printToConsole("Invalid value!");
