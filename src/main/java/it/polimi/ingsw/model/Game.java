@@ -480,7 +480,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
     public void setNewPlayerCards (int ID, LeaderCard lc){
 
         int i=0;
-         while(i<2 &&!(getPlayerById(ID).getLeaderDeck().getCards().get(i).equals(lc))){
+         while(i< getPlayerById(ID).getLeaderDeck().getSize()&&!(getPlayerById(ID).getLeaderDeck().getCards().get(i).equals(lc))){
             i++;
         }
 //        getPlayerById(ID).getLeaderDeck().getCards().remove(plc); //toglie dal leader deck

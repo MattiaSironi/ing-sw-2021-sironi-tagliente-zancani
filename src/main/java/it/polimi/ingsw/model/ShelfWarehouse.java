@@ -37,9 +37,9 @@ public class ShelfWarehouse implements Printable, Serializable {
             i++;
         if (i < 3)
             num = this.shelves.get(i).getCount();
-        else if (this.shelves.get(3).getCount()>0 && this.getShelves().get(3).getResType()==r)
+        else if (this.shelves.get(3)!=null && this.shelves.get(3).getCount()>0 && this.getShelves().get(3).getResType()==r)
             num = this.shelves.get(3).getCount();
-        else if (this.shelves.get(4).getCount()>0 && this.getShelves().get(4).getResType()==r)
+        else if (this.shelves.get(4)!=null &&this.shelves.get(4).getCount()>0 && this.getShelves().get(4).getResType()==r)
             num = this.shelves.get(4).getCount();
         return num;
     }
