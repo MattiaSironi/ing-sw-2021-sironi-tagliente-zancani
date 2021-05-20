@@ -567,7 +567,7 @@ public class ClientActionController {
                         inp = cli.readFromInput().replaceAll("[^0-9]", "");
                         if (inp.equals("")) idx = -1;
                         else {
-                            idx = Integer.parseInt(input);
+                            idx = Integer.parseInt(inp);
                         }
                       //  idx = Integer.parseInt(cli.readFromInput());
                         if ((idx == 1 || idx == 2 )) {
@@ -585,7 +585,7 @@ public class ClientActionController {
                     inp = cli.readFromInput().replaceAll("[^0-9]", "");
                     if (inp.equals("")) idx = -1;
                     else {
-                        idx = Integer.parseInt(input);
+                        idx = Integer.parseInt(inp);
                     }
                    // idx = Integer.parseInt(cli.readFromInput());
                     if ((idx == 1 || idx == 2) && idx <= mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().size()) {
