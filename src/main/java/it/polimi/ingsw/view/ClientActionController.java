@@ -543,6 +543,7 @@ public class ClientActionController {
         boolean ok = true;
         int p = 0;
         p = this.chooseID();
+        String in;
 //
 //        cli.printToConsole("Choose the ID of the player whose leaders you want to see");
 //        p = Integer.parseInt(cli.readFromInput());
@@ -555,7 +556,7 @@ public class ClientActionController {
 
         if (p == this.ID) {
             boolean valid = false;
-            String s;
+            String inp;
             int idx;
             cli.printToConsole("Digit :\n'a' to activate one Leader, \n'd' to discard one Leader Card or \n'x' to return to the action menu");
             while (!valid) {
@@ -563,8 +564,13 @@ public class ClientActionController {
                 if (input.equalsIgnoreCase("a")) {
                     if (this.mmv.getGame().getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().size() <= 2) {
                         cli.printToConsole("Select the leader you want to activate [1/2]");
-                        idx = Integer.parseInt(cli.readFromInput());
-                        if (idx == 1 || idx == 2) {
+                        inp = cli.readFromInput().replaceAll("[^0-9]", "");
+                        if (inp.equals("")) idx = -1;
+                        else {
+                            idx = Integer.parseInt(input);
+                        }
+                      //  idx = Integer.parseInt(cli.readFromInput());
+                        if ((idx == 1 || idx == 2 )) {
                             //   System.out.println("send");
                             serverConnection.send(new PlayLeaderMessage(ID, idx, true, mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1), false));
                             return true;
@@ -576,7 +582,12 @@ public class ClientActionController {
 
                 } else if (input.equalsIgnoreCase("d")) {
                     cli.printToConsole("Select the leader you want to discard [1/2]");
-                    idx = Integer.parseInt(cli.readFromInput());
+                    inp = cli.readFromInput().replaceAll("[^0-9]", "");
+                    if (inp.equals("")) idx = -1;
+                    else {
+                        idx = Integer.parseInt(input);
+                    }
+                   // idx = Integer.parseInt(cli.readFromInput());
                     if ((idx == 1 || idx == 2) && idx <= mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().size()) {
                         //   System.out.println("send");
                         serverConnection.send(new PlayLeaderMessage(ID, idx, false, this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1), false));
@@ -627,6 +638,8 @@ public class ClientActionController {
     public void useDevProduction() {
         boolean valid = false, validInput = false, validNum = false;
         int input = 0;
+        boolean okInt = false;
+        String in;
         ProductionMessage m;
         DevCard d;
         ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
@@ -636,7 +649,12 @@ public class ClientActionController {
         cli.printToConsole("Choose the production card you want to activate : [1/2/3]");
         mmv.printProd(this.ID, this.ID);
         while (!valid) {
-            input = Integer.parseInt(cli.readFromInput());
+            in = cli.readFromInput().replaceAll("[^0-9]", "");
+            if (in.equals("")) input = -1;
+            else {
+                input = Integer.parseInt(in);
+            }
+           // input = Integer.parseInt(cli.readFromInput());
             if (!(input >= 1 && input <= mmv.getGame().getPlayerById(ID).getPersonalBoard().getCardSlot().size())) {
                 cli.printToConsole("Invalid input, try again");
             } else
@@ -650,7 +668,12 @@ public class ClientActionController {
                 cli.printToConsole("You have to pay 1 " + FromIntToRes(i).toString() + "\nType 1 if you want to take it from your Warehouse\n" +
                         "Type 2 if you want to take it from your Strongbox");
                 while (!valid) {
-                    input = Integer.parseInt(cli.readFromInput());
+                    in = cli.readFromInput().replaceAll("[^0-9]", "");
+                    if (in.equals("")) input = -1;
+                    else {
+                        input = Integer.parseInt(in);
+                    }
+                   // input = Integer.parseInt(cli.readFromInput());
                     if (!(input == 1 || input == 2)) {
                         cli.printToConsole("Invalid input, try again");
                     } else {
