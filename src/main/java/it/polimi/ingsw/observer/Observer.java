@@ -44,6 +44,8 @@ public interface Observer<Message> {
 
     void update(BasicProductionMessage message);
 
+    void update(LeaderProductionMessage message);
+
 
 
 

@@ -117,7 +117,6 @@ public class ClientActionController {
                     }
                     case A -> {
                         if (Actions.A.isEnable()) {
-                            noMoreActions();
                             activateProd();
                             actionEnded = true;
                         } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
@@ -158,7 +157,7 @@ public class ClientActionController {
         int prod = Integer.parseInt(cli.readFromInput());
         switch (prod) {
             case 1 -> {
-                useBasicProd();
+                chooseResToProduce(true);
             }
             case 2 -> {
                 useLeaderProduction();
@@ -273,7 +272,7 @@ public class ClientActionController {
         } else cli.printToConsole("Invalid int, you selected " + idx);
     }
 
-    public void useBasicProd() {
+    public void chooseResToProduce(boolean turn) {
         ResourceType bought = null;
         boolean valid = false;
         mmv.printShelves(ID);
@@ -308,7 +307,10 @@ public class ClientActionController {
                 }
             }
         }
-        serverConnection.send(new BasicProductionMessage(null, null, bought, ID, false));
+        if(turn)
+            serverConnection.send(new BasicProductionMessage(null, null, bought, ID, false));
+        else
+            serverConnection.send(new LeaderProductionMessage(0, ID, bought));
     }
 
     public void chooseBasicRes() {
@@ -381,10 +383,14 @@ public class ClientActionController {
         boolean valid = false;
         cli.printToConsole("Choose the leader you want to use");
         String input = cli.readFromInput();
-        if (input.equals("1") || input.equals("2")) {
-            int index = Integer.parseInt(input);
-            LeaderCard leaderCard = this.mmv.getGame().getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().get(index - 1);
-            serverConnection.send(new ProductionMessage(null, null, null, leaderCard, null, ID, false));
+        while (!valid) {
+            if (input.equals("1") || input.equals("2")) {
+                int index = Integer.parseInt(input);
+                valid = true;
+                serverConnection.send(new LeaderProductionMessage(index - 1, ID, null));
+            } else {
+                cli.printToConsole("Invalid input, try again");
+            }
         }
     }
 
@@ -463,7 +469,7 @@ public class ClientActionController {
         cli.printToConsole("Where would you like to place your new development card? (Choose slot 1, 2 or 3)");
         String input = cli.readFromInput();
         int chosenIndex = Integer.parseInt(input);
-        serverConnection.send(new BuyDevCardMessage(-1, ID, false, chosenIndex));
+        serverConnection.send(new BuyDevCardMessage(-1, ID, false, chosenIndex - 1));
     }
 
 
@@ -610,6 +616,10 @@ public class ClientActionController {
 
         serverConnection.send(new PlayLeaderMessage(ID, idx, false, this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1), true));
 
+
+    }
+
+    public void chooseLeaderProdRes(){
 
     }
 
@@ -787,11 +797,13 @@ public class ClientActionController {
                 }
 
                 case A_PAYMENT: {
+                    noMoreActions();
                     activateProd();
                     break;
                 }
 
-                case B_PAYMENT: {
+                case B_PAYMENT:
+                case PAYMENT: {
                     noMoreActions();
                     pay();
                     break;
@@ -806,12 +818,13 @@ public class ClientActionController {
                     break;
                 }
                 case BASIC: {
+                    noMoreActions();
                     chooseBasicRes();
                     break;
                 }
-                case PAYMENT: {
-                    pay();
-                    break;
+                case SELECT_RES:{
+                    noMoreActions();
+                    chooseResToProduce(false);
                 }
             }
         }

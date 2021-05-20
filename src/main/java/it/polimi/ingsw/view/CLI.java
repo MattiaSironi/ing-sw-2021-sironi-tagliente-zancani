@@ -125,6 +125,11 @@ public class CLI extends Observable<Message> implements Observer<Message> {
     }
 
     @Override
+    public void update(LeaderProductionMessage message) {
+
+    }
+
+    @Override
     public void update(EndActionMessage message) {
 
     }

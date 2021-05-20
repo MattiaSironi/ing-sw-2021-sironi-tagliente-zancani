@@ -171,6 +171,11 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
     }
 
     @Override
+    public void update(LeaderProductionMessage message) {
+
+    }
+
+    @Override
     public void update(EndActionMessage message) {
         if (message.getID()==ID)   {
             clientConnection.send(message);
@@ -244,6 +249,10 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
         }
         else if (o instanceof BasicProductionMessage){
             notify((BasicProductionMessage) o);
+        }
+
+        else if(o instanceof LeaderProductionMessage){
+            notify((LeaderProductionMessage) o);
         }
     }
 }

@@ -371,7 +371,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
 
     public void addDevCardToPlayer(int ID, int pos ){
         getBoard().getMatrix().getDevDecks().get(getBoard().getMatrix().getChosenIndex()).removeCardFromCards();
-        getPlayerById(ID).getPersonalBoard().addDevCard(getBoard().getMatrix().getChosenCard(), pos - 1, ID);
+        getPlayerById(ID).getPersonalBoard().addDevCard(getBoard().getMatrix().getChosenCard(), pos, ID);
         notify(new ObjectMessage(getBoard().getMatrix(), 2, -1));
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getCardSlot(), 4, ID));
     }

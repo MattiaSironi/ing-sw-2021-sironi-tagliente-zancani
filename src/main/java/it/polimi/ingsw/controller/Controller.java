@@ -50,19 +50,19 @@ public class Controller implements Observer<Message> {
 //                game.getPlayerById(1).setWhiteConversion2(ResourceType.SERVANT);
 //
 //                LeaderCard l1 = new DiscountLCard(1,3,CardColor.BLUE,CardColor.YELLOW,ResourceType.COIN);
-//                LeaderCard l2 = new ExtraDepotLCard(2,2,ResourceType.SERVANT,ResourceType.SHIELD);
-//                LeaderCard l3 = new ExtraProdLCard(3,3,CardColor.GREEN,ResourceType.STONE);
+                LeaderCard l2 = new ExtraDepotLCard(2,2,ResourceType.SERVANT,ResourceType.SHIELD);
+                LeaderCard l3 = new ExtraProdLCard(3,3,CardColor.GREEN,ResourceType.STONE);
 //                LeaderCard l4 = new WhiteTrayLCard(4,4,ResourceType.COIN,CardColor.YELLOW,CardColor.BLUE);
 //                ArrayList<LeaderCard> vett = new ArrayList<LeaderCard>();
-//                ArrayList<LeaderCard> act = new ArrayList<LeaderCard>();
-//                act.add(0,l3);
-//               // act.add(1,l4);
+                ArrayList<LeaderCard> act = new ArrayList<LeaderCard>();
+                act.add(0,l2);
+                act.add(1,l3);
 //                vett.add(0,l1);
 //                vett.add(1,l2);
-//                LeaderDeck actDeck = new LeaderDeck(2,1,act);
+                LeaderDeck actDeck = new LeaderDeck(2,1,act);
 //                LeaderDeck deck = new LeaderDeck(2,1,vett);
 //                game.getPlayerById(0).setLeaderDeck(deck);
-//                game.getPlayerById(0).getPersonalBoard().setActiveLeader(actDeck);
+                game.getPlayerById(1).getPersonalBoard().setActiveLeader(actDeck);
 //
 ////                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(4, new Shelf(ResourceType.SERVANT, 0));
 ////                game.getPlayerById(2).getPersonalBoard().getWarehouse().getShelves().set(3, new Shelf(ResourceType.STONE, 0));
@@ -101,8 +101,6 @@ public class Controller implements Observer<Message> {
 //                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(2).setCount(4); // 4 servant
 //             //   game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD));
 //
-                game.getPlayerById(0).setResDiscount1(ResourceType.SHIELD);
-                game.getPlayerById(0).setResDiscount2(ResourceType.COIN);
 
 
 //                game.sendGame();
@@ -308,47 +306,40 @@ public class Controller implements Observer<Message> {
                     this.game.payFromSecondExtraShelf(ID, 1);
                 } else
                     game.payFromWarehouse(1, game.getBoard().getMatrix().getResToPay().get(0), ID);
-                game.removeResToPay();
-                if (game.getBoard().getMatrix().getResToPay().size() == 0) {
-                    if (turn)
-                        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT, false, null);
-                    else
-                        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.CHOOSE_SLOT, false, null);
-
-                } else {
-                    if (turn)
-                        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.PAYMENT, false, null);
-                    else
-                        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.B_PAYMENT, false, null);
-                }
+                isEmpty(turn);
             }
         } else {
             if (!(game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(1, game.getBoard().getMatrix().getResToPay().get(0)))) {
                 game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
             } else {
                 game.payFromStrongbox(1, game.getBoard().getMatrix().getResToPay().get(0), ID);
-                game.removeResToPay();
-                if (game.getBoard().getMatrix().getResToPay().size() == 0) {
-                    if (turn)
-                        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT, false, null);
-                    else
-                        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.CHOOSE_SLOT, false, null);
-
-                } else {
-                    if (turn)
-                        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.PAYMENT, false, null);
-                    else
-                        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.B_PAYMENT, false, null);
-                }
+                isEmpty(turn);
             }
         }
     }
 
+    private void isEmpty(boolean turn) {
+        game.removeResToPay();
+        if (game.getBoard().getMatrix().getResToPay().size() == 0) {
+            if (turn)
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT, false, null);
+            else
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.CHOOSE_SLOT, false, null);
+
+        } else {
+            if (turn)
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.PAYMENT, false, null);
+            else
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.B_PAYMENT, false, null);
+        }
+    }
+
     public void placeDevCard(int ID, int slot) {
-        if (game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot - 1).getCards().size() == 0 && game.getBoard().getMatrix().getChosenCard().getLevel() == 1) {
+        if (game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().size() == 0 && game.getBoard().getMatrix().getChosenCard().getLevel() == 1) {
             game.addDevCardToPlayer(ID, slot);
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
-        } else if (game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot - 1).getCards().get(0).getLevel() == game.getBoard().getMatrix().getChosenCard().getLevel() - 1) {
+        } else if (game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().size() != 0 &&
+                game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().get(0).getLevel() == game.getBoard().getMatrix().getChosenCard().getLevel() - 1) {
             game.addDevCardToPlayer(ID, slot);
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
         } else {
@@ -361,7 +352,7 @@ public class Controller implements Observer<Message> {
             if (dd.getCards().size() == 0 && devCard.getLevel() == 1) return true;
         }
         for (DevDeck dd : player.getPersonalBoard().getCardSlot()) {
-            if (dd.getCards().get(0).getLevel() == devCard.getLevel() - 1)
+            if (dd.getCards().size() != 0 && dd.getCards().get(0).getLevel() == devCard.getLevel() - 1)
                 return true;
         }
         return false;
@@ -514,11 +505,16 @@ public class Controller implements Observer<Message> {
         game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
     }
 
-    public void isExtraProd(LeaderCard leaderCard, int ID) {
+    public void isExtraProd(int index, int ID) {
+        LeaderCard leaderCard = game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().get(index);
         if (!(leaderCard instanceof ExtraProdLCard)) {
             game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
         } else {
+            ArrayList<ResourceType> resForLeader = new ArrayList<>();
+            resForLeader.add(((ExtraProdLCard) leaderCard).getInput());
             game.setChosenLeader(leaderCard, ID);
+            game.setPaidResForBasic(resForLeader);
+            game.moveFaithPosByID(ID, 1);
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.SELECT_RES, false, null);
         }
 
@@ -666,7 +662,7 @@ public class Controller implements Observer<Message> {
         }
     }
 
-    public void setBoughtRes(ResourceType r, int ID) {
+    public void setBoughtRes(ResourceType r, int ID, boolean turn) {
         if (r == ResourceType.COIN)
             game.addEarnedResourcesByID(ID, 1, 0, 0, 0);
         else if (r == ResourceType.STONE)
@@ -675,7 +671,10 @@ public class Controller implements Observer<Message> {
             game.addEarnedResourcesByID(ID, 0, 0, 1, 0);
         else if (r == ResourceType.SHIELD)
             game.addEarnedResourcesByID(ID, 0, 0, 0, 1);
-        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.BASIC, false, null);
+        if(turn)
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.BASIC, false, null);
+        else
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.PAYMENT, false, null);
     }
 
     public void setBasicProdPayment(ArrayList<ResourceType> resources, int ID) {
@@ -800,9 +799,7 @@ public class Controller implements Observer<Message> {
     public void update(ProductionMessage message) {
         if (message.isEndAction())
             collectNewRes(message.getID());
-        else if (!(message.getD() == null)) {
-            isExtraProd(message.getD(), message.getID());
-        } else if (!(message.getDc() == null)) {
+        else if (!(message.getDc() == null)) {
             payResources(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getResToBuy());
         } else
             payResources(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getResToBuy());
@@ -818,7 +815,7 @@ public class Controller implements Observer<Message> {
     @Override
     public void update(BasicProductionMessage message) {
         if (game.getTurn().getPhase().equals(ActionPhase.WAITING_FOR_ACTION))
-            setBoughtRes(message.getBoughtRes(), game.getTurn().getPlayerPlayingID());
+            setBoughtRes(message.getBoughtRes(), game.getTurn().getPlayerPlayingID(), true);
         else if (game.getTurn().getPhase().equals((ActionPhase.BASIC))) {
             ArrayList<ResourceType> resources = new ArrayList<>();
             resources.add(message.getPaidRes1());
@@ -827,6 +824,17 @@ public class Controller implements Observer<Message> {
         } else if (game.getTurn().getPhase().equals(ActionPhase.PAYMENT)) {
             payRes(message.isPayFrom(), message.getID(), true);
         }
+    }
+
+    @Override
+    public void update(LeaderProductionMessage message) {
+        if(game.getTurn().getPhase() == ActionPhase.WAITING_FOR_ACTION){
+            isExtraProd(message.getIndex(), message.getID());
+        }
+        else if(game.getTurn().getPhase() == ActionPhase.SELECT_RES){
+            setBoughtRes(message.getWantedRes(), message.getID(), false);
+        }
+        else if(game.getTurn().getPhase() == ActionPhase.PAYMENT);
     }
 
     @Override
