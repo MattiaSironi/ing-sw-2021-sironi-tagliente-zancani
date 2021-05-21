@@ -12,15 +12,9 @@ import java.util.Scanner;
 public class CLI extends Observable<Message> implements Observer<Message> {
     private Scanner in = new Scanner(System.in);
 
-    public void run(){
-
-    }
     public synchronized String readFromInput(){
         System.out.print("> ");
-        Scanner s = new Scanner(System.in);
-        String input = s.nextLine();
-
-
+        String input = in.nextLine();
         return input;
     }
 
@@ -43,10 +37,7 @@ public class CLI extends Observable<Message> implements Observer<Message> {
 
     }
 
-    @Override
-    public void update(InputMessage message) {
 
-    }
 
     @Override
     public void update(IdMessage message) {
@@ -59,10 +50,6 @@ public class CLI extends Observable<Message> implements Observer<Message> {
 
     }
 
-    @Override
-    public void update(OutputMessage message) {
-        System.out.println(message.getString());
-    }
 
     @Override
     public void update(ChooseNumberOfPlayer message) {
@@ -89,10 +76,7 @@ public class CLI extends Observable<Message> implements Observer<Message> {
 
     }
 
-    @Override
-    public void update(ResourceListMessage message) {
 
-    }
 
     @Override
     public void update(PlaceResourceMessage message) {
@@ -129,8 +113,5 @@ public class CLI extends Observable<Message> implements Observer<Message> {
 
     }
 
-    @Override
-    public void update(EndActionMessage message) {
 
-    }
 }

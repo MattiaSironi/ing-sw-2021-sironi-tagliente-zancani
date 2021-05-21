@@ -62,36 +62,7 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
         }
     }
 
-//    public int setNumPlayers() {
-//        int numPlayers = 0;
-//        try {
-//            numPlayers = ((ChooseNumberOfPlayer)clientConnection.receive()).getNumberOfPlayers();
-//            clientConnection.getServer().setReady(true);
-//        } catch (/*IOException | */ NoSuchElementException e) {
-//            System.err.println("Error!" + e.getMessage());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        return numPlayers;
-//    }
 
-//    private void goToMarket(MarketMessage message) throws IOException, ClassNotFoundException { //
-//        notify(message);
-//        boolean done = false;
-//        while (!done) {
-//            Object obj = clientConnection.receive();
-//            if (obj instanceof ErrorMessage) {
-//                if (((ErrorMessage) obj).getString().equals("discard")) {
-//                    notify((ErrorMessage) obj);
-//                } else if (((ErrorMessage) obj).getString().equals("resources finished")) done = true;
-//            } else if (obj instanceof PlaceResourceMessage) {
-//                notify((PlaceResourceMessage) obj);
-//            }
-//
-//        }
-//    }
 
     @Override
     public void update(Message message) {
@@ -106,9 +77,7 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
             clientConnection.send(new OutputMessage("One of your opponents is " + message.getString()));
     }
 
-    @Override
-    public void update(InputMessage message) {
-    }
+
 
     @Override
     public void update(IdMessage message) {
@@ -120,10 +89,7 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     }
 
-    @Override
-    public void update(OutputMessage message) {
 
-    }
 
     @Override
     public void update(ChooseNumberOfPlayer message) {
@@ -172,21 +138,6 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(LeaderProductionMessage message) {
-
-    }
-
-    @Override
-    public void update(EndActionMessage message) {
-        if (message.getID()==ID)   {
-            clientConnection.send(message);
-        }
-    }
-
-    @Override
-    public void update(ResourceListMessage message) {
-        if (message.getID() == ID)
-        clientConnection.send(message);
-
 
     }
 

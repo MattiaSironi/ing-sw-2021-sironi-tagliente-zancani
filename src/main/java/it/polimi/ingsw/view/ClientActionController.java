@@ -776,10 +776,12 @@ public class ClientActionController {
                 cli.printToConsole("This nickname is already chosen\nTry again");
                 serverConnection.send(new Nickname(cli.readFromInput(), ID, false));
             }
-        } else if (o instanceof OutputMessage) {
-            cli.printToConsole(((OutputMessage) o).getString());
+
         } else if (o instanceof ObjectMessage) {
             handleObject((ObjectMessage) o);
+        }
+        else if (o instanceof OutputMessage) {
+            cli.printToConsole(((OutputMessage) o).getString());
         }
     }
 

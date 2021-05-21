@@ -39,15 +39,6 @@ public class Observable<Message> {
 
     }
 
-    protected void notify(InputMessage message) {
-        synchronized (observers) {
-            for (Observer<Message> observer : observers) {
-                observer.update(message);
-            }
-        }
-
-    }
-
     protected void notify(IdMessage message) {
         synchronized (observers) {
             for (Observer<Message> observer : observers) {
@@ -66,14 +57,6 @@ public class Observable<Message> {
 
     }
 
-    protected void notify(OutputMessage message) {
-        synchronized (observers) {
-            for (Observer<Message> observer : observers) {
-                observer.update(message);
-            }
-        }
-
-    }
     protected void notify(ChooseNumberOfPlayer message) {
         synchronized (observers) {
             for (Observer<Message> observer : observers) {
@@ -109,15 +92,8 @@ public class Observable<Message> {
         }
 
     }
-    protected void notify(MarketMessage message) {
-        synchronized (observers) {
-            for (Observer<Message> observer : observers) {
-                observer.update(message);
-            }
-        }
 
-    }
-    protected void notify(ResourceListMessage message) {
+    protected void notify(MarketMessage message) {
         synchronized (observers) {
             for (Observer<Message> observer : observers) {
                 observer.update(message);
@@ -143,7 +119,6 @@ public class Observable<Message> {
 
     }
 
-
     protected void notify(PlayLeaderMessage message) {
         synchronized (observers) {
             for (Observer<Message> observer : observers) {
@@ -161,15 +136,6 @@ public class Observable<Message> {
 
     }
 
-    protected void notify(EndActionMessage message) {
-        synchronized (observers) {
-            for (Observer<Message> observer : observers) {
-                observer.update(message);
-            }
-        }
-
-    }
-
     protected void notify(EndTurnMessage message) {
         synchronized (observers) {
             for (Observer<Message> observer : observers) {
@@ -178,15 +144,6 @@ public class Observable<Message> {
         }
 
     }
-
-//    protected void notify(LeaderProdMessage message) {
-//        synchronized (observers) {
-//            for (Observer<Message> observer : observers) {
-//                observer.update(message);
-//            }
-//        }
-//
-//   }
 
     protected void notify(BasicProductionMessage message) {
         synchronized (observers) {

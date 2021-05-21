@@ -123,10 +123,7 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     }
 
-    @Override
-    public void update(InputMessage message) {
 
-    }
 
     @Override
     public void update(IdMessage message) {
@@ -150,10 +147,7 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
             this.cac.getCli().printToConsole(message.getString());
     }
 
-    @Override
-    public void update(OutputMessage message) {
-        this.cac.getCli().printToConsole(message.getString());
-    }
+
 
     @Override
     public void update(ChooseNumberOfPlayer message) {
@@ -195,35 +189,9 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     @Override
     public void update(MarketMessage message) {
-
     }
 
-    @Override
-    public void update(ResourceListMessage message) { //just for local testing
-//        this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print();
-//
-//        for (Marble m : message.getMarbles()) {
-//
-//
-//            switch (m.getRes()) {
-//                case COIN, STONE, SERVANT, SHIELD: {
-//                    this.cac.getCli().printToConsole("you received a " + m.getRes().printResourceColouredName() + "!");
-//                    this.cac.askForResource(m.getRes());
-//                    this.game.getPlayerById(0).getPersonalBoard().getWarehouse().print(); //local
-//                    break;
-//                }
-//                case FAITH_POINT: {
-//                    cac.getCli().printToConsole("you received a " + m.getRes().printResourceColouredName());
-//                    break;
-//                }
-//                default: {
-//                    cac.getCli().printToConsole("you got nothing from White tray :(");
-//                    break;
-//                } //caso EMPTY, vari controlli!
-//            }
-//
-//        }
-    }
+
 
     @Override
     public void update(PlaceResourceMessage message) {
@@ -242,11 +210,6 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     @Override
     public void update(ProductionMessage message) {
-
-    }
-
-    @Override
-    public void update(EndActionMessage message) {
 
     }
 

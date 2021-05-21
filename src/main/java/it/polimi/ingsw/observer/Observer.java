@@ -10,13 +10,9 @@ public interface Observer<Message> {
 
     void update(Nickname message);
 
-    void update(InputMessage message);
-
     void update(IdMessage message);
 
     void update(ErrorMessage message);
-
-    void update(OutputMessage message);
 
     void update (ChooseNumberOfPlayer message);
 
@@ -28,8 +24,6 @@ public interface Observer<Message> {
 
     void update(MarketMessage message);
 
-    void update(ResourceListMessage message);
-
     void update(PlaceResourceMessage message);
 
     void update(BuyDevCardMessage message);
@@ -37,8 +31,6 @@ public interface Observer<Message> {
     void update(PlayLeaderMessage message);
 
     void update(ProductionMessage message);
-
-    void update(EndActionMessage message);
 
     void update(EndTurnMessage message);
 
@@ -49,5 +41,5 @@ public interface Observer<Message> {
 
 
 
-  //  void update(LeaderProdMessage message);
+
 }

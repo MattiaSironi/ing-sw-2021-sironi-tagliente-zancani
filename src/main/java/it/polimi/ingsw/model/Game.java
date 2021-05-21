@@ -121,13 +121,9 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         this.currPlayer = currPlayer;
     }
 
-    public void setNextPlayer(int nextPlayer) {
-        this.nextPlayer = nextPlayer;
-    }
 
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-    }
+
+
 
     public void setNumPlayer(int numPlayer) {
         this.numPlayer = numPlayer;
@@ -141,9 +137,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         return currPlayer;
     }
 
-    public int getNextPlayer() {
-        return nextPlayer;
-    }
+
 
     public ArrayList<Player> getPlayers() {
         return players;
@@ -161,9 +155,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         notify(new ObjectMessage(this, -1, -1));
     }
 
-    public void sendResources(ResourceListMessage message)  {
-        notify(message);
-    }
+
 
     public Board getBoard() {
         return board;
@@ -173,9 +165,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         this.lori = lori;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
+
 
     public Player getPlayerById(int ID) {
         Player player = null;
@@ -463,9 +453,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox(), 3, ID));
     }
 
-    public void sendActionOver(EndActionMessage message) {
-        notify(message);
-    }
+
 
     public void setStartResCountByID(int id, int i) {
         getPlayerById(id).setStartResCount(i);

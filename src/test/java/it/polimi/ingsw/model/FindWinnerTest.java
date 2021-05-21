@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,9 +16,12 @@ public class FindWinnerTest {
 
     private Game game;
 
+
     @BeforeEach
     public void init()  {
+
         game = new Game();
+
         game.getPlayers().add(new Player(0, "gigi"));
         game.getPlayers().add(new Player(1, "lea"));
         game.getPlayers().add(new Player(2, "simo"));
@@ -85,40 +89,11 @@ public class FindWinnerTest {
 
     }
 
-    @Test
-    @DisplayName("pope favor")
-    public void popeFavor()  {
-        strongBoxTest();
-        game.getPlayerById(0).getPersonalBoard().getFaithTrack().setFavorTile(0);
-        game.getPlayerById(1).getPersonalBoard().getFaithTrack().setFavorTile(0);
-        game.getPlayerById(1).getPersonalBoard().getFaithTrack().setFavorTile(2);
-        game.getPlayerById(2).getPersonalBoard().getFaithTrack().setFavorTile(0);
-        game.getPlayerById(2).getPersonalBoard().getFaithTrack().setFavorTile(2);
-        game.getPlayerById(2).getPersonalBoard().getFaithTrack().setFavorTile(1);
-        assertEquals(2, game.findWinner().getId());
-
-
-
-
-    }
-    @Test
-    @DisplayName("faith marker")
-    public void faithMarker()  {
-        popeFavor();
-        game.getPlayerById(0).getPersonalBoard().getFaithTrack().moveFaithMarkerPos(300);
-        game.getPlayerById(1).getPersonalBoard().getFaithTrack().moveFaithMarkerPos(20);
-        game.getPlayerById(2).getPersonalBoard().getFaithTrack().moveFaithMarkerPos(12);
-        assertEquals(0, game.findWinner().getId());
-
-
-
-
-    }
 
     @Test
     @DisplayName("Leader cards")
     public void leadCards()  {
-        faithMarker();
+        strongBoxTest();
 
         // --- PLAYER 1 ----
         ArrayList<LeaderCard> ldeck0 = new ArrayList<>();
@@ -142,12 +117,16 @@ public class FindWinnerTest {
         LeaderDeck deck2 = new LeaderDeck (ldeck2);
         game.getPlayerById(2).getPersonalBoard().setActiveLeader(deck2);
 
-        assertEquals(0, game.findWinner().getId());
+        assertEquals(1, game.findWinner().getId());
+
+//        GIGI VP 32 R 37
+//        LEA VP 33 R 34
+//        SIMO VP 26 R 34
 
 
-    // PLAYER 0 : VP = 54   RES = 37
-    // PLAYER 1 : VP = 51   RES = 34
-    // PLAYER 2 : VP = 41  RES  = 34
+
+
+
 
 
 
@@ -231,10 +210,128 @@ public class FindWinnerTest {
 
         assertEquals(0, game.findWinner().getId());
 
+//        GIGI VP 60 R 37
+//        LEA VP 58 R 34
+//        SIMO VP 46 R 34
 
-        // PLAYER 0 : VP = 82   RES = 37
-        // PLAYER 1 : VP = 76   RES = 34
-        // PLAYER 2 : VP = 61  RES  = 34
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+    @Test
+    @DisplayName("find real winner")
+    public void realWinner()  {
+        devCards();
+
+//        ----- FIRST POPE  5-8-----
+        game.moveFaithPosByID(0, 1); //GIGI 1
+        game.moveFaithPosByID(1, 1); // LEA 1
+        game.moveFaithPosByID(2, 1); // SIMO 1
+        game.moveFaithPosByID(0, 3); // GIGI 4
+        game.moveFaithPosByID(1, 1); //LEA 2
+        game.moveFaithPosByID(0, 2); //GIGI 6
+        game.moveFaithPosByID(2, 3); //SIMO 4
+        game.moveFaithPosByID(2, 1); //SIMO 5
+        game.moveFaithPosByID(1, 2); //LEA 4
+
+
+        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getFavorTile1());
+        assertEquals(0, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getFavorTile1());
+        assertEquals(0, game.getPlayerById(2).getPersonalBoard().getFaithTrack().getFavorTile1());
+
+        game.moveFaithPosByID(0, 2); //GIGI 8
+
+
+//        ------- POPE FAVOR 1 REACHED ----------
+//            GIGI 8 YES
+//            LEA 4 NOPE
+//            SIMO 5 YEP
+
+        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getFavorTile1());
+        assertEquals(0, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getFavorTile1());
+        assertEquals(1, game.getPlayerById(2).getPersonalBoard().getFaithTrack().getFavorTile1());
+
+
+
+//        ---SECOND POPE 12-16
+
+
+        game.moveFaithPosByID(1, 5); //LEA 9
+        assertEquals(0, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getFavorTile1()); // 9 points but not on time
+        game.moveFaithPosByID(2, 5); //SIMO 10
+        game.moveFaithPosByID(1, 6); //LEA 15
+        game.moveFaithPosByID(2, 2); //SIMO 12
+        game.moveFaithPosByID(0, 3); //GIGI 11
+        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getFavorTile2());
+        assertEquals(0, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getFavorTile2());
+        assertEquals(0, game.getPlayerById(2).getPersonalBoard().getFaithTrack().getFavorTile2());
+
+        game.moveFaithPosByID(1, 2); //LEA 17
+
+//        ------- POPE FAVOR 2 REACHED----------
+//            GIGI 11 NOPE
+//            LEA 17 YES
+//            SIMO 12 YEP
+
+        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getFavorTile2());
+        assertEquals(1, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getFavorTile2());
+        assertEquals(1, game.getPlayerById(2).getPersonalBoard().getFaithTrack().getFavorTile2());
+
+
+//        ----- THIRD POPE  19-24-----
+        game.moveFaithPosByID(2, 5); //SIMO 17
+        game.moveFaithPosByID(1, 1); //LEA 18
+        game.moveFaithPosByID(0, 10); //GIGI 21
+        game.moveFaithPosByID(0, 2); //GIGI 23
+        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getFavorTile3());
+        assertEquals(0, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getFavorTile3());
+        assertEquals(0, game.getPlayerById(2).getPersonalBoard().getFaithTrack().getFavorTile3());
+
+        game.moveFaithPosByID(0, 5); //GIGI 24 CAPPED
+        assertEquals(24, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker());
+
+        //        ------- POPE FAVOR 2 REACHED----------
+//            GIGI 24 YES    20 pts + 2 + 4
+//            LEA 18 NOPE    12 + 3
+//            SIMO 17 NOPE 9 + 2 + 3
+
+
+        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getFavorTile3());
+        assertEquals(0, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getFavorTile3());
+        assertEquals(0, game.getPlayerById(2).getPersonalBoard().getFaithTrack().getFavorTile3());
+
+
+
+
+//        GIGI VP 86 R 37
+//        LEA VP 73 R 34
+//        SIMO VP 60 R 34
+
+        assertEquals(0, game.findWinner().getId());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

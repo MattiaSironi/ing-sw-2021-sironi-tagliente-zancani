@@ -119,7 +119,6 @@ public class Controller implements Observer<Message> {
 
     public void initialPhase() {
         Collections.shuffle(game.getPlayers(), new Random(game.getNumPlayer()));
-        game.getPlayers().get(0).setInkwell(true);
         game.sendGame();
 
         for (Player p : game.getPlayers()) {
@@ -445,13 +444,13 @@ public class Controller implements Observer<Message> {
 
     }
 
-    //TODO aggiungere i punti vittoria se richiesti
 
-    public void addResources(int ID, ArrayList<ResourceType> boughtRes) {
-        for (ResourceType r : boughtRes) {
-            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(r, 1);
-        }
-    }
+
+//    public void addResources(int ID, ArrayList<ResourceType> boughtRes) {
+//        for (ResourceType r : boughtRes) {
+//            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(r, 1);
+//        }
+//    }
 
     public void payResources(int ID, ArrayList<ResourceType> paidResFromWarehouse, ArrayList<ResourceType> paidResFromStrongbox, ArrayList<ResourceType> boughtRes) {
 
@@ -708,9 +707,7 @@ public class Controller implements Observer<Message> {
         setNickname(message);
     }
 
-    @Override
-    public void update(InputMessage message) {
-    }
+
 
     @Override
     public void update(IdMessage message) {
@@ -723,10 +720,7 @@ public class Controller implements Observer<Message> {
 
     }
 
-    @Override
-    public void update(OutputMessage message) {
 
-    }
 
     @Override
     public void update(ChooseNumberOfPlayer message) {
@@ -754,10 +748,7 @@ public class Controller implements Observer<Message> {
         goToMarket(message.isRow(), message.getIndex(), message.getID());
     }
 
-    @Override
-    public void update(ResourceListMessage message) {
 
-    }
 
     @Override
     public void update(PlaceResourceMessage message) {
@@ -842,10 +833,6 @@ public class Controller implements Observer<Message> {
         else if(game.getTurn().getPhase() == ActionPhase.PAYMENT);
     }
 
-    @Override
-    public void update(EndActionMessage message) {
-
-    }
 
 
 }

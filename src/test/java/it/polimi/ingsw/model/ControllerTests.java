@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.message.CommonMessages.Nickname;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -53,6 +54,16 @@ public class ControllerTests {
         hand.add(new Marble(ResourceType.STONE));
         game.setMarketHand(hand);
 
+    }
+
+    @Test
+    @DisplayName("new player added")
+    public void newPlayerAdded() {
+        controller.setNickname(new Nickname("gigi", 0, false)); //not added
+        controller.setNickname(new Nickname("lea", 1, false));  //added
+        controller.setNickname(new Nickname("lea", 2, false)); //not added
+        controller.setNickname(new Nickname("simo", 2, false)); //added
+        assertEquals(3, game.getPlayers().size());
     }
 //-----------------------PRODUCTION----------------------------------------------------------------------------------------------------
 //    @Test
@@ -591,6 +602,39 @@ public class ControllerTests {
 
 
     }
+
+
+    @Test
+    @DisplayName("DISCARD RES")
+    public void discardRes()  {
+        controller.setNickname(new Nickname("lea", 1, false));
+        controller.goToMarket(true, 0, 0);
+        assertEquals(4,controller.getGame().getBoard().getMarket().getHand().size());
+        controller.goToMarket(false, 0, 0);
+        assertEquals(3,controller.getGame().getBoard().getMarket().getHand().size());
+        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker());
+        assertEquals(0, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getMarker());
+        controller.placeRes(ResourceType.COIN, -1, 0, true, false);
+        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker());
+        assertEquals(1, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getMarker());
+        controller.placeRes(ResourceType.FAITH_POINT, -1, 0,  false, false );
+        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker());
+        assertEquals(1, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getMarker());
+
+    }
+
+
+    @Test
+    @DisplayName("End turn")
+    public void endTurn()  {
+        controller.setNickname(new Nickname("lea", 1 ,false));
+        controller.getGame().setTurn(0,ActionPhase.WAITING_FOR_ACTION, false, null);
+        controller.getGame().endTurn(0);
+        assertEquals(1, controller.getGame().getTurn().getPlayerPlayingID());
+    }
+
+
+
 
 
 
