@@ -18,13 +18,6 @@ public class Slot implements Serializable {
         this.currentVictoryPoints = currentVictoryPoints;
     }
 
-    public int getPosIndex() {
-        return posIndex;
-    }
-
-    public void setPosIndex(int posIndex) {
-        this.posIndex = posIndex;
-    }
 
     public int getCurrentVictoryPoints() {
         return currentVictoryPoints;
