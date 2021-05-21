@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable;
 
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class ControllerTests {
         personalBoard = new PersonalBoard();
         strongbox = new Strongbox();
         warehouse = new ShelfWarehouse();
-        player = new Player(0, "gigi", true, new LeaderDeck(0, 1, new ArrayList<LeaderCard>()), 10, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, false, personalBoard);
+        player = new Player(0, "gigi", true, new LeaderDeck(new ArrayList<LeaderCard>()), 10, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, false, personalBoard);
         game.getPlayers().add(player);
         game.getPlayers().get(0).setId(0);
         game.getPlayerById(0).setPersonalBoard(personalBoard);

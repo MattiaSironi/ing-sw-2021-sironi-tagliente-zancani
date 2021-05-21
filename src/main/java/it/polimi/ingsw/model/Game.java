@@ -187,6 +187,17 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         return player;
     }
 
+    public void setPlayerByID(int ID, Player pl){
+        int i=0;
+        for (Player p : this.players) {
+            if (p.getId() == ID) {
+                this.getPlayers().set(i,pl);
+            }
+            else
+                i++;
+        }
+    }
+
     public Game clone() throws CloneNotSupportedException {
         Game clone = new Game (this.numPlayer, this.currPlayer, this.nextPlayer, this.players, this.lori, this.board);
         return clone;
@@ -481,15 +492,20 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
     public void setNewPlayerCards (int ID, LeaderCard lc){
 
         int i=0;
-         while(i< getPlayerById(ID).getLeaderDeck().getSize()&&!(getPlayerById(ID).getLeaderDeck().getCards().get(i).equals(lc))){
-            i++;
+        for(LeaderCard l : getPlayerById(ID).getLeaderDeck().getCards())
+        {
+            if(l.equals(lc))
+                break;
+            else
+                i++;
         }
-//        getPlayerById(ID).getLeaderDeck().getCards().remove(plc); //toglie dal leader deck
-        getPlayerById(ID).getLeaderDeck().getCards().remove(getPlayerById(ID).getLeaderDeck().getCards().get(i));
-        getPlayerById(ID).getLeaderDeck().setSize(getPlayerById(ID).getLeaderDeck().getSize()-1);
-        getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(lc); //aggiunge ai leader attivi
-        getPlayerById(ID).getPersonalBoard().getActiveLeader().setSize(getPlayerById(ID).getPersonalBoard().getActiveLeader().getSize()+1);
 
+//        getPlayerById(ID).getLeaderDeck().getCards().remove(plc); //toglie dal leader deck
+        getPlayerById(ID).getLeaderDeck().getCards().remove(i);
+      //  getPlayerById(ID).getLeaderDeck().getCards().remove(getPlayerById(ID).getLeaderDeck().getCards().get(i));
+        getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(lc); //aggiunge ai leader attivi
+
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
         notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck(), 8, ID)));
         notify((new ObjectMessage(getPlayerById(ID).getPersonalBoard().getActiveLeader(),6,ID)));
         notify(new ObjectMessage(this.getPlayerById(ID),15,ID));

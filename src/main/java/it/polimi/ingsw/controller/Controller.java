@@ -40,6 +40,10 @@ public class Controller implements Observer<Message> {
 
                 /* testing */
 
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(0).setCount(100);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(1).setCount(100);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(2).setCount(100);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(3).setCount(100);
                 game.giveLeaderCards();
 
 //                game.getPlayerById(0).setWhiteConversion1(ResourceType.SHIELD);
@@ -546,11 +550,11 @@ public class Controller implements Observer<Message> {
             } else if (this.game.getPlayerById(ID).getResDiscount2() == null) {
                 this.game.getPlayerById(ID).setResDiscount2(dc.getResType());
             } else {
-                game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.TWO_LEADERS);
+                game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.TWO_LEADERS);
                 return;
             }
         } else {
-            game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.NO_REQUIREMENTS);
+            game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.NO_REQUIREMENTS);
             return;
         }
         RemoveLeaderFromDeck(ID, dc);
@@ -558,18 +562,20 @@ public class Controller implements Observer<Message> {
 
     public void PlayLeaderCard(int ID, ExtraDepotLCard sc) {
         if (game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(sc)) {
-            if (this.game.getPlayerById(ID).getPersonalBoard().getExtraShelfRes1() == null) {
-                game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes1(sc.getResDepot());
-                game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum1(0);
-            } else if (this.game.getPlayerById(ID).getPersonalBoard().getExtraShelfRes2() == null) {
-                game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes2(sc.getResDepot());
-                game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum2(0);
+            if (this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(3).getResType() == null) {
+                game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(sc.getResDepot());
+               // game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes1(sc.getResDepot());
+              //  game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum1(0);
+            } else if (this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(4).getResType() == null) {
+                game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(4).setResType(sc.getResDepot());
+               // game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes2(sc.getResDepot());
+               // game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum2(0);
             } else {
-                game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.TWO_LEADERS);
+                game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.TWO_LEADERS);
                 return;
             }
         } else {
-            game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.NO_REQUIREMENTS);
+            game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.NO_REQUIREMENTS);
             return;
         }
         RemoveLeaderFromDeck(ID, sc);
@@ -582,11 +588,11 @@ public class Controller implements Observer<Message> {
             } else if (this.game.getPlayerById(ID).getInputExtraProduction2() == null) {
                 game.getPlayerById(ID).setInputExtraProduction2(c.getInput());
             } else {
-                game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.TWO_LEADERS);
+                game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.TWO_LEADERS);
                 return;
             }
         } else {
-            game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.NO_REQUIREMENTS);
+            game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.NO_REQUIREMENTS);
             return;
         }
         RemoveLeaderFromDeck(ID, c);
@@ -599,11 +605,11 @@ public class Controller implements Observer<Message> {
             } else if (this.game.getPlayerById(ID).getWhiteConversion2() == null) {
                 game.getPlayerById(ID).setWhiteConversion2(wc.getResType());
             } else {
-                game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.TWO_LEADERS);
+                game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.TWO_LEADERS);
                 return;
             }
         } else {
-            game.setTurn(ID, ActionPhase.P_LEADER, true, ErrorList.NO_REQUIREMENTS);
+            game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.NO_REQUIREMENTS);
             return;
         }
 
@@ -624,7 +630,7 @@ public class Controller implements Observer<Message> {
             i++;
         }
         if (this.game.getPlayerById(ID).getLeaderDeck().getCards().size() > 0) {
-            newLD = new LeaderDeck((this.game.getPlayerById(ID).getLeaderDeck().getSize()) - 1, 1, this.game.getPlayerById(ID).getLeaderDeck().getCards());
+            newLD = new LeaderDeck(this.game.getPlayerById(ID).getLeaderDeck().getCards());
             newLD.getCards().remove(i);
             game.discard(ID, newLD);
             // this.game.getPlayerById(ID).setLeaderDeck(newLD);
@@ -636,7 +642,7 @@ public class Controller implements Observer<Message> {
                 game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
             }
         } else
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.D_LEADER, true, ErrorList.ZERO_CARDS);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, true, ErrorList.ZERO_CARDS);
 
     }
 

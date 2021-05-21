@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.constants.Color;
 import it.polimi.ingsw.controller.Controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,6 +31,8 @@ public class LeaderTests {
         Shelf s2 = new Shelf(ResourceType.SERVANT,1);
         Shelf s3 = new Shelf(ResourceType.SHIELD,2);
         Shelf s = new Shelf(ResourceType.COIN,6);
+        Shelf s4 =new Shelf(null,0);
+        Shelf s5 =new Shelf(null,0);
         shelves.add(0,s);
         shelves.add(1,s2);
         shelves.add(2,s2);
@@ -39,12 +40,12 @@ public class LeaderTests {
         war.add(s1);
         war.add(s2);
         war.add(s3);
-        war.add(null);
-        war.add(null);
+        war.add(s4);
+        war.add(s5);
         strongbox.setInfinityShelf(shelves);
         warehouse = new ShelfWarehouse();
         warehouse.setShelves(war);
-        player = new Player(0, "lea",  true, new LeaderDeck(0, 1, new ArrayList<LeaderCard>()), 10, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, false, personalBoard);
+        player = new Player(0, "lea",  true, new LeaderDeck(new ArrayList<LeaderCard>()), 10, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, false, personalBoard);
         game.getPlayers().add(player);
         game.getPlayers().get(0).setId(0);
         game.getPlayerById(0).setPersonalBoard(personalBoard);
@@ -62,7 +63,7 @@ public class LeaderTests {
         leaderCards.add(0,c1);
         leaderCards.add(1,c2);
       //  leaderCards.add(2,c3);
-        LeaderDeck leaderDeck = new LeaderDeck(2,1,leaderCards);
+        LeaderDeck leaderDeck = new LeaderDeck(leaderCards);
         game.getPlayerById(0).setLeaderDeck(leaderDeck);
         game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(6);
 
@@ -84,10 +85,10 @@ public class LeaderTests {
         ArrayList<LeaderCard> hand = new ArrayList<LeaderCard>();
         ExtraDepotLCard inHand = new ExtraDepotLCard(2,1,ResourceType.COIN,ResourceType.SERVANT);
         hand.add(0,inHand);
-        LeaderDeck unused = new LeaderDeck(1,2,hand);
+        LeaderDeck unused = new LeaderDeck(hand);
         DiscountLCard c1 = new DiscountLCard(1,3,CardColor.BLUE,CardColor.YELLOW,ResourceType.COIN);
         leaderCards.add(0,c1);
-        LeaderDeck leaderDeck = new LeaderDeck(1,1,leaderCards);
+        LeaderDeck leaderDeck = new LeaderDeck(leaderCards);
         game.getPlayerById(0).setLeaderDeck(unused);
         game.getPlayerById(0).getPersonalBoard().setActiveLeader(leaderDeck);
         game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(6);
@@ -105,7 +106,7 @@ public class LeaderTests {
         ArrayList<LeaderCard> myhand = new ArrayList<LeaderCard>();
         DiscountLCard dlc = new DiscountLCard(1,4, CardColor.BLUE,CardColor.PURPLE,ResourceType.COIN);
         myhand.add(dlc);
-        LeaderDeck ddeck = new LeaderDeck(1,0,myhand);
+        LeaderDeck ddeck = new LeaderDeck(myhand);
         game.getPlayerById(0).setLeaderDeck(ddeck);
 
 
@@ -114,7 +115,7 @@ public class LeaderTests {
         assertEquals(ResourceType.SERVANT,game.getPlayerById(0).getResDiscount1());
         assertEquals(ResourceType.COIN,game.getPlayerById(0).getResDiscount2());
         assertEquals(0,game.getPlayerById(0).getLeaderDeck().getCards().size());
-        assertEquals(2,game.getPlayerById(0).getPersonalBoard().getActiveLeader().getSize());
+        assertEquals(2,game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().size());
         assertEquals(dlc,game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().get(1));
 
     }
@@ -124,17 +125,13 @@ public class LeaderTests {
     @DisplayName("Play Extra Depot Leader Card")
     void PlayExtraDepotLeader() {
         ArrayList<LeaderCard> leaderCards = new ArrayList<LeaderCard>();
-        ArrayList<LeaderCard> hand = new ArrayList<LeaderCard>();
-        LeaderCard inHand = new LeaderCard (4,1);
-        LeaderCard inHand2 = new LeaderCard(1,2);
-        hand.add(0,inHand);
-        hand.add(1,inHand2);
-        LeaderDeck unused = new LeaderDeck(1,2,hand);
-        LeaderDeck leaderDeck = new LeaderDeck(0,1,leaderCards);
+        LeaderCard active = new ExtraProdLCard(3,2,CardColor.GREEN,ResourceType.COIN);
+
+        leaderCards.add(0,active);
+        LeaderDeck leaderDeck = new LeaderDeck(leaderCards);
         game.getPlayerById(0).getPersonalBoard().setActiveLeader(leaderDeck);
         game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(6);
-        game.getPlayerById(0).getPersonalBoard().setExtraShelfRes1(null);
-        game.getPlayerById(0).getPersonalBoard().setExtraShelfRes2(null);
+
        // game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().set(0,new Shelf(ResourceType.COIN,5));
 
 
@@ -142,13 +139,20 @@ public class LeaderTests {
         ArrayList<LeaderCard> myhand = new ArrayList<LeaderCard>();
         ExtraDepotLCard ed = new ExtraDepotLCard (2,4,ResourceType.COIN, ResourceType.SHIELD);
         myhand.add(ed);
-        LeaderDeck dd = new LeaderDeck(1,0,myhand);
+        LeaderDeck dd = new LeaderDeck(myhand);
         game.getPlayerById(0).setLeaderDeck(dd);
 
 
         controller.PlayLeaderCard(0, ed);
-        assertEquals(ResourceType.SHIELD,game.getPlayerById(0).getPersonalBoard().getExtraShelfRes1());
-        assertEquals(null,game.getPlayerById(0).getPersonalBoard().getExtraShelfRes2());
+        assertEquals(ResourceType.SHIELD,game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(3).getResType());
+       assertEquals(null,game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(4).getResType());
+       assertEquals(active,game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().get(0));
+       assertEquals(ed,game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().get(1));
+       assertEquals(0,game.getPlayerById(0).getLeaderDeck().getCards().size());
+       assertEquals(2,game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().size());
+       assertEquals(active,game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().get(0));
+       assertEquals(ed,game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().get(1));
+
 
     }
 
@@ -158,7 +162,7 @@ public class LeaderTests {
         ArrayList<LeaderCard> leaderCards = new ArrayList<LeaderCard>();
         LeaderCard c1 = new LeaderCard(3,3);
         leaderCards.add(0,c1);
-        LeaderDeck leaderDeck = new LeaderDeck(1,1,leaderCards);
+        LeaderDeck leaderDeck = new LeaderDeck(leaderCards);
         game.getPlayerById(0).getPersonalBoard().setActiveLeader(leaderDeck);
         game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(6);
         game.getPlayerById(0).setInputExtraProduction1(ResourceType.STONE);
@@ -172,13 +176,18 @@ public class LeaderTests {
 
         ArrayList<LeaderCard> hand = new ArrayList<LeaderCard>();
         ExtraProdLCard ep = new ExtraProdLCard (3,2,CardColor.BLUE, ResourceType.SHIELD);
+        LeaderCard wc = new WhiteTrayLCard(4,1,ResourceType.COIN,CardColor.BLUE,CardColor.GREEN);
+        hand.add(wc);
         hand.add(ep);
-        LeaderDeck myHand = new LeaderDeck(1,0,hand);
+        LeaderDeck myHand = new LeaderDeck(hand);
         game.getPlayerById(0).setLeaderDeck(myHand);
 
         controller.PlayLeaderCard(0, ep);
         assertEquals(ResourceType.STONE,game.getPlayerById(0).getInputExtraProduction1());
         assertEquals(ResourceType.SHIELD,game.getPlayerById(0).getInputExtraProduction2());
+        assertEquals(1,game.getPlayerById(0).getLeaderDeck().getCards().size());
+        assertEquals(2,game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().size());
+
 
     }
 
@@ -189,7 +198,7 @@ public class LeaderTests {
         ArrayList<LeaderCard> leaderCards = new ArrayList<LeaderCard>();
         ArrayList<LeaderCard> hand = new ArrayList<LeaderCard>();
 
-        LeaderDeck leaderDeck = new LeaderDeck(0,1,leaderCards);
+        LeaderDeck leaderDeck = new LeaderDeck(leaderCards);
         game.getPlayerById(0).getPersonalBoard().setActiveLeader(leaderDeck);
         game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(6);
         game.getPlayerById(0).setWhiteConversion1(null);
@@ -211,13 +220,13 @@ public class LeaderTests {
 
         WhiteTrayLCard wl = new WhiteTrayLCard (4,2, ResourceType.COIN, CardColor.GREEN, CardColor.YELLOW);
         hand.add(wl);
-        LeaderDeck handDeck = new LeaderDeck(1,0,hand);
+        LeaderDeck handDeck = new LeaderDeck(hand);
         game.getPlayerById(0).setLeaderDeck(handDeck);
 
         controller.PlayLeaderCard(0, wl);
 
         assertEquals(game.getPlayerById(0).getLeaderDeck().getCards().size(),0);
-        assertEquals(game.getPlayerById(0).getPersonalBoard().getActiveLeader().getSize(),1);
+        assertEquals(game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().size(),1);
         assertEquals(game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().get(0),wl);
         assertEquals(ResourceType.COIN,game.getPlayerById(0).getWhiteConversion1());
         assertEquals(null,game.getPlayerById(0).getWhiteConversion2());

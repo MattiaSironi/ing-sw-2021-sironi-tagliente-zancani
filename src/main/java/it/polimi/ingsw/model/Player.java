@@ -48,7 +48,7 @@ public class Player implements Serializable, Cloneable{
         this.id=id;
         this.nickname = nickname;
         this.personalBoard = new PersonalBoard();
-        this.leaderDeck = new LeaderDeck(0,0,new ArrayList<>());
+        this.leaderDeck = new LeaderDeck(new ArrayList<>());
         this.actionPhase = 0;
     }
 

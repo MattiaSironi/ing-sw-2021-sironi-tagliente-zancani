@@ -287,7 +287,7 @@ public class ClientActionController {
         cli.printToConsole("Choose the Leader you want to activate and select its index");
         idx = Integer.parseInt(cli.readFromInput());
 
-        if (idx > 0 && idx <= mmv.getGame().getPlayerById(ID).getLeaderDeck().getSize()) {
+        if (idx > 0 && idx <= mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().size()) {
             correctInput = true;
 //                    mmv.sendNotify(new PlayLeaderMessage(ID,idx));
         } else cli.printToConsole("Invalid int, you selected " + idx);
@@ -337,14 +337,16 @@ public class ClientActionController {
     public void chooseBasicRes() {
         ResourceType chosen1 = null, chosen2 = null;
         boolean valid = false;
+        boolean valid2 = false;
         cli.printToConsole("Now choose two resources you want to use\n[resource, resource]");
-        while (!valid) {
+        while (!(valid && valid2)) {
             String input[] = cli.readFromInput().toUpperCase(Locale.ROOT).split(",", 2);
             String part1 = input[0];
             String part2 = input[1];
             switch (part1) {
                 case "COIN" -> {
                     chosen1 = ResourceType.COIN;
+                    valid = true;
                     break;
                 }
                 case "STONE" -> {
@@ -370,21 +372,22 @@ public class ClientActionController {
             switch (part2) {
                 case "COIN" -> {
                     chosen2 = ResourceType.COIN;
+                    valid2 = true;
                     break;
                 }
                 case "STONE" -> {
                     chosen2 = ResourceType.STONE;
-                    valid = true;
+                    valid2 = true;
                     break;
                 }
                 case "SERVANT" -> {
                     chosen2 = ResourceType.SERVANT;
-                    valid = true;
+                    valid2 = true;
                     break;
                 }
                 case "SHIELD" -> {
                     chosen2 = ResourceType.SHIELD;
-                    valid = true;
+                    valid2 = true;
                     break;
                 }
                 default -> {
@@ -827,6 +830,9 @@ public class ClientActionController {
             if (message.getID() == ID && this.mmv.getGame().getPlayerById(message.getID()).getLeaderCardsToDiscard() > 0)
                 discardLead(this.mmv.getGame().getPlayerById(message.getID()).getLeaderCardsToDiscard());
         }
+        else if(message.getObjectID()==15){
+            this.mmv.getGame().setPlayerByID(message.getID(),(Player)message.getObject());
+        }
     }
 
 
@@ -874,7 +880,8 @@ public class ClientActionController {
                     placeDevCard();
                     break;
                 }
-                case P_LEADER:
+                case P_LEADER:{}
+
                 case D_LEADER: {
                     printLeaders();
                     break;

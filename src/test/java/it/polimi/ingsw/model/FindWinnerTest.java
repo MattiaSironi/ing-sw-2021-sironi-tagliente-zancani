@@ -124,7 +124,7 @@ public class FindWinnerTest {
         ArrayList<LeaderCard> ldeck0 = new ArrayList<>();
         ldeck0.add(new WhiteTrayLCard(0, 10, ResourceType.COIN, CardColor.BLUE, CardColor.YELLOW));
         ldeck0.add(new ExtraDepotLCard(0, 15, ResourceType.COIN, ResourceType.SHIELD));
-        LeaderDeck deck0 = new LeaderDeck(2, 0, ldeck0);
+        LeaderDeck deck0 = new LeaderDeck (ldeck0);
         game.getPlayerById(0).getPersonalBoard().setActiveLeader(deck0);
 
 
@@ -132,14 +132,14 @@ public class FindWinnerTest {
         ArrayList<LeaderCard> ldeck1 = new ArrayList<>();
         ldeck1.add(new ExtraProdLCard(0, 12, CardColor.GREEN, ResourceType.SERVANT));
         ldeck1.add(new DiscountLCard(0, 15, CardColor.BLUE, CardColor.PURPLE, ResourceType.STONE));
-        LeaderDeck deck1 = new LeaderDeck(2, 0, ldeck1);
+        LeaderDeck deck1 = new LeaderDeck(ldeck1);
         game.getPlayerById(1).getPersonalBoard().setActiveLeader(deck1);
 
         // --- PLAYER 3 ----
         ArrayList<LeaderCard> ldeck2 = new ArrayList<>();
         ldeck2.add(new ExtraDepotLCard(0, 8, ResourceType.SERVANT, ResourceType.STONE ));
         ldeck2.add(new ExtraProdLCard(0, 12, CardColor.GREEN, ResourceType.SERVANT));
-        LeaderDeck deck2 = new LeaderDeck(2, 0, ldeck2);
+        LeaderDeck deck2 = new LeaderDeck (ldeck2);
         game.getPlayerById(2).getPersonalBoard().setActiveLeader(deck2);
 
         assertEquals(0, game.findWinner().getId());

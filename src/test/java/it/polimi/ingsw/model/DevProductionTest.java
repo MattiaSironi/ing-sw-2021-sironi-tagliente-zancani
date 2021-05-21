@@ -1,13 +1,10 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.constants.Color;
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.view.ClientActionController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +25,7 @@ public class DevProductionTest {
         personalBoard = new PersonalBoard();
         strongbox = new Strongbox();
         warehouse = new ShelfWarehouse();
-        player = new Player(0, "lea",  true, new LeaderDeck(0, 1, new ArrayList<LeaderCard>()), 10, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, false, personalBoard);
+        player = new Player(0, "lea",  true, new LeaderDeck(new ArrayList<LeaderCard>()), 10, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, false, personalBoard);
         game.getPlayers().add(player);
         game.getPlayers().get(0).setId(0);
         game.getPlayerById(0).setPersonalBoard(personalBoard);

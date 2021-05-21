@@ -35,7 +35,7 @@ public class Board implements Serializable {
 
     private LeaderDeck createLeaderDeck() {
                 Gson gson= new Gson();
-        LeaderDeck returnfinale = new LeaderDeck(16, 00, new ArrayList<LeaderCard>());
+        LeaderDeck returnfinale = new LeaderDeck(new ArrayList<LeaderCard>());
         Reader reader1 = new InputStreamReader(Board.class.getResourceAsStream("/json/discount.json"));
         DiscountLCard[] mazzo1= gson.fromJson(reader1, DiscountLCard[].class);
         for (DiscountLCard d : mazzo1)  {

@@ -1,13 +1,7 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.Gson;
-import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
-
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Class PersonalBoard represents the board of each player
@@ -28,10 +22,6 @@ public class PersonalBoard implements Serializable {
 
     private Strongbox strongbox;
     private ShelfWarehouse warehouse;
-    private ResourceType extraShelfRes1;
-    private ResourceType extraShelfRes2;
-    private int extraShelfNum1;
-    private int extraShelfNum2;
     private ExtraProdLCard leaderChosen;
 
 
@@ -57,7 +47,7 @@ public class PersonalBoard implements Serializable {
         warehouse = new ShelfWarehouse();
         strongbox = new Strongbox();
         cardSlot = new ArrayList<DevDeck>();
-        activeLeader = new LeaderDeck(0,1,new ArrayList<>()); //lea modifica pure
+        activeLeader = new LeaderDeck(new ArrayList<>()); //lea modifica pure
         cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
         cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
         cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
@@ -126,37 +116,6 @@ public class PersonalBoard implements Serializable {
     }
 
 
-    public ResourceType getExtraShelfRes1() {
-        return extraShelfRes1;
-    }
-
-    public void setExtraShelfRes1(ResourceType extraShelfRes1) {
-        this.extraShelfRes1 = extraShelfRes1;
-    }
-
-    public ResourceType getExtraShelfRes2() {
-        return extraShelfRes2;
-    }
-
-    public void setExtraShelfRes2(ResourceType extraShelfRes2) {
-        this.extraShelfRes2 = extraShelfRes2;
-    }
-
-    public int getExtraShelfNum1() {
-        return extraShelfNum1;
-    }
-
-    public void setExtraShelfNum1(int extraShelfNum1) {
-        this.extraShelfNum1 = extraShelfNum1;
-    }
-
-    public int getExtraShelfNum2() {
-        return extraShelfNum2;
-    }
-
-    public void setExtraShelfNum2(int extraShelfNum2) {
-        this.extraShelfNum2 = extraShelfNum2;
-    }
 
     /**
      * Method checkLCardRequirements checks if the player meets the requirements of a Leader Card with ExtraProduction Ability
