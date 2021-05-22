@@ -7,12 +7,13 @@ import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class CLI extends Observable<Message> implements Observer<Message> {
     private Scanner in = new Scanner(System.in);
 
-    public synchronized String readFromInput(){
+    public synchronized String readFromInput (){
         System.out.print("> ");
         String input = in.nextLine();
         return input;
@@ -38,6 +39,11 @@ public class CLI extends Observable<Message> implements Observer<Message> {
     }
 
 
+    public synchronized String readFromInput1 () throws IOException {
+        System.out.print("> ");
+        String input = in.nextLine();
+        return input;
+    }
 
     @Override
     public void update(IdMessage message) {

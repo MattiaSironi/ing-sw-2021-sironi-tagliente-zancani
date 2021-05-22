@@ -92,9 +92,11 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
     public void printDevMatrix(){
         int index = 1;
         for(DevDeck d : this.game.getBoard().getMatrix().getDevDecks()){
-            System.out.println("Card number: " + index);
-            index++;
-            notify(new PrintableMessage((d.getCards().get(0))));
+            if(d.getSize() != 0) {
+                System.out.println("Card number: " + index);
+                index++;
+                notify(new PrintableMessage((d.getCards().get(0))));
+            }
         }
     }
 

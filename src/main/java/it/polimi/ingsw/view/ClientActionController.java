@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.*;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.PatternSyntaxException;
 import java.util.stream.Stream;
 
 /**
@@ -110,7 +111,11 @@ public class ClientActionController {
 
                     case B -> {
                         if (Actions.B.isEnable()) {
-                            actionEnded = chooseCard();
+                            try {
+                                actionEnded = chooseCard();
+                            } catch(IOException e){
+                                cli.printToConsole("Invalid input, try again!");
+                            }
 
                             // do things
                         } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
@@ -171,7 +176,12 @@ public class ClientActionController {
                     }
                     case 3 -> {
                         valid = true;
-                        useDevProduction();
+                        try {
+                            useDevProduction();
+                        }catch(IndexOutOfBoundsException e){
+                            cli.printToConsole("You do not have any development card!");
+                            activateProd();
+                        }
                     }
                     case 0 -> {
                         valid = true;
@@ -240,16 +250,14 @@ public class ClientActionController {
         return true;
     }
 
-    public boolean chooseCard() {
+    public boolean chooseCard() throws IOException {
         boolean valid = false;
         String input;
         int index = -1;
         this.mmv.printDevMatrix();
         cli.printToConsole("Choose the Development Card you want to buy");
-        input = cli.readFromInput().replaceAll("[^0-9]", "");
-        if(input.equals(""))
-            return false;
-        else {
+        input = cli.readFromInput1();
+        try {
             index = Integer.parseInt(input);
             if (!(index >= 0 && index <= 12)) {
                 cli.printToConsole("Invalid input");
@@ -261,7 +269,7 @@ public class ClientActionController {
                     + " " + ResourceType.SERVANT.printResourceColouredName() + " " + mmv.getGame().getBoard().getMatrix().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[3]
                     + " " + ResourceType.SHIELD.printResourceColouredName());
             cli.printToConsole("Continue? [y/n]");
-            input = cli.readFromInput();
+            input = cli.readFromInput1();
             if (input.equals("y")) {
                 serverConnection.send(new BuyDevCardMessage(index - 1, ID, false, -1));
                 return true;
@@ -272,6 +280,9 @@ public class ClientActionController {
                 cli.printToConsole("Invalid input, try again");
                 return false;
             }
+        }catch(NumberFormatException e){
+            cli.printToConsole("Invalid input, try again!");
+            return false;
         }
     }
 
@@ -299,126 +310,64 @@ public class ClientActionController {
         mmv.printShelves(ID);
         mmv.printStrongbox(ID);
         cli.printToConsole("Choose the Resource you want to produce\n(Choose between COIN,STONE,SERVANT,SHIELD)");
-        String input = cli.readFromInput().toUpperCase(Locale.ROOT);
-        while (!valid) {
-            switch (input) {
-                case "COIN" -> {
-                    bought = ResourceType.COIN;
-                    valid = true;
-                    break;
+        try {
+            String input = cli.readFromInput1().toUpperCase(Locale.ROOT);
+            if (Stream.of(ResourceType.values()).anyMatch(v -> v.name().equals(input))) {
+                bought = ResourceType.valueOf(input);
+                if (turn) {
+                    serverConnection.send(new BasicProductionMessage(null, null, bought, ID, false));
                 }
-                case "STONE" -> {
-                    bought = ResourceType.STONE;
-                    valid = true;
-                    break;
+                else {
+                    serverConnection.send(new LeaderProductionMessage(0, ID, bought));
                 }
-                case "SERVANT" -> {
-                    bought = ResourceType.SERVANT;
-                    valid = true;
-                break;
-                }
-                case "SHIELD" -> {
-                    bought = ResourceType.SHIELD;
-                    valid = true;
-                    break;
-                }
-                default -> {
-                    cli.printToConsole("Invalid input, try again");
-                    break;
-                }
+            } else {
+                chooseResToProduce(turn);
             }
+        } catch (IOException e){
+            cli.printToConsole("Invalid Input, try again!");
+            chooseResToProduce(turn);
         }
-        if(turn)
-            serverConnection.send(new BasicProductionMessage(null, null, bought, ID, false));
-        else
-            serverConnection.send(new LeaderProductionMessage(0, ID, bought));
     }
+
+
 
     public void chooseBasicRes() {
         ResourceType chosen1 = null, chosen2 = null;
-        boolean valid = false;
-        boolean valid2 = false;
         cli.printToConsole("Now choose two resources you want to use\n[resource, resource]");
-        while (!(valid && valid2)) {
-            String input[] = cli.readFromInput().toUpperCase(Locale.ROOT).split(",", 2);
+        try {
+            String input[] = cli.readFromInput1().toUpperCase(Locale.ROOT).split(",", 2);
             String part1 = input[0];
             String part2 = input[1];
-            switch (part1) {
-                case "COIN" -> {
-                    chosen1 = ResourceType.COIN;
-                    valid = true;
-                    break;
-                }
-                case "STONE" -> {
-                    chosen1 = ResourceType.STONE;
-                    valid = true;
-                    break;
-                }
-                case "SERVANT" -> {
-                    chosen1 = ResourceType.SERVANT;
-                    valid = true;
-                    break;
-                }
-                case "SHIELD" -> {
-                    chosen1 = ResourceType.SHIELD;
-                    valid = true;
-                    break;
-                }
-                default -> {
-                    cli.printToConsole("Invalid input, try again");
-                    break;
-                }
+            if (Stream.of(ResourceType.values()).anyMatch(v -> v.name().equals(part1)) &&
+                    Stream.of(ResourceType.values()).anyMatch(v -> v.name().equals(part2))) {
+                chosen1 = ResourceType.valueOf(part1);
+                chosen2 = ResourceType.valueOf(part1);
+                serverConnection.send(new BasicProductionMessage(chosen1, chosen2, null, ID, false));
             }
-            switch (part2) {
-                case "COIN" -> {
-                    chosen2 = ResourceType.COIN;
-                    valid2 = true;
-                    break;
-                }
-                case "STONE" -> {
-                    chosen2 = ResourceType.STONE;
-                    valid2 = true;
-                    break;
-                }
-                case "SERVANT" -> {
-                    chosen2 = ResourceType.SERVANT;
-                    valid2 = true;
-                    break;
-                }
-                case "SHIELD" -> {
-                    chosen2 = ResourceType.SHIELD;
-                    valid2 = true;
-                    break;
-                }
-                default -> {
-                    cli.printToConsole("Invalid input, try again");
-                    break;
-                }
-            }
+            else
+                chooseBasicRes();
+        } catch(PatternSyntaxException | IOException | ArrayIndexOutOfBoundsException e){
+            cli.printToConsole("Invalid Input, try again!");
+            chooseBasicRes();
         }
-        serverConnection.send(new BasicProductionMessage(chosen1, chosen2, null, ID, false));
     }
 
 
     public void useLeaderProduction() {
-        ArrayList<ResourceType> resToBuy = new ArrayList<>();
-        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
-        ArrayList<ResourceType> resFromStrongbox = new ArrayList<>();
         this.mmv.printActiveLeaders(ID);
-        boolean valid = false;
         cli.printToConsole("Choose the leader you want to use");
-        while (!valid) {
-            String input = cli.readFromInput().replaceAll("[^0-9]", "");
-            if(input.equals(""))
-                valid = false;
-            else if (input.equals("1") || input.equals("2")) {
+        try {
+            String input = cli.readFromInput1().replaceAll("[^0-9]", "");
+            if (input.equals("1") || input.equals("2")) {
                 int index = Integer.parseInt(input);
-                valid = true;
                 serverConnection.send(new LeaderProductionMessage(index - 1, ID, null));
-            }
-            else {
+            } else {
                 cli.printToConsole("Invalid input, try again");
+                useLeaderProduction();
             }
+        } catch (IOException e ){
+            cli.printToConsole("Invalid Input, try again!");
+            useLeaderProduction();
         }
     }
 
@@ -496,21 +445,16 @@ public class ClientActionController {
         boolean valid = false;
         this.mmv.printProd(ID, ID);
         cli.printToConsole("Where would you like to place your new development card? (Choose slot 1, 2 or 3)");
-        while (!valid) {
-            String input = cli.readFromInput().replaceAll("[^0-9]", "");
-            if (input.equals(""))
-                valid = false;
-            else {
-                int chosenIndex = Integer.parseInt(input);
-                if (chosenIndex >= 1 && chosenIndex <= 3) {
-                    valid = true;
-                    serverConnection.send(new BuyDevCardMessage(-1, ID, false, chosenIndex - 1));
-                }
-                else{
-                    cli.printToConsole("Invalid input, try again");
-                    valid = false;
-                }
+        try {
+            String input = cli.readFromInput1();
+            int chosenIndex = Integer.parseInt(input);
+            if (chosenIndex >= 1 && chosenIndex <= 3) {
+                valid = true;
+                serverConnection.send(new BuyDevCardMessage(-1, ID, false, chosenIndex - 1));
             }
+        } catch(IOException | NumberFormatException e){
+            cli.printToConsole("Invalid input, try again");
+            placeDevCard();
         }
     }
 
@@ -677,7 +621,7 @@ public class ClientActionController {
     }
 
 
-    public void useDevProduction() {
+    public void useDevProduction () throws IndexOutOfBoundsException {
         boolean valid = false, validInput = false, validNum = false;
         int input = 0;
         boolean okInt = false;

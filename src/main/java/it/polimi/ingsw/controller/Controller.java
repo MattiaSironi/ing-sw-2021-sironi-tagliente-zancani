@@ -255,20 +255,24 @@ public class Controller implements Observer<Message> {
     }
 
     public void handleChosenDevCard(int chosenIndex, int ID) {
-        int[] toPay = checkHasDiscount(game.getBoard().getMatrix().getDevDecks().get(chosenIndex).getCards().get(0).getCostRes(), ID);
-        if (!game.getPlayerById(ID).getPersonalBoard().totalPaymentChecker(toPay)) {
-            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
-        } else if (!(checkDevCardPlacement(game.getBoard().getMatrix().getDevDecks().get(chosenIndex).getCards().get(0), game.getPlayerById(ID)))) {
-            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
-        } else {
-            game.setResToPay(game.getBoard().getMatrix().getDevDecks().get(chosenIndex).getCards().get(0), ID);
-            game.setChosenDevCard(game.getBoard().getMatrix().getDevDecks().get(chosenIndex).getCards().get(0), chosenIndex);
-            if (game.getBoard().getMatrix().getResToPay().size() == 0) {
-                game.setCommunication(ID, CommunicationList.NO_PAYMENT_NEEDED);
-                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.CHOOSE_SLOT, false, null);
+        try {
+            int[] toPay = checkHasDiscount(game.getBoard().getMatrix().getDevDecks().get(chosenIndex).getCards().get(0).getCostRes(), ID);
+            if (!game.getPlayerById(ID).getPersonalBoard().totalPaymentChecker(toPay)) {
+                game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
+            } else if (!(checkDevCardPlacement(game.getBoard().getMatrix().getDevDecks().get(chosenIndex).getCards().get(0), game.getPlayerById(ID)))) {
+                game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
             } else {
-                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.B_PAYMENT, false, null);
+                game.setResToPay(game.getBoard().getMatrix().getDevDecks().get(chosenIndex).getCards().get(0), ID);
+                game.setChosenDevCard(game.getBoard().getMatrix().getDevDecks().get(chosenIndex).getCards().get(0), chosenIndex);
+                if (game.getBoard().getMatrix().getResToPay().size() == 0) {
+                    game.setCommunication(ID, CommunicationList.NO_PAYMENT_NEEDED);
+                    game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.CHOOSE_SLOT, false, null);
+                } else {
+                    game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.B_PAYMENT, false, null);
+                }
             }
+        }catch(IndexOutOfBoundsException e){
+            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
         }
     }
 
@@ -445,13 +449,6 @@ public class Controller implements Observer<Message> {
     }
 
 
-
-//    public void addResources(int ID, ArrayList<ResourceType> boughtRes) {
-//        for (ResourceType r : boughtRes) {
-//            this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(r, 1);
-//        }
-//    }
-
     public void payResources(int ID, ArrayList<ResourceType> paidResFromWarehouse, ArrayList<ResourceType> paidResFromStrongbox, ArrayList<ResourceType> boughtRes) {
 
         int coinWare = (int) paidResFromWarehouse.stream().filter(x -> x.equals(ResourceType.COIN)).count();
@@ -509,16 +506,20 @@ public class Controller implements Observer<Message> {
     }
 
     public void isExtraProd(int index, int ID) {
-        LeaderCard leaderCard = game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().get(index);
-        if (!(leaderCard instanceof ExtraProdLCard)) {
+        try {
+            LeaderCard leaderCard = game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().get(index);
+            if (!(leaderCard instanceof ExtraProdLCard)) {
+                game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
+            } else {
+                ArrayList<ResourceType> resForLeader = new ArrayList<>();
+                resForLeader.add(((ExtraProdLCard) leaderCard).getInput());
+                game.setChosenLeader(leaderCard, ID);
+                game.setPaidResForBasic(resForLeader);
+                game.moveFaithPosByID(ID, 1);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.SELECT_RES, false, null);
+            }
+        } catch(IndexOutOfBoundsException e){
             game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
-        } else {
-            ArrayList<ResourceType> resForLeader = new ArrayList<>();
-            resForLeader.add(((ExtraProdLCard) leaderCard).getInput());
-            game.setChosenLeader(leaderCard, ID);
-            game.setPaidResForBasic(resForLeader);
-            game.moveFaithPosByID(ID, 1);
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.SELECT_RES, false, null);
         }
     }
 
