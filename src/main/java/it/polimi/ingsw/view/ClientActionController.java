@@ -805,7 +805,7 @@ public class ClientActionController {
                     break;
                 }
                 case MARKET: {
-                    mmv.printShelves(ID);
+
                     selectResourceFromHand();
                     break;
                 }
@@ -850,6 +850,7 @@ public class ClientActionController {
 
         switch (res) {
             case COIN, STONE, SERVANT, SHIELD: {
+                mmv.printShelves(ID);
                 cli.printToConsole("you received a " + res.printResourceColouredName() + "!");
                 askForResource(res);
 
@@ -882,12 +883,15 @@ public class ClientActionController {
             case 1: {
 
                 getCli().printToConsole("due to your Leader Cards you received a " + possibleRes.get(0).printResourceColouredName() + " from the white marble!");
+                mmv.printShelves(ID);
                 askForResource(possibleRes.get(0));
                 break;
 
 
             }
             default: {
+
+                mmv.printShelves(ID);
                 getCli().printToConsole("due to your Leader Cards you can generate one of the following Resources from the white marble : "
                         + possibleRes.get(0).printResourceColouredName() + " or "
                         + possibleRes.get(1).printResourceColouredName() + ". ");
@@ -897,6 +901,7 @@ public class ClientActionController {
                 ResourceType selectedRes;
 
                 selectedRes = getResourceType(possibleRes, false, null);
+
                 askForResource(selectedRes);
                 break;
             }
