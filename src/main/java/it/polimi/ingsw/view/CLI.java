@@ -39,12 +39,6 @@ public class CLI extends Observable<Message> implements Observer<Message> {
     }
 
 
-    public synchronized String readFromInput1 () throws IOException {
-        System.out.print("> ");
-        String input = in.nextLine();
-        return input;
-    }
-
     @Override
     public void update(IdMessage message) {
 
