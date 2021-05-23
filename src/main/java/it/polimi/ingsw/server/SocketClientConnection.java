@@ -16,7 +16,6 @@ import java.lang.*;
 
 
 public class SocketClientConnection extends Observable<Message> implements Runnable {
-    private boolean first;
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
@@ -40,8 +39,7 @@ public class SocketClientConnection extends Observable<Message> implements Runna
 
 
 
-    public SocketClientConnection(boolean first, Socket socket, Server server) {
-        this.first = first;
+    public SocketClientConnection(Socket socket, Server server) {
         this.socket = socket;
         this.server = server;
         this.socketListener = new Thread(() -> {
@@ -128,8 +126,7 @@ public class SocketClientConnection extends Observable<Message> implements Runna
 
         }
         else if(message instanceof ChooseNumberOfPlayer){
-            server.setNumPlayers(((ChooseNumberOfPlayer)message).getNumberOfPlayers());
-            server.setReady(true);
+            server.setNumPlayers(((ChooseNumberOfPlayer) message).getNumberOfPlayers());
         }
         else{
             remoteView.handleAction(message);

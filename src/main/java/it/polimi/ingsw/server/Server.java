@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 
 public class Server {
@@ -19,47 +20,28 @@ public class Server {
     private static final int port = 1234;
     private ServerSocket serverSocket;
     private ExecutorService executor = Executors.newFixedThreadPool(128);
-    private Map<Integer, RemoteView> waitingConnection = new HashMap<>();
-    private Map<SocketClientConnection, SocketClientConnection> playingConnection = new HashMap<>();
-    private static boolean isFirst = true;
-    private volatile int numPlayers;
+    private ArrayList<RemoteView> waitingConnection = new ArrayList<>();
+    private Map< Game, ArrayList<RemoteView> > gameList = new HashMap<>();
     private int usedID = 0;
-    private volatile boolean ready;
-    private ServerSocket pingerSocket;
+    private int numPlayers = -1;
 
-    public void setReady(boolean ready) {
-        this.ready = ready;
-    }
-
-    public boolean isReady() {
-        return ready;
-    }
-
-    public void setNumPlayers(int numPlayers) {
-        this.numPlayers = numPlayers;
-    }
-
-    public void waitingRoom(RemoteView rv){
+    public synchronized void waitingRoom(RemoteView rv){
+        System.out.println("gew");
         int id = usedID;
-        waitingConnection.put(id, rv);
-        rv.getClientConnection().send(new IdMessage(id));
+        waitingConnection.add(rv);
         this.usedID++;
-        if(id == 0){
-            hostSetup(rv);
-        }
-        else{
-            while(!isReady()){
-
-            }
+        if(waitingConnection.size() == 1){
+            System.out.println("rg");
+            waitingConnection.get(0).getClientConnection().send(new ChooseNumberOfPlayer(-1));
         }
     }
 
-    public void hostSetup(RemoteView rv){
-        while(waitingConnection.size() != numPlayers) {
-        }
-        gameSetup();
-
-    }
+//    public void hostSetup(RemoteView rv){
+//        while(waitingConnection.size() != numPlayers) {
+//        }
+//        gameSetup();
+//
+//    }
 
 //    public void initialPhaseHandler(RemoteView rv) {
 //        System.out.println("sonoqui");
@@ -123,43 +105,66 @@ public class Server {
 //        }
 //    }
 
-    public void gameSetup(){
+    public void gameSetup() throws InterruptedException {
+        while(waitingConnection.size() < numPlayers) {
+            TimeUnit.MILLISECONDS.sleep(500);
+        }
+        ArrayList<RemoteView> remoteViews = new ArrayList<>();
         Game game = new Game();
         Controller controller = new Controller(game);
-        List<Integer> keys = new ArrayList<>(waitingConnection.keySet());
-        RemoteView rv1 = waitingConnection.get(keys.get(0));
-        rv1.setID(keys.get(0));
+        RemoteView rv1 = waitingConnection.get(0);
+        rv1.setID(0);
+        waitingConnection.remove(0);
+        remoteViews.add(rv1);
+        rv1.getClientConnection().send(new IdMessage(0));
         rv1.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
         rv1.addObserver(controller);
         game.addObserver(rv1);
         if (numPlayers >= 2) {
 //            RemoteView.setSize(2); // per adesso
-            RemoteView rv2 = waitingConnection.get(keys.get(1));
-            rv2.setID(keys.get(1));
+            RemoteView rv2 = waitingConnection.get(0);
+            rv2.setID(1);
+            waitingConnection.remove(0);
+            remoteViews.add(rv2);
+            rv2.getClientConnection().send(new IdMessage(1));
             rv2.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
             rv2.addObserver(controller);
             game.addObserver(rv2);
         }
         if (numPlayers >= 3) {
 //            RemoteView.setSize(3); // per adesso
-            RemoteView rv3 = waitingConnection.get(keys.get(2));
-            rv3.setID(keys.get(2));
+            RemoteView rv3 = waitingConnection.get(0);
+            rv3.setID(2);
+            remoteViews.add(rv3);
+            waitingConnection.remove(0);
+            rv3.getClientConnection().send(new IdMessage(2));
             rv3.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
             rv3.addObserver(controller);
             game.addObserver(rv3);
         }
         if (numPlayers == 4) {
 //            RemoteView.setSize(4); // per adesso
-            RemoteView rv4 = waitingConnection.get(keys.get(3));
-            rv4.setID(keys.get(3));
+            RemoteView rv4 = waitingConnection.get(0);
+            rv4.setID(3);
+            remoteViews.add(rv4);
+            waitingConnection.remove(0);
+            rv4.getClientConnection().send(new IdMessage(3));
             rv4.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
             rv4.addObserver(controller);
             game.addObserver(rv4);
         }
         game.setNumPlayer(numPlayers);
+        addGame(game, remoteViews);
+        numPlayers = -1;
+        if(waitingConnection.size() >= 1){
+            System.out.println("rg");
+            waitingConnection.get(0).getClientConnection().send(new ChooseNumberOfPlayer(-1));
+        }
     }
 
-
+    public void addGame(Game game, ArrayList<RemoteView> remoteViews){
+        gameList.put(game, remoteViews);
+    }
 
 
     public void run() {
@@ -167,23 +172,29 @@ public class Server {
             try {
                 Socket newSocket = serverSocket.accept();
               //  newSocket.setSoTimeout(20000);
-                if (isFirst) {
-                    isFirst = false;
-                    SocketClientConnection socketConnection = new SocketClientConnection(true, newSocket, this);
-                    RemoteView remoteView = new RemoteView(socketConnection);
-                    executor.submit(remoteView);
-                } else {
-                    SocketClientConnection socketConnection = new SocketClientConnection(false, newSocket, this);
-                    RemoteView remoteView = new RemoteView(socketConnection);
-                    executor.submit(remoteView);
-                }
+                SocketClientConnection socketConnection = new SocketClientConnection(newSocket, this);
+                RemoteView remoteView = new RemoteView(socketConnection);
+                executor.submit(remoteView);
             } catch (IOException e) {
                 System.out.println("Connection Error!");
             }
         }
     }
 
-//    public synchronized void deregisterConnection(SocketClientConnection c) {
+    public int getNumPlayers() {
+        return numPlayers;
+    }
+
+    public void setNumPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
+        try {
+            gameSetup();
+        }catch(InterruptedException e){
+
+        }
+    }
+
+    //    public synchronized void deregisterConnection(SocketClientConnection c) {
 //        SocketClientConnection opponent = playingConnection.get(c);
 //        if(opponent != null) {
 //            opponent.closeConnection();

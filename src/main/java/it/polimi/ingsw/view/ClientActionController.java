@@ -56,9 +56,6 @@ public class ClientActionController {
         string = cli.readFromInput();
         serverConnection.run();
 
-        while (isActive()) {
-
-        }
     }
 
 
@@ -696,9 +693,12 @@ public class ClientActionController {
 
     public void handleAction(Object o) {
         if (o instanceof ChooseNumberOfPlayer) {
-            ModelMultiplayerView.setSize(((ChooseNumberOfPlayer) o).getNumberOfPlayers());
-            cli.printToConsole("The match is set to " + ModelMultiplayerView.getSize());
-            nicknameSetUp();
+            if(((ChooseNumberOfPlayer) o).getNumberOfPlayers() == -1)
+                setNumberOfPlayers();
+            else {
+                cli.printToConsole("Number of players : " + ((ChooseNumberOfPlayer) o).getNumberOfPlayers());
+                nicknameSetUp();
+            }
         } else if (o instanceof Nickname) {
             if (((Nickname) o).getValid()) {
                 cli.printToConsole("Your nickname is " + ((Nickname) o).getString());

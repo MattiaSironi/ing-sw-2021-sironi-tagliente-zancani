@@ -56,10 +56,6 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
         this.clientConnection.setRemoteView(this);
         this.clientConnection.run();
         clientConnection.getServer().waitingRoom(this); //FASE 1
-
-        while(isActive()){
-
-        }
     }
 
 

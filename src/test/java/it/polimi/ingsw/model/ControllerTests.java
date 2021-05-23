@@ -65,47 +65,45 @@ public class ControllerTests {
         controller.setNickname(new Nickname("simo", 2, false)); //added
         assertEquals(3, game.getPlayers().size());
     }
-//-----------------------PRODUCTION----------------------------------------------------------------------------------------------------
-//    @Test
-//    @DisplayName("Use basic production")
-//    @Disabled("incorrect")
-//    void useBasicProductionFromWarehouse1() {
-//
-//        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
-//        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-//        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-//
-//        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
-//        ArrayList<ResourceType> resFroStrongbox = new ArrayList<>();
-//
-//        resFromWarehouse.add(ResourceType.COIN);
-//        resFromWarehouse.add(ResourceType.STONE);
-//
-//        controller.payResources(0, resFromWarehouse, resFroStrongbox);
-//
-//        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.COIN));
-//        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.STONE));
-//    }
+//---------------------------------------------------------------------------------------------------------------------------
+    @Test
+    @DisplayName("Pay one Resource")
+    void payResource1() {
+        ArrayList<ResourceType> resources = new ArrayList<>();
+        resources.add(ResourceType.COIN);
+        game.getBoard().getMatrix().setResToPay(resources);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+        controller.payRes(true, 0, true);
+
+        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getStrongbox().getResCount(ResourceType.COIN));
+    }
+
+    @Test
+    @DisplayName("Pay one Resource")
+    void payResource2() {
+        ArrayList<ResourceType> resources = new ArrayList<>();
+        resources.add(ResourceType.COIN);
+        game.getBoard().getMatrix().setResToPay(resources);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+        controller.payRes(true, 0, false);
+
+        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getStrongbox().getResCount(ResourceType.COIN));
+    }
 
 //    @Test
-//    @DisplayName("Use basic production")
-//    void useBasicProductionFromWarehouse2() {
+//    @DisplayName("Pay one Resource")
+//    void placeDevCard() {
+//        game.getBoard().getMatrix().getChosenCard() = new DevCard(0,1,1,CardColor.YELLOW, new int[],  );
 //
-//        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
-//        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-//        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-//
-//        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
-//        ArrayList<ResourceType> resFroStrongbox = new ArrayList<>();
-//
-//        resFromWarehouse.add(ResourceType.COIN);
-//        resFromWarehouse.add(ResourceType.SERVANT);
-//
-//        controller.payResources(0, resFromWarehouse, resFroStrongbox);
-//
-//        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.COIN));
-//        assertEquals(2, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.STONE));
 //    }
+
+
+
+
 
 
     //-----------------------LEADER PRODUCTION----------------------------------------------------------------------------------------------------

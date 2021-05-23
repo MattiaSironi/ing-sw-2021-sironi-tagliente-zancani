@@ -99,17 +99,11 @@ public class SocketServerConnection {
         if(o instanceof IdMessage){
             cac.getCli().printToConsole("Your ID is " + ((IdMessage) o).getID());
             cac.setID(((IdMessage)o).getID());
-            if(((IdMessage) o).getID() == 0) {
-                cac.setNumberOfPlayers();
-            }
-            else {
-                cac.getCli().printToConsole("Waiting for the host...");
-            }
         }
-        if(o instanceof PingMessage){
+        else if(o instanceof PingMessage){
 
         }
-        if (o instanceof ErrorMessage)  {
+        else if (o instanceof ErrorMessage)  {
             cac.getCli().printToConsole(((ErrorMessage) o).getString());
         }
 
@@ -117,5 +111,4 @@ public class SocketServerConnection {
             cac.handleAction(o);
         }
     }
-
 }
