@@ -14,7 +14,7 @@ public class ClientMain {
 
         /*--------- INITIAL PHASE MULTIPLAYER MATCH ------------*/
         CLI cli = new CLI();
-        ModelMultiplayerView view = new ModelMultiplayerView(new Game());
+        ModelMultiplayerView view = new ModelMultiplayerView(new Game(false));
         SocketServerConnection ssc = new SocketServerConnection();
         ClientActionController cms = new ClientActionController(cli, view, ssc);
         ssc.setCac(cms);

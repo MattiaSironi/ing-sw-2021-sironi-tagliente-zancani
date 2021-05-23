@@ -22,7 +22,7 @@ public class Observable<Message> {
         }
     }
 
-    protected void notify(Message message) {
+    public void notify(Message message) {
         synchronized (observers) {
             for (Observer<Message> observer : observers) {
                 observer.update(message);

@@ -20,17 +20,17 @@
     "moveBlackAndShuffle" : false
   },
   {
-    "discard2Cards" : "",
+    "discard2Cards" : null,
     "moveBlack2" : true ,
     "moveBlackAndShuffle" : false
   },
   {
-    "discard2Cards" : "",
+    "discard2Cards" : null,
     "moveBlack2" : true,
     "moveBlackAndShuffle" : false
   },
   {
-  "discard2Cards" : "",
+  "discard2Cards" : null,
   "moveBlack2" : false,
   "moveBlackAndShuffle" : true
 }

@@ -25,12 +25,26 @@ public class Board implements Serializable {
     private ArrayList<SoloActionToken> tokenArray;
     private DevelopmentCardMatrix matrix;
 
-    public Board() { //for now just for multiplayer
+    public Board(boolean single) { //for now just for multiplayer
         market = createMarket();
         devDecks = createDevDecks();
         leaderDeck = createLeaderDeck();
         matrix = new DevelopmentCardMatrix(devDecks);
+        if (single) tokenArray = createTokensArray();
     }
+
+    private ArrayList<SoloActionToken> createTokensArray() {
+        Gson gson = new Gson();
+        ArrayList<SoloActionToken> solo = new ArrayList<>();
+        Reader reader = new InputStreamReader(Board.class.getResourceAsStream("/json/solo.json"));
+        SoloActionToken[] sat = gson.fromJson(reader, SoloActionToken[].class);
+        for (SoloActionToken s : sat) {
+            solo.add(s);
+            Collections.shuffle(solo);
+        }
+        return solo;
+    }
+
 
 
     private LeaderDeck createLeaderDeck() {

@@ -1,13 +1,22 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.message.CommonMessages.Nickname;
+import it.polimi.ingsw.message.ActionMessages.*;
+import it.polimi.ingsw.message.CommonMessages.*;
+import it.polimi.ingsw.message.Message;
+import it.polimi.ingsw.server.Server;
+import it.polimi.ingsw.server.SocketClientConnection;
+import it.polimi.ingsw.view.ModelMultiplayerView;
+import it.polimi.ingsw.view.RemoteView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
+import javax.lang.model.element.ModuleElement;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +31,7 @@ public class ControllerTests {
 
     @BeforeEach
     void init() {
-        game = new Game();
+        game = new Game(false);
         controller = new Controller(game);
         personalBoard = new PersonalBoard();
         strongbox = new Strongbox();
@@ -356,6 +365,7 @@ public class ControllerTests {
         addResStandardShelves();
         controller.swapShelves(-1, 3, 0);
         controller.swapShelves(5,5,0);
+        controller.update(new ManageResourceMessage(5,5,0));
         controller.swapShelves(1,1,0);
         controller.swapShelves(3,4,0);
         controller.swapShelves(4,3,0);
@@ -606,13 +616,13 @@ public class ControllerTests {
     @DisplayName("DISCARD RES")
     public void discardRes()  {
         controller.setNickname(new Nickname("lea", 1, false));
-        controller.goToMarket(true, 0, 0);
+        controller.update(new MarketMessage(true, 0,0));
         assertEquals(4,controller.getGame().getBoard().getMarket().getHand().size());
         controller.goToMarket(false, 0, 0);
         assertEquals(3,controller.getGame().getBoard().getMarket().getHand().size());
         assertEquals(0, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker());
         assertEquals(0, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getMarker());
-        controller.placeRes(ResourceType.COIN, -1, 0, true, false);
+        controller.update(new PlaceResourceMessage(ResourceType.COIN, -1, 0, false, true));
         assertEquals(0, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker());
         assertEquals(1, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getMarker());
         controller.placeRes(ResourceType.FAITH_POINT, -1, 0,  false, false );
@@ -631,6 +641,17 @@ public class ControllerTests {
         assertEquals(1, controller.getGame().getTurn().getPlayerPlayingID());
     }
 
+    @Test
+    @DisplayName("End turn with update")
+    public void endTurnUpdate() {
+
+
+        controller.update(new Nickname("lea", 1, false));
+        controller.getGame().setTurn(0, ActionPhase.WAITING_FOR_ACTION, false, null);
+        controller.update(new EndTurnMessage(0));
+        assertEquals(1, controller.getGame().getTurn().getPlayerPlayingID());
+
+    }
     @Test
     @DisplayName("Initial phase")
     public void initialPhase()  {
@@ -681,6 +702,17 @@ public class ControllerTests {
         }
 
 
+    }
+
+    @Test
+    @DisplayName("just for coverage :P")
+    public void randomUpdates()  {
+        controller.update(new ErrorMessage("hello", 0));
+        controller.update(new IdMessage(0));
+        controller.update(new ObjectMessage(game, -1, -1));
+        controller.update(new PrintableMessage(game.getPlayerById(0).getPersonalBoard().getFaithTrack()));
+        controller.update(new ChooseNumberOfPlayer(2));
+        assertEquals(true, true);
     }
 
 

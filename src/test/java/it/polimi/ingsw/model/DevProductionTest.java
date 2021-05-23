@@ -20,7 +20,7 @@ public class DevProductionTest {
 
     @BeforeEach
     void init() {
-        game = new Game();
+        game = new Game(false);
         controller = new Controller(game);
         personalBoard = new PersonalBoard();
         strongbox = new Strongbox();

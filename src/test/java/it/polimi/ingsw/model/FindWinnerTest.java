@@ -20,7 +20,7 @@ public class FindWinnerTest {
     @BeforeEach
     public void init()  {
 
-        game = new Game();
+        game = new Game(false);
 
         game.getPlayers().add(new Player(0, "gigi"));
         game.getPlayers().add(new Player(1, "lea"));

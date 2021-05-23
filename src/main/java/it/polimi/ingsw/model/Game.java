@@ -88,9 +88,9 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         this.communication = communication;
     }
 
-    public Game() {
+    public Game(boolean single) {
         players = new ArrayList<>();
-        board = new Board();
+        board = new Board(single);
         turn = new Turn();
         communication = new Communication();
     }

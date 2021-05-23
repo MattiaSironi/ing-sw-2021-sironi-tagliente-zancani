@@ -110,7 +110,7 @@ public class Server {
             TimeUnit.MILLISECONDS.sleep(500);
         }
         ArrayList<RemoteView> remoteViews = new ArrayList<>();
-        Game game = new Game();
+        Game game = new Game(false);
         Controller controller = new Controller(game);
         RemoteView rv1 = waitingConnection.get(0);
         rv1.setID(0);
