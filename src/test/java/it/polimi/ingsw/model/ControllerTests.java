@@ -633,6 +633,59 @@ public class ControllerTests {
         assertEquals(1, controller.getGame().getTurn().getPlayerPlayingID());
     }
 
+    @Test
+    @DisplayName("Initial phase")
+    public void initialPhase()  {
+        controller.setNickname(new Nickname("GIGI" ,1 ,false));
+        controller.setNickname(new Nickname("GiGi", 2, false));
+        controller.setNickname(new Nickname("gigI", 3, false));
+        controller.initialPhase();
+        assertEquals(0, controller.getGame().getPlayers().get(0).getPersonalBoard().getFaithTrack().getMarker());
+        assertEquals(0,controller.getGame().getPlayers().get(0).getStartResCount() );
+        assertEquals(2,controller.getGame().getPlayers().get(0).getLeaderCardsToDiscard());
+        assertEquals(0, controller.getGame().getPlayers().get(1).getPersonalBoard().getFaithTrack().getMarker());
+        assertEquals(1,controller.getGame().getPlayers().get(1).getStartResCount() );
+        assertEquals(0,controller.getGame().getPlayers().get(1).getLeaderCardsToDiscard());
+        assertEquals(1, controller.getGame().getPlayers().get(2).getPersonalBoard().getFaithTrack().getMarker());
+        assertEquals(1,controller.getGame().getPlayers().get(2).getStartResCount() );
+        assertEquals(0,controller.getGame().getPlayers().get(2).getLeaderCardsToDiscard());
+        assertEquals(1, controller.getGame().getPlayers().get(3).getPersonalBoard().getFaithTrack().getMarker());
+        assertEquals(2,controller.getGame().getPlayers().get(3).getStartResCount() );
+        assertEquals(0,controller.getGame().getPlayers().get(3).getLeaderCardsToDiscard());
+
+    }
+
+    @Test
+    @DisplayName("distributing leader Cards")
+    public void distributingLeaders() {
+        controller.setNickname(new Nickname("GIGI" ,1 ,false));
+        controller.setNickname(new Nickname("GiGi", 2, false));
+        controller.setNickname(new Nickname("gigI", 3, false));
+        game.giveLeaderCards();
+        assertEquals(0, game.getBoard().getLeaderDeck().getCards().size());
+        assertEquals(4, game.getPlayers().get(0).getLeaderDeck().getCards().size());
+        assertEquals(4, game.getPlayers().get(1).getLeaderDeck().getCards().size());
+        assertEquals(4, game.getPlayers().get(2).getLeaderDeck().getCards().size());
+        assertEquals(4, game.getPlayers().get(3).getLeaderDeck().getCards().size());
+
+        ArrayList<LeaderCard> lea = new ArrayList<>();
+
+        for (Player p : game.getPlayers())  {
+            for (LeaderCard l : p.getLeaderDeck().getCards()) lea.add(l);
+
+        }
+        assertEquals(16, lea.size());
+
+        for (LeaderCard l : lea)  {
+            for (LeaderCard ll: lea.subList(lea.indexOf(l)+1, lea.size()))  {
+                assertEquals(false, l.equals(ll));
+            }
+        }
+
+
+    }
+
+
 
 
 
