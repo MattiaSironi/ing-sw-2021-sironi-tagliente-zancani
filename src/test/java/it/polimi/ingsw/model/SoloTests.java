@@ -19,7 +19,7 @@ public class SoloTests {
 
     @BeforeEach()
     public void init()  {
-        game = new Game(true);
+        game = new Game(true, 0);
         controller = new Controller(game);
 
     }

@@ -113,5 +113,10 @@ public class CLI extends Observable<Message> implements Observer<Message> {
 
     }
 
+    @Override
+    public void update(GameOverMessage message) {
+
+    }
+
 
 }

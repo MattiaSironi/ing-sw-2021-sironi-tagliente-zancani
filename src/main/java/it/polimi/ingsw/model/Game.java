@@ -23,6 +23,12 @@ import java.util.Collections;
 import java.util.OptionalInt;
 
 public class Game extends Observable<Message> implements Cloneable , Serializable {
+    private int gameID;
+
+    public int getGameID() {
+        return gameID;
+    }
+
     private int numPlayer;
     private int currPlayer;
     private int nextPlayer;
@@ -88,7 +94,8 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         this.communication = communication;
     }
 
-    public Game(boolean single) {
+    public Game(boolean single, int ID) {
+        gameID = ID;
         players = new ArrayList<>();
         board = new Board(single);
         turn = new Turn();
@@ -331,7 +338,9 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
 
             }
             else {
-                setTurn(findWinner().getId(), ActionPhase.GAME_OVER, false, null );
+                int winnerID = findWinner().getId();
+                setTurn(winnerID, ActionPhase.GAME_OVER, false, null );
+                notify(new GameOverMessage(winnerID));
                 return;
             }
         }

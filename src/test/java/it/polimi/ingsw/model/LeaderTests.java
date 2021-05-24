@@ -20,7 +20,7 @@ public class LeaderTests {
 
     @BeforeEach
     void init() {
-        game = new Game(false);
+        game = new Game(false, 0);
         controller = new Controller(game);
         personalBoard = new PersonalBoard();
         strongbox = new Strongbox();

@@ -21,16 +21,16 @@ public class Server {
     private ServerSocket serverSocket;
     private ExecutorService executor = Executors.newFixedThreadPool(128);
     private ArrayList<RemoteView> waitingConnection = new ArrayList<>();
-    private Map< Game, ArrayList<RemoteView> > gameList = new HashMap<>();
-    private int usedID = 0;
+    private Map<Game, ArrayList<RemoteView>> gameList = new HashMap<>();
+    private int usedID = 0, gameID=0;
     private int numPlayers = -1;
 
-    public synchronized void waitingRoom(RemoteView rv){
+    public synchronized void waitingRoom(RemoteView rv) {
         System.out.println("gew");
         int id = usedID;
         waitingConnection.add(rv);
         this.usedID++;
-        if(waitingConnection.size() == 1){
+        if (waitingConnection.size() == 1) {
             System.out.println("rg");
             waitingConnection.get(0).getClientConnection().send(new ChooseNumberOfPlayer(-1));
         }
@@ -105,64 +105,72 @@ public class Server {
 //        }
 //    }
 
-    public void gameSetup() throws InterruptedException {
-        while(waitingConnection.size() < numPlayers) {
+    public void gameSetup(SocketClientConnection scc) throws InterruptedException {
+        while (waitingConnection.size() < numPlayers && scc.isActive()) {
             TimeUnit.MILLISECONDS.sleep(500);
         }
-        ArrayList<RemoteView> remoteViews = new ArrayList<>();
-        Game game = new Game(false);
-        Controller controller = new Controller(game);
-        RemoteView rv1 = waitingConnection.get(0);
-        rv1.setID(0);
-        waitingConnection.remove(0);
-        remoteViews.add(rv1);
-        rv1.getClientConnection().send(new IdMessage(0));
-        rv1.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
-        rv1.addObserver(controller);
-        game.addObserver(rv1);
-        if (numPlayers >= 2) {
+        if (scc.isActive()) {
+            ArrayList<RemoteView> remoteViews = new ArrayList<>();
+            Game game = new Game(false, gameID);
+
+            Controller controller = new Controller(game);
+            RemoteView rv1 = waitingConnection.get(0);
+            rv1.setID(0);
+            rv1.setGameID(gameID);
+            waitingConnection.remove(0);
+            remoteViews.add(rv1);
+            rv1.getClientConnection().send(new IdMessage(0));
+            rv1.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
+            rv1.addObserver(controller);
+            game.addObserver(rv1);
+            if (numPlayers >= 2) {
 //            RemoteView.setSize(2); // per adesso
-            RemoteView rv2 = waitingConnection.get(0);
-            rv2.setID(1);
-            waitingConnection.remove(0);
-            remoteViews.add(rv2);
-            rv2.getClientConnection().send(new IdMessage(1));
-            rv2.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
-            rv2.addObserver(controller);
-            game.addObserver(rv2);
-        }
-        if (numPlayers >= 3) {
+                RemoteView rv2 = waitingConnection.get(0);
+                rv2.setID(1);
+                rv2.setGameID(gameID);
+                waitingConnection.remove(0);
+                remoteViews.add(rv2);
+                rv2.getClientConnection().send(new IdMessage(1));
+                rv2.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
+                rv2.addObserver(controller);
+                game.addObserver(rv2);
+            }
+            if (numPlayers >= 3) {
 //            RemoteView.setSize(3); // per adesso
-            RemoteView rv3 = waitingConnection.get(0);
-            rv3.setID(2);
-            remoteViews.add(rv3);
-            waitingConnection.remove(0);
-            rv3.getClientConnection().send(new IdMessage(2));
-            rv3.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
-            rv3.addObserver(controller);
-            game.addObserver(rv3);
-        }
-        if (numPlayers == 4) {
+                RemoteView rv3 = waitingConnection.get(0);
+                rv3.setID(2);
+                rv3.setGameID(gameID);
+                remoteViews.add(rv3);
+                waitingConnection.remove(0);
+                rv3.getClientConnection().send(new IdMessage(2));
+                rv3.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
+                rv3.addObserver(controller);
+                game.addObserver(rv3);
+            }
+            if (numPlayers == 4) {
 //            RemoteView.setSize(4); // per adesso
-            RemoteView rv4 = waitingConnection.get(0);
-            rv4.setID(3);
-            remoteViews.add(rv4);
-            waitingConnection.remove(0);
-            rv4.getClientConnection().send(new IdMessage(3));
-            rv4.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
-            rv4.addObserver(controller);
-            game.addObserver(rv4);
-        }
-        game.setNumPlayer(numPlayers);
-        addGame(game, remoteViews);
-        numPlayers = -1;
-        if(waitingConnection.size() >= 1){
-            System.out.println("rg");
-            waitingConnection.get(0).getClientConnection().send(new ChooseNumberOfPlayer(-1));
+                RemoteView rv4 = waitingConnection.get(0);
+                rv4.setID(3);
+                rv4.setGameID(gameID);
+                remoteViews.add(rv4);
+                waitingConnection.remove(0);
+                rv4.getClientConnection().send(new IdMessage(3));
+                rv4.getClientConnection().send(new ChooseNumberOfPlayer(numPlayers));
+                rv4.addObserver(controller);
+                game.addObserver(rv4);
+            }
+            game.setNumPlayer(numPlayers);
+            addGame(game, remoteViews);
+            gameID++;
+            numPlayers = -1;
+            if (waitingConnection.size() >= 1) {
+                System.out.println("rg");
+                waitingConnection.get(0).getClientConnection().send(new ChooseNumberOfPlayer(-1));
+            }
         }
     }
 
-    public void addGame(Game game, ArrayList<RemoteView> remoteViews){
+    public void addGame(Game game, ArrayList<RemoteView> remoteViews) {
         gameList.put(game, remoteViews);
     }
 
@@ -171,7 +179,7 @@ public class Server {
         while (true) {
             try {
                 Socket newSocket = serverSocket.accept();
-              //  newSocket.setSoTimeout(20000);
+                  newSocket.setSoTimeout(20000);
                 SocketClientConnection socketConnection = new SocketClientConnection(newSocket, this);
                 RemoteView remoteView = new RemoteView(socketConnection);
                 executor.submit(remoteView);
@@ -185,11 +193,11 @@ public class Server {
         return numPlayers;
     }
 
-    public void setNumPlayers(int numPlayers) {
+    public void setNumPlayers(int numPlayers, SocketClientConnection scc) {
         this.numPlayers = numPlayers;
         try {
-            gameSetup();
-        }catch(InterruptedException e){
+            gameSetup(scc);
+        } catch (InterruptedException e) {
 
         }
     }
@@ -215,4 +223,46 @@ public class Server {
     }
 
 
+    public ArrayList<RemoteView> getWaitingConnection() {
+        return waitingConnection;
+    }
+
+    public boolean logOutFromWaiting(RemoteView remoteView) {
+        boolean wasInside;
+        if (waitingConnection.indexOf(remoteView) == 0) {
+             wasInside = this.waitingConnection.remove(remoteView);
+            if (!waitingConnection.isEmpty()) {
+                waitingConnection.get(0).getClientConnection().send(new ChooseNumberOfPlayer(-1));
+            }
+
+        } else  wasInside = this.waitingConnection.remove(remoteView);
+
+        return wasInside;
+    }
+
+    public synchronized void logOutFromGame(int gameID) {
+
+        Game game = getGameByID(gameID);
+        if (game != null)  {
+
+            for (RemoteView rv : gameList.get(game))  {
+                if (!rv.getClientConnection().getSocket().isClosed())
+                rv.getClientConnection().closeConnection();
+            }
+            gameList.remove(game);
+
+
+
+        }
+
+    }
+
+    private Game getGameByID(int gameID) {
+        Game game = null;
+        for (Game g : gameList.keySet())  {
+            if (g.getGameID()==gameID) game = g;
+        }
+        return game;
+    }
 }
+

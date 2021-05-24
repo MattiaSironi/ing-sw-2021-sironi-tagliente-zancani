@@ -230,6 +230,11 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     }
 
+    @Override
+    public void update(GameOverMessage message) {
+
+    }
+
 
 //    @Override
 //    public void update(LeaderProdMessage message){

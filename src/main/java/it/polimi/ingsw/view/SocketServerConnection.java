@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Scanner;
 
 public class SocketServerConnection {
@@ -25,7 +26,16 @@ public class SocketServerConnection {
     public SocketServerConnection() {
         socketListener = new Thread(() -> {
             while (isActive()) {
-                Object o = receive();
+                Object o = null;
+                try {
+                    o = receive();
+                } catch (IOException e) {
+                    close();
+
+                } catch (ClassNotFoundException e) {
+                    close();
+
+                }
                 messageHandler(o);
             }
         });
@@ -76,23 +86,41 @@ public class SocketServerConnection {
             socketOut.writeObject(message);
             socketOut.flush();
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            isActive = false;
         }
     }
 
-    public Object receive() {
+    public Object receive() throws IOException, ClassNotFoundException {
         Object inputObject = null;
-        try {
-            inputObject = socketIn.readObject();
-        } catch (Exception e) {
-        }
+
+        inputObject = socketIn.readObject();
+
         return inputObject;
+
+
     }
 
-    public void closeConnection() throws IOException {
-        socketIn.close();
-        socketOut.close();
-        socket.close();
+    public void close() {
+        isActive = false;
+
+
+        try {
+            closeConnection();
+
+        }
+        catch (IOException e) {
+            System.out.println("Error closing socket!");
+        }
+    }
+
+    public synchronized void closeConnection() throws IOException {
+        if (!socket.isClosed()) {
+            System.out.println("Game is ended. See you next time!");
+
+            socketIn.close();
+            socketOut.close();
+            socket.close();
+        }
     }
 
     public void messageHandler(Object o){

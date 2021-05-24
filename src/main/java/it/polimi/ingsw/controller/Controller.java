@@ -844,6 +844,10 @@ public class Controller implements Observer<Message> {
         else if(game.getTurn().getPhase() == ActionPhase.PAYMENT);
     }
 
+    @Override
+    public void update(GameOverMessage message) {
+
+    }
 
 
 }

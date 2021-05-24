@@ -6,7 +6,6 @@ import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.view.RemoteView;
 
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -23,10 +22,19 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     private int ID;
     private Thread socketListener, pingSender;
     private RemoteView remoteView;
+
+    public RemoteView getRemoteView() {
+        return remoteView;
+    }
+
     private boolean active = true;
 
     public int getID() {
         return ID;
+    }
+
+    public Socket getSocket() {
+        return socket;
     }
 
     public void setID(int ID) {
@@ -49,8 +57,9 @@ public class SocketClientConnection extends Observable<Message> implements Runna
                     messageHandler(message);
                 }
             } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-                System.out.println("Player #" + this.ID + " has  been disconnected!");
+                close();
+
+                System.out.println("Player # " + this.getRemoteView().getID() + "in game # " + this.getRemoteView().getGameID() + "has  been disconnected!");
             }
         });
         this.pingSender =  new Thread(() -> {
@@ -60,8 +69,9 @@ public class SocketClientConnection extends Observable<Message> implements Runna
                     send(new PingMessage());
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
-                System.out.println("Player # " + this.ID + "has  been disconnected!");
+
+
+                System.out.println("Player # " + this.getRemoteView().getID() + "in game # " + this.getRemoteView().getGameID() + "has  been disconnected!");
             }
         });
     }
@@ -70,7 +80,7 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         return server;
     }
 
-    private synchronized boolean isActive() {
+    public synchronized boolean isActive() {
         return active;
     }
 
@@ -90,23 +100,31 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     }
 
     public Object receive() throws IOException, ClassNotFoundException {
-            return in.readObject();
+
+        return in.readObject();
+
     }
 
     public synchronized void closeConnection() {
         //send("Connection closed!");
+        active = false;
         try {
             socket.close();
         } catch (IOException e) {
             System.err.println("Error when closing socket!");
         }
-        active = false;
+
     }
 
     public void close() {
-        closeConnection();
-        System.out.println("Deregistering client...");
-        System.out.println("Done!");
+        if (!socket.isClosed()) {
+            closeConnection();
+            if (!server.logOutFromWaiting(this.getRemoteView()))
+                server.logOutFromGame(this.getRemoteView().getGameID());
+
+            System.out.println("Deregistering client...");
+            System.out.println("Done!");
+        }
     }
 
     public void run() {
@@ -126,7 +144,7 @@ public class SocketClientConnection extends Observable<Message> implements Runna
 
         }
         else if(message instanceof ChooseNumberOfPlayer){
-            server.setNumPlayers(((ChooseNumberOfPlayer) message).getNumberOfPlayers());
+            server.setNumPlayers(((ChooseNumberOfPlayer) message).getNumberOfPlayers(), this);
         }
         else{
             remoteView.handleAction(message);

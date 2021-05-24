@@ -10,6 +10,8 @@ public class Observable<Message> {
 
     private final List<Observer<Message>> observers = new ArrayList<>();
 
+
+
     public void addObserver(Observer<Message> observer) {
         synchronized (observers) {
             observers.add(observer);
@@ -155,6 +157,14 @@ public class Observable<Message> {
     }
 
     protected void notify(LeaderProductionMessage message) {
+        synchronized (observers) {
+            for (Observer<Message> observer : observers) {
+                observer.update(message);
+            }
+        }
+
+    }
+    protected void notify(GameOverMessage message) {
         synchronized (observers) {
             for (Observer<Message> observer : observers) {
                 observer.update(message);

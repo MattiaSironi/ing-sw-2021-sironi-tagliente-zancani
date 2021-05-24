@@ -7,18 +7,13 @@ import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.SocketClientConnection;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.PrintWriter;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-
 public class RemoteView extends Observable<Message> implements Observer<Message>, Runnable {
 
     private SocketClientConnection clientConnection;
     private int ID;
     private static int size;
     private boolean active = true;
+    private int gameID;
 
     public boolean isActive() {
         return active;
@@ -42,6 +37,14 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     public void setClientConnection(SocketClientConnection clientConnection) {
         this.clientConnection = clientConnection;
+    }
+
+    public int getGameID() {
+        return gameID;
+    }
+
+    public void setGameID(int gameID) {
+        this.gameID = gameID;
     }
 
     public int getID() {
@@ -136,6 +139,12 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
     public void update(LeaderProductionMessage message) {
 
     }
+
+    @Override
+    public void update(GameOverMessage message) {
+        if (message.getWinnerID() == ID) getClientConnection().close();
+        }
+
 
     @Override
     public void update(PlaceResourceMessage message) {
