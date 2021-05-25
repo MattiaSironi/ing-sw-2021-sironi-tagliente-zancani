@@ -43,4 +43,13 @@ public class Turn implements Serializable { //objectID = 10
     public void setErrorType(ErrorList errorType) {
         this.errorType = errorType;
     }
+
+    public Turn clone()  {
+        Turn clone = new Turn();
+        clone.playerPlayingID = this.playerPlayingID;
+        clone.phase = this.phase;
+        clone.error = this.error;
+        clone.errorType = this.errorType;
+        return clone;
+    }
 }

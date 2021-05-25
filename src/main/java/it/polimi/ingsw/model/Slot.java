@@ -26,4 +26,10 @@ public class Slot implements Serializable {
     public void setCurrentVictoryPoints(int currentVictoryPoints) {
         this.currentVictoryPoints = currentVictoryPoints;
     }
+
+    public Slot clone() {
+        Slot clone = new Slot(this.posIndex, this.currentVictoryPoints);
+        return clone;
+    }
 }
+

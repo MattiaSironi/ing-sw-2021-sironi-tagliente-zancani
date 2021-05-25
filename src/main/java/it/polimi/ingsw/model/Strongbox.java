@@ -203,5 +203,20 @@ public class Strongbox implements Printable, Serializable {
         for (Shelf s : this.getInfinityShelf()) {
                 System.out.println(s.getCount() + " " + s.getResType().printResourceColouredName() + "(s)");
         }
+
+    }
+
+    public Strongbox clone() {
+        Strongbox temp = new Strongbox();
+        temp.earnedCoin = this.earnedCoin;
+        temp.earnedServant = this.earnedServant;
+        temp.earnedStone = this.earnedStone;
+        temp.earnedShield = this.earnedShield;
+        temp.infinityShelf.set(0, new Shelf(this.infinityShelf.get(0).getResType(), this.infinityShelf.get(0).getCount()));
+        temp.infinityShelf.set(1, new Shelf(this.infinityShelf.get(1).getResType(), this.infinityShelf.get(1).getCount()));
+        temp.infinityShelf.set(2, new Shelf(this.infinityShelf.get(2).getResType(), this.infinityShelf.get(2).getCount()));
+        temp.infinityShelf.set(3, new Shelf(this.infinityShelf.get(3).getResType(), this.infinityShelf.get(3).getCount()));
+        return temp;
+
     }
 }

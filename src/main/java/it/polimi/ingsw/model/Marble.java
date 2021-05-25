@@ -27,4 +27,8 @@ public class Marble implements Serializable {
     public void setRes(ResourceType res) {
         this.res = res;
     }
+
+    public Marble clone()  {
+        return new Marble(this.res);
+    }
 }

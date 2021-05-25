@@ -116,4 +116,27 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
             System.out.println("LORENZO IL MAGNIFICO POSITION = " + getLoriPos());
         }
     }
+
+    public void moveLoriPos(int number) {
+        this.loriPos += number;
+        if (loriPos >= 24) loriPos=24;
+    }
+
+    public FaithTrack clone() {
+        FaithTrack clone;
+        if (loriPos == null) clone = new FaithTrack(null);
+        else {
+            int loripos = loriPos;
+            clone = new FaithTrack(loripos);
+        }
+        clone.marker = this.marker;
+        clone.favorTile1 = this.favorTile1;
+        clone.favorTile2 = this.favorTile2;
+        clone.favorTile3 = this.favorTile3;
+        ArrayList<Slot> slotclone = new ArrayList<>();
+        for (Slot s : this.faithTrackSlot) {
+            slotclone.add(s.clone());
+        }
+        return clone;
+    }
 }

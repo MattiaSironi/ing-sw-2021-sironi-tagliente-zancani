@@ -23,17 +23,12 @@ import java.util.Collections;
 import java.util.OptionalInt;
 
 public class Game extends Observable<Message> implements Cloneable , Serializable {
+
     private int gameID;
-
-    public int getGameID() {
-        return gameID;
-    }
-
     private int numPlayer;
     private int currPlayer;
     private int nextPlayer;
     private ArrayList<Player> players;
-    private LorenzoIlMagnifico lori = null;
     private Board board;
     private boolean firstvatican = false;
     private boolean secondvatican = false;
@@ -44,6 +39,10 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
 
     public boolean isGameOver() {
         return gameOver;
+    }
+
+    public int getGameID() {
+        return gameID;
     }
 
     public void setGameOver(boolean gameOver) {
@@ -58,9 +57,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         this.turn = turn;
     }
 
-    public LorenzoIlMagnifico getLori() {
-        return lori;
-    }
+
 
     public boolean isFirstvatican() {
         return firstvatican;
@@ -103,24 +100,12 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
     }
 
 
-    public void printPlayerNickname(int ID) {
-        String realNick = null;
-        for (Player p : this.players) {
-            if (p.getId() == ID) {
-                realNick = p.getNickname();
-            }
-        }
-        notify(new Nickname(realNick
-                , ID, true));
-    }
-
-
-    public Game(int numPlayer, int currPlayer, int nextPlayer, ArrayList<Player> players, LorenzoIlMagnifico lori, Board board) {
+    public Game(int numPlayer, int currPlayer, int nextPlayer, ArrayList<Player> players,  Board board) {
         this.numPlayer = numPlayer;
         this.currPlayer = currPlayer;
         this.nextPlayer = nextPlayer;
         this.players = players;
-        this.lori = lori;
+
         this.board = board;
     }
 
@@ -168,9 +153,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         return board;
     }
 
-    public void setLori(LorenzoIlMagnifico lori) {
-        this.lori = lori;
-    }
+
 
 
 
@@ -196,7 +179,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
     }
 
     public Game clone() throws CloneNotSupportedException {
-        Game clone = new Game (this.numPlayer, this.currPlayer, this.nextPlayer, this.players, this.lori, this.board);
+        Game clone = new Game (this.numPlayer, this.currPlayer, this.nextPlayer, this.players, this.board);
         return clone;
     }
 
@@ -264,34 +247,43 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         notify(new ObjectMessage(getBoard().getMatrix(), 2, -1));
     }
 
-    public void checkVatican()  {
-        OptionalInt maxPos = this.players.stream().mapToInt(x -> x.getPersonalBoard().getFaithTrack().getMarker()).max();
-        if (maxPos.isPresent())  {
-            int maxP = maxPos.getAsInt();
-            if (maxP >= 8 && !firstvatican)  {
-                setCommunication(-1, CommunicationList.VATICAN);
-                checkEveryPlayerPos(8, 0);
-                setFirstvatican(true);
-                notify(new ObjectMessage(true, 11, 0));
+    public void checkVatican() {
+        int maxP=0;
+        if (numPlayer == 1) {
 
-            }
-            else if (maxP >= 16 && !secondvatican)  {
-                setCommunication(-1, CommunicationList.VATICAN);
-                checkEveryPlayerPos(16, 1);
-                setSecondvatican(true);
-                notify(new ObjectMessage(true, 11, 1));
-            }
-            else if (maxP ==24 && !thirdvatican)  {
-                setCommunication(-1, CommunicationList.VATICAN);
-                checkEveryPlayerPos(24, 2);
-                setThirdvatican(true);
-                setGameOver(true);
-                notify(new ObjectMessage(true, 11, 2));
-                // END OF GAME(?)
+            int playerPos = getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker();
+            int loriPos = getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos();
+            maxP = Math.max(playerPos, loriPos);
+
+        } else {
+            OptionalInt maxPos = this.players.stream().mapToInt(x -> x.getPersonalBoard().getFaithTrack().getMarker()).max();
+            if (maxPos.isPresent()) {
+                maxP = maxPos.getAsInt();
             }
         }
+                if (maxP >= 8 && !firstvatican) {
+                    setCommunication(-1, CommunicationList.VATICAN);
+                    checkEveryPlayerPos(8, 0);
+                    setFirstvatican(true);
+                    notify(new ObjectMessage(true, 11, 0));
 
-    }
+                } else if (maxP >= 16 && !secondvatican) {
+                    setCommunication(-1, CommunicationList.VATICAN);
+                    checkEveryPlayerPos(16, 1);
+                    setSecondvatican(true);
+                    notify(new ObjectMessage(true, 11, 1));
+                } else if (maxP == 24 && !thirdvatican) {
+                    setCommunication(-1, CommunicationList.VATICAN);
+                    checkEveryPlayerPos(24, 2);
+                    setThirdvatican(true);
+                    setGameOver(true);
+                    notify(new ObjectMessage(true, 11, 2));
+                    // END OF GAME(?)
+                }
+            }
+
+
+
 
     public void checkEveryPlayerPos(int popeSpace, int vatican)  {
         for (Player p : this.players)  {
@@ -330,8 +322,9 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
     }
 
     public void endTurn(int lastPlayerID) {
-        if(numPlayer == 1){
+        if(numPlayer == -1){ //TODO
            handleSoloActionToken();
+           if (gameOver) {}
         }
         else {
             int position = this.players.indexOf(getPlayerById(lastPlayerID));
@@ -367,6 +360,10 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
     }
 
     public void moveLoriPos(int number){
+        getPlayerById(0).getPersonalBoard().getFaithTrack().moveLoriPos(number);
+
+        notify(new ObjectMessage(getPlayerById(0).getPersonalBoard().getFaithTrack(), 12, 0));
+        checkVatican();
 
     }
 

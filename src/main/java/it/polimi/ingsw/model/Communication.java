@@ -27,4 +27,11 @@ public class Communication implements Serializable {
     public void setCommunication(CommunicationList communication) {
         this.communication = communication;
     }
+
+    public Communication clone()  {
+        Communication clone = new Communication();
+        clone.addresseeID = this.addresseeID;
+        clone.communication = this.communication;
+        return clone;
+    }
 }

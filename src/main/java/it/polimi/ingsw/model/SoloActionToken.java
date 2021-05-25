@@ -43,4 +43,8 @@ public class SoloActionToken implements Serializable {
         this.moveBlackAndShuffle = moveBlackAndShuffle;
     }
 
+    public SoloActionToken clone()  {
+        return new SoloActionToken(this.discard2Cards, this.moveBlack2, this.moveBlackAndShuffle);
+    }
+
 }

@@ -248,6 +248,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                 } else cli.printToConsole("Invalid int, you selected " + index);
             } else cli.printToConsole("Invalid command");
         }
+        noMoreActions();
         send(new MarketMessage(row, index - 1, ID));
         return true;
     }
@@ -363,7 +364,7 @@ public class ClientActionController extends Observable<Message> implements Obser
     }
 
 
-    public void askForResource(ResourceType res) { //public for now, then private TODO
+    public void askForResource(ResourceType res) {
 
         cli.printToConsole("Do you want to keep it or not? [y/n]");
         boolean valid = false;

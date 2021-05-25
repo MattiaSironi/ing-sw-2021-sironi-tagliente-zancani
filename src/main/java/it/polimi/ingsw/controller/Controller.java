@@ -250,11 +250,15 @@ public class Controller implements Observer<Message> {
     }
 
     public void discardRes(int ID) {
+        if (game.getNumPlayer() == 1) {
+            game.moveLoriPos(1);
+        } else {
 
-        ArrayList<Player> others = this.game.getPlayers();
-        for (Player p : others) {
-            if (p.getId() != ID) {
-                this.game.moveFaithPosByID(p.getId(), 1);
+            ArrayList<Player> others = this.game.getPlayers();
+            for (Player p : others) {
+                if (p.getId() != ID) {
+                    this.game.moveFaithPosByID(p.getId(), 1);
+                }
             }
         }
     }
