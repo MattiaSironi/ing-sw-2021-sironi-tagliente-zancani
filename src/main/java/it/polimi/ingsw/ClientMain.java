@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.view.CLI;
 import it.polimi.ingsw.view.ClientActionController;
@@ -7,19 +8,46 @@ import it.polimi.ingsw.view.ModelMultiplayerView;
 import it.polimi.ingsw.view.SocketServerConnection;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class ClientMain {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        System.out.println("Choose MODE:\n0->SINGLEPLAYER\n1->MULTIPLAYER");
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        if(input.equals("0")){
+            startSinglePlayer();
+        }
+        else{
+            startMultiPlayer();
+        }
 
-
+    }
         /*--------- INITIAL PHASE MULTIPLAYER MATCH ------------*/
-        CLI cli = new CLI();
-        ModelMultiplayerView view = new ModelMultiplayerView(new Game(false, -1));
-        SocketServerConnection ssc = new SocketServerConnection();
-        ClientActionController cms = new ClientActionController(cli, view, ssc);
-        ssc.setCac(cms);
-        view.addObserver(cli);
-        cms.setup();
+        public static void startMultiPlayer() throws IOException, ClassNotFoundException {
+            CLI cli = new CLI();
+            ModelMultiplayerView view = new ModelMultiplayerView(new Game(false, -1));
+            SocketServerConnection ssc = new SocketServerConnection();
+            ClientActionController cms = new ClientActionController(cli, view, ssc, false);
+            ssc.setCac(cms);
+            view.addObserver(cli);
+            cms.setupMultiplayer();
+        }
+
+
+        public static void startSinglePlayer(){
+            Game game = new Game(true, 0);
+            game.setNumPlayer(1);
+            Controller controller = new Controller(game);
+            CLI cli = new CLI();
+            ModelMultiplayerView modelMultiplayerView = new ModelMultiplayerView(new Game(true, 0));
+            ClientActionController clientActionController = new ClientActionController(cli, modelMultiplayerView, null, true);
+            modelMultiplayerView.addObserver(cli);
+            clientActionController.addObserver(controller);
+            game.addObserver(clientActionController);
+            clientActionController.nicknameSetUp();
+
+        }
 
         /*         ------------- INITIAL PHASE FOR TESTING ACTIONS -------------------------------*/
 //        Game game = new Game();
@@ -46,13 +74,6 @@ public class ClientMain {
 //
 
         /*    ---------------- MANAGE RESOURCE ACTION ----------------------------*/
-
-
-
-
-
-
-    }
 }
 
 

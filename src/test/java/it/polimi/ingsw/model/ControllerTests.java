@@ -262,30 +262,6 @@ public class ControllerTests {
 
     //-----------------------BUY DEVELOPMENT CARD----------------------------------------------------------------------------------------------------
 
-    @Test
-    @Disabled("incorrect")
-    @DisplayName("Buy Development Card")
-    void buyDevCardFromWarehouse() {
-        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
-        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 2);
-        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 2);
-        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SERVANT, 1);
-        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SERVANT, 1);
-
-        ArrayList<ResourceType> resFromWare = new ArrayList<>();
-        ArrayList<ResourceType> resFromStrong = new ArrayList<>();
-
-        resFromWare.add(ResourceType.COIN);
-        resFromWare.add(ResourceType.STONE);
-        resFromWare.add(ResourceType.STONE);
-        resFromWare.add(ResourceType.SERVANT);
-
-//        controller.buyDevCard(0, true, false, resFromWare, resFromStrong);
-        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.COIN));
-        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.STONE));
-        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getWarehouse().getResCount(ResourceType.SERVANT));
-    }
-
 
 //    ----------------RESOURCES------------------
 

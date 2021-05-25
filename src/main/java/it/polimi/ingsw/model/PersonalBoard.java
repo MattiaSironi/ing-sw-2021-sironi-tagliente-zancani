@@ -51,7 +51,7 @@ public class PersonalBoard implements Serializable {
         cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
         cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
         cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
-        this.faithTrack = new FaithTrack();
+        this.faithTrack = new FaithTrack(null);
     }
 
     public boolean totalPaymentChecker(int resArray[]){

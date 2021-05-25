@@ -330,21 +330,48 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
     }
 
     public void endTurn(int lastPlayerID) {
-
-        int position = this.players.indexOf(getPlayerById(lastPlayerID));
-        if (position == (this.players.size()-1))  {
-            if (!gameOver) {
-                position=-1;
-
-            }
-            else {
-                int winnerID = findWinner().getId();
-                setTurn(winnerID, ActionPhase.GAME_OVER, false, null );
-                notify(new GameOverMessage(winnerID));
-                return;
-            }
+        if(numPlayer == 1){
+           handleSoloActionToken();
         }
-        setTurn(players.get(position+1).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
+        else {
+            int position = this.players.indexOf(getPlayerById(lastPlayerID));
+            if (position == (this.players.size() - 1)) {
+                if (!gameOver) {
+                    position = -1;
+
+                } else {
+                    int winnerID = findWinner().getId();
+                    setTurn(winnerID, ActionPhase.GAME_OVER, false, null);
+                    notify(new GameOverMessage(winnerID));
+                    return;
+                }
+            }
+            setTurn(players.get(position + 1).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
+        }
+    }
+
+    public void handleSoloActionToken(){
+        if(board.getTokenArray().get(0).isMoveBlack2()) {
+            moveLoriPos(2);
+            board.getTokenArray().remove(0);
+        }
+        else if(board.getTokenArray().get(0).isMoveBlackAndShuffle()) {
+            moveLoriPos(1);
+            board.setTokenArray(board.createTokensArray());
+        }
+        else {
+            discardTwoDevCards(board.getTokenArray().get(0).getDiscard2Card());
+            board.getTokenArray().remove(0);
+        }
+        notify(new ObjectMessage(board.getTokenArray(), 14, -1));
+    }
+
+    public void moveLoriPos(int number){
+
+    }
+
+    public void discardTwoDevCards(CardColor cardColor){
+
     }
 
     public boolean addResourceToWarehouse(int ID, int shelfIndex, ResourceType r){

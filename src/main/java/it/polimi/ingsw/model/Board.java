@@ -33,7 +33,7 @@ public class Board implements Serializable {
         if (single) tokenArray = createTokensArray();
     }
 
-    private ArrayList<SoloActionToken> createTokensArray() {
+    public ArrayList<SoloActionToken> createTokensArray() {
         Gson gson = new Gson();
         ArrayList<SoloActionToken> solo = new ArrayList<>();
         Reader reader = new InputStreamReader(Board.class.getResourceAsStream("/json/solo.json"));

@@ -2,7 +2,10 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.*;
+import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.observer.Observer;
 
 import java.io.IOException;
 import java.util.*;
@@ -12,7 +15,7 @@ import java.util.stream.Stream;
 /**
  * @author Mattia Sironi
  */
-public class ClientActionController {
+public class ClientActionController extends Observable<Message> implements Observer<Message> {
     private ModelMultiplayerView mmv;
     private SocketServerConnection serverConnection;
     private boolean active = true;
@@ -23,13 +26,15 @@ public class ClientActionController {
     private List<Actions> actions;
     private boolean actionDone = false;
     private ArrayList<Marble> resourcesList;
+    private boolean singlePlayer;
 
 
-    public ClientActionController(CLI cli, ModelMultiplayerView mmv, SocketServerConnection socketServerConnection) {
+    public ClientActionController(CLI cli, ModelMultiplayerView mmv, SocketServerConnection socketServerConnection, boolean singlePlayer) {
         this.serverConnection = socketServerConnection;
         this.mmv = mmv;
         this.cli = cli;
         setActions();
+        this.singlePlayer = singlePlayer;
     }
 
     public synchronized boolean isActive() {
@@ -49,7 +54,7 @@ public class ClientActionController {
         this.ID = ID;
     }
 
-    public void setup() throws IOException, ClassNotFoundException {
+    public void setupMultiplayer() throws IOException, ClassNotFoundException {
         String string;
         cli.printToConsole("Welcome to the game.");
         cli.printToConsole("Type any key if you are ready to this experience:");
@@ -57,6 +62,7 @@ public class ClientActionController {
         serverConnection.run();
 
     }
+
 
 
     public void setNumberOfPlayers() {
@@ -75,7 +81,7 @@ public class ClientActionController {
                 cli.printToConsole("Error! Number must be between 2 and 4");
             }
         } while (!valid);
-        serverConnection.send(new ChooseNumberOfPlayer(numPlayers));
+        send(new ChooseNumberOfPlayer(numPlayers));
     }
 
     public void setActions() {
@@ -134,7 +140,7 @@ public class ClientActionController {
                     case END -> {
                         actionEnded = true;
                         resetEnable();
-                        serverConnection.send(new EndTurnMessage(ID));
+                        send(new EndTurnMessage(ID));
                     }
                     default -> cli.printToConsole("Invalid input");
                 }
@@ -178,7 +184,7 @@ public class ClientActionController {
                     }
                     case 0 -> {
                         valid = true;
-                        serverConnection.send(new ProductionMessage(null, null, null, null, null, ID, true));
+                        send(new ProductionMessage(null, null, null, null, null, ID, true));
                     }
                     default -> {
                         valid = false;
@@ -203,6 +209,9 @@ public class ClientActionController {
     }
 
     public int chooseID() {
+        if(singlePlayer){
+            return 0;
+        }
         String input;
         int tempID = -1;
         cli.printToConsole("Choose the ID: ");
@@ -239,12 +248,11 @@ public class ClientActionController {
                 } else cli.printToConsole("Invalid int, you selected " + index);
             } else cli.printToConsole("Invalid command");
         }
-        serverConnection.send(new MarketMessage(row, index - 1, ID));
+        send(new MarketMessage(row, index - 1, ID));
         return true;
     }
 
     public boolean chooseCard() {
-        boolean valid = false;
         String input;
         int index = -1;
         this.mmv.printDevMatrix();
@@ -264,7 +272,7 @@ public class ClientActionController {
             cli.printToConsole("Continue? [y/n]");
             input = cli.readFromInput();
             if (input.equals("y")) {
-                serverConnection.send(new BuyDevCardMessage(index - 1, ID, false, -1));
+                send(new BuyDevCardMessage(index - 1, ID, false, -1));
                 return true;
             } else if (input.equals("n")) {
                 cli.printToConsole("Aborted");
@@ -307,10 +315,10 @@ public class ClientActionController {
         if (Stream.of(ResourceType.values()).anyMatch(v -> v.name().equals(input))) {
             bought = ResourceType.valueOf(input);
             if (turn) {
-                serverConnection.send(new BasicProductionMessage(null, null, bought, ID, false));
+                send(new BasicProductionMessage(null, null, bought, ID, false));
             }
             else {
-                serverConnection.send(new LeaderProductionMessage(0, ID, bought));
+                send(new LeaderProductionMessage(0, ID, bought));
             }
         } else {
             chooseResToProduce(turn);
@@ -330,7 +338,7 @@ public class ClientActionController {
                     Stream.of(ResourceType.values()).anyMatch(v -> v.name().equals(part2))) {
                 chosen1 = ResourceType.valueOf(part1);
                 chosen2 = ResourceType.valueOf(part1);
-                serverConnection.send(new BasicProductionMessage(chosen1, chosen2, null, ID, false));
+                send(new BasicProductionMessage(chosen1, chosen2, null, ID, false));
             }
             else
                 chooseBasicRes();
@@ -347,7 +355,7 @@ public class ClientActionController {
         String input = cli.readFromInput().replaceAll("[^0-9]", "");
         if (input.equals("1") || input.equals("2")) {
             int index = Integer.parseInt(input);
-            serverConnection.send(new LeaderProductionMessage(index - 1, ID, null));
+            send(new LeaderProductionMessage(index - 1, ID, null));
         } else {
             cli.printToConsole("Invalid input, try again");
             useLeaderProduction();
@@ -389,7 +397,7 @@ public class ClientActionController {
 
 
     private void discardRes(ResourceType res) {
-        serverConnection.send(new PlaceResourceMessage(res, -1, ID, false, true));
+        send(new PlaceResourceMessage(res, -1, ID, false, true));
         cli.printToConsole("Other players will receive one faith point.");
     }
 
@@ -418,22 +426,20 @@ public class ClientActionController {
             }
         }
         if (this.mmv.getGame().getTurn().getPhase() == ActionPhase.B_PAYMENT)
-            serverConnection.send(new BuyDevCardMessage(-1, ID, payFrom, -1));
+            send(new BuyDevCardMessage(-1, ID, payFrom, -1));
         else
-            serverConnection.send(new BasicProductionMessage(null, null, null, ID, payFrom));
+            send(new BasicProductionMessage(null, null, null, ID, payFrom));
     }
 
 
     public void placeDevCard() {
-        boolean valid = false;
         this.mmv.printProd(ID, ID);
         cli.printToConsole("Where would you like to place your new development card? (Choose slot 1, 2 or 3)");
         try {
             String input = cli.readFromInput();
             int chosenIndex = Integer.parseInt(input);
             if (chosenIndex >= 1 && chosenIndex <= 3) {
-                valid = true;
-                serverConnection.send(new BuyDevCardMessage(-1, ID, false, chosenIndex - 1));
+                send(new BuyDevCardMessage(-1, ID, false, chosenIndex - 1));
             }
         } catch(NumberFormatException e){
             cli.printToConsole("Invalid input, try again");
@@ -459,7 +465,7 @@ public class ClientActionController {
             if (1 <= s1 && s1 <= 5) valid = true;
             else cli.printToConsole("Invalid input! retry!");
         }
-        serverConnection.send(new PlaceResourceMessage(res, s1 - 1, ID, initialPhase, false));
+        send(new PlaceResourceMessage(res, s1 - 1, ID, initialPhase, false));
     }
 
 
@@ -491,7 +497,7 @@ public class ClientActionController {
             } else cli.printToConsole("Invalid input! Retry!");
 
         }
-        serverConnection.send(new ManageResourceMessage(s1 - 1, s2 - 1, ID));
+        send(new ManageResourceMessage(s1 - 1, s2 - 1, ID));
     }
 
 
@@ -541,7 +547,7 @@ public class ClientActionController {
                       //  idx = Integer.parseInt(cli.readFromInput());
                         if ((idx == 1 || idx == 2 )) {
                             //   System.out.println("send");
-                            serverConnection.send(new PlayLeaderMessage(ID, idx, true, mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1), false));
+                            send(new PlayLeaderMessage(ID, idx, true, mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1), false));
                             return true;
                         } else
                             cli.printToConsole("Invalid input");
@@ -559,7 +565,7 @@ public class ClientActionController {
                    // idx = Integer.parseInt(cli.readFromInput());
                     if ((idx == 1 || idx == 2) && idx <= mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().size()) {
                         //   System.out.println("send");
-                        serverConnection.send(new PlayLeaderMessage(ID, idx, false, this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1), false));
+                        send(new PlayLeaderMessage(ID, idx, false, this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1), false));
                         return true;
                     } else {
                         cli.printToConsole("Invalid input");
@@ -594,15 +600,10 @@ public class ClientActionController {
 
         }
 
-        serverConnection.send(new PlayLeaderMessage(ID, idx, false, this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1), true));
+        send(new PlayLeaderMessage(ID, idx, false, this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1), true));
 
 
     }
-
-    public void chooseLeaderProdRes(){
-
-    }
-
 
     public void useDevProduction () throws IndexOutOfBoundsException {
         boolean valid = false, validInput = false, validNum = false;
@@ -663,7 +664,7 @@ public class ClientActionController {
                 n--;
             }
         }
-        serverConnection.send(new ProductionMessage(resFromWarehouse, resFromStrongbox, resToBuy, null, d, this.ID, false));
+        send(new ProductionMessage(resFromWarehouse, resFromStrongbox, resToBuy, null, d, this.ID, false));
 
     }
 
@@ -704,7 +705,7 @@ public class ClientActionController {
                 cli.printToConsole("Your nickname is " + ((Nickname) o).getString());
             } else {
                 cli.printToConsole("This nickname is already chosen\nTry again");
-                serverConnection.send(new Nickname(cli.readFromInput(), ID, false));
+                send(new Nickname(cli.readFromInput(), ID, false));
             }
 
         } else if (o instanceof ObjectMessage) {
@@ -761,6 +762,9 @@ public class ClientActionController {
             this.mmv.getGame().getPlayerById(message.getID()).setLeaderCardsToDiscard((int) message.getObject());
             if (message.getID() == ID && this.mmv.getGame().getPlayerById(message.getID()).getLeaderCardsToDiscard() > 0)
                 discardLead(this.mmv.getGame().getPlayerById(message.getID()).getLeaderCardsToDiscard());
+        }
+        else if(message.getObjectID() == 14){
+            this.mmv.getGame().getBoard().setTokenArray((ArrayList<SoloActionToken>) message.getObject());
         }
         else if(message.getObjectID()==15){
             this.mmv.getGame().setPlayerByID(message.getID(),(Player)message.getObject());
@@ -843,7 +847,7 @@ public class ClientActionController {
                 break;
             }
             case FAITH_POINT: {
-                serverConnection.send(new PlaceResourceMessage(ResourceType.FAITH_POINT, -1, ID, false, false));
+                send(new PlaceResourceMessage(ResourceType.FAITH_POINT, -1, ID, false, false));
                 break;
             }
             default: {
@@ -863,7 +867,7 @@ public class ClientActionController {
         switch (count) {
             case 0: {
                 getCli().printToConsole("You did not receive any Resource Type from the white marble");
-                serverConnection.send(new PlaceResourceMessage(ResourceType.EMPTY, -1, ID, false, false));
+                send(new PlaceResourceMessage(ResourceType.EMPTY, -1, ID, false, false));
                 break;
             }
             case 1: {
@@ -911,11 +915,123 @@ public class ClientActionController {
         return selectedRes;
     }
 
-
-    private void nicknameSetUp() {
+    public void nicknameSetUp() {
         cli.printToConsole("Choose your nickname:");
         String nickname = cli.readFromInput();
-        serverConnection.send(new Nickname(nickname, ID, false));
+        send(new Nickname(nickname, ID, false));
+    }
+
+    public void send(Message o){
+        if(singlePlayer) {
+            if (o instanceof PlaceResourceMessage) {
+                notify((PlaceResourceMessage) o);
+            } else if (o instanceof Nickname) {
+                notify((Nickname) o);
+            } else if (o instanceof MarketMessage) {
+                notify((MarketMessage) o);
+            } else if (o instanceof BuyDevCardMessage) {
+                notify((BuyDevCardMessage) o);
+            } else if (o instanceof ProductionMessage) {
+                notify((ProductionMessage) o);
+            } else if (o instanceof PlayLeaderMessage) {
+                notify((PlayLeaderMessage) o);
+            } else if (o instanceof ManageResourceMessage) {
+                notify((ManageResourceMessage) o);
+            } else if (o instanceof EndTurnMessage) {
+                notify((EndTurnMessage) o);
+            } else if (o instanceof BasicProductionMessage) {
+                notify((BasicProductionMessage) o);
+            } else if (o instanceof LeaderProductionMessage) {
+                notify((LeaderProductionMessage) o);
+            }
+        }
+        else
+            serverConnection.send(o);
+    }
+
+    @Override
+    public void update(ObjectMessage message) {
+        handleObject(message);
+    }
+
+    @Override
+    public void update(ManageResourceMessage message) {
+
+    }
+
+    @Override
+    public void update(MarketMessage message) {
+
+    }
+
+    @Override
+    public void update(PlaceResourceMessage message) {
+
+    }
+
+    @Override
+    public void update(BuyDevCardMessage message) {
+
+    }
+
+    @Override
+    public void update(PlayLeaderMessage message) {
+
+    }
+
+    @Override
+    public void update(ProductionMessage message) {
+
+    }
+
+    @Override
+    public void update(EndTurnMessage message) {
+
+    }
+
+    @Override
+    public void update(BasicProductionMessage message) {
+
+    }
+
+    @Override
+    public void update(LeaderProductionMessage message) {
+
+    }
+
+    @Override
+    public void update(GameOverMessage message) {
+
+    }
+
+    @Override
+    public void update(Message message) {
+
+    }
+
+    @Override
+    public void update(Nickname message) {
+
+    }
+
+    @Override
+    public void update(IdMessage message) {
+
+    }
+
+    @Override
+    public void update(ErrorMessage message) {
+
+    }
+
+    @Override
+    public void update(ChooseNumberOfPlayer message) {
+
+    }
+
+    @Override
+    public void update(PrintableMessage message) {
+
     }
 }
 

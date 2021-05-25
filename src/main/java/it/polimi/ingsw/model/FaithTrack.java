@@ -17,14 +17,16 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
     private int favorTile2;
     private int favorTile3;
     private ArrayList<Slot> faithTrackSlot;
+    private Integer loriPos;
 
 
-    public FaithTrack() {
+    public FaithTrack(Integer loriPos) {
         favorTile1 = 0;
         favorTile2 = 0;
         favorTile3 = 0;
         faithTrackSlot = createFaithTrack();
         marker = 0;
+        this.loriPos = loriPos;
     }
 
     private ArrayList<Slot> createFaithTrack() {
@@ -96,13 +98,22 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
         this.faithTrackSlot = faithTrackSlot;
     }
 
+    public Integer getLoriPos() {
+        return loriPos;
+    }
+
+    public void setLoriPos(Integer loriPos) {
+        this.loriPos = loriPos;
+    }
+
     @Override
     public void print() {
-
         System.out.println("POSITION = " + getMarker());
         System.out.println("FAVOR TILE 1 = " + getFavorTile1());
         System.out.println("FAVOR TILE 2 = " + getFavorTile2());
         System.out.println("FAVOR TILE 3 = " + getFavorTile3());
-
+        if(loriPos != null){
+            System.out.println("LORENZO IL MAGNIFICO POSITION = " + getLoriPos());
+        }
     }
 }

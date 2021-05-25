@@ -35,15 +35,20 @@ public class Controller implements Observer<Message> {
         } else {
             game.reportError(new Nickname(nickname.getString(), nickname.getID(), true));
             game.getPlayers().add(new Player(nickname.getID(), nickname.getString()));
-
+            if(game.getNumPlayer() == 1){
+                game.getPlayerById(0).getPersonalBoard().getFaithTrack().setLoriPos(0);
+            }
             if (game.getPlayers().size() == game.getNumPlayer()) {
 
                 /* testing */
 
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(0).setCount(100);
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(1).setCount(100);
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(2).setCount(100);
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(3).setCount(100);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(0).setCount(100);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(1).setCount(100);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(2).setCount(100);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().getInfinityShelf().get(3).setCount(100);
+
+
+
                 game.giveLeaderCards();
 
 //                game.getPlayerById(0).setWhiteConversion1(ResourceType.SHIELD);
