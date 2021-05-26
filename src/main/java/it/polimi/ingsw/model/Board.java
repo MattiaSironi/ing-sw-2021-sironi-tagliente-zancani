@@ -204,10 +204,14 @@ public class Board implements Serializable {
         clone.devDecks = new ArrayList<>();
         for (DevDeck d : this.devDecks) clone.devDecks.add(d.clone());
         clone.leaderDeck = leaderDeck.clone();
-        if (tokenArray != null) {
-            clone.tokenArray = new ArrayList<>();
-            for (SoloActionToken sat : tokenArray) clone.tokenArray.add(sat.clone());
-        } else clone.tokenArray = null;
+        if (tokenArray != null) clone.tokenArray = getTokenArrayClone();
+        else clone.tokenArray = null;
+        return clone;
+    }
+
+    public ArrayList<SoloActionToken> getTokenArrayClone() {
+        ArrayList<SoloActionToken> clone = new ArrayList<>();
+        for (SoloActionToken sat : this.tokenArray) clone.add(sat);
         return clone;
     }
 

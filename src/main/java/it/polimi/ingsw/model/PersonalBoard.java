@@ -254,10 +254,18 @@ public class PersonalBoard implements Serializable {
         clone.faithTrack = faithTrack.clone();
         clone.warehouse = warehouse.clone();
         clone.strongbox = strongbox.clone();
-        clone.cardSlot = new ArrayList<>();
+        clone.cardSlot = getCardSlotClone();
         clone.activeLeader = activeLeader.clone();
         clone.leaderChosen = leaderChosen;
-        for (DevDeck d : this.cardSlot) clone.cardSlot.add(d.clone());
+
         return clone;
+    }
+
+    public ArrayList<DevDeck> getCardSlotClone() {
+        ArrayList<DevDeck> clone = new ArrayList<>();
+        for (DevDeck d : this.cardSlot) clone.add(d.clone());
+        return clone;
+
+
     }
 }

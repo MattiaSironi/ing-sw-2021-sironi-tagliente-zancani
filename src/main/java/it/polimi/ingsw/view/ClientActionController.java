@@ -338,7 +338,7 @@ public class ClientActionController extends Observable<Message> implements Obser
             if (Stream.of(ResourceType.values()).anyMatch(v -> v.name().equals(part1)) &&
                     Stream.of(ResourceType.values()).anyMatch(v -> v.name().equals(part2))) {
                 chosen1 = ResourceType.valueOf(part1);
-                chosen2 = ResourceType.valueOf(part1);
+                chosen2 = ResourceType.valueOf(part2);
                 send(new BasicProductionMessage(chosen1, chosen2, null, ID, false));
             }
             else
@@ -389,8 +389,6 @@ public class ClientActionController extends Observable<Message> implements Obser
         possibleRes.add(ResourceType.SERVANT);
         possibleRes.add(ResourceType.SHIELD);
         ResourceType selectedRes = null;
-        boolean valid = false;
-        String input;
         cli.printToConsole("Choose your starting Resource");
         selectedRes = getResourceType(possibleRes, false, null);
         whereToPut(selectedRes, true);
@@ -485,12 +483,12 @@ public class ClientActionController extends Observable<Message> implements Obser
         while (!valid) {
             cli.printToConsole("Select the first shelf:");
             input = cli.readFromInput().replaceAll("[^0-9]", "");
-            if (input.equals("") && input.length() == 1) s1 = -1;
+            if (input.equals("") || input.length() != 1) s1 = -1;
             else s1 = Integer.parseInt(input);
 
             cli.printToConsole("Select the second shelf:");
             input = cli.readFromInput().replaceAll("[^0-9]", "");
-            if (input.equals("") && input.length() == 1) s2 = -1;
+            if (input.equals("") || input.length() != 1) s2 = -1;
             else s2 = Integer.parseInt(input);
 
             if (s1 != s2 && s1 >= 1 && s1 <= 5 && s2 >= 1 && s2 <= 5) {
