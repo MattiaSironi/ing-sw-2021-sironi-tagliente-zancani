@@ -16,7 +16,8 @@ public enum CommunicationList {
     STONEDISCOUNT("You got a discount of 1 " + ResourceType.STONE.printResourceColouredName() + "!"),
     SERVANTDISCOUNT("You got a discount of 1 " + ResourceType.SERVANT.printResourceColouredName() + "!"),
     SHIELDDISCOUNT("You got a discount of 1 " + ResourceType.SHIELD.printResourceColouredName() + "!"),
-    NO_PAYMENT_NEEDED("All the resources were discounted!");
+    NO_PAYMENT_NEEDED("All the resources were discounted!"),
+    SEVENCARDS("You have just bought your seventh Develpment Card!");
 
 
     private final String string;

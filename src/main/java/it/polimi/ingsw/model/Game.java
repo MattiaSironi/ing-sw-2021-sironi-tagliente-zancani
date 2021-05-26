@@ -486,7 +486,6 @@ public class Game extends Observable<Message> implements Serializable {
     public void addDevCardToPlayer(int ID, int pos ){
         getBoard().getMatrix().getDevDecks().get(getBoard().getMatrix().getChosenIndex()).removeCardFromCards();
         getPlayerById(ID).getPersonalBoard().addDevCard(getBoard().getMatrix().getChosenCard(), pos, ID);
-        getPlayerById(ID).getPersonalBoard().setNumDevCards(getPlayerById(ID).getPersonalBoard().getNumDevCards() + 1);
         notify(new ObjectMessage(getBoard().getMatrix().clone(), 2, -1));
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getCardSlotClone() ,4, ID));
     }

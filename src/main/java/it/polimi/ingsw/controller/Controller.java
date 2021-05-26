@@ -369,8 +369,10 @@ public class Controller implements Observer<Message> {
         int counter = game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(0).getCards().size() +
                 game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(1).getCards().size() +
                 game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(2).getCards().size();
-        if(counter >= 7)
+        if(counter >= 7) {
+            game.setCommunication(ID, CommunicationList.SEVENCARDS);
             game.setGameOver(true);
+        }
     }
 
     public boolean checkDevCardPlacement(DevCard devCard, Player player) {
