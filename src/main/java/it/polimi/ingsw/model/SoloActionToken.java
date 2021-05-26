@@ -9,9 +9,9 @@ import java.io.Serializable;
  */
 
 public class SoloActionToken implements Serializable {
-    private CardColor discard2Cards;
-    private boolean moveBlack2;
-    private boolean moveBlackAndShuffle;
+    private final CardColor discard2Cards;
+    private final boolean moveBlack2;
+    private final boolean moveBlackAndShuffle;
 
     public SoloActionToken(CardColor discard2Cards, boolean moveBlack2, boolean moveBlackAndShuffle) {
         this.discard2Cards = discard2Cards;
@@ -29,22 +29,6 @@ public class SoloActionToken implements Serializable {
 
     public boolean isMoveBlackAndShuffle() {
         return moveBlackAndShuffle;
-    }
-
-    public void setDiscard2Card(CardColor discard2Card) {
-        this.discard2Cards = discard2Card;
-    }
-
-    public void setMoveBlack2(boolean moveBlack2) {
-        this.moveBlack2 = moveBlack2;
-    }
-
-    public void setMoveBlackAndShuffle(boolean moveBlackAndShuffle) {
-        this.moveBlackAndShuffle = moveBlackAndShuffle;
-    }
-
-    public SoloActionToken clone()  {
-        return new SoloActionToken(this.discard2Cards, this.moveBlack2, this.moveBlackAndShuffle);
     }
 
 }

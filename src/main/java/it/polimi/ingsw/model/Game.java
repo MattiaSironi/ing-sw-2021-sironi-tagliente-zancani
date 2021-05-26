@@ -37,9 +37,7 @@ public class Game extends Observable<Message> implements Serializable {
     private Turn turn;
     private Communication communication;
 
-    public boolean isGameOver() {
-        return gameOver;
-    }
+
 
     public int getGameID() {
         return gameID;
@@ -59,9 +57,7 @@ public class Game extends Observable<Message> implements Serializable {
 
 
 
-    public boolean isFirstvatican() {
-        return firstvatican;
-    }
+
 
     public void setFirstvatican(boolean firstvatican) {
         this.firstvatican = firstvatican;
@@ -75,9 +71,7 @@ public class Game extends Observable<Message> implements Serializable {
         this.secondvatican = secondvatican;
     }
 
-    public boolean isThirdvatican() {
-        return thirdvatican;
-    }
+
 
     public void setThirdvatican(boolean thirdvatican) {
         this.thirdvatican = thirdvatican;
@@ -233,7 +227,7 @@ public class Game extends Observable<Message> implements Serializable {
     public void setChosenDevCard(DevCard d, int chosenIndex){
         getBoard().getMatrix().setChosenIndex(chosenIndex);
         getBoard().getMatrix().setChosenCard(d);
-        notify(new ObjectMessage(getBoard().getMatrix(), 2, -1));
+        notify(new ObjectMessage(getBoard().getMatrix().clone(), 2, -1));
 
     }
 
@@ -244,7 +238,7 @@ public class Game extends Observable<Message> implements Serializable {
 
     public void setPaidResForBasic(ArrayList<ResourceType> r){
         getBoard().getMatrix().setResToPay(r);
-        notify(new ObjectMessage(getBoard().getMatrix(), 2, -1));
+        notify(new ObjectMessage(getBoard().getMatrix().clone(), 2, -1));
     }
 
     public void checkVatican() {
@@ -360,13 +354,13 @@ public class Game extends Observable<Message> implements Serializable {
                 gameOver = true;
             }
         }
-        notify(new ObjectMessage(board.getTokenArray(), 14, -1));
+        notify(new ObjectMessage(board.getTokenArrayClone(), 14, -1));
     }
 
     public void moveLoriPos(int number){
         getPlayerById(0).getPersonalBoard().getFaithTrack().moveLoriPos(number);
 
-        notify(new ObjectMessage(getPlayerById(0).getPersonalBoard().getFaithTrack(), 12, 0));
+        notify(new ObjectMessage(getPlayerById(0).getPersonalBoard().getFaithTrack().clone(), 12, 0));
         checkVatican();
 
     }
@@ -441,7 +435,7 @@ public class Game extends Observable<Message> implements Serializable {
 
     public boolean addResourceToWarehouse(int ID, int shelfIndex, ResourceType r){
         if(getPlayerById(ID).getPersonalBoard().getWarehouse().addResource(r, shelfIndex)) {
-            notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
+            notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
             return true;
         }
         else
@@ -457,26 +451,26 @@ public class Game extends Observable<Message> implements Serializable {
         getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedStone(0);
         getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedServant(0);
         getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedShield(0);
-        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox(), 3, ID));
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox().clone(), 3, ID));
     }
 
 
     public void payFromWarehouse(int q, ResourceType r, int ID){
         getPlayerById(ID).getPersonalBoard().getWarehouse().pay(q, r);
-        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
     }
 
     public void payFromStrongbox(int q, ResourceType r, int ID){
         getPlayerById(ID).getPersonalBoard().getStrongbox().pay(q, r);
-        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox(), 3, ID));
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox().clone(), 3, ID));
     }
 
     public void addDevCardToPlayer(int ID, int pos ){
         getBoard().getMatrix().getDevDecks().get(getBoard().getMatrix().getChosenIndex()).removeCardFromCards();
         getPlayerById(ID).getPersonalBoard().addDevCard(getBoard().getMatrix().getChosenCard(), pos, ID);
 
-        notify(new ObjectMessage(getBoard().getMatrix(), 2, -1));
-        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getCardSlot(), 4, ID));
+        notify(new ObjectMessage(getBoard().getMatrix().clone(), 2, -1));
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getCardSlotClone() ,4, ID));
     }
 
     public void setResToPay(DevCard d, int ID){
@@ -528,22 +522,22 @@ public class Game extends Observable<Message> implements Serializable {
         }
 
         getBoard().getMatrix().setResToPay(resToPay);
-        notify(new ObjectMessage(getBoard().getMatrix(), 2, -1));
+        notify(new ObjectMessage(getBoard().getMatrix().clone(), 2, -1));
     }
 
     public void removeResToPay(){
         getBoard().getMatrix().getResToPay().remove(0);
-        notify(new ObjectMessage(getBoard().getMatrix(), 2, -1));
+        notify(new ObjectMessage(getBoard().getMatrix().clone(), 2, -1));
     }
 
     public void payFromFirstExtraShelf(int ID, int q){
         getPlayerById(ID).getPersonalBoard().getWarehouse().payFromFirstExtraShelf(q);
-        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
     }
 
     public void payFromSecondExtraShelf(int ID, int q){
         getPlayerById(ID).getPersonalBoard().getWarehouse().payFromFirstExtraShelf(q);
-        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
     }
 
     public void addEarnedResourcesByID(int ID, int numCoin, int numStone, int numServant, int numShield){
@@ -551,7 +545,7 @@ public class Game extends Observable<Message> implements Serializable {
         getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedStone(numStone);
         getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedServant(numServant);
         getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedShield(numShield);
-        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox(), 3, ID));
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox().clone(), 3, ID));
     }
 
 
@@ -594,10 +588,10 @@ public class Game extends Observable<Message> implements Serializable {
       //  getPlayerById(ID).getLeaderDeck().getCards().remove(getPlayerById(ID).getLeaderDeck().getCards().get(i));
         getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(lc); //aggiunge ai leader attivi
 
-        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
-        notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck(), 8, ID)));
-        notify((new ObjectMessage(getPlayerById(ID).getPersonalBoard().getActiveLeader(),6,ID)));
-        notify(new ObjectMessage(this.getPlayerById(ID),15,ID));
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
+        notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck().clone(), 8, ID)));
+        notify((new ObjectMessage(getPlayerById(ID).getPersonalBoard().getActiveLeader().clone(),6,ID)));
+        notify(new ObjectMessage(this.getPlayerById(ID).clone(),15,ID));
 
         setTurn(getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION,false,null);
     }
@@ -609,7 +603,7 @@ public class Game extends Observable<Message> implements Serializable {
         getPlayerById(ID).setLeaderDeck(newLd);
        // System.out.println("nuovo mazzo modificato");
        // this.getPlayerById(ID).getLeaderDeck().print();
-        notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck(), 8, ID)));
+        notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck().clone(), 8, ID)));
       //  moveFaithPosByID(ID,1);
     }
 
