@@ -57,7 +57,7 @@ public class DevelopmentCardMatrix implements Serializable {
         DevelopmentCardMatrix clone = new DevelopmentCardMatrix(new ArrayList<>());
         clone.chosenIndex = chosenIndex;
         for (DevDeck d : devDecks) clone.devDecks.add(d.clone());
-        if (chosenCard!= null) clone.chosenCard= chosenCard.clone();
+        if (chosenCard!= null) clone.chosenCard= chosenCard;
         else clone.chosenCard = null;
         clone.resToPay = new ArrayList<>();
         clone.resToPay.addAll(resToPay); //TODO testing for deep copy

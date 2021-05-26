@@ -5,6 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestTemplate;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -71,52 +74,26 @@ public class CloneTests {
 
     }
 
-    @Test
-    @DisplayName("Marble clone")
-    public void marbleClone()  {
-        Marble original = new Marble(ResourceType.COIN);
-        Marble clone = original.clone();
 
-        assertEquals(original.getRes(), clone.getRes());
-
-        clone.setRes(ResourceType.SHIELD);
-        original.setRes(ResourceType.SERVANT);
-
-        assertEquals(original.getRes(), ResourceType.SERVANT);
-        assertEquals(clone.getRes(), ResourceType.SHIELD);
-    }
 
     @Test
     @DisplayName("Market clone")
     @Disabled("todo")
     public void marketClone()  {
 
-    }
+        Game game = new Game(true, 0);
+        Market clone = game.getBoard().getMarket().clone();
 
-    @Test
-    @DisplayName("Devcard clone")
-    public void devCardClone()  {
-        DevCard original = new DevCard(0, 5, 1, CardColor.GREEN, new int[] {0,0,1,0}, new int[] {0,1,1,0}, new int[] {0,0,0,0,1});
-        DevCard clone = original.clone();
+        ArrayList<Marble> handclone = new ArrayList<>();
+        handclone.add(new Marble(ResourceType.COIN));
+        handclone.add(new Marble(ResourceType.SHIELD));
+        clone.setHand(handclone);
 
-        assertEquals(original.getColor(), clone.getColor());
-        assertEquals(original.getType(), clone.getType());
-        assertEquals(original.getLevel(), clone.getLevel());
-        assertEquals(original.getCostRes()[0], clone.getCostRes()[0]);
-        assertEquals(original.getCostRes()[1], clone.getCostRes()[1]);
-        assertEquals(original.getCostRes()[2], clone.getCostRes()[2]);
-        assertEquals(original.getCostRes()[3], clone.getCostRes()[3]);
-        assertEquals(original.getInputRes()[0], clone.getInputRes()[0]);
-        assertEquals(original.getInputRes()[1], clone.getInputRes()[1]);
-        assertEquals(original.getInputRes()[2], clone.getInputRes()[2]);
-        assertEquals(original.getInputRes()[3], clone.getInputRes()[3]);
-        assertEquals(original.getOutputRes()[0], clone.getOutputRes()[0]);
-        assertEquals(original.getOutputRes()[1], clone.getOutputRes()[1]);
-        assertEquals(original.getOutputRes()[2], clone.getOutputRes()[2]);
-        assertEquals(original.getOutputRes()[3], clone.getOutputRes()[3]);
-        assertEquals(original.getOutputRes()[4], clone.getOutputRes()[4]);
+        assertEquals(0, game.getBoard().getMarket().getHand().size());
+        assertEquals(2, clone.getHand().size());
 
     }
+
 
     @Test
     @DisplayName("DevDeck clone")

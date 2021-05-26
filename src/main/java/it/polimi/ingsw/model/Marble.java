@@ -10,25 +10,19 @@ import java.io.Serializable;
  */
 
 public class Marble implements Serializable {
-    private ResourceType res;
+    private final ResourceType res;
 
     public Marble(ResourceType res) {
         this.res = res;
     }
 
-    public Marble() {
 
-    }
 
     public ResourceType getRes() {
         return res;
     }
 
-    public void setRes(ResourceType res) {
-        this.res = res;
-    }
 
-    public Marble clone()  {
-        return new Marble(this.res);
-    }
+
+
 }

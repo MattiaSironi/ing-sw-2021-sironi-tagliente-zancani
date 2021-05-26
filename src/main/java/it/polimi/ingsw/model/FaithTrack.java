@@ -16,7 +16,7 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
     private int favorTile1;
     private int favorTile2;
     private int favorTile3;
-    private ArrayList<Slot> faithTrackSlot;
+    private final ArrayList<Slot> faithTrackSlot;
     private Integer loriPos;
 
 
@@ -70,33 +70,19 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
         return favorTile1;
     }
 
-    public void setFavorTile1(int favorTile1) {
-        this.favorTile1 = favorTile1;
-    }
-
     public int getFavorTile2() {
         return favorTile2;
-    }
-
-    public void setFavorTile2(int favorTile2) {
-        this.favorTile2 = favorTile2;
     }
 
     public int getFavorTile3() {
         return favorTile3;
     }
 
-    public void setFavorTile3(int favorTile3) {
-        this.favorTile3 = favorTile3;
-    }
-
     public ArrayList<Slot> getFaithTrackSlot() {
         return faithTrackSlot;
     }
 
-    public void setFaithTrackSlot(ArrayList<Slot> faithTrackSlot) {
-        this.faithTrackSlot = faithTrackSlot;
-    }
+
 
     public Integer getLoriPos() {
         return loriPos;
@@ -133,10 +119,6 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
         clone.favorTile1 = this.favorTile1;
         clone.favorTile2 = this.favorTile2;
         clone.favorTile3 = this.favorTile3;
-        ArrayList<Slot> slotclone = new ArrayList<>();
-        for (Slot s : this.faithTrackSlot) {
-            slotclone.add(s.clone());
-        }
         return clone;
     }
 }

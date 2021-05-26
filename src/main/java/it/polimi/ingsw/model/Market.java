@@ -33,11 +33,13 @@ public class Market implements Printable, Serializable {
     public Market(Marble[][] marketBoard, Marble trayOut) {
         this.marketBoard = marketBoard;
         this.marbleOut = trayOut;
+        hand = new ArrayList<>();
     }
 
     public Market() {
         marketBoard = new Marble[3][4];
-        marbleOut = new Marble();
+        marbleOut = new Marble(null);
+        hand= new ArrayList<>();
 
     }
 
@@ -133,13 +135,13 @@ public class Market implements Printable, Serializable {
     public Market clone() {
 
         Market clone = new Market();
-        clone.marbleOut = this.marbleOut.clone();
+        clone.marbleOut = this.marbleOut;
         clone.hand = new ArrayList<>();
-        for (Marble m : this.hand) clone.hand.add(m.clone());
+        for (Marble m : this.hand) clone.hand.add(m);
         clone.marketBoard = new Marble[3][4];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
-                clone.marketBoard[i][j] = this.marketBoard[i][j].clone();
+                clone.marketBoard[i][j] = this.marketBoard[i][j];
             }
         }
         return clone;
