@@ -131,7 +131,7 @@ public class CloneTests {
     @Test
     @DisplayName("Game clone")
     public void gameClone(){
-        Game game = new Game(0,1,0,0,true,false,false,false);
+        Game game = new Game(0,1,true,false,false,false);
 
         Player p1 = new Player(0,"gigi");
         Strongbox strongbox = new Strongbox();
@@ -209,7 +209,6 @@ public class CloneTests {
 
         assertEquals(clone.getGameID(),game.getGameID());
         assertEquals(clone.getNumPlayer(),game.getNumPlayer());
-        assertEquals(clone.getCurrPlayer(),game.getCurrPlayer());
         assertEquals(clone.isFirstvatican(),game.isFirstvatican());
         assertEquals(clone.isSecondvatican(),game.isSecondvatican());
         assertEquals(clone.isThirdvatican(),game.isThirdvatican());

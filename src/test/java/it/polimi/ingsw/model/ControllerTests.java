@@ -697,6 +697,23 @@ public class ControllerTests {
 
     }
 
+    @Test
+    @DisplayName("initial res")
+    public void initialRes()  {
+
+        game.getPlayerById(0).setStartResCount(1);
+        game.getPlayerById(0).setLeaderCardsToDiscard(0);
+        controller.placeRes(ResourceType.COIN, 0, 0, false, true );
+        assertEquals(0, game.getPlayerById(0).getStartResCount());
+        assertEquals(2, game.getPlayerById(0).getLeaderCardsToDiscard());
+        assertEquals(ResourceType.COIN, game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(0).getResType());
+        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(0).getCount());
+    }
+
+
+
+
+
 
 
 
