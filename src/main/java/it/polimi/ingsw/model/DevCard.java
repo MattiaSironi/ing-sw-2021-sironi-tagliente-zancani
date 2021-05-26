@@ -73,4 +73,25 @@ public class DevCard implements Printable, Serializable {
 //    public int[] useAbility()  {
 //        return getOutputRes();
 //    } //production
+
+
+    public DevCard clone()  {
+        DevCard clone = new DevCard(this.type, this.victoryPoints, this.level, this.color
+        , new int[4], new int[4], new int[5]);
+        clone.costRes[0]=costRes[0];
+        clone.costRes[1]=costRes[1];
+        clone.costRes[2]=costRes[2];
+        clone.costRes[3]=costRes[3];
+        clone.inputRes[0]=inputRes[0];
+        clone.inputRes[1]=inputRes[1];
+        clone.inputRes[2]=inputRes[2];
+        clone.inputRes[3]=inputRes[3];
+        clone.outputRes[0]=outputRes[0];
+        clone.outputRes[1]=outputRes[1];
+        clone.outputRes[2]=outputRes[2];
+        clone.outputRes[3]=outputRes[3];
+        clone.outputRes[4]=outputRes[4];
+        return clone;
+
+    }
 }

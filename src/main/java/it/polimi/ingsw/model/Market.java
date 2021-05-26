@@ -130,6 +130,22 @@ public class Market implements Printable, Serializable {
         }
     }
 
+    public Market clone() {
+
+        Market clone = new Market();
+        clone.marbleOut = this.marbleOut.clone();
+        clone.hand = new ArrayList<>();
+        for (Marble m : this.hand) clone.hand.add(m.clone());
+        clone.marketBoard = new Marble[3][4];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                clone.marketBoard[i][j] = this.marketBoard[i][j].clone();
+            }
+        }
+        return clone;
+
+    }
+
 
 
     }

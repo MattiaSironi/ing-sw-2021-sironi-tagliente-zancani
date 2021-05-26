@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @see LeaderDeck
  * @see Strongbox
  * @see ShelfWarehouse
- * @see Slot
+ * @see FaithTrack
  */
 
 public class PersonalBoard implements Serializable {

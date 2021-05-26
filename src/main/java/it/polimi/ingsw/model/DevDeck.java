@@ -56,5 +56,11 @@ public class DevDeck implements Printable, Serializable {
     public void print(){
         this.cards.get(0).print();
     }
+
+    public DevDeck clone() {
+        DevDeck clone = new DevDeck(this.size, this.type, new ArrayList<>());
+        for (DevCard d : this.cards) clone.cards.add(d.clone());
+        return clone;
+    }
 }
 

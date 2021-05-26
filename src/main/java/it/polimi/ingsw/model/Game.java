@@ -185,12 +185,12 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
 
     public void setMarketHand(ArrayList<Marble> resources){
         getBoard().getMarket().setHand(resources);
-        notify(new ObjectMessage(getBoard().getMarket(), 1, -1));
+        notify(new ObjectMessage(getBoard().getMarket().clone(), 1, -1));
     }
 
     public void removeFromMarketHand(){
         getBoard().getMarket().getHand().remove(0);
-        notify(new ObjectMessage(getBoard().getMarket(), 1, -1));
+        notify(new ObjectMessage(getBoard().getMarket().clone(), 1, -1));
     }
 
 
@@ -201,20 +201,20 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         getTurn().setError(error);
         getTurn().setErrorType(errorType);
         System.out.println("is playing " + turn.getPlayerPlayingID() + " phase: " + turn.getPhase());
-        notify(new ObjectMessage(getTurn(), 10, -1));
+        notify(new ObjectMessage(getTurn().clone(), 10, -1));
 
     }
 
     public void setCommunication(int ID, CommunicationList cl)  {
         getCommunication().setAddresseeID(ID);
         getCommunication().setCommunication(cl);
-        notify(new ObjectMessage(getCommunication(), 9, -1));
+        notify(new ObjectMessage(getCommunication().clone(), 9, -1));
     }
 
     public void moveFaithPosByID(int ID, int faith){
         getPlayerById(ID).getPersonalBoard().getFaithTrack().moveFaithMarkerPos(faith);
         setCommunication(ID, CommunicationList.FP);
-        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getFaithTrack(), 12, ID));
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getFaithTrack().clone(), 12, ID));
         checkVatican();
 
     }
@@ -223,7 +223,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         ShelfWarehouse temp = getPlayerById(ID).getPersonalBoard().getWarehouse().clone();
         if(temp.swap(s1, s2)) {
             getPlayerById(ID).getPersonalBoard().setWarehouse(temp);
-            notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
+            notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
             return true;
         }
         else
@@ -239,7 +239,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
 
     public void setBoughtResByBasic(ResourceType r, int ID){
         getPlayerById(ID).getPersonalBoard().getWarehouse().setBought(r);
-        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse(), 0, ID));
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
     }
 
     public void setPaidResForBasic(ArrayList<ResourceType> r){
@@ -278,7 +278,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
                     setThirdvatican(true);
                     setGameOver(true);
                     notify(new ObjectMessage(true, 11, 2));
-                    // END OF GAME(?)
+
                 }
             }
 
@@ -290,7 +290,7 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
             if (p.getPersonalBoard().getFaithTrack().getMarker() >= (popeSpace-3-vatican)){
                 p.getPersonalBoard().getFaithTrack().setFavorTile(vatican);
                 setCommunication(p.getId(), CommunicationList.VATICAN_YES);
-                notify(new ObjectMessage(p.getPersonalBoard().getFaithTrack(), 12, p.getId()));
+                notify(new ObjectMessage(p.getPersonalBoard().getFaithTrack().clone(), 12, p.getId()));
             }
             else setCommunication(p.getId(), CommunicationList.VATICAN_NOPE);
 
