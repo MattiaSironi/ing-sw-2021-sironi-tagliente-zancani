@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.OptionalInt;
 
-public class Game extends Observable<Message> implements Cloneable , Serializable {
+public class Game extends Observable<Message> implements Serializable {
 
     private int gameID;
     private int numPlayer;
