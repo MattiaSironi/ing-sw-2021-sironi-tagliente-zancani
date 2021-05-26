@@ -372,6 +372,7 @@ public class Game extends Observable<Message> implements Serializable {
                 gameOver = true;
             }
         }
+        notify(new ObjectMessage(board.getMatrix().clone(), 2, 0));
         notify(new ObjectMessage(board.getTokenArrayClone(), 14, -1));
     }
 
