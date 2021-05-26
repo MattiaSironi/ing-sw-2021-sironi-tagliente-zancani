@@ -225,6 +225,72 @@ public class CloneTests {
 
     }
 
+    @Test
+    @DisplayName("Test clone() of Player class")
+    public void playerCloneTest(){
+        Player p1 = new Player(0,"gigi");
+        Strongbox strongbox = new Strongbox();
+        ShelfWarehouse warehouse = new ShelfWarehouse();
+        Shelf s1 = new Shelf(ResourceType.COIN,0);
+        Shelf s2 = new Shelf(ResourceType.STONE,2);
+        Shelf s3 = new Shelf(ResourceType.SERVANT,1);
+        Shelf s4 = new Shelf(ResourceType.SHIELD,3);
+        Shelf s5 = new Shelf(null,0);
+        ArrayList strArray = new ArrayList();
+        ArrayList warArray = new ArrayList();
+        strArray.add(0,s1);
+        strArray.add(1,s2);
+        strArray.add(2,s3);
+        strArray.add(3,s4);
+        warArray.add(0,s1);
+        warArray.add(1,s2);
+        warArray.add(2,s3);
+        warArray.add(3,s5);
+        warArray.add(4,s5);
+        strongbox.setInfinityShelf(strArray);
+        warehouse.setShelves(warArray);
+        p1.setPersonalBoard(new PersonalBoard());
+        p1.getPersonalBoard().setStrongbox(strongbox);
+        p1.getPersonalBoard().setWarehouse(warehouse);
+        int[] cost0 = {1,2,3,4};
+        int[] input0 = {1,1,0,0};
+        int[] output0 = {0,0,2,0,0};
+        DevCard d0 = new DevCard(1,2,3,CardColor.BLUE,cost0,input0,output0);
+        ArrayList devDeckArray = new ArrayList();
+        ArrayList<DevCard> vett = new ArrayList();
+        vett.add(d0);
+        DevDeck dd1 = new DevDeck(vett);
+        devDeckArray.add(dd1);
+        p1.getPersonalBoard().setCardSlot(devDeckArray);
+        LeaderCard active = new ExtraDepotLCard(2,1,ResourceType.COIN,ResourceType.SERVANT);
+        LeaderCard inactive = new WhiteTrayLCard(4,3,ResourceType.COIN,CardColor.BLUE,CardColor.PURPLE);
+        ArrayList actLeader = new ArrayList();
+        ArrayList inactLeader = new ArrayList();
+        actLeader.add(active);
+        inactLeader.add(inactive);
+        LeaderDeck attivi = new LeaderDeck(actLeader);
+        LeaderDeck disattivi = new LeaderDeck(inactLeader);
+        p1.getPersonalBoard().setFaithTrack(new FaithTrack(2));
+        p1.getPersonalBoard().setLeaderChosen(new ExtraProdLCard(3,3,CardColor.GREEN,ResourceType.COIN));
+        p1.getPersonalBoard().setActiveLeader(attivi);
+        p1.setLeaderDeck(disattivi);
+        Player clone = p1.clone();
+
+        assertEquals(clone.getNickname(),p1.getNickname());
+        assertEquals(clone.getLeaderDeck().getCards().get(0),p1.getLeaderDeck().getCards().get(0));
+        assertEquals(clone.getPersonalBoard().getActiveLeader().getCards().get(0),p1.getPersonalBoard().getActiveLeader().getCards().get(0));
+        assertEquals(clone.getPersonalBoard().getStrongbox().getResCount(ResourceType.SHIELD),p1.getPersonalBoard().getStrongbox().getResCount(ResourceType.SHIELD));
+        assertEquals(clone.getPersonalBoard().getWarehouse().getResCount(ResourceType.COIN),p1.getPersonalBoard().getWarehouse().getResCount(ResourceType.COIN));
+        assertEquals(clone.getId(), p1.getId());
+        assertEquals(clone.getInputExtraProduction1(), p1.getInputExtraProduction1());
+        assertEquals(clone.getInputExtraProduction2(), p1.getInputExtraProduction2());
+        assertEquals(clone.isReady(), p1.isReady());
+        assertEquals(clone.getLeaderCardsToDiscard(), p1.getLeaderCardsToDiscard());
+        assertEquals(clone.getWhiteConversion1(), p1.getWhiteConversion1());
+        assertEquals(clone.getVictoryPoints(), p1.getVictoryPoints());
+
+    }
+
 
 
 

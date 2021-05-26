@@ -195,11 +195,6 @@ public class Game extends Observable<Message> implements Serializable {
         }
     }
 
-    public Game clone() throws CloneNotSupportedException {
-        Game clone = new Game (this.numPlayer, this.currPlayer, this.nextPlayer, this.players, this.board);
-        return clone;
-    }
-
     public void setMarketHand(ArrayList<Marble> resources){
         getBoard().getMarket().setHand(resources);
         notify(new ObjectMessage(getBoard().getMarket().clone(), 1, -1));
@@ -491,7 +486,7 @@ public class Game extends Observable<Message> implements Serializable {
     public void addDevCardToPlayer(int ID, int pos ){
         getBoard().getMatrix().getDevDecks().get(getBoard().getMatrix().getChosenIndex()).removeCardFromCards();
         getPlayerById(ID).getPersonalBoard().addDevCard(getBoard().getMatrix().getChosenCard(), pos, ID);
-
+        getPlayerById(ID).getPersonalBoard().setNumDevCards(getPlayerById(ID).getPersonalBoard().getNumDevCards() + 1);
         notify(new ObjectMessage(getBoard().getMatrix().clone(), 2, -1));
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getCardSlotClone() ,4, ID));
     }

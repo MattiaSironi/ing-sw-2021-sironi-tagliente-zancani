@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Mattia Sironi
@@ -40,69 +41,48 @@ public class SoloTests {
     @Test
     @DisplayName("DiscardDevCard Test")
     public void discard(){
-        int count = 0;
 
         game.discardTwoDevCards(CardColor.GREEN);
-        game.discardTwoDevCards(CardColor.GREEN);
         game.discardTwoDevCards(CardColor.YELLOW);
-        game.discardTwoDevCards(CardColor.YELLOW);
-        game.discardTwoDevCards(CardColor.BLUE);
-        game.discardTwoDevCards(CardColor.BLUE);
         game.discardTwoDevCards(CardColor.PURPLE);
-        game.discardTwoDevCards(CardColor.PURPLE);
-        game.discardTwoDevCards(CardColor.GREEN);
-        game.discardTwoDevCards(CardColor.GREEN);
         game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.BLUE);
         game.discardTwoDevCards(CardColor.YELLOW);
-        game.discardTwoDevCards(CardColor.BLUE);
-        game.discardTwoDevCards(CardColor.BLUE);
-        game.discardTwoDevCards(CardColor.PURPLE);
         game.discardTwoDevCards(CardColor.PURPLE);
         game.discardTwoDevCards(CardColor.GREEN);
         game.discardTwoDevCards(CardColor.GREEN);
-        game.discardTwoDevCards(CardColor.YELLOW);
-        game.discardTwoDevCards(CardColor.YELLOW);
-        game.discardTwoDevCards(CardColor.BLUE);
-        game.discardTwoDevCards(CardColor.BLUE);
-        game.discardTwoDevCards(CardColor.PURPLE);
         game.discardTwoDevCards(CardColor.PURPLE);
         game.discardTwoDevCards(CardColor.GREEN);
         game.discardTwoDevCards(CardColor.GREEN);
         game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.PURPLE);
         game.discardTwoDevCards(CardColor.YELLOW);
-        game.discardTwoDevCards(CardColor.BLUE);
-        game.discardTwoDevCards(CardColor.BLUE);
-        game.discardTwoDevCards(CardColor.PURPLE);
-        game.discardTwoDevCards(CardColor.PURPLE);
         game.discardTwoDevCards(CardColor.GREEN);
         game.discardTwoDevCards(CardColor.GREEN);
-        game.discardTwoDevCards(CardColor.YELLOW);
-        game.discardTwoDevCards(CardColor.YELLOW);
         game.discardTwoDevCards(CardColor.BLUE);
-        game.discardTwoDevCards(CardColor.BLUE);
-        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.YELLOW);
         game.discardTwoDevCards(CardColor.PURPLE);
         game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.YELLOW);
         game.discardTwoDevCards(CardColor.GREEN);
         game.discardTwoDevCards(CardColor.YELLOW);
-        game.discardTwoDevCards(CardColor.YELLOW);
-        game.discardTwoDevCards(CardColor.BLUE);
-        game.discardTwoDevCards(CardColor.BLUE);
-        game.discardTwoDevCards(CardColor.PURPLE);
-        game.discardTwoDevCards(CardColor.PURPLE);
-        game.discardTwoDevCards(CardColor.GREEN);
         game.discardTwoDevCards(CardColor.GREEN);
         game.discardTwoDevCards(CardColor.YELLOW);
-        game.discardTwoDevCards(CardColor.YELLOW);
         game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.GREEN);
         game.discardTwoDevCards(CardColor.BLUE);
-        game.discardTwoDevCards(CardColor.PURPLE);
-        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.GREEN);
 
-        for (DevDeck dd : game.getBoard().getMatrix().getDevDecks()){
-            count += dd.getCards().size();
-        }
+        assertTrue(game.checkColumnEmpty());
 
-        assertEquals(0, count);
     }
 }
