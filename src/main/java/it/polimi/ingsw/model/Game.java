@@ -50,6 +50,14 @@ public class Game extends Observable<Message> implements Serializable {
         this.communication = new Communication();
     }
 
+    public Game(boolean single, int ID) {
+        gameID = ID;
+        players = new ArrayList<>();
+        board = new Board(single);
+        turn = new Turn();
+        communication = new Communication();
+    }
+
     public boolean isGameOver() {
         return gameOver;
     }
@@ -69,8 +77,6 @@ public class Game extends Observable<Message> implements Serializable {
     public void setTurn(Turn turn) {
         this.turn = turn;
     }
-
-
 
     public boolean isFirstvatican() {
         return firstvatican;
@@ -104,20 +110,6 @@ public class Game extends Observable<Message> implements Serializable {
         this.communication = communication;
     }
 
-    public Game(boolean single, int ID) {
-        gameID = ID;
-        players = new ArrayList<>();
-        board = new Board(single);
-        turn = new Turn();
-        communication = new Communication();
-    }
-
-
-
-
-
-
-
     public void setNumPlayer(int numPlayer) {
         this.numPlayer = numPlayer;
     }
@@ -125,10 +117,6 @@ public class Game extends Observable<Message> implements Serializable {
     public int getNumPlayer() {
         return numPlayer;
     }
-
-
-
-
 
     public ArrayList<Player> getPlayers() {
         return players;
@@ -146,15 +134,9 @@ public class Game extends Observable<Message> implements Serializable {
         notify(new ObjectMessage(this.clone(), -1, -1));
     }
 
-
-
     public Board getBoard() {
         return board;
     }
-
-
-
-
 
     public Player getPlayerById(int ID) {
         Player player = null;
@@ -186,8 +168,6 @@ public class Game extends Observable<Message> implements Serializable {
         getBoard().getMarket().getHand().remove(0);
         notify(new ObjectMessage(getBoard().getMarket().clone(), 1, -1));
     }
-
-
 
     public void setTurn(int ID, ActionPhase phase, boolean error, ErrorList errorType){
         getTurn().setPlayerPlayingID(ID);
@@ -234,7 +214,6 @@ public class Game extends Observable<Message> implements Serializable {
 
     }
 
-
     public void setPaidResForBasic(ArrayList<ResourceType> r){
         getBoard().getMatrix().setResToPay(r);
         notify(new ObjectMessage(getBoard().getMatrix().clone(), 2, -1));
@@ -274,9 +253,6 @@ public class Game extends Observable<Message> implements Serializable {
 
                 }
             }
-
-
-
 
     public void checkEveryPlayerPos(int popeSpace, int vatican)  {
         for (Player p : this.players)  {
@@ -327,9 +303,6 @@ public class Game extends Observable<Message> implements Serializable {
                 } else setTurn(0, ActionPhase.WAITING_FOR_ACTION, false, null);
             }
         }
-
-
-
         else {
             int position = this.players.indexOf(getPlayerById(lastPlayerID));
             if (position == (this.players.size() - 1)) {
@@ -503,8 +476,19 @@ public class Game extends Observable<Message> implements Serializable {
     public void addDevCardToPlayer(int ID, int pos ){
         getBoard().getMatrix().getDevDecks().get(getBoard().getMatrix().getChosenIndex()).removeCardFromCards();
         getPlayerById(ID).getPersonalBoard().addDevCard(getBoard().getMatrix().getChosenCard(), pos, ID);
+        if(checkDevCardNumber(ID)){
+            setCommunication(ID, CommunicationList.SEVENCARDS);
+            gameOver = true;
+        }
         notify(new ObjectMessage(getBoard().getMatrix().clone(), 2, -1));
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getCardSlotClone() ,4, ID));
+    }
+
+    public boolean checkDevCardNumber(int ID){
+        int counter = getPlayerById(ID).getPersonalBoard().getCardSlot().get(0).getCards().size() +
+                getPlayerById(ID).getPersonalBoard().getCardSlot().get(1).getCards().size() +
+                getPlayerById(ID).getPersonalBoard().getCardSlot().get(2).getCards().size();
+        return counter >= 7;
     }
 
     public void setResToPay(DevCard d, int ID){
@@ -570,7 +554,7 @@ public class Game extends Observable<Message> implements Serializable {
     }
 
     public void payFromSecondExtraShelf(int ID, int q){
-        getPlayerById(ID).getPersonalBoard().getWarehouse().payFromFirstExtraShelf(q);
+        getPlayerById(ID).getPersonalBoard().getWarehouse().payFromSecondExtraShelf(q);
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
     }
 
@@ -597,10 +581,10 @@ public class Game extends Observable<Message> implements Serializable {
         }
     }
 
-
     public synchronized boolean checkReadyPlayers(){
         return getPlayers().stream().filter(x -> x.isReady()).count() == getNumPlayer();
     }
+
     public void setChosenLeader(LeaderCard leader, int ID){
         getPlayerById(ID).getPersonalBoard().setLeaderChosen((ExtraProdLCard) leader);
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getLeaderChosen(), 7, ID));
@@ -676,7 +660,7 @@ public class Game extends Observable<Message> implements Serializable {
     }
 
     private int findSoloWinner() {
-        if (getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker() == 24 || getPlayerById(0).getPersonalBoard().getNumDevCards()>= 7)
+        if (getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker() == 24 || checkDevCardNumber(0))
             return 0;
         else return -1;
     }

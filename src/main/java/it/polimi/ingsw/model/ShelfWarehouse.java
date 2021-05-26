@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 public class ShelfWarehouse implements Printable, Serializable {
     private ArrayList<Shelf> shelves;
-    private ResourceType bought;
 
     public ShelfWarehouse() {
         ArrayList<Shelf> s = new ArrayList<Shelf>();
@@ -124,12 +123,7 @@ public class ShelfWarehouse implements Printable, Serializable {
                 this.shelves.stream().filter(x -> x.getResType() == (this.shelves.get(4).getResType())).count() <= 2 &&
                 ((this.shelves.get(3).getResType() != this.shelves.get(4).getResType() ||
                         (this.shelves.get(3).getResType()==  null && this.shelves.get(4).getResType()==  null)));
-
-
-
-
     }
-
 
     private boolean swapLeaderCase(int s1, int s2) {  //SEMPLIFICARE CONTROLLI E SISTEMARE PROBLEMA PIU' DI DUE SHELF CON STESSA RISORSA.
         if ((this.shelves.get(s1).getResType() == this.shelves.get(s2).getResType() ||
@@ -281,13 +275,5 @@ public class ShelfWarehouse implements Printable, Serializable {
 
     public int numberOfResources()  {
         return  this.shelves.stream().mapToInt(x -> x.getCount()).sum();
-    }
-
-    public ResourceType getBought() {
-        return bought;
-    }
-
-    public void setBought(ResourceType bought) {
-        this.bought = bought;
     }
 }

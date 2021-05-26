@@ -59,7 +59,7 @@ public class DevProductionTest {
         int[] input = {1,1,0,0};
         int[] output = {0,0,2,0,0};
 
-        DevCard d = new DevCard(0,3,1,CardColor.GREEN,cost,input,output);
+        DevCard d = new DevCard(3,1,CardColor.GREEN,cost,input,output);
 
         controller.activateDevProduction(0,d,0,1,0,1);
 

@@ -12,7 +12,6 @@ import java.io.Serializable;
  */
 
 public class DevCard implements Printable, Serializable {
-    private final int type; //0?
     private final int victoryPoints;
     private final int level;
     private final CardColor color;
@@ -20,8 +19,7 @@ public class DevCard implements Printable, Serializable {
     private final int[] inputRes; //pos 0 -> Coin, pos 1 -> Stone, pos 2 -> Servant, pos 3 -> Shield
     private final int[] outputRes; //pos 0 -> Coin, pos 1 -> Stone, pos 2 -> Servant, pos 3 -> Shield, pos 4 -> faith point!!!
 
-    public DevCard(int type, int victoryPoints, int level, CardColor color, int[] costRes, int[] inputRes, int[] outputRes) {
-        this.type = type;
+    public DevCard(int victoryPoints, int level, CardColor color, int[] costRes, int[] inputRes, int[] outputRes) {
         this.victoryPoints = victoryPoints;
         this.level = level;
         this.color = color;
@@ -30,11 +28,6 @@ public class DevCard implements Printable, Serializable {
         this.outputRes = outputRes;
     }
 
-
-
-    public int getType() {
-        return type;
-    }
 
     public int getVictoryPoints() {
         return victoryPoints;
@@ -73,9 +66,5 @@ public class DevCard implements Printable, Serializable {
 //    public int[] useAbility()  {
 //        return getOutputRes();
 //    } //production
-
-    public DevCard clone(){
-        return this;
-    }
 
 }

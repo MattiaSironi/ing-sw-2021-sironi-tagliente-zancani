@@ -104,7 +104,6 @@ public class CloneTests {
         int i=0;
         for (DevCard original : game.getBoard().getDevDecks().get(0).getCards()) {
             assertEquals(original.getColor(), clone.getCards().get(i).getColor());
-            assertEquals(original.getType(), clone.getCards().get(i).getType());
             assertEquals(original.getLevel(), clone.getCards().get(i).getLevel());
             assertEquals(original.getCostRes()[0], clone.getCards().get(i).getCostRes()[0]);
             assertEquals(original.getCostRes()[1], clone.getCards().get(i).getCostRes()[1]);
@@ -160,7 +159,7 @@ public class CloneTests {
         int[] cost0 = {1,2,3,4};
         int[] input0 = {1,1,0,0};
         int[] output0 = {0,0,2,0,0};
-        DevCard d0 = new DevCard(1,2,3,CardColor.BLUE,cost0,input0,output0);
+        DevCard d0 = new DevCard(2,3,CardColor.BLUE,cost0,input0,output0);
         ArrayList devDeckArray = new ArrayList();
         ArrayList<DevCard> vett = new ArrayList();
         vett.add(d0);
@@ -185,7 +184,7 @@ public class CloneTests {
         int[] cost = {1,2,3,4};
         int[] input = {1,1,0,0};
         int[] output = {0,0,2,0,0};
-        DevCard d1 = new DevCard(1,2,3,CardColor.BLUE,cost,input,output);
+        DevCard d1 = new DevCard(2,3,CardColor.BLUE,cost,input,output);
         ArrayList devVett = new ArrayList();
         devVett.add(d1);
         Market market = new Market();
@@ -254,7 +253,7 @@ public class CloneTests {
         int[] cost0 = {1,2,3,4};
         int[] input0 = {1,1,0,0};
         int[] output0 = {0,0,2,0,0};
-        DevCard d0 = new DevCard(1,2,3,CardColor.BLUE,cost0,input0,output0);
+        DevCard d0 = new DevCard(2,3,CardColor.BLUE,cost0,input0,output0);
         ArrayList devDeckArray = new ArrayList();
         ArrayList<DevCard> vett = new ArrayList();
         vett.add(d0);

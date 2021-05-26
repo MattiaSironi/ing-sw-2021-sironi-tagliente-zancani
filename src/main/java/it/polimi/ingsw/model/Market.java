@@ -43,16 +43,8 @@ public class Market implements Printable, Serializable {
 
     }
 
-    public Marble[][] getMarketBoard() {
-        return marketBoard;
-    }
-
     public Marble getMarbleOut() {
         return marbleOut;
-    }
-
-    public void setMarketBoard(Marble[][] marketBoard) {
-        this.marketBoard = marketBoard;
     }
 
     public void setMarbleOut(Marble marbleOut) {
@@ -77,20 +69,6 @@ public class Market implements Printable, Serializable {
         this.marketBoard[r][c] = m;
     }
 
-//    @Override
-//    public void print() {
-//        ArrayList<ResourceType> r;
-//        for (int i = 0; i < 3; i++) {
-//            for (int j = 0; j < 4; j++) {
-//
-//                System.out.print(marketBoard[i][j].getRes().printResourceColouredBall() + "  ");
-//            }
-//            System.out.println("");
-//        }
-//        System.out.println("left out marble is " + this.marbleOut.getRes().printResourceColouredBall());
-//    }
-
-
     @Override
     public void print() {
 
@@ -114,11 +92,6 @@ public class Market implements Printable, Serializable {
                 System.out.println(color + "                   " +  ball.getBallLine() + Color.ANSI_RESET);
             }
         }
-
-
-
-
-
     }
 
     private void printRow(List<Marble> asList) {
@@ -148,9 +121,7 @@ public class Market implements Printable, Serializable {
 
     }
 
-
-
-    }
+}
 
 
 

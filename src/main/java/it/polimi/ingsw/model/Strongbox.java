@@ -10,10 +10,6 @@ import java.util.ArrayList;
  */
 
 public class Strongbox implements Printable, Serializable {
-//    private int coinNum;
-//    private int stoneNum;
-//    private int servantNum;
-//    private int shieldNum;
 
     private ArrayList<Shelf> infinityShelf;
     private int earnedCoin;
@@ -22,10 +18,6 @@ public class Strongbox implements Printable, Serializable {
     private int earnedShield;
 
     public Strongbox() {
-//        this.coinNum = coinNum;
-//        this.stoneNum = stoneNum;
-//        this.servantNum = servantNum;
-//        this.shieldNum = shieldNum;
         this.infinityShelf = new ArrayList<Shelf>();
         this.infinityShelf.add(0, new Shelf(ResourceType.COIN, 0));
         this.infinityShelf.add(1, new Shelf(ResourceType.STONE, 0));
@@ -48,80 +40,6 @@ public class Strongbox implements Printable, Serializable {
     public int numberOfResources()  {
         return  this.infinityShelf.stream().mapToInt(x -> x.getCount()).sum();
     }
-
-    /*  public int getCoinNum() {
-        return coinNum;
-    }
-
-    public void setCoinNum(int coinNum) {
-        this.coinNum = coinNum;
-    }
-
-    public int getStoneNum() {
-        return stoneNum;
-    }
-
-    public void setStoneNum(int stoneNum) {
-        this.stoneNum = stoneNum;
-    }
-
-    public int getServantNum() {
-        return servantNum;
-    }
-
-    public void setServantNum(int servantNum) {
-        this.servantNum = servantNum;
-    }
-
-    public int getShieldNum() {
-        return shieldNum;
-    }
-
-    public void setShieldNum(int shieldNum) {
-        this.shieldNum = shieldNum;
-    }*/
-
-  /*  public boolean CanIPay(DevCard card){ //-----------------< ho dovuto cambiare il parametro interno
-        int coinReq = 0;
-        int stoneReq = 0;
-        int servantReq = 0;
-        int shieldReq = 0;
-        int[] costAmount = card.getCostRes();
-
-        coinReq = costAmount[0];
-        stoneReq = costAmount[1];
-        servantReq = costAmount[2];
-        shieldReq = costAmount[3];
-
-        if(coinNum < coinReq) return false;
-        else if(stoneNum < stoneReq) return false;
-        else if(servantNum < servantReq) return false;
-        else if(shieldNum < shieldReq) return false;
-        else return true;
-    }*/
-
-    /*public boolean canIPay (DevCard c){
-        int i ;
-        boolean ok = true;
-        int[] costAmount = c.getCostRes();
-        for (i = 0; i<4 ; i++){
-           if(costAmount[i]>this.infinityShelf.get(i).getCount())
-                    ok = false;
-        }
-        return ok;
-    }*/
-
-    /*public void Pay(ResourceType res, int quantity){
-
-        if(res.equals(ResourceType.COIN))
-            this.coinNum -= quantity;
-        else if(res.equals(ResourceType.STONE))
-            this.stoneNum -= quantity;
-        else if(res.equals(ResourceType.SERVANT))
-            this.servantNum -= quantity;
-        else if(res.equals(ResourceType.SHIELD))
-            this.shieldNum -= quantity;
-    }*/
 
     public int getEarnedCoin() {
         return earnedCoin;
@@ -203,7 +121,6 @@ public class Strongbox implements Printable, Serializable {
         for (Shelf s : this.getInfinityShelf()) {
                 System.out.println(s.getCount() + " " + s.getResType().printResourceColouredName() + "(s)");
         }
-
     }
 
     public Strongbox clone() {
@@ -217,6 +134,5 @@ public class Strongbox implements Printable, Serializable {
         temp.infinityShelf.set(2, new Shelf(this.infinityShelf.get(2).getResType(), this.infinityShelf.get(2).getCount()));
         temp.infinityShelf.set(3, new Shelf(this.infinityShelf.get(3).getResType(), this.infinityShelf.get(3).getCount()));
         return temp;
-
     }
 }

@@ -20,10 +20,6 @@ public class DevelopmentCardMatrix implements Serializable {
         return devDecks;
     }
 
-    public void setDevDecks(List<DevDeck> devDecks) {
-        this.devDecks = devDecks;
-    }
-
     public DevCard getChosenCard() {
         return chosenCard;
     }
@@ -46,12 +42,6 @@ public class DevelopmentCardMatrix implements Serializable {
 
     public void setResToPay(ArrayList<ResourceType> resToPay) {
         this.resToPay = resToPay;
-    }
-
-    public void printDevMatrix(){
-        for(DevDeck dd : devDecks){
-            dd.print();
-        }
     }
 
     public DevelopmentCardMatrix clone()  {

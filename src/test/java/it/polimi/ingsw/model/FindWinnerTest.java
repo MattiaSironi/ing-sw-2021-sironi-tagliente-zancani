@@ -146,13 +146,13 @@ public class FindWinnerTest {
         ArrayList<DevCard> deck02 = new ArrayList<>();
 
 
-        deck00.add(new DevCard(0, 5, 1, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
-        deck00.add(new DevCard(0, 5, 2, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
-        deck00.add(new DevCard(0, 5, 3, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
+        deck00.add(new DevCard(5, 1, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
+        deck00.add(new DevCard(5, 2, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
+        deck00.add(new DevCard( 5, 3, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
 
 
-        deck01.add(new DevCard(0, 6, 1, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
-        deck01.add(new DevCard(0, 7, 2, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
+        deck01.add(new DevCard(6, 1, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
+        deck01.add(new DevCard(7, 2, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
 
         ArrayList<DevDeck> deck0= new ArrayList<>();
         deck0.add(new DevDeck(deck00));
@@ -167,14 +167,14 @@ public class FindWinnerTest {
         ArrayList<DevCard> deck12 = new ArrayList<>();
 
 
-        deck10.add(new DevCard(0, 5, 1, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
+        deck10.add(new DevCard(5, 1, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
 
 
 
-        deck11.add(new DevCard(0, 6, 1, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
-        deck11.add(new DevCard(0, 7, 2, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
+        deck11.add(new DevCard(6, 1, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
+        deck11.add(new DevCard(7, 2, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
 
-        deck12.add(new DevCard(0, 7, 2, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
+        deck12.add(new DevCard(7, 2, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
 
         ArrayList<DevDeck> deck1= new ArrayList<>();
         deck1.add(new DevDeck(deck10));
@@ -196,8 +196,8 @@ public class FindWinnerTest {
 
 
 
-        deck21.add(new DevCard(0, 10, 1, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
-        deck21.add(new DevCard(0, 10, 2, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
+        deck21.add(new DevCard(10, 1, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
+        deck21.add(new DevCard(10, 2, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
 
 
 

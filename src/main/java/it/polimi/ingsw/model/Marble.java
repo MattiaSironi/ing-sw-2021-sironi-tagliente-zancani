@@ -16,13 +16,8 @@ public class Marble implements Serializable {
         this.res = res;
     }
 
-
-
     public ResourceType getRes() {
         return res;
     }
-
-
-
 
 }
