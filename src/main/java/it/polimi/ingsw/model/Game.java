@@ -399,8 +399,10 @@ public class Game extends Observable<Message> implements Serializable {
                 + getBoard().getMatrix().getDevDecks().get(7).getCards().size()
                 + getBoard().getMatrix().getDevDecks().get(11).getCards().size();
 
-        if(col1 == 0 || col2 == 0 || col3 == 0 || col4 == 0)
+        if(col1 == 0 || col2 == 0 || col3 == 0 || col4 == 0) {
+            setCommunication(0, CommunicationList.EMPTYCOLUMN);
             return true;
+        }
         else
             return false;
     }

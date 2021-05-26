@@ -64,7 +64,17 @@ public class SoloTests {
         game.discardTwoDevCards(CardColor.BLUE);
         game.discardTwoDevCards(CardColor.PURPLE);
         game.discardTwoDevCards(CardColor.YELLOW);
-        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
         game.discardTwoDevCards(CardColor.GREEN);
         game.discardTwoDevCards(CardColor.BLUE);
         game.discardTwoDevCards(CardColor.YELLOW);

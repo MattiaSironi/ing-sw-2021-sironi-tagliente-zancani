@@ -355,6 +355,9 @@ public class Controller implements Observer<Message> {
             game.addDevCardToPlayer(ID, slot);
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
             checkDevCardNumber(ID);
+            if(game.getPlayers().size() == 1 && game.checkColumnEmpty()){
+                game.setGameOver(true);
+            }
         } else if (game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().size() != 0 &&
                 game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().get(0).getLevel() == game.getBoard().getMatrix().getChosenCard().getLevel() - 1) {
             game.addDevCardToPlayer(ID, slot);
