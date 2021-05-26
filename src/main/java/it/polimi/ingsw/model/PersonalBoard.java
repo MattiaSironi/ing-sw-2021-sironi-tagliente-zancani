@@ -17,11 +17,10 @@ import java.util.ArrayList;
 public class PersonalBoard implements Serializable {
     private FaithTrack faithTrack;
     private ArrayList<DevDeck> cardSlot;
-    private LeaderDeck activeLeader;
     private int numDevCards;
-
     private Strongbox strongbox;
     private ShelfWarehouse warehouse;
+    private LeaderDeck activeLeader;
     private ExtraProdLCard leaderChosen;
 
 
@@ -247,5 +246,19 @@ public class PersonalBoard implements Serializable {
             i++;
         }
         System.out.println("");
+    }
+
+    public PersonalBoard clone() {
+        PersonalBoard clone = new PersonalBoard();
+        clone.numDevCards = numDevCards;
+        clone.faithTrack = faithTrack.clone();
+        clone.warehouse = warehouse.clone();
+        clone.strongbox = strongbox.clone();
+        clone.cardSlot = new ArrayList<>();
+        for (DevDeck d : this.cardSlot) clone.cardSlot.add(d.clone());
+        //TODO ACTIVE LEADER AND LEADER CHOSEN
+
+        return clone;
+
     }
 }

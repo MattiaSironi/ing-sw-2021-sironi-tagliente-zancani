@@ -32,6 +32,7 @@ public class Board implements Serializable {
         matrix = new DevelopmentCardMatrix(devDecks);
         if (single) tokenArray = createTokensArray();
     }
+    public Board()  {}
 
     public ArrayList<SoloActionToken> createTokensArray() {
         Gson gson = new Gson();
@@ -192,6 +193,25 @@ public class Board implements Serializable {
 
     public void setMatrix(DevelopmentCardMatrix matrix) {
         this.matrix = matrix;
+    }
+
+
+    public Board clone() {
+        Board clone = new Board();
+        clone.market = market.clone();
+        clone.matrix = matrix.clone();
+        clone.devDecks = new ArrayList<>();
+        for (DevDeck d: this.devDecks) clone.devDecks.add(d.clone());
+
+        //TODO LEADER DECK
+
+        if (tokenArray != null) {
+            clone.tokenArray = new ArrayList<>();
+            for (SoloActionToken sat : tokenArray) clone.tokenArray.add(sat.clone());
+        }
+        else clone.tokenArray = null;
+
+        return clone;
     }
 }
 
