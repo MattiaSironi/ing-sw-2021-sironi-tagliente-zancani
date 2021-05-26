@@ -45,7 +45,7 @@ public class LeaderTests {
         strongbox.setInfinityShelf(shelves);
         warehouse = new ShelfWarehouse();
         warehouse.setShelves(war);
-        player = new Player(0, "lea",  true, new LeaderDeck(new ArrayList<LeaderCard>()), 10, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, false, personalBoard);
+        player = new Player(0, "lea");
         game.getPlayers().add(player);
         game.getPlayers().get(0).setId(0);
         game.getPlayerById(0).setPersonalBoard(personalBoard);
@@ -99,7 +99,7 @@ public class LeaderTests {
         ArrayList<DevCard> devc= new ArrayList<>();
         devc.add(d1);
         devc.add(d2);
-        DevDeck dd = new DevDeck(2,0,devc);
+        DevDeck dd = new DevDeck(devc);
         game.getPlayerById(0).getPersonalBoard().getCardSlot().set(0,dd);
 
 
@@ -170,7 +170,7 @@ public class LeaderTests {
         DevCard d1 = new DevCard(0,10,2,CardColor.BLUE,null,null,null);
         ArrayList<DevCard> dev= new ArrayList<>();
         dev.add(d1);
-        DevDeck dd = new DevDeck(1,0,dev);
+        DevDeck dd = new DevDeck(dev);
         game.getPlayerById(0).getPersonalBoard().getCardSlot().set(0,dd);
 
 
@@ -211,8 +211,8 @@ public class LeaderTests {
         devgreen.add(d1);
         devyellow.add(d2);
         devyellow.add(d3);
-        DevDeck dd = new DevDeck(1,0,devgreen);
-        DevDeck dd2= new DevDeck(2,0,devyellow);
+        DevDeck dd = new DevDeck(devgreen);
+        DevDeck dd2= new DevDeck(devyellow);
         game.getPlayerById(0).getPersonalBoard().getCardSlot().set(0,dd);
         game.getPlayerById(0).getPersonalBoard().getCardSlot().set(1,dd2);
 

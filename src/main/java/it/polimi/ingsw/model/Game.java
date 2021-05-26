@@ -354,7 +354,11 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
         }
         else {
             discardTwoDevCards(board.getTokenArray().get(0).getDiscard2Card());
+            discardTwoDevCards(board.getTokenArray().get(0).getDiscard2Card());
             board.getTokenArray().remove(0);
+            if(checkColumnEmpty()){
+                gameOver = true;
+            }
         }
         notify(new ObjectMessage(board.getTokenArray(), 14, -1));
     }
@@ -367,8 +371,72 @@ public class Game extends Observable<Message> implements Cloneable , Serializabl
 
     }
 
-    public void discardTwoDevCards(CardColor cardColor){
+    public boolean checkColumnEmpty(){
+        int col1, col2, col3, col4;
+        col1 = getBoard().getMatrix().getDevDecks().get(0).getCards().size()
+                + getBoard().getMatrix().getDevDecks().get(4).getCards().size()
+                + getBoard().getMatrix().getDevDecks().get(8).getCards().size();
+        col2 = getBoard().getMatrix().getDevDecks().get(1).getCards().size()
+                + getBoard().getMatrix().getDevDecks().get(5).getCards().size()
+                + getBoard().getMatrix().getDevDecks().get(9).getCards().size();
+        col3 =  getBoard().getMatrix().getDevDecks().get(2).getCards().size()
+                + getBoard().getMatrix().getDevDecks().get(6).getCards().size()
+                + getBoard().getMatrix().getDevDecks().get(10).getCards().size();
+        col4 =  getBoard().getMatrix().getDevDecks().get(3).getCards().size()
+                + getBoard().getMatrix().getDevDecks().get(7).getCards().size()
+                + getBoard().getMatrix().getDevDecks().get(11).getCards().size();
 
+        if(col1 == 0 || col2 == 0 || col3 == 0 || col4 == 0)
+            return true;
+        else
+            return false;
+    }
+
+    public void discardTwoDevCards(CardColor cardColor){
+        if(cardColor == CardColor.GREEN){
+            if(getBoard().getMatrix().getDevDecks().get(0).getCards().size() != 0){
+                getBoard().getMatrix().getDevDecks().get(0).getCards().remove(0);
+            }
+            else if(getBoard().getMatrix().getDevDecks().get(4).getCards().size() != 0){
+                getBoard().getMatrix().getDevDecks().get(4).getCards().remove(0);
+            }
+            else if(getBoard().getMatrix().getDevDecks().get(8).getCards().size() != 0){
+                getBoard().getMatrix().getDevDecks().get(8).getCards().remove(0);
+            }
+        }
+        if(cardColor == CardColor.BLUE){
+            if(getBoard().getMatrix().getDevDecks().get(1).getCards().size() != 0){
+                getBoard().getMatrix().getDevDecks().get(1).getCards().remove(0);
+            }
+            else if(getBoard().getMatrix().getDevDecks().get(5).getCards().size() != 0){
+                getBoard().getMatrix().getDevDecks().get(5).getCards().remove(0);
+            }
+            else if(getBoard().getMatrix().getDevDecks().get(9).getCards().size() != 0){
+                getBoard().getMatrix().getDevDecks().get(9).getCards().remove(0);
+            }
+        }
+        if(cardColor == CardColor.YELLOW){
+            if(getBoard().getMatrix().getDevDecks().get(2).getCards().size() != 0){
+                getBoard().getMatrix().getDevDecks().get(2).getCards().remove(0);
+            }
+            else if(getBoard().getMatrix().getDevDecks().get(6).getCards().size() != 0){
+                getBoard().getMatrix().getDevDecks().get(6).getCards().remove(0);
+            }
+            else if(getBoard().getMatrix().getDevDecks().get(10).getCards().size() != 0){
+                getBoard().getMatrix().getDevDecks().get(10).getCards().remove(0);
+            }
+        }
+        if(cardColor == CardColor.PURPLE){
+            if(getBoard().getMatrix().getDevDecks().get(3).getCards().size() != 0){
+                getBoard().getMatrix().getDevDecks().get(3).getCards().remove(0);
+            }
+            else if(getBoard().getMatrix().getDevDecks().get(7).getCards().size() != 0){
+                getBoard().getMatrix().getDevDecks().get(7).getCards().remove(0);
+            }
+            else if(getBoard().getMatrix().getDevDecks().get(11).getCards().size() != 0){
+                getBoard().getMatrix().getDevDecks().get(11).getCards().remove(0);
+            }
+        }
     }
 
     public boolean addResourceToWarehouse(int ID, int shelfIndex, ResourceType r){

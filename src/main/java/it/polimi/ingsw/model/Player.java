@@ -15,17 +15,14 @@ public class Player implements Serializable, Cloneable{
     private int leaderCardsToDiscard;
     private int id;
     private String nickname;
-    private boolean inkwell;
     private LeaderDeck leaderDeck;
     private int victoryPoints;
     private ResourceType resDiscount1;
     private ResourceType resDiscount2;
     private ResourceType whiteConversion1;
-    private int actionPhase;
     private ResourceType whiteConversion2;
     private ResourceType inputExtraProduction1;
     private ResourceType inputExtraProduction2;
-    private boolean vaticanSection;
     private PersonalBoard personalBoard;
 
     public int getLeaderCardsToDiscard() {
@@ -46,34 +43,12 @@ public class Player implements Serializable, Cloneable{
         this.nickname = nickname;
         this.personalBoard = new PersonalBoard();
         this.leaderDeck = new LeaderDeck(new ArrayList<>());
-        this.actionPhase = 0;
     }
-
-
-    public Player(int id, String nickname, boolean inkwell, LeaderDeck leaderDeck, int victoryPoints, ResourceType resDiscount1, ResourceType resDiscount2, ResourceType whiteConversion1, ResourceType whiteConversion2, ResourceType inputExtraProduction1, ResourceType inputExtraProduction2, boolean vaticanSection, PersonalBoard personalBoard) {
-        this.id = id;
-        this.nickname = nickname;
-        this.inkwell = inkwell;
-        this.leaderDeck = leaderDeck;
-        this.victoryPoints = victoryPoints;
-        this.resDiscount1 = resDiscount1;
-        this.resDiscount2 = resDiscount2;
-        this.whiteConversion1 = whiteConversion1;
-        this.whiteConversion2 = whiteConversion2;
-        this.inputExtraProduction1 = inputExtraProduction1;
-        this.inputExtraProduction2 = inputExtraProduction2;
-        this.vaticanSection = vaticanSection;
-        this.personalBoard = personalBoard;
-    }
-
 
 
     public void setId(int id) {
         this.id = id;
     }
-
-
-
 
     public void setLeaderDeck(LeaderDeck leaderDeck) {
         this.leaderDeck = leaderDeck;
@@ -107,7 +82,6 @@ public class Player implements Serializable, Cloneable{
         this.inputExtraProduction2 = inputExtraProduction2;
     }
 
-
     public int getId() {
         return id;
     }
@@ -115,8 +89,6 @@ public class Player implements Serializable, Cloneable{
     public String getNickname() {
         return nickname;
     }
-
-
 
     public LeaderDeck getLeaderDeck() {
         return leaderDeck;
@@ -150,17 +122,8 @@ public class Player implements Serializable, Cloneable{
         return inputExtraProduction2;
     }
 
-
     public PersonalBoard getPersonalBoard() {
         return personalBoard;
-    }
-
-    public int getActionPhase() {
-        return actionPhase;
-    }
-
-    public void setActionPhase(int actionPhase) {
-        this.actionPhase = actionPhase;
     }
 
     public int sumDevs() {
@@ -209,5 +172,24 @@ public class Player implements Serializable, Cloneable{
 
     public void setStartResCount(int startResCount) {
         this.startResCount = startResCount;
+    }
+
+    public Player clone(){
+        Player clone = new Player(this.id, this.nickname);
+        clone.ready = this.ready;
+        clone.startResCount = this.startResCount;
+        clone.nickname = this.nickname;
+        clone.leaderCardsToDiscard = this.leaderCardsToDiscard;
+        clone.victoryPoints = this.victoryPoints;
+        clone.resDiscount1 = this.resDiscount1;
+        clone.resDiscount2 = this.resDiscount2;
+        clone.whiteConversion1 = this.whiteConversion1;
+        clone.whiteConversion2 = this.whiteConversion2;
+        clone.inputExtraProduction1 = this.inputExtraProduction1;
+        clone.inputExtraProduction2 = this.inputExtraProduction2;
+        clone.leaderDeck = this.leaderDeck.clone();
+        clone.personalBoard = this.personalBoard.clone();
+        return clone;
+
     }
 }

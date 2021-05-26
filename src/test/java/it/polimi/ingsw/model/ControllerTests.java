@@ -36,7 +36,7 @@ public class ControllerTests {
         personalBoard = new PersonalBoard();
         strongbox = new Strongbox();
         warehouse = new ShelfWarehouse();
-        player = new Player(0, "gigi", true, new LeaderDeck(new ArrayList<LeaderCard>()), 10, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, ResourceType.EMPTY, false, personalBoard);
+        player = new Player(0, "gigi");
         game.getPlayers().add(player);
         game.getPlayers().get(0).setId(0);
         game.getPlayerById(0).setPersonalBoard(personalBoard);

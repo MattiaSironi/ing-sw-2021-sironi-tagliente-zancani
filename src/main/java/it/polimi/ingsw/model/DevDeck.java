@@ -14,13 +14,12 @@ import java.util.List;
  */
 
 public class DevDeck implements Printable, Serializable {
-    private int size;
-    private int type; // using int for type of card recognition
+
+ // using int for type of card recognition
     private List<DevCard> cards;
 
-    public DevDeck(int size, int type, List<DevCard> cards) {
-        this.size = size;
-        this.type = type;
+    public DevDeck(List<DevCard> cards) {
+
         this.cards = cards;
     }
 
@@ -28,22 +27,6 @@ public class DevDeck implements Printable, Serializable {
         cards.remove(0);
     }
 
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
 
     public List<DevCard> getCards() {
         return cards;
@@ -58,7 +41,7 @@ public class DevDeck implements Printable, Serializable {
     }
 
     public DevDeck clone() {
-        DevDeck clone = new DevDeck(this.size, this.type, new ArrayList<>());
+        DevDeck clone = new DevDeck(new ArrayList<>());
         for (DevCard d : this.cards) clone.cards.add(d);
         return clone;
     }

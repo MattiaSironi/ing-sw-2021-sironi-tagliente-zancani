@@ -78,7 +78,6 @@ public class CloneTests {
 
     @Test
     @DisplayName("Market clone")
-    @Disabled("todo")
     public void marketClone()  {
 
         Game game = new Game(true, 0);

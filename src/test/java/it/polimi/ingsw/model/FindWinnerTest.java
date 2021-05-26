@@ -155,9 +155,9 @@ public class FindWinnerTest {
         deck01.add(new DevCard(0, 7, 2, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
 
         ArrayList<DevDeck> deck0= new ArrayList<>();
-        deck0.add(new DevDeck(3,0, deck00));
-        deck0.add(new DevDeck(2, 0, deck01));
-        deck0.add(new DevDeck(0, 0, deck02));
+        deck0.add(new DevDeck(deck00));
+        deck0.add(new DevDeck(deck01));
+        deck0.add(new DevDeck(deck02));
 
         game.getPlayerById(0).getPersonalBoard().setCardSlot(deck0);
 
@@ -177,9 +177,9 @@ public class FindWinnerTest {
         deck12.add(new DevCard(0, 7, 2, CardColor.BLUE, new int[]{0, 0, 0, 0}, new int[] {0,0,0,0},new int[] {0,0,0,0,0}));
 
         ArrayList<DevDeck> deck1= new ArrayList<>();
-        deck1.add(new DevDeck(3,0, deck10));
-        deck1.add(new DevDeck(2, 0, deck11));
-        deck1.add(new DevDeck(0, 0, deck12));
+        deck1.add(new DevDeck(deck10));
+        deck1.add(new DevDeck(deck11));
+        deck1.add(new DevDeck(deck12));
 
         game.getPlayerById(1).getPersonalBoard().setCardSlot(deck1);
 
@@ -202,9 +202,9 @@ public class FindWinnerTest {
 
 
         ArrayList<DevDeck> deck2= new ArrayList<>();
-        deck2.add(new DevDeck(3,0, deck20));
-        deck2.add(new DevDeck(2, 0, deck21));
-        deck2.add(new DevDeck(0, 0, deck22));
+        deck2.add(new DevDeck(deck20));
+        deck2.add(new DevDeck(deck21));
+        deck2.add(new DevDeck(deck22));
 
         game.getPlayerById(2).getPersonalBoard().setCardSlot(deck2);
 

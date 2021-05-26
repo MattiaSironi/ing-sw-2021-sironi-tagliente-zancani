@@ -102,40 +102,40 @@ public class Board implements Serializable {
         Reader reader = new InputStreamReader(Board.class.getResourceAsStream("/json/devcard.json"));
         DevCard[] allCards = gson.fromJson(reader, DevCard[].class);
         Collections.shuffle(Arrays.asList(allCards));
-        DevDeck deck1 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.GREEN)
+        DevDeck deck1 = new DevDeck(Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.GREEN)
                 && x.getLevel()==1).collect(Collectors.toList()));
         devDecks.add(deck1);
-        DevDeck deck2 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.BLUE)
+        DevDeck deck2 = new DevDeck(Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.BLUE)
                 && x.getLevel()==1).collect(Collectors.toList()));
         devDecks.add(deck2);
-        DevDeck deck3 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.YELLOW)
+        DevDeck deck3 = new DevDeck(Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.YELLOW)
                 && x.getLevel()==1).collect(Collectors.toList()));
         devDecks.add(deck3);
-        DevDeck deck4 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.PURPLE)
+        DevDeck deck4 = new DevDeck(Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.PURPLE)
                 && x.getLevel()==1).collect(Collectors.toList()));
         devDecks.add(deck4);
-        DevDeck deck5 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.GREEN)
+        DevDeck deck5 = new DevDeck(Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.GREEN)
                 && x.getLevel()==2).collect(Collectors.toList()));
         devDecks.add(deck5);
-        DevDeck deck6 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.BLUE)
+        DevDeck deck6 = new DevDeck( Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.BLUE)
                 && x.getLevel()==2).collect(Collectors.toList()));
         devDecks.add(deck6);
-        DevDeck deck7 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.YELLOW)
+        DevDeck deck7 = new DevDeck(Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.YELLOW)
                 && x.getLevel()==2).collect(Collectors.toList()));
         devDecks.add(deck7);
-        DevDeck deck8 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.PURPLE)
+        DevDeck deck8 = new DevDeck(Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.PURPLE)
                 && x.getLevel()==2).collect(Collectors.toList()));
         devDecks.add(deck8);
-        DevDeck deck9 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.GREEN)
+        DevDeck deck9 = new DevDeck(Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.GREEN)
                 && x.getLevel()==3).collect(Collectors.toList()));
         devDecks.add(deck9);
-        DevDeck deck10 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.BLUE)
+        DevDeck deck10 = new DevDeck(Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.BLUE)
                 && x.getLevel()==3).collect(Collectors.toList()));
         devDecks.add(deck10);
-        DevDeck deck11 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.YELLOW)
+        DevDeck deck11 = new DevDeck( Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.YELLOW)
                 && x.getLevel()==3).collect(Collectors.toList()));
         devDecks.add(deck11);
-        DevDeck deck12 = new DevDeck(4, 0, Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.PURPLE)
+        DevDeck deck12 = new DevDeck(Arrays.stream(allCards).filter(x -> x.getColor().equals(CardColor.PURPLE)
                 && x.getLevel()==3).collect(Collectors.toList()));
         devDecks.add(deck12);
 

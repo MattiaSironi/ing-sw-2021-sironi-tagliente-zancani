@@ -47,9 +47,9 @@ public class PersonalBoard implements Serializable {
         strongbox = new Strongbox();
         cardSlot = new ArrayList<DevDeck>();
         activeLeader = new LeaderDeck(new ArrayList<>()); //lea modifica pure
-        cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
-        cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
-        cardSlot.add(new DevDeck(0, 0, new ArrayList<DevCard>()));
+        cardSlot.add(new DevDeck(new ArrayList<DevCard>()));
+        cardSlot.add(new DevDeck(new ArrayList<DevCard>()));
+        cardSlot.add(new DevDeck(new ArrayList<DevCard>()));
         this.faithTrack = new FaithTrack(null);
     }
 
@@ -255,6 +255,7 @@ public class PersonalBoard implements Serializable {
         clone.warehouse = warehouse.clone();
         clone.strongbox = strongbox.clone();
         clone.cardSlot = new ArrayList<>();
+//        clone.activeLeader = activeLeader.clone();
         for (DevDeck d : this.cardSlot) clone.cardSlot.add(d.clone());
         //TODO ACTIVE LEADER AND LEADER CHOSEN
 

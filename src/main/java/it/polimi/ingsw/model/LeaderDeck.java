@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @author Mattia Sironi
  */
 
-public class LeaderDeck implements Printable, Serializable {
+public class LeaderDeck implements Printable, Serializable, Cloneable {
  // using int for type of card recognition
     private ArrayList<LeaderCard> cards;
 
@@ -18,7 +18,12 @@ public class LeaderDeck implements Printable, Serializable {
         this.cards = cards;
     }
 
+    public LeaderDeck clone(){
+        LeaderDeck clone = new LeaderDeck(new ArrayList<>());
+        for(LeaderCard ld : this.cards) clone.getCards().add(ld);
+        return clone;
 
+    }
 
 
 

@@ -36,4 +36,73 @@ public class SoloTests {
             }
         }
     }
+
+    @Test
+    @DisplayName("DiscardDevCard Test")
+    public void discard(){
+        int count = 0;
+
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.GREEN);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.YELLOW);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.BLUE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+        game.discardTwoDevCards(CardColor.PURPLE);
+
+        for (DevDeck dd : game.getBoard().getMatrix().getDevDecks()){
+            count += dd.getCards().size();
+        }
+
+        assertEquals(0, count);
+    }
 }
