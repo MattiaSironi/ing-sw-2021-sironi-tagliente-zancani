@@ -74,6 +74,8 @@ public class DevCard implements Printable, Serializable {
 //        return getOutputRes();
 //    } //production
 
-
+    public DevCard clone(){
+        return this;
+    }
 
 }

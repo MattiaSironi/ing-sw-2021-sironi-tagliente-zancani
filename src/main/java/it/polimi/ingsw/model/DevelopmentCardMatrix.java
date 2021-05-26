@@ -62,7 +62,6 @@ public class DevelopmentCardMatrix implements Serializable {
         clone.resToPay = new ArrayList<>();
         clone.resToPay.addAll(resToPay); //TODO testing for deep copy
         return clone;
-
     }
 
 }

@@ -34,4 +34,5 @@ public class Communication implements Serializable {
         clone.communication = this.communication;
         return clone;
     }
+
 }

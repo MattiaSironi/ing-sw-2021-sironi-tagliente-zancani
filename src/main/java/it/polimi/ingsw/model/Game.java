@@ -37,6 +37,23 @@ public class Game extends Observable<Message> implements Serializable {
     private Turn turn;
     private Communication communication;
 
+    public Game() { }
+
+    public Game(int gameID, int numPlayer, int currPlayer, int nextPlayer, boolean firstvatican, boolean secondvatican, boolean thirdvatican, boolean gameOver) {
+        this.gameID = gameID;
+        this.numPlayer = numPlayer;
+        this.currPlayer = currPlayer;
+        this.nextPlayer = nextPlayer;
+        this.firstvatican = firstvatican;
+        this.secondvatican = secondvatican;
+        this.thirdvatican = thirdvatican;
+        this.gameOver = gameOver;
+        this.board = new Board();
+        this.turn = new Turn();
+        this.players = new ArrayList<Player>();
+        this.communication = new Communication();
+    }
+
     public boolean isGameOver() {
         return gameOver;
     }
@@ -178,10 +195,6 @@ public class Game extends Observable<Message> implements Serializable {
         }
     }
 
-    public Game clone() throws CloneNotSupportedException {
-        Game clone = new Game (this.numPlayer, this.currPlayer, this.nextPlayer, this.players, this.board);
-        return clone;
-    }
 
     public void setMarketHand(ArrayList<Marble> resources){
         getBoard().getMarket().setHand(resources);
@@ -626,4 +639,27 @@ public class Game extends Observable<Message> implements Serializable {
         }
 
     }
+
+    public Game clone(){
+        Game clone = new Game();
+        clone.gameID = this.gameID;
+        clone.numPlayer = this.numPlayer;
+        clone.currPlayer = this.currPlayer;
+        clone.nextPlayer = this.nextPlayer;
+        clone.firstvatican = this.firstvatican;
+        clone.secondvatican = this.secondvatican;
+        clone.thirdvatican = this.thirdvatican;
+        clone.gameOver = this.gameOver;
+        clone.board = board.clone();
+        clone.turn  = turn.clone();
+        clone.communication = communication.clone();
+        clone.players = new ArrayList<Player>();
+
+        for (Player p: this.players){
+            clone.players.add(p.clone());
+        }
+
+        return clone;
+    }
+
 }
