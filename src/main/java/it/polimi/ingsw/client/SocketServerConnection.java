@@ -1,6 +1,5 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
 import it.polimi.ingsw.message.CommonMessages.ErrorMessage;
 import it.polimi.ingsw.message.CommonMessages.IdMessage;
 import it.polimi.ingsw.message.CommonMessages.PingMessage;
@@ -9,7 +8,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.Scanner;
 
 public class SocketServerConnection {
@@ -68,15 +66,19 @@ public class SocketServerConnection {
         System.out.println("Insert IP Address : ");
         System.out.print("> ");
         String s = new Scanner(System.in).nextLine();
+        socketInit(s);
+
+    }
+
+    public void socketInit(String s) throws IOException {
         socket = new Socket(s, 1234);
         socketIn = new ObjectInputStream(socket.getInputStream());
         socketOut = new ObjectOutputStream(socket.getOutputStream());
         System.out.println("Connection established");
-
         socketListener.start();
-
         pingSender.start();
     }
+
 
 
 

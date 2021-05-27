@@ -4,8 +4,7 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
 import it.polimi.ingsw.message.CommonMessages.IdMessage;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.view.RemoteView;
+import it.polimi.ingsw.client.RemoteView;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -24,6 +23,17 @@ public class Server {
     private Map<Game, ArrayList<RemoteView>> gameList = new HashMap<>();
     private int usedID = 0, gameID=0;
     private int numPlayers = -1;
+
+    public static void main( String[] args )
+    {
+        Server server;
+        try {
+            server = new Server();
+            server.run();
+        } catch (IOException e) {
+            System.err.println("Impossible to initialize the server: " + e.getMessage() + "!");
+        }
+    }
 
     public synchronized void waitingRoom(RemoteView rv) {
         System.out.println("gew");

@@ -3,20 +3,11 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.*;
-import it.polimi.ingsw.message.Message;
-import it.polimi.ingsw.server.Server;
-import it.polimi.ingsw.server.SocketClientConnection;
-import it.polimi.ingsw.view.ModelMultiplayerView;
-import it.polimi.ingsw.view.RemoteView;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
-import javax.lang.model.element.ModuleElement;
-import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;

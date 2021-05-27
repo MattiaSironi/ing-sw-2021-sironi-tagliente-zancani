@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.client;
 
 public enum Actions {
     M ("Take Resources from the Market", true),
