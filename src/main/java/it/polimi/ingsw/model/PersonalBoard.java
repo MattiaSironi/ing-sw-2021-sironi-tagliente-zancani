@@ -17,18 +17,16 @@ import java.util.ArrayList;
 public class PersonalBoard implements Serializable {
     private FaithTrack faithTrack;
     private ArrayList<DevDeck> cardSlot;
-    private int numDevCards;
     private Strongbox strongbox;
     private ShelfWarehouse warehouse;
     private LeaderDeck activeLeader;
     private ExtraProdLCard leaderChosen;
 
 
-    public PersonalBoard(FaithTrack faithTrack, ArrayList<DevDeck> cardSlot, LeaderDeck activeLeader, int numDevCards, Strongbox strongbox, ShelfWarehouse warehouse) {
+    public PersonalBoard(FaithTrack faithTrack, ArrayList<DevDeck> cardSlot, LeaderDeck activeLeader, Strongbox strongbox, ShelfWarehouse warehouse) {
         this.faithTrack = faithTrack;
         this.cardSlot = cardSlot;
         this.activeLeader = activeLeader;
-        this.numDevCards = numDevCards;
         this.strongbox = strongbox;
         this.warehouse = warehouse;
 
@@ -189,13 +187,6 @@ public class PersonalBoard implements Serializable {
         this.activeLeader = activeLeader;
     }
 
-    public void setNumDevCards(int numDevCards) {
-        this.numDevCards = numDevCards;
-    }
-
-
-
-
     public ArrayList<DevDeck> getCardSlot() {
         return cardSlot;
     }
@@ -203,12 +194,6 @@ public class PersonalBoard implements Serializable {
     public LeaderDeck getActiveLeader() {
         return activeLeader;
     }
-
-    public int getNumDevCards() {
-        return numDevCards;
-    }
-
-
 
     public Strongbox getStrongbox() {
         return strongbox;
@@ -250,7 +235,6 @@ public class PersonalBoard implements Serializable {
 
     public PersonalBoard clone() {
         PersonalBoard clone = new PersonalBoard();
-        clone.numDevCards = numDevCards;
         clone.faithTrack = faithTrack.clone();
         clone.warehouse = warehouse.clone();
         clone.strongbox = strongbox.clone();

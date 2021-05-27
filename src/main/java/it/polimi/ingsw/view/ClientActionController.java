@@ -282,7 +282,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                 cli.printToConsole("Invalid input, try again");
                 return false;
             }
-        }catch(NumberFormatException e){
+        }catch(NumberFormatException  | IndexOutOfBoundsException e){
             cli.printToConsole("Invalid input, try again!");
             return false;
         }
@@ -781,6 +781,8 @@ public class ClientActionController extends Observable<Message> implements Obser
         if (turn.getPhase() == ActionPhase.GAME_OVER) {
             if (turn.getPlayerPlayingID() == ID) cli.printToConsole("you win!");
             else cli.printToConsole("you lose!");
+
+            if (singlePlayer) System.exit(0);
         }
 
 

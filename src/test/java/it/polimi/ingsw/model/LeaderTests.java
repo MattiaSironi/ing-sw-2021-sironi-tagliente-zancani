@@ -97,8 +97,8 @@ public class LeaderTests {
         game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(6);
         game.getPlayerById(0).setResDiscount1(ResourceType.SERVANT);
         game.getPlayerById(0).setResDiscount2(null);
-        DevCard d1 = new DevCard(0,10,1,CardColor.BLUE,null,null,null);
-        DevCard d2 =new DevCard(0,10,1,CardColor.PURPLE,null,null,null);
+        DevCard d1 = new DevCard(10,1,CardColor.BLUE,null,null,null);
+        DevCard d2 =new DevCard(10,1,CardColor.PURPLE,null,null,null);
         ArrayList<DevCard> devc= new ArrayList<>();
         devc.add(d1);
         devc.add(d2);
@@ -411,7 +411,7 @@ public class LeaderTests {
         game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(6);
         game.getPlayerById(0).setInputExtraProduction1(ResourceType.STONE);
         game.getPlayerById(0).setInputExtraProduction2(null);
-        DevCard d1 = new DevCard(0,10,2,CardColor.BLUE,null,null,null);
+        DevCard d1 = new DevCard(10,2,CardColor.BLUE,null,null,null);
         ArrayList<DevCard> dev= new ArrayList<>();
         dev.add(d1);
         DevDeck dd = new DevDeck(dev);
@@ -561,9 +561,9 @@ public class LeaderTests {
         game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(6);
         game.getPlayerById(0).setWhiteConversion1(null);
         game.getPlayerById(0).setWhiteConversion2(null);
-        DevCard d1 = new DevCard(0,10,1,CardColor.GREEN,null,null,null);
-        DevCard d2 =new DevCard(0,10,1,CardColor.YELLOW,null,null,null);
-        DevCard d3 =new DevCard(0,10,2,CardColor.YELLOW,null,null,null);
+        DevCard d1 = new DevCard(10,1,CardColor.GREEN,null,null,null);
+        DevCard d2 =new DevCard(10,1,CardColor.YELLOW,null,null,null);
+        DevCard d3 =new DevCard(10,2,CardColor.YELLOW,null,null,null);
         ArrayList<DevCard> devgreen= new ArrayList<>();
         ArrayList<DevCard> devyellow=new ArrayList<>();
         devgreen.add(d1);

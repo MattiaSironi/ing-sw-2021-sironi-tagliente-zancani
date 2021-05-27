@@ -354,7 +354,6 @@ public class Controller implements Observer<Message> {
         if (game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().size() == 0 && game.getBoard().getMatrix().getChosenCard().getLevel() == 1) {
             game.addDevCardToPlayer(ID, slot);
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
-            checkDevCardNumber(ID);
             if(game.getPlayers().size() == 1 && game.checkColumnEmpty()){
                 game.setGameOver(true);
             }
@@ -362,21 +361,12 @@ public class Controller implements Observer<Message> {
                 game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().get(0).getLevel() == game.getBoard().getMatrix().getChosenCard().getLevel() - 1) {
             game.addDevCardToPlayer(ID, slot);
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
-            checkDevCardNumber(ID);
         } else {
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.CHOOSE_SLOT, true, ErrorList.INVALID_MOVE);
         }
     }
 
-    public void checkDevCardNumber(int ID){
-        int counter = game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(0).getCards().size() +
-                game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(1).getCards().size() +
-                game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(2).getCards().size();
-        if(counter >= 7) {
-            game.setCommunication(ID, CommunicationList.SEVENCARDS);
-            game.setGameOver(true);
-        }
-    }
+
 
     public boolean checkDevCardPlacement(DevCard devCard, Player player) {
         for (DevDeck dd : player.getPersonalBoard().getCardSlot()) {
@@ -548,7 +538,7 @@ public class Controller implements Observer<Message> {
     }
 
     public void useLeaderProduction(int ID, ResourceType r, ResourceType newRes, boolean buyFromWarehouse) { //if true -> pay from warehouse
-        if (buyFromWarehouse == true) {
+        if (buyFromWarehouse) {
             if (!(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(1, r))) {
                 this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
             } else {
@@ -556,7 +546,7 @@ public class Controller implements Observer<Message> {
                 this.game.moveFaithPosByID(ID, 1);
             }
         }
-        if (buyFromWarehouse == false) {
+        if (!buyFromWarehouse) {
             if (!(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(1, r))) {
                 this.game.reportError(new ErrorMessage("You don't have enough resources!", ID));
             } else {

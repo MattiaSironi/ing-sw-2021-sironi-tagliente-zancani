@@ -25,14 +25,17 @@ public class Board implements Serializable {
     private ArrayList<SoloActionToken> tokenArray;
     private DevelopmentCardMatrix matrix;
 
-    public Board(boolean single) { //for now just for multiplayer
+    public Board(boolean single) {
         market = createMarket();
         devDecks = createDevDecks();
         leaderDeck = createLeaderDeck();
         matrix = new DevelopmentCardMatrix(devDecks);
         if (single) tokenArray = createTokensArray();
     }
-    public Board()  {}
+
+    public Board()  {
+
+    }
 
     public ArrayList<SoloActionToken> createTokensArray() {
         Gson gson = new Gson();
@@ -143,9 +146,6 @@ public class Board implements Serializable {
 
     }
 
-
-
-
     public Market getMarket() {
         return market;
     }
@@ -178,16 +178,6 @@ public class Board implements Serializable {
         this.tokenArray = tokenArray;
     }
 
-
-    public Board(Market market, LeaderDeck leaderDeck, ArrayList<DevDeck> devDecks, ArrayList<SoloActionToken> tokenArray) {
-        this.market = market;
-        this.leaderDeck = leaderDeck;
-        this.devDecks = devDecks;
-        this.tokenArray = tokenArray;
-    }
-
-
-
     public DevelopmentCardMatrix getMatrix() {
         return matrix;
     }
@@ -195,7 +185,6 @@ public class Board implements Serializable {
     public void setMatrix(DevelopmentCardMatrix matrix) {
         this.matrix = matrix;
     }
-
 
     public Board clone() {
         Board clone = new Board();

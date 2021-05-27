@@ -9,7 +9,6 @@ import java.io.Serializable;
  */
 
 public class WhiteTrayLCard extends LeaderCard implements Printable, Serializable {
-    //type=4?
     private final ResourceType resType;
     private final CardColor x1Color;
     private final CardColor x2Color;
@@ -34,7 +33,6 @@ public class WhiteTrayLCard extends LeaderCard implements Printable, Serializabl
         return x2Color;
     }
 
-
     @Override
     public boolean equals(LeaderCard lc) {
         if(!(lc instanceof WhiteTrayLCard))
@@ -50,8 +48,6 @@ public class WhiteTrayLCard extends LeaderCard implements Printable, Serializabl
                 return true;
         }
     }
-
-
 
     @Override
     public void print() {

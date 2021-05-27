@@ -18,8 +18,7 @@ public class PersonalBoardTest {
 
     @BeforeEach
     void init() {
-        p = new PersonalBoard(new FaithTrack(null), new ArrayList<DevDeck>(), new LeaderDeck( new ArrayList<LeaderCard>()),
-                0, new Strongbox(), new ShelfWarehouse());
+        p = new PersonalBoard(new FaithTrack(null), new ArrayList<DevDeck>(), new LeaderDeck( new ArrayList<LeaderCard>()), new Strongbox(), new ShelfWarehouse());
 
     }
 
@@ -28,10 +27,10 @@ public class PersonalBoardTest {
     void yesDiscount() {
 
         ArrayList<DevCard> dev1 = new ArrayList<DevCard>();
-        dev1.add(0, new DevCard(0, 1, 1, CardColor.GREEN, new int[]{0, 0, 0, 2}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 0, 1}));
+        dev1.add(0, new DevCard(1, 1, CardColor.GREEN, new int[]{0, 0, 0, 2}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 0, 1}));
         p.getCardSlot().add(new DevDeck(dev1));
         ArrayList<DevCard> dev2 = new ArrayList<DevCard>();
-        dev2.add(0, new DevCard(0, 2, 1, CardColor.PURPLE, new int[]{1, 0, 1, 1}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 1, 0}));
+        dev2.add(0, new DevCard(2, 1, CardColor.PURPLE, new int[]{1, 0, 1, 1}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 1, 0}));
         p.getCardSlot().add(new DevDeck(dev2));
         ArrayList<LeaderCard> lc = new ArrayList<LeaderCard>();
         lc.add(new DiscountLCard(1, 2, CardColor.GREEN, CardColor.PURPLE, ResourceType.STONE));
@@ -48,16 +47,16 @@ public class PersonalBoardTest {
     @DisplayName("same as above but the cards are in my PersonalBoardTest")
     void yesDiscountBut() {
         ArrayList<DevCard> dev1 = new ArrayList<DevCard>();
-        dev1.add(0, new DevCard(0, 1, 1, CardColor.PURPLE, new int[]{0, 0, 0, 2}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 0, 1}));
-        dev1.add(1, new DevCard(0, 6, 2, CardColor.PURPLE, new int[]{2, 0, 3, 0}, new int[]{1, 0, 1, 0}, new int[]{0, 0, 0, 3, 0}));
-        dev1.add(2, new DevCard(0, 10, 3, CardColor.YELLOW, new int[]{0, 5, 2, 0}, new int[]{0, 1, 1, 0}, new int[]{2, 0, 0, 2, 1}));
+        dev1.add(0, new DevCard(1, 1, CardColor.PURPLE, new int[]{0, 0, 0, 2}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 0, 1}));
+        dev1.add(1, new DevCard(6, 2, CardColor.PURPLE, new int[]{2, 0, 3, 0}, new int[]{1, 0, 1, 0}, new int[]{0, 0, 0, 3, 0}));
+        dev1.add(2, new DevCard(10, 3, CardColor.YELLOW, new int[]{0, 5, 2, 0}, new int[]{0, 1, 1, 0}, new int[]{2, 0, 0, 2, 1}));
         p.getCardSlot().add(new DevDeck(dev1));
         ArrayList<DevCard> dev2 = new ArrayList<DevCard>();
-        dev2.add(0, new DevCard(0, 2, 1, CardColor.PURPLE, new int[]{1, 0, 1, 1}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 1, 0}));
+        dev2.add(0, new DevCard( 2, 1, CardColor.PURPLE, new int[]{1, 0, 1, 1}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 1, 0}));
         p.getCardSlot().add(new DevDeck(dev2));
         ArrayList<DevCard> dev3 = new ArrayList<DevCard>();
-        dev3.add(0, new DevCard(0, 4, 1, CardColor.YELLOW, new int[]{2, 0, 2, 0}, new int[]{0, 1, 0, 1}, new int[]{0, 0, 2, 0, 1}));
-        dev3.add(1, new DevCard(0, 6, 2, CardColor.BLUE, new int[]{3, 2, 0, 0}, new int[]{1, 1, 0, 0}, new int[]{0, 0, 3, 0, 0}));
+        dev3.add(0, new DevCard(4, 1, CardColor.YELLOW, new int[]{2, 0, 2, 0}, new int[]{0, 1, 0, 1}, new int[]{0, 0, 2, 0, 1}));
+        dev3.add(1, new DevCard(6, 2, CardColor.BLUE, new int[]{3, 2, 0, 0}, new int[]{1, 1, 0, 0}, new int[]{0, 0, 3, 0, 0}));
         p.getCardSlot().add(new DevDeck(dev3));
         ArrayList<LeaderCard> lc = new ArrayList<LeaderCard>();
         lc.add(new DiscountLCard(1, 2, CardColor.GREEN, CardColor.BLUE, ResourceType.STONE));
@@ -73,12 +72,12 @@ public class PersonalBoardTest {
     void yesDiscountButNopeAllExtraProds() {
 
         ArrayList<DevCard> dev1 = new ArrayList<DevCard>();
-        dev1.add(0, new DevCard(0, 1, 1, CardColor.GREEN, new int[]{0, 0, 0, 2}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 0, 1}));
-        dev1.add(1, new DevCard(0, 6, 2, CardColor.PURPLE, new int[]{2, 0, 3, 0}, new int[]{1, 0, 1, 0}, new int[]{0, 0, 0, 3, 0}));
-        dev1.add(2, new DevCard(0, 10, 3, CardColor.YELLOW, new int[]{0, 5, 2, 0}, new int[]{0, 1, 1, 0}, new int[]{2, 0, 0, 2, 1}));
+        dev1.add(0, new DevCard(1, 1, CardColor.GREEN, new int[]{0, 0, 0, 2}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 0, 1}));
+        dev1.add(1, new DevCard(6, 2, CardColor.PURPLE, new int[]{2, 0, 3, 0}, new int[]{1, 0, 1, 0}, new int[]{0, 0, 0, 3, 0}));
+        dev1.add(2, new DevCard(10, 3, CardColor.YELLOW, new int[]{0, 5, 2, 0}, new int[]{0, 1, 1, 0}, new int[]{2, 0, 0, 2, 1}));
         p.getCardSlot().add(new DevDeck(dev1));
         ArrayList<DevCard> dev2 = new ArrayList<DevCard>();
-        dev2.add(0, new DevCard(0, 2, 1, CardColor.PURPLE, new int[]{1, 0, 1, 1}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 1, 0}));
+        dev2.add(0, new DevCard(2, 1, CardColor.PURPLE, new int[]{1, 0, 1, 1}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 1, 0}));
         p.getCardSlot().add(new DevDeck(dev2));
         ArrayList<LeaderCard> lc = new ArrayList<LeaderCard>();
         lc.add(new DiscountLCard(1, 2, CardColor.GREEN, CardColor.YELLOW, ResourceType.STONE));
@@ -99,16 +98,16 @@ public class PersonalBoardTest {
     @DisplayName("Tests for WhiteTrayLCard")
     void yesAndNopeWhiteTray() {
         ArrayList<DevCard> dev1 = new ArrayList<DevCard>();
-        dev1.add(0, new DevCard(0, 1, 1, CardColor.PURPLE, new int[]{0, 0, 0, 2}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 0, 1}));
-        dev1.add(1, new DevCard(0, 6, 2, CardColor.PURPLE, new int[]{2, 0, 3, 0}, new int[]{1, 0, 1, 0}, new int[]{0, 0, 0, 3, 0}));
-        dev1.add(2, new DevCard(0, 10, 3, CardColor.YELLOW, new int[]{0, 5, 2, 0}, new int[]{0, 1, 1, 0}, new int[]{2, 0, 0, 2, 1}));
+        dev1.add(0, new DevCard(1, 1, CardColor.PURPLE, new int[]{0, 0, 0, 2}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 0, 1}));
+        dev1.add(1, new DevCard(6, 2, CardColor.PURPLE, new int[]{2, 0, 3, 0}, new int[]{1, 0, 1, 0}, new int[]{0, 0, 0, 3, 0}));
+        dev1.add(2, new DevCard(10, 3, CardColor.YELLOW, new int[]{0, 5, 2, 0}, new int[]{0, 1, 1, 0}, new int[]{2, 0, 0, 2, 1}));
         p.getCardSlot().add(new DevDeck(dev1));
         ArrayList<DevCard> dev2 = new ArrayList<DevCard>();
-        dev2.add(0, new DevCard(0, 2, 1, CardColor.PURPLE, new int[]{1, 0, 1, 1}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 1, 0}));
+        dev2.add(0, new DevCard(2, 1, CardColor.PURPLE, new int[]{1, 0, 1, 1}, new int[]{1, 0, 0, 0}, new int[]{0, 0, 0, 1, 0}));
         p.getCardSlot().add(new DevDeck(dev2));
         ArrayList<DevCard> dev3 = new ArrayList<DevCard>();
-        dev3.add(0, new DevCard(0, 4, 1, CardColor.YELLOW, new int[]{2, 0, 2, 0}, new int[]{0, 1, 0, 1}, new int[]{0, 0, 2, 0, 1}));
-        dev3.add(1, new DevCard(0, 6, 2, CardColor.BLUE, new int[]{3, 2, 0, 0}, new int[]{1, 1, 0, 0}, new int[]{0, 0, 3, 0, 0}));
+        dev3.add(0, new DevCard(4, 1, CardColor.YELLOW, new int[]{2, 0, 2, 0}, new int[]{0, 1, 0, 1}, new int[]{0, 0, 2, 0, 1}));
+        dev3.add(1, new DevCard( 6, 2, CardColor.BLUE, new int[]{3, 2, 0, 0}, new int[]{1, 1, 0, 0}, new int[]{0, 0, 3, 0, 0}));
         p.getCardSlot().add(new DevDeck(dev3));
         ArrayList<LeaderCard> lc = new ArrayList<LeaderCard>();
         lc.add(new WhiteTrayLCard(4, 5, ResourceType.SHIELD, CardColor.PURPLE, CardColor.GREEN));

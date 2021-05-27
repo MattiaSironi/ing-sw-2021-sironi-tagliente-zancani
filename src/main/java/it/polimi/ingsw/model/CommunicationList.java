@@ -17,7 +17,15 @@ public enum CommunicationList {
     SERVANTDISCOUNT("You got a discount of 1 " + ResourceType.SERVANT.printResourceColouredName() + "!"),
     SHIELDDISCOUNT("You got a discount of 1 " + ResourceType.SHIELD.printResourceColouredName() + "!"),
     NO_PAYMENT_NEEDED("All the resources were discounted!"),
-    SEVENCARDS("You have just bought your seventh Develpment Card!"),
+    LORI_CAP ("Lorenzo Il Magnifico reached the end of the Faith track!"),
+    PLAYER_CAP("You reached the end of the Faith Track!"),
+    LORI_MOVE2("Token drawn. Lorenzo Il Magnifico moved by two positions on the Faith Track!"),
+    LORI_MOVE("Token drawn. Lorenzo Il Magnifico moved by one position on the Faith Track and all Tokens have been shuffled!"),
+    SEVENCARDS("You have just bought your seventh Development Card!"),
+    LORI_YELLOW("Token drawn. Two YELLOW cards got discarded!"),
+    LORI_BLUE("Token drawn. Two BLUE cards got discarded!"),
+    LORI_PURPLE("Token drawn. Two PURPLE cards got discarded!"),
+    LORI_GREEN("Token drawn. Two GREEN cards got discarded!"),
     EMPTYCOLUMN("One type of Development card is no longer avaiable in the grid");
 
 

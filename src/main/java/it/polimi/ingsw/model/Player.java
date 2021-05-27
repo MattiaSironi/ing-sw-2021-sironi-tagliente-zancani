@@ -33,7 +33,6 @@ public class Player implements Serializable, Cloneable{
         this.leaderCardsToDiscard = leaderCardsToDiscard;
     }
 
-
     public void setPersonalBoard(PersonalBoard personalBoard) {
         this.personalBoard = personalBoard;
     }
@@ -44,7 +43,6 @@ public class Player implements Serializable, Cloneable{
         this.personalBoard = new PersonalBoard();
         this.leaderDeck = new LeaderDeck(new ArrayList<>());
     }
-
 
     public void setId(int id) {
         this.id = id;

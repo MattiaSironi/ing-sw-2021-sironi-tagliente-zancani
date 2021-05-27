@@ -35,7 +35,7 @@ public class LeaderDeck implements Printable, Serializable, Cloneable {
         this.cards = cards;
     }
 
-    @Override
+
 //    public void print() {
 //        int i=1;
 //        for(LeaderCard c : this.getCards()){
@@ -52,7 +52,7 @@ public class LeaderDeck implements Printable, Serializable, Cloneable {
 //    }
 
 
-
+    @Override
     public void print(){
         int i=1;
         for(LeaderCard c : this.getCards()){

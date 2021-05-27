@@ -13,14 +13,11 @@ public class DevelopmentCardMatrix implements Serializable {
 
     public DevelopmentCardMatrix(List<DevDeck> devDecks) {
         this.devDecks = devDecks;
+
     }
 
     public List<DevDeck> getDevDecks() {
         return devDecks;
-    }
-
-    public void setDevDecks(List<DevDeck> devDecks) {
-        this.devDecks = devDecks;
     }
 
     public DevCard getChosenCard() {
@@ -47,20 +44,17 @@ public class DevelopmentCardMatrix implements Serializable {
         this.resToPay = resToPay;
     }
 
-    public void printDevMatrix(){
-        for(DevDeck dd : devDecks){
-            dd.print();
-        }
-    }
-
     public DevelopmentCardMatrix clone()  {
         DevelopmentCardMatrix clone = new DevelopmentCardMatrix(new ArrayList<>());
         clone.chosenIndex = chosenIndex;
         for (DevDeck d : devDecks) clone.devDecks.add(d.clone());
         if (chosenCard!= null) clone.chosenCard= chosenCard;
         else clone.chosenCard = null;
-        clone.resToPay = new ArrayList<>();
-        clone.resToPay.addAll(resToPay); //TODO testing for deep copy
+        if (resToPay==null) clone.resToPay= null;
+        else {
+            clone.resToPay = new ArrayList<>();
+            clone.resToPay.addAll(resToPay); //TODO testing for deep copy
+        }
         return clone;
     }
 

@@ -10,11 +10,10 @@ import java.io.Serializable;
  */
 
 public class Slot implements Serializable {
-    private final int posIndex; //apparentemente inutile
+
     private final int currentVictoryPoints;
 
-    public Slot(int posIndex, int currentVictoryPoints) {
-        this.posIndex = posIndex;
+    public Slot(int currentVictoryPoints) {
         this.currentVictoryPoints = currentVictoryPoints;
     }
 

@@ -32,10 +32,6 @@ public class DevDeck implements Printable, Serializable {
         return cards;
     }
 
-    public void setCards(ArrayList<DevCard> cards) {
-        this.cards = cards;
-    }
-
     public void print(){
         this.cards.get(0).print();
     }
