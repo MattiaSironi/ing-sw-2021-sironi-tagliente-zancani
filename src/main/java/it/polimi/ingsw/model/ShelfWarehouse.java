@@ -43,41 +43,35 @@ public class ShelfWarehouse implements Printable, Serializable {
         return num;
     }
 
+    public ShelfWarehouse clone()  {
+        ShelfWarehouse temp = new ShelfWarehouse();
+
+        temp.shelves.set(0, new Shelf(this.shelves.get(0).getResType(), this.shelves.get(0).getCount()));
+        temp.shelves.set(1, new Shelf(this.shelves.get(1).getResType(), this.shelves.get(1).getCount()));
+        temp.shelves.set(2, new Shelf(this.shelves.get(2).getResType(), this.shelves.get(2).getCount()));
+        temp.shelves.set(3, new Shelf(this.shelves.get(3).getResType(), this.shelves.get(3).getCount()));
+        temp.shelves.set(4, new Shelf(this.shelves.get(4).getResType(), this.shelves.get(4).getCount()));
+        return  temp;
+
+    }
+
     /**
      * Method swapShelves allows the player to manage the resources by swapping the shelves
      *
      * @param s1 is the first shelf that the player wants to swap
      * @param s2 is the second shelf that the player wants to swap
      */
-    public boolean swapShelves(int s1, int s2) {
-        Shelf temp;
-        if (s1 == 3 || s1==4 || s2 == 3 || s2 == 4) return swapLeaderCase(s1, s2);
-        if (this.shelves.get(s1).getCount() <= s2 + 1 && this.shelves.get(s2).getCount() <= s1 + 1) {
-            temp = this.shelves.get(s1);
-            this.shelves.set(s1, this.shelves.get(s2));
-            this.shelves.set(s2, temp);
-            return true;
-        } else return false;
-
-
-
-    }
-    public ShelfWarehouse clone()  {
-       ShelfWarehouse temp = new ShelfWarehouse();
-
-       temp.shelves.set(0, new Shelf(this.shelves.get(0).getResType(), this.shelves.get(0).getCount()));
-       temp.shelves.set(1, new Shelf(this.shelves.get(1).getResType(), this.shelves.get(1).getCount()));
-       temp.shelves.set(2, new Shelf(this.shelves.get(2).getResType(), this.shelves.get(2).getCount()));
-       temp.shelves.set(3, new Shelf(this.shelves.get(3).getResType(), this.shelves.get(3).getCount()));
-       temp.shelves.set(4, new Shelf(this.shelves.get(4).getResType(), this.shelves.get(4).getCount()));
-       return  temp;
-
-    }
 
     public boolean swap(int s1, int s2) {
 
+        if ((s1 == 3 && s2 == 4) || (s1 == 4 && s2 == 3)) {
+            Shelf temp = this.shelves.get(s1);
+            this.shelves.set(s1, this.shelves.get(s2));
+            this.shelves.set(s2, temp);
+        }
 
-        if (s1 == 3 || s1 == 4) {
+
+        else if (s1 == 3 || s1 == 4) {
 
             if (this.shelves.get(s1).getResType() == this.shelves.get(s2).getResType() || this.shelves.get(s2).getResType() == ResourceType.EMPTY) {
                 Shelf temp = this.shelves.get(s1);
@@ -125,57 +119,7 @@ public class ShelfWarehouse implements Printable, Serializable {
                         (this.shelves.get(3).getResType()==  null && this.shelves.get(4).getResType()==  null)));
     }
 
-    private boolean swapLeaderCase(int s1, int s2) {  //SEMPLIFICARE CONTROLLI E SISTEMARE PROBLEMA PIU' DI DUE SHELF CON STESSA RISORSA.
-        if ((this.shelves.get(s1).getResType() == this.shelves.get(s2).getResType() ||
-        this.shelves.get(s1).getResType() == ResourceType.EMPTY ||
-            this.shelves.get(s2).getResType() == ResourceType.EMPTY) &&
-        this.shelves.get(s1).getResType() != null && this.shelves.get(s2).getResType() != null ) {
 
-            if ((s1==0  && this.shelves.get(s2).getCount()>=2) || (s2==0 && this.shelves.get(s1).getCount()>=2)) return false;
-            else if ((s1 == 2 && this.shelves.get(s1).getCount() > 2) || (s2==2 && this.shelves.get(s2).getCount() > 2 )) return false;
-            else { Shelf temp;
-                if (s1 == 3 || s1== 4)  {
-
-                    temp = this.shelves.get(s1);
-                    this.shelves.set(s1, this.shelves.get(s2));
-                    this.shelves.get(s1).setResType(temp.getResType());
-                    this.shelves.set(s2, temp);
-                    if (this.shelves.get(s2).getCount()==0) this.shelves.get(s2).setResType(ResourceType.EMPTY);
-                }
-
-
-                else {
-
-                    temp = this.shelves.get(s1);
-                    this.shelves.set(s1, this.shelves.get(s2));
-                    this.shelves.set(s2, temp);
-                this.shelves.get(s2).setResType(this.shelves.get(s1).getResType());
-                    if (this.shelves.get(s1).getCount() == 0) {
-                        this.shelves.get(s1).setResType(ResourceType.EMPTY);
-
-                    }
-                }
-
-
-            }
-            return true;
-        }
-        else return false;
-
-    }
-
-  /*  public boolean checkRules(){
-        if (this.shelves.get(0).getCount()>1 || this.shelves.get(1).getCount()>2 || this.shelves.get(2).getCount()>3)
-            return false;
-        if (this.shelves.get(0).getResType()==this.shelves.get(1).getResType() ||
-                this.shelves.get(0).getResType()==this.shelves.get(2).getResType() ||
-                this.shelves.get(1).getResType()==this.shelves.get(2).getResType())
-            return false;
-        else
-            return true;
-     }*/
-
-    //il controller deve valutare se la c'è già una mensola con la risorsa da inserire o ci sono più possibilità e in quel caso chiedere all'utente
 
     /**
      * Method addResource adds one resource in the selected shelf

@@ -122,11 +122,7 @@ public class Game extends Observable<Message> implements Serializable {
         return players;
     }
 
-    public void reportError(ErrorMessage message) {
-        notify(message);
-    }
-
-    public void reportError(Nickname message){
+    public void reportError(ErrorMessage message) { //TODO
         notify(message);
     }
 
@@ -221,7 +217,7 @@ public class Game extends Observable<Message> implements Serializable {
 
     public void checkVatican() {
         int maxP=0;
-        if (numPlayer == 1) {
+        if (players.size()==1) {
 
             int playerPos = getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker();
             int loriPos = getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos();
@@ -659,7 +655,7 @@ public class Game extends Observable<Message> implements Serializable {
         return clone;
     }
 
-    private int findSoloWinner() {
+    public int findSoloWinner() {
         if (getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker() == 24 || checkDevCardNumber(0))
             return 0;
         else return -1;

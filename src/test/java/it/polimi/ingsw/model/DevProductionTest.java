@@ -27,6 +27,7 @@ public class DevProductionTest {
         warehouse = new ShelfWarehouse();
         player = new Player(0, "lea");
         game.getPlayers().add(player);
+        game.getPlayers().add(new Player(1,"ollare"));
         game.getPlayers().get(0).setId(0);
         game.getPlayerById(0).setPersonalBoard(personalBoard);
 

@@ -11,18 +11,25 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see ShelfWarehouse
  */
 public class ShelfWarehouseTest {
+
+    private Game game;
     private ShelfWarehouse swh;
 
     @BeforeEach
     void init() {
-        swh = new ShelfWarehouse();
+        game = new Game(true, 0);
+        game.getPlayers().add(new Player(0, "gigi"));
+        game.setNumPlayer(1);
+         swh = game.getPlayerById(0).getPersonalBoard().getWarehouse();
+
+
     }
 
     @Test
     @DisplayName("first shelf busy.")
     void firstShelfBusy() {
-        swh.addResource(ResourceType.COIN, 0);
-        swh.addResource(ResourceType.COIN, 0);
+        game.addResourceToWarehouse(0,0,ResourceType.COIN);
+        game.addResourceToWarehouse(0,0,ResourceType.COIN);
         assertEquals(1, swh.getResCount(ResourceType.COIN));
         swh.pay(1, ResourceType.COIN);
         assertEquals(0, swh.getResCount(ResourceType.COIN));
@@ -31,13 +38,14 @@ public class ShelfWarehouseTest {
     @Test
     @DisplayName("all shelves busy for a new ResourceType")
     void sorryWeClosed() {
-        swh.addResource(ResourceType.SERVANT, 0);
-        swh.addResource(ResourceType.COIN, 1);
-        swh.addResource(ResourceType.STONE, 2);
-        swh.addResource(ResourceType.COIN, 1);
-        swh.addResource(ResourceType.STONE, 2);
-        swh.addResource(ResourceType.SERVANT, 0);
-        swh.addResource(ResourceType.SHIELD, 2);
+        game.addResourceToWarehouse(0,0, ResourceType.SERVANT);
+        game.addResourceToWarehouse(0,1, ResourceType.COIN);
+        game.addResourceToWarehouse(0,2, ResourceType.STONE);
+        game.addResourceToWarehouse(0,1, ResourceType.COIN);
+        game.addResourceToWarehouse(0,2, ResourceType.STONE);
+        game.addResourceToWarehouse(0,0, ResourceType.SERVANT);
+        game.addResourceToWarehouse(0,2, ResourceType.SHIELD);
+
 
         assertEquals(1, swh.getResCount(ResourceType.SERVANT));
         assertEquals(2, swh.getResCount(ResourceType.COIN));
@@ -58,6 +66,7 @@ public class ShelfWarehouseTest {
     @Test
     @DisplayName("trying to pay with resources that I don't have")
     void sorryYouBroke() {
+
         swh.addResource(ResourceType.COIN, 0);
         swh.addResource(ResourceType.COIN, 1);
         swh.addResource(ResourceType.COIN, 2);
@@ -83,37 +92,47 @@ public class ShelfWarehouseTest {
     @Test
     @DisplayName("swapping shelves")
     void swappie() {
-        swh.addResource(ResourceType.COIN, 0);           //         COIN
-        swh.addResource(ResourceType.SERVANT, 1);        //     SERVANT SERVANT
-        swh.addResource(ResourceType.SERVANT, 1);        //    SHIELD SHIELD EMPTY
-        swh.addResource(ResourceType.SHIELD, 2);
-        swh.addResource(ResourceType.SHIELD, 2);
-
-        swh.swapShelves(2, 1);                                     //        COIN
-        swh.swapShelves(1, 2);                                     //    SHIELD SHIELD
-        swh.swapShelves(2, 1);                                     // SERVANT SERVANT EMPTY
-
-        swh.pay(1, ResourceType.SERVANT);
-
-        swh.swapShelves(2, 0);                                     //       SERVANT
-        swh.swapShelves(2, 0);                                     //   SHIELD SHIELD
-        swh.swapShelves(2, 0);                                     // COIN COIN EMPTY
-
-        swh.swapShelves(1, 0);
-        swh.addResource(ResourceType.COIN, 2);
 
 
+        game.addResourceToWarehouse(0,0,ResourceType.COIN);
+        game.addResourceToWarehouse(0,1,ResourceType.SERVANT);
+        game.addResourceToWarehouse(0,1,ResourceType.SERVANT);
+        game.addResourceToWarehouse(0,2,ResourceType.SHIELD);
+        game.addResourceToWarehouse(0,2,ResourceType.SHIELD);
+
+
+        game.swapShelvesByID(2, 1, 0);            //        COIN
+        game.swapShelvesByID(1,2,0);           //    SHIELD SHIELD
+        game.swapShelvesByID(2,1,0);             // SERVANT SERVANT EMPTY
+
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().pay(1, ResourceType.SERVANT);
+
+
+
+        game.swapShelvesByID(2, 0, 0);        //       SERVANT
+        game.swapShelvesByID(2, 0, 0);        //   SHIELD SHIELD
+        game.swapShelvesByID(2, 0, 0);        // COIN COIN EMPTY
+
+        game.swapShelvesByID(1, 0, 0);
+
+        game.addResourceToWarehouse(0,2,ResourceType.COIN);
+
+
+        swh = game.getPlayerById(0).getPersonalBoard().getWarehouse();
         assertEquals(2, swh.getResCount(ResourceType.COIN));
         assertEquals(1, swh.getResCount(ResourceType.SERVANT));
         assertEquals(0, swh.getResCount(ResourceType.STONE));
         assertEquals(2, swh.getResCount(ResourceType.SHIELD));
 
-        swh.pay(1, ResourceType.SERVANT);                     //       COIN
-        swh.pay(1, ResourceType.COIN);                        //    STONE STONE
-        swh.swapShelves(0, 2);                                    // SHIELD SHIELD EMPTY
-        swh.swapShelves(1, 2);
-        swh.addResource(ResourceType.STONE, 1);
-        swh.addResource(ResourceType.STONE, 1);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().pay(1, ResourceType.SERVANT);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().pay(1, ResourceType.COIN);
+        game.swapShelvesByID(0, 2, 0);                                     // SHIELD SHIELD EMPTY
+        game.swapShelvesByID(1, 2, 0);
+
+        game.addResourceToWarehouse(0,1,ResourceType.STONE);
+        game.addResourceToWarehouse(0,1,ResourceType.STONE);
+
+        swh = game.getPlayerById(0).getPersonalBoard().getWarehouse();
 
         assertEquals(1, swh.getResCount(ResourceType.COIN));
         assertEquals(0, swh.getResCount(ResourceType.SERVANT));
@@ -125,12 +144,15 @@ public class ShelfWarehouseTest {
     @Test
     @DisplayName("swapping third with one")
     void swappietwo() {
-        swh.addResource(ResourceType.SHIELD, 2);
-        swh.addResource(ResourceType.SHIELD, 2);
-        swh.addResource(ResourceType.SHIELD, 2);
-        swh.addResource(ResourceType.SHIELD, 2);
+        game.addResourceToWarehouse(0,2,ResourceType.SHIELD);
+        game.addResourceToWarehouse(0,2,ResourceType.SHIELD);
+        game.addResourceToWarehouse(0,2,ResourceType.SHIELD);
+        game.addResourceToWarehouse(0,2,ResourceType.SHIELD);
+        game.swapShelvesByID(1, 2, 0);
+        game.swapShelvesByID(0, 2, 0);
+        game.swapShelvesByID(2, 0, 0);
 
-        swh.swapShelves(0, 2);
+        swh = game.getPlayerById(0).getPersonalBoard().getWarehouse();
         assertEquals(0, swh.getResCount(ResourceType.COIN));
         assertEquals(0, swh.getResCount(ResourceType.SERVANT));
         assertEquals(0, swh.getResCount(ResourceType.STONE));

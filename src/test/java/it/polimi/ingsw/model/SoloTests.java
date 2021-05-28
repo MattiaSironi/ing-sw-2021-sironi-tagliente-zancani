@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.message.ActionMessages.EndTurnMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -101,12 +102,14 @@ public class SoloTests {
     @Test
     @DisplayName("giving points to Lori discarding a res")
     public void discardRes() {
+        game.getPlayerById(0).getPersonalBoard().getFaithTrack().setLoriPos(23);
         ArrayList<Marble> hand = new ArrayList<>();
         hand.add(new Marble(ResourceType.COIN));
         game.setMarketHand(hand);
-        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos());
+        assertEquals(23, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos());
         controller.placeRes(ResourceType.COIN, -1, 0, true, false);
-        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos());
+        assertEquals(24, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos());
+        assertEquals(-1 , game.findSoloWinner());
 
     }
 }

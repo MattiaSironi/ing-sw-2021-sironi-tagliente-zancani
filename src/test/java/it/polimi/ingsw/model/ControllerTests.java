@@ -29,6 +29,7 @@ public class ControllerTests {
         warehouse = new ShelfWarehouse();
         player = new Player(0, "gigi");
         game.getPlayers().add(player);
+        game.getPlayers().add(new Player(1,"ollare"));
         game.getPlayers().get(0).setId(0);
         game.getPlayerById(0).setPersonalBoard(personalBoard);
         game.getPlayerById(0).getPersonalBoard().setStrongbox(strongbox);
@@ -62,7 +63,7 @@ public class ControllerTests {
         controller.setNickname(new Nickname("gigi", 0, false)); //not added
         controller.setNickname(new Nickname("lea", 1, false));  //added
         controller.setNickname(new Nickname("lea", 2, false)); //not added
-        controller.setNickname(new Nickname("simo", 2, false)); //added
+
         assertEquals(3, game.getPlayers().size());
     }
 //---------------------------------------------------------------------------------------------------------------------------
@@ -504,6 +505,26 @@ public class ControllerTests {
         assertNull(gigi.getShelves().get(3).getResType());
         assertEquals(ResourceType.COIN, gigi.getShelves().get(4).getResType());
 
+        controller.swapShelves(3,4,0);
+
+         gigi = controller.getGame().getPlayerById(0).getPersonalBoard().getWarehouse();
+
+        //         ----SIZES------
+        assertEquals(1, gigi.getShelves().get(0).getCount());
+        assertEquals(0, gigi.getShelves().get(1).getCount());
+        assertEquals(2, gigi.getShelves().get(2).getCount());
+        assertEquals(1, gigi.getShelves().get(3).getCount());
+        assertEquals(0, gigi.getShelves().get(4).getCount());
+
+
+//        ---RES------
+
+        assertEquals(ResourceType.COIN, gigi.getShelves().get(0).getResType());
+        assertEquals(ResourceType.EMPTY, gigi.getShelves().get(1).getResType());
+        assertEquals(ResourceType.SERVANT, gigi.getShelves().get(2).getResType());
+        assertEquals(ResourceType.COIN, gigi.getShelves().get(3).getResType());
+        assertNull(gigi.getShelves().get(4).getResType());
+
 
     }
 
@@ -575,6 +596,115 @@ public class ControllerTests {
         assertEquals(ResourceType.COIN, gigi.getShelves().get(3).getResType());
         assertEquals(ResourceType.SERVANT, gigi.getShelves().get(4).getResType());
 
+        controller.swapShelves(3,4,0);
+        gigi = controller.getGame().getPlayerById(0).getPersonalBoard().getWarehouse();
+        //         ----SIZES------
+        assertEquals(1, gigi.getShelves().get(0).getCount());
+        assertEquals(0, gigi.getShelves().get(1).getCount());
+        assertEquals(2, gigi.getShelves().get(2).getCount());
+        assertEquals(2, gigi.getShelves().get(3).getCount());
+        assertEquals(2, gigi.getShelves().get(4).getCount());
+
+
+//        ---RES------
+
+        assertEquals(ResourceType.COIN, gigi.getShelves().get(0).getResType());
+        assertEquals(ResourceType.EMPTY, gigi.getShelves().get(1).getResType());
+        assertEquals(ResourceType.SERVANT, gigi.getShelves().get(2).getResType());
+        assertEquals(ResourceType.SERVANT, gigi.getShelves().get(3).getResType());
+        assertEquals(ResourceType.COIN, gigi.getShelves().get(4).getResType());
+
+
+    }
+
+    @Test
+    @DisplayName("Corner cases for swap")
+    public void cornerSwap()  {
+        controller.getGame().getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(ResourceType.SHIELD);
+
+        game.addResourceToWarehouse(0, 0, ResourceType.SHIELD);
+        game.swapShelvesByID(0,3, 0);
+        game.addResourceToWarehouse(0, 3, ResourceType.COIN );
+        game.addResourceToWarehouse(0, 0, ResourceType.SHIELD );
+        game.swapShelvesByID(1,3, 0);
+
+        ShelfWarehouse gigi = controller.getGame().getPlayerById(0).getPersonalBoard().getWarehouse();
+        //         ----SIZES------
+        assertEquals(1, gigi.getShelves().get(0).getCount());
+        assertEquals(0, gigi.getShelves().get(1).getCount());
+        assertEquals(0, gigi.getShelves().get(2).getCount());
+        assertEquals(1, gigi.getShelves().get(3).getCount());
+        assertEquals(0, gigi.getShelves().get(4).getCount());
+
+
+//        ---RES------
+
+        assertEquals(ResourceType.SHIELD, gigi.getShelves().get(0).getResType());
+        assertEquals(ResourceType.EMPTY, gigi.getShelves().get(1).getResType());
+        assertEquals(ResourceType.EMPTY, gigi.getShelves().get(2).getResType());
+        assertEquals(ResourceType.SHIELD, gigi.getShelves().get(3).getResType());
+        assertNull(gigi.getShelves().get(4).getResType());
+
+
+
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(0).setCount(0);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(0).setResType(ResourceType.EMPTY);
+        game.swapShelvesByID(1,3, 0);
+        gigi = controller.getGame().getPlayerById(0).getPersonalBoard().getWarehouse();
+        //         ----SIZES------
+        assertEquals(0, gigi.getShelves().get(0).getCount());
+        assertEquals(1, gigi.getShelves().get(1).getCount());
+        assertEquals(0, gigi.getShelves().get(2).getCount());
+        assertEquals(0, gigi.getShelves().get(3).getCount());
+        assertEquals(0, gigi.getShelves().get(4).getCount());
+
+
+//        ---RES------
+
+        assertEquals(ResourceType.EMPTY, gigi.getShelves().get(0).getResType());
+        assertEquals(ResourceType.SHIELD, gigi.getShelves().get(1).getResType());
+        assertEquals(ResourceType.EMPTY, gigi.getShelves().get(2).getResType());
+        assertEquals(ResourceType.SHIELD, gigi.getShelves().get(3).getResType());
+        assertNull(gigi.getShelves().get(4).getResType());
+
+
+        controller.swapShelves(3,4,0);
+        game.addResourceToWarehouse(0, 4, ResourceType.COIN);
+        game.addResourceToWarehouse(0, 4, ResourceType.SHIELD);
+        controller.swapShelves(4,3,0);
+        game.addResourceToWarehouse(0, 3, ResourceType.SHIELD);
+        controller.swapShelves(3,4,0);
+
+        controller.swapShelves(1,0,0);
+        controller.swapShelves(0,4,0);
+        controller.swapShelves(4,0,0);
+        gigi = controller.getGame().getPlayerById(0).getPersonalBoard().getWarehouse();
+        //         ----SIZES------
+        assertEquals(1, gigi.getShelves().get(0).getCount());
+        assertEquals(0, gigi.getShelves().get(1).getCount());
+        assertEquals(0, gigi.getShelves().get(2).getCount());
+        assertEquals(0, gigi.getShelves().get(3).getCount());
+        assertEquals(2, gigi.getShelves().get(4).getCount());
+
+
+//        ---RES------
+
+        assertEquals(ResourceType.SHIELD, gigi.getShelves().get(0).getResType());
+        assertEquals(ResourceType.EMPTY, gigi.getShelves().get(1).getResType());
+        assertEquals(ResourceType.EMPTY, gigi.getShelves().get(2).getResType());
+        assertNull(gigi.getShelves().get(3).getResType());
+        assertEquals(ResourceType.SHIELD, gigi.getShelves().get(4).getResType());
+
+
+
+
+
+
+
+
+
+
+
 
     }
 
@@ -582,7 +712,7 @@ public class ControllerTests {
     @Test
     @DisplayName("DISCARD RES")
     public void discardRes()  {
-        controller.setNickname(new Nickname("lea", 1, false));
+
         controller.update(new MarketMessage(true, 0,0));
         assertEquals(4,controller.getGame().getBoard().getMarket().getHand().size());
         controller.goToMarket(false, 0, 0);
@@ -622,9 +752,9 @@ public class ControllerTests {
     @Test
     @DisplayName("Initial phase")
     public void initialPhase()  {
-        controller.setNickname(new Nickname("GIGI" ,1 ,false));
-        controller.setNickname(new Nickname("GiGi", 2, false));
-        controller.setNickname(new Nickname("gigI", 3, false));
+        controller.setNickname(new Nickname("GIGI" ,2 ,false));
+        controller.setNickname(new Nickname("GiGi", 3, false));
+
         controller.initialPhase();
         assertEquals(0, controller.getGame().getPlayers().get(0).getPersonalBoard().getFaithTrack().getMarker());
         assertEquals(0,controller.getGame().getPlayers().get(0).getStartResCount() );
@@ -644,7 +774,7 @@ public class ControllerTests {
     @Test
     @DisplayName("distributing leader Cards")
     public void distributingLeaders() {
-        controller.setNickname(new Nickname("GIGI" ,1 ,false));
+
         controller.setNickname(new Nickname("GiGi", 2, false));
         controller.setNickname(new Nickname("gigI", 3, false));
         game.giveLeaderCards();
@@ -685,9 +815,9 @@ public class ControllerTests {
     @DisplayName("Give Leader Test")
     public void giveLeader(){
         LeaderDeck leaderDeck = game.getBoard().getLeaderDeck().clone();
-        game.getPlayers().add(new Player(1, "gogo"));
-        game.getPlayers().add(new Player(2, "gugu"));
-        game.getPlayers().add(new Player(3, "gaga"));
+        game.getPlayers().add(new Player(2, "gogo"));
+        game.getPlayers().add(new Player(3, "gugu"));
+
 
         game.giveLeaderCards();
 
