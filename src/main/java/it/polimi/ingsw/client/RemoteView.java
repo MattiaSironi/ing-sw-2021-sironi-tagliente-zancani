@@ -9,23 +9,9 @@ import it.polimi.ingsw.server.SocketClientConnection;
 
 public class RemoteView extends Observable<Message> implements Observer<Message>, Runnable {
 
-    private SocketClientConnection clientConnection;
+    private final SocketClientConnection clientConnection;
     private int ID;
-    private static int size;
-    private boolean active = true;
     private int gameID;
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public static void setSize(int size) {
-        RemoteView.size = size;
-    }
 
     public RemoteView(SocketClientConnection clientConnection) {
         this.clientConnection = clientConnection;
@@ -33,10 +19,6 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     public SocketClientConnection getClientConnection() {
         return clientConnection;
-    }
-
-    public void setClientConnection(SocketClientConnection clientConnection) {
-        this.clientConnection = clientConnection;
     }
 
     public int getGameID() {
@@ -150,26 +132,8 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     }
 
-    public RemoteView(SocketClientConnection c, int ID) {
-        this.clientConnection = c;
-        this.clientConnection.setID(ID);
-        this.ID = ID;
-
-    }
-
     public void handleAction(Object o) {
-//        if (o instanceof EndTurnMessage)  {
-//            notify((EndTurnMessage)o);
-//        }
-//        else if (o instanceof MarketMessage)  {
-//            notify((MarketMessage) o);
-//        }
-//        else if (o instanceof PlaceResourceMessage)  {
-//            notify((PlaceResourceMessage )o);
-//        }
-//        else if (o instanceof ManageResourceMessage)  {
-//            notify((ManageResourceMessage) o);
-//        }
+
         if (o instanceof PlaceResourceMessage) {
             notify((PlaceResourceMessage) o);
         }

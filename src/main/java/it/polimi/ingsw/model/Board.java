@@ -53,30 +53,30 @@ public class Board implements Serializable {
 
     private LeaderDeck createLeaderDeck() {
                 Gson gson= new Gson();
-        LeaderDeck returnfinale = new LeaderDeck(new ArrayList<LeaderCard>());
+        LeaderDeck ret = new LeaderDeck(new ArrayList<>());
         Reader reader1 = new InputStreamReader(Board.class.getResourceAsStream("/json/discount.json"));
-        DiscountLCard[] mazzo1= gson.fromJson(reader1, DiscountLCard[].class);
-        for (DiscountLCard d : mazzo1)  {
-            returnfinale.getCards().add(d);
+        DiscountLCard[] deck1= gson.fromJson(reader1, DiscountLCard[].class);
+        for (DiscountLCard d : deck1)  {
+            ret.getCards().add(d);
         }
         Reader reader2 = new InputStreamReader(Board.class.getResourceAsStream("/json/extrashelf.json"));
-        ExtraDepotLCard[] mazzo2= gson.fromJson(reader2, ExtraDepotLCard[].class);
-        for (ExtraDepotLCard d : mazzo2)  {
-            returnfinale.getCards().add(d);
+        ExtraDepotLCard[] deck2= gson.fromJson(reader2, ExtraDepotLCard[].class);
+        for (ExtraDepotLCard d : deck2)  {
+            ret.getCards().add(d);
         }
         Reader reader3 = new InputStreamReader(Board.class.getResourceAsStream("/json/extraprod.json"));
-        ExtraProdLCard[] mazzo3= gson.fromJson(reader3, ExtraProdLCard[].class);
-        for (ExtraProdLCard d : mazzo3)  {
-            returnfinale.getCards().add(d);
+        ExtraProdLCard[] deck3= gson.fromJson(reader3, ExtraProdLCard[].class);
+        for (ExtraProdLCard d : deck3)  {
+            ret.getCards().add(d);
         }
         Reader reader4 = new InputStreamReader(Board.class.getResourceAsStream("/json/whitetray.json"));
-        WhiteTrayLCard[] mazzo4= gson.fromJson(reader4, WhiteTrayLCard[].class);
-        for (WhiteTrayLCard d : mazzo4)  {
-            returnfinale.getCards().add(d);
+        WhiteTrayLCard[] deck4= gson.fromJson(reader4, WhiteTrayLCard[].class);
+        for (WhiteTrayLCard d : deck4)  {
+            ret.getCards().add(d);
         }
-        Collections.shuffle(returnfinale.getCards());
+        Collections.shuffle(ret.getCards());
 
-        return returnfinale;
+        return ret;
     }
 
     private Market createMarket() {
@@ -92,10 +92,10 @@ public class Board implements Serializable {
             }
         }
 
-        Market m = new Market(marbleTray, marbles[12]);
 
 
-        return m;
+
+        return new Market(marbleTray, marbles[12]);
     }
 
     public List<DevDeck> createDevDecks()  {
@@ -199,9 +199,7 @@ public class Board implements Serializable {
     }
 
     public ArrayList<SoloActionToken> getTokenArrayClone() {
-        ArrayList<SoloActionToken> clone = new ArrayList<>();
-        for (SoloActionToken sat : this.tokenArray) clone.add(sat);
-        return clone;
+        return new ArrayList<>(this.tokenArray);
     }
 
 

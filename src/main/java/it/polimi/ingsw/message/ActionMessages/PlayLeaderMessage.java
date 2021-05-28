@@ -4,11 +4,11 @@ import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.LeaderCard;
 
 public class PlayLeaderMessage extends Message {
-    int ID;
-    int idx;
-    boolean action; //true = play, false = discard
-    LeaderCard lc;
-    private boolean initialPhase;
+    private final int ID;
+    private final int idx;
+    private final boolean action; //true = play, false = discard
+    private final LeaderCard lc;
+    private final boolean initialPhase;
 
     public PlayLeaderMessage(int ID, int idx, boolean b, LeaderCard lc, boolean initialPhase) {
         this.ID = ID;

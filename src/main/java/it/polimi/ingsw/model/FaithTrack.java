@@ -33,8 +33,7 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
         Gson gson = new Gson();
         Reader reader =  new InputStreamReader(PersonalBoard.class.getResourceAsStream("/json/slot.json"));
         Slot[]  slots  = gson.fromJson(reader, Slot[].class);
-        ArrayList<Slot> faithTrack = new ArrayList<>();
-        faithTrack.addAll(Arrays.asList(slots));
+        ArrayList<Slot> faithTrack = new ArrayList<>(Arrays.asList(slots));
         return  faithTrack;
 
     }

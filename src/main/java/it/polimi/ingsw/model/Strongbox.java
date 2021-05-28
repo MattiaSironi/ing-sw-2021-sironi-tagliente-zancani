@@ -18,7 +18,7 @@ public class Strongbox implements Printable, Serializable {
     private int earnedShield;
 
     public Strongbox() {
-        this.infinityShelf = new ArrayList<Shelf>();
+        this.infinityShelf = new ArrayList<>();
         this.infinityShelf.add(0, new Shelf(ResourceType.COIN, 0));
         this.infinityShelf.add(1, new Shelf(ResourceType.STONE, 0));
         this.infinityShelf.add(2, new Shelf(ResourceType.SERVANT, 0));
@@ -38,7 +38,7 @@ public class Strongbox implements Printable, Serializable {
     }
 
     public int numberOfResources()  {
-        return  this.infinityShelf.stream().mapToInt(x -> x.getCount()).sum();
+        return  this.infinityShelf.stream().mapToInt(Shelf::getCount).sum();
     }
 
     public int getEarnedCoin() {
@@ -111,8 +111,7 @@ public class Strongbox implements Printable, Serializable {
     }
 
     public boolean canIPay(int i, ResourceType r) {
-        if (getResCount(r) < i) return false;
-        else return true;
+        return getResCount(r) >= i;
     }
 
     @Override

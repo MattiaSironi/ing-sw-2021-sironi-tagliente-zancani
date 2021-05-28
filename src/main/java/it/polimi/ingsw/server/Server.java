@@ -17,11 +17,11 @@ import java.util.concurrent.TimeUnit;
 public class Server {
 
     private static final int port = 1234;
-    private ServerSocket serverSocket;
-    private ExecutorService executor = Executors.newFixedThreadPool(128);
-    private ArrayList<RemoteView> waitingConnection = new ArrayList<>();
-    private Map<Game, ArrayList<RemoteView>> gameList = new HashMap<>();
-    private int usedID = 0, gameID=0;
+    private final ServerSocket serverSocket;
+    private final ExecutorService executor = Executors.newFixedThreadPool(128);
+    private final ArrayList<RemoteView> waitingConnection = new ArrayList<>();
+    private final Map<Game, ArrayList<RemoteView>> gameList = new HashMap<>();
+    private int gameID=0;
     private int numPlayers = -1;
 
     public static void main( String[] args )
@@ -37,9 +37,7 @@ public class Server {
 
     public synchronized void waitingRoom(RemoteView rv) {
         System.out.println("gew");
-        int id = usedID;
         waitingConnection.add(rv);
-        this.usedID++;
         if (waitingConnection.size() == 1) {
             System.out.println("rg");
             waitingConnection.get(0).getClientConnection().send(new ChooseNumberOfPlayer(-1));
@@ -121,7 +119,9 @@ public class Server {
         }
         if (scc.isActive()) {
             ArrayList<RemoteView> remoteViews = new ArrayList<>();
-            Game game = new Game(false, gameID);
+            Game game;
+            if (numPlayers==1)  game = new Game(true, gameID);
+            else game = new Game(false, gameID);
 
             Controller controller = new Controller(game);
             RemoteView rv1 = waitingConnection.get(0);
@@ -189,7 +189,7 @@ public class Server {
         while (true) {
             try {
                 Socket newSocket = serverSocket.accept();
-                  newSocket.setSoTimeout(20000);
+//                  newSocket.setSoTimeout(20000);
                 SocketClientConnection socketConnection = new SocketClientConnection(newSocket, this);
                 RemoteView remoteView = new RemoteView(socketConnection);
                 executor.submit(remoteView);
@@ -199,15 +199,12 @@ public class Server {
         }
     }
 
-    public int getNumPlayers() {
-        return numPlayers;
-    }
 
     public void setNumPlayers(int numPlayers, SocketClientConnection scc) {
         this.numPlayers = numPlayers;
         try {
             gameSetup(scc);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
 
         }
     }
@@ -233,9 +230,6 @@ public class Server {
     }
 
 
-    public ArrayList<RemoteView> getWaitingConnection() {
-        return waitingConnection;
-    }
 
     public boolean logOutFromWaiting(RemoteView remoteView) {
         boolean wasInside;

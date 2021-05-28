@@ -60,9 +60,9 @@ public class ControllerTests {
     @Test
     @DisplayName("new player added")
     public void newPlayerAdded() {
-        controller.setNickname(new Nickname("gigi", 0, false)); //not added
-        controller.setNickname(new Nickname("lea", 1, false));  //added
-        controller.setNickname(new Nickname("lea", 2, false)); //not added
+        controller.setNickname(new Nickname("gigi", 0)); //not added
+        controller.setNickname(new Nickname("lea", 1));  //added
+        controller.setNickname(new Nickname("lea", 2)); //not added
 
         assertEquals(3, game.getPlayers().size());
     }
@@ -732,7 +732,7 @@ public class ControllerTests {
     @Test
     @DisplayName("End turn")
     public void endTurn()  {
-        controller.setNickname(new Nickname("lea", 1 ,false));
+        controller.setNickname(new Nickname("lea", 1));
         controller.getGame().setTurn(0,ActionPhase.WAITING_FOR_ACTION, false, null);
         controller.getGame().endTurn(0);
         assertEquals(1, controller.getGame().getTurn().getPlayerPlayingID());
@@ -743,7 +743,7 @@ public class ControllerTests {
     public void endTurnUpdate() {
 
 
-        controller.update(new Nickname("lea", 1, false));
+        controller.update(new Nickname("lea", 1));
         controller.getGame().setTurn(0, ActionPhase.WAITING_FOR_ACTION, false, null);
         controller.update(new EndTurnMessage(0));
         assertEquals(1, controller.getGame().getTurn().getPlayerPlayingID());
@@ -752,8 +752,8 @@ public class ControllerTests {
     @Test
     @DisplayName("Initial phase")
     public void initialPhase()  {
-        controller.setNickname(new Nickname("GIGI" ,2 ,false));
-        controller.setNickname(new Nickname("GiGi", 3, false));
+        controller.setNickname(new Nickname("GIGI" ,2));
+        controller.setNickname(new Nickname("GiGi", 3));
 
         controller.initialPhase();
         assertEquals(0, controller.getGame().getPlayers().get(0).getPersonalBoard().getFaithTrack().getMarker());
@@ -775,8 +775,8 @@ public class ControllerTests {
     @DisplayName("distributing leader Cards")
     public void distributingLeaders() {
 
-        controller.setNickname(new Nickname("GiGi", 2, false));
-        controller.setNickname(new Nickname("gigI", 3, false));
+        controller.setNickname(new Nickname("GiGi", 2));
+        controller.setNickname(new Nickname("gigI", 3));
         game.giveLeaderCards();
         assertEquals(0, game.getBoard().getLeaderDeck().getCards().size());
         assertEquals(4, game.getPlayers().get(0).getLeaderDeck().getCards().size());

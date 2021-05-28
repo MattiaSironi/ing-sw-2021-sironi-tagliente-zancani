@@ -48,8 +48,6 @@ public class Controller implements Observer<Message> {
                 /* END TESTING */
 
 
-
-
                 initialPhase();
             }
         }
@@ -63,34 +61,30 @@ public class Controller implements Observer<Message> {
 
 
             switch (game.getPlayers().indexOf(p)) {
-                case 0: {
+                case 0 -> {
 
                     game.setCommunication(p.getId(), CommunicationList.FIRST);
                     game.setLeaderCardsToDiscard(p.getId(), 2);
 
 
-                    break;
                 }
-                case 1: {
+                case 1 -> {
                     game.setCommunication(p.getId(), CommunicationList.SECOND);
 
                     game.setStartResCountByID(p.getId(), 1);
-                    break;
                 }
-                case 2: {
+                case 2 -> {
                     game.setCommunication(p.getId(), CommunicationList.THIRD);
                     game.moveFaithPosByID(p.getId(), 1);
                     game.setStartResCountByID(p.getId(), 1);
 
 
-                    break;
                 }
-                case 3: {
+                case 3 -> {
                     game.setCommunication(p.getId(), CommunicationList.FOURTH);
                     game.moveFaithPosByID(p.getId(), 1);
                     game.setStartResCountByID(p.getId(), 2);
 
-                    break;
                 }
             }
         }
@@ -112,7 +106,7 @@ public class Controller implements Observer<Message> {
     public void goToMarket(boolean row, int index, int ID) {
 
         Market m = this.game.getBoard().getMarket();
-        ArrayList<Marble> resources = new ArrayList<>();
+        ArrayList<Marble> resources;
 
         if (row) {
             resources = m.getRow(index);
@@ -138,8 +132,7 @@ public class Controller implements Observer<Message> {
 
     public void placeRes(ResourceType r, int shelfIndex, int ID, boolean discard, boolean initialPhase) {
 
-        //mette la risorsa al posto giusto se può
-        //manda reportError con ok o ko a seconda che rispetti le regole
+
         if (initialPhase) {
             int resRemaining = game.getPlayerById(ID).getStartResCount();
             if (this.game.addResourceToWarehouse(ID, shelfIndex, r)) resRemaining--;
@@ -213,7 +206,7 @@ public class Controller implements Observer<Message> {
                     game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.B_PAYMENT, false, null);
                 }
             }
-        }catch(IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
         }
     }
@@ -287,7 +280,7 @@ public class Controller implements Observer<Message> {
         if (game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().size() == 0 && game.getBoard().getMatrix().getChosenCard().getLevel() == 1) {
             game.addDevCardToPlayer(ID, slot);
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
-            if(game.getPlayers().size() == 1 && game.checkColumnEmpty()){
+            if (game.getPlayers().size() == 1 && game.checkColumnEmpty()) {
                 game.setGameOver(true);
             }
         } else if (game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().size() != 0 &&
@@ -298,7 +291,6 @@ public class Controller implements Observer<Message> {
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.CHOOSE_SLOT, true, ErrorList.INVALID_MOVE);
         }
     }
-
 
 
     public boolean checkDevCardPlacement(DevCard devCard, Player player) {
@@ -315,8 +307,8 @@ public class Controller implements Observer<Message> {
 
     public void activateDevProduction(int ID, DevCard d, int num1FromWarehouse, int num1FromStrongbox, int num2FromWarehouse, int num2FromStrongbox) {
         int r1 = 0, r2 = 0;
-        int i = 0;
-        int h = 0;
+        int i;
+        int h;
         ResourceType res1, res2;
         boolean found1 = false;
         boolean found2 = false;
@@ -335,13 +327,12 @@ public class Controller implements Observer<Message> {
                 found2 = true;
             }
             if (!found2)
-                r2 = -1; //c'è una sola risorsa input
+                r2 = -1;
         }
         res1 = this.FromIntToRes(r1);
         res2 = this.FromIntToRes(r2);
 
 
-        //pagamenti : non vengono fatti controlli sul fatto che si abbiano abbastanza risorse per pagare
         if (num1FromWarehouse > 0) {
             for (Shelf s : w) {
                 if (s.getResType() == res1) {
@@ -369,22 +360,14 @@ public class Controller implements Observer<Message> {
         for (i = 0; i < 4; i++) {
             if (d.getOutputRes()[i] > 0) {
                 switch (i + 1) {
-                    case 1 -> {
-                        this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
-                                setEarnedCoin(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedCoin() + d.getOutputRes()[i]);
-                    }
-                    case 2 -> {
-                        this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
-                                setEarnedStone(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedStone() + d.getOutputRes()[i]);
-                    }
-                    case 3 -> {
-                        this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
-                                setEarnedServant(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedServant() + d.getOutputRes()[i]);
-                    }
-                    case 4 -> {
-                        this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
-                                setEarnedShield(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedShield() + d.getOutputRes()[i]);
-                    }
+                    case 1 -> this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
+                            setEarnedCoin(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedCoin() + d.getOutputRes()[i]);
+                    case 2 -> this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
+                            setEarnedStone(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedStone() + d.getOutputRes()[i]);
+                    case 3 -> this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
+                            setEarnedServant(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedServant() + d.getOutputRes()[i]);
+                    case 4 -> this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
+                            setEarnedShield(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedShield() + d.getOutputRes()[i]);
 
                 }
             }
@@ -465,7 +448,7 @@ public class Controller implements Observer<Message> {
                 game.moveFaithPosByID(ID, 1);
                 game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.SELECT_RES, false, null);
             }
-        } catch(IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
         }
     }
@@ -511,12 +494,12 @@ public class Controller implements Observer<Message> {
         if (game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(sc)) {
             if (this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(3).getResType() == null) {
                 game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(sc.getResDepot());
-               // game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes1(sc.getResDepot());
-              //  game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum1(0);
+                // game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes1(sc.getResDepot());
+                //  game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum1(0);
             } else if (this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(4).getResType() == null) {
                 game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(4).setResType(sc.getResDepot());
-               // game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes2(sc.getResDepot());
-               // game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum2(0);
+                // game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes2(sc.getResDepot());
+                // game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum2(0);
             } else {
                 game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.TWO_LEADERS);
                 return;
@@ -623,7 +606,7 @@ public class Controller implements Observer<Message> {
             game.addEarnedResourcesByID(ID, 0, 0, 1, 0);
         else if (r == ResourceType.SHIELD)
             game.addEarnedResourcesByID(ID, 0, 0, 0, 1);
-        if(turn)
+        if (turn)
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.BASIC, false, null);
         else
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.PAYMENT, false, null);
@@ -656,7 +639,6 @@ public class Controller implements Observer<Message> {
     }
 
 
-
     @Override
     public void update(IdMessage message) {
 
@@ -667,7 +649,6 @@ public class Controller implements Observer<Message> {
 
 
     }
-
 
 
     @Override
@@ -692,7 +673,6 @@ public class Controller implements Observer<Message> {
     }
 
 
-
     @Override
     public void update(PlaceResourceMessage message) {
         placeRes(message.getRes(), message.getShelf(), message.getID(), message.isDiscard(), message.isInitialPhase());
@@ -701,7 +681,7 @@ public class Controller implements Observer<Message> {
 
     public void update(BuyDevCardMessage message) {
         if (game.getTurn().getPhase().equals(ActionPhase.WAITING_FOR_ACTION)) {
-            handleChosenDevCard(message.getChoosenIndex(), message.getID());
+            handleChosenDevCard(message.getChosenIndex(), message.getID());
         } else if (game.getTurn().getPhase().equals(ActionPhase.B_PAYMENT)) {
             payRes(message.isPayFrom(), message.getID(), false);
         } else if (game.getTurn().getPhase().equals(ActionPhase.CHOOSE_SLOT)) {
@@ -715,18 +695,10 @@ public class Controller implements Observer<Message> {
         if (message.getAction()) {
             LeaderCard c = message.getLc();
             switch (c.getType()) {
-                case 1 -> {
-                    PlayLeaderCard(message.getID(), (DiscountLCard) c);
-                }
-                case 2 -> {
-                    PlayLeaderCard(message.getID(), (ExtraDepotLCard) c);
-                }
-                case 3 -> {
-                    PlayLeaderCard(message.getID(), (ExtraProdLCard) c);
-                }
-                case 4 -> {
-                    PlayLeaderCard(message.getID(), (WhiteTrayLCard) c);
-                }
+                case 1 -> PlayLeaderCard(message.getID(), (DiscountLCard) c);
+                case 2 -> PlayLeaderCard(message.getID(), (ExtraDepotLCard) c);
+                case 3 -> PlayLeaderCard(message.getID(), (ExtraProdLCard) c);
+                case 4 -> PlayLeaderCard(message.getID(), (WhiteTrayLCard) c);
             }
         } else {
 
@@ -767,13 +739,11 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(LeaderProductionMessage message) {
-        if(game.getTurn().getPhase() == ActionPhase.WAITING_FOR_ACTION){
+        if (game.getTurn().getPhase() == ActionPhase.WAITING_FOR_ACTION) {
             isExtraProd(message.getIndex(), message.getID());
-        }
-        else if(game.getTurn().getPhase() == ActionPhase.SELECT_RES){
+        } else if (game.getTurn().getPhase() == ActionPhase.SELECT_RES) {
             setBoughtRes(message.getWantedRes(), message.getID(), false);
-        }
-        else if(game.getTurn().getPhase() == ActionPhase.PAYMENT);
+        } else if (game.getTurn().getPhase() == ActionPhase.PAYMENT) ; //TODO ???
     }
 
     @Override

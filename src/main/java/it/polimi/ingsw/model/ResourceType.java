@@ -21,14 +21,14 @@ public enum ResourceType implements Serializable {
 
 
     public String getColor() {
-        switch (this)  {
-            case COIN: return Color.ANSI_YELLOW;
-            case SERVANT: return  Color.ANSI_PURPLE;
-            case SHIELD: return Color.ANSI_BLUE;
-            case FAITH_POINT: return Color.ANSI_RED;
-            case STONE: return Color.ANSI_GREY;
-            default: return Color.ANSI_RESET;
-        }
+        return switch (this) {
+            case COIN -> Color.ANSI_YELLOW;
+            case SERVANT -> Color.ANSI_PURPLE;
+            case SHIELD -> Color.ANSI_BLUE;
+            case FAITH_POINT -> Color.ANSI_RED;
+            case STONE -> Color.ANSI_GREY;
+            default -> Color.ANSI_RESET;
+        };
     }
 
 
@@ -40,18 +40,6 @@ public enum ResourceType implements Serializable {
 //        + Color.ANSI_RESET);
 //    }
 
-//    public String printResourceColouredBall() {
-//        return (getColor() + "i    rBQBMi    \n" +
-//                             "i  uQgrvXBQBi  \n" +
-//                             "  BQ      iQBQ \n" +
-//                             " BZ        ivBD\n" +
-//                             "iQi       iiiQB\n" +
-//                             " Bi      iiiiBQ\n" +
-//                             " QBii i i iiBQ \n" +
-//                             "  QBQMirvQQBQr \n" +
-//                             "i   XQBQBQBi   "
-//        + Color.ANSI_RESET);
-//    }
 
 
 }

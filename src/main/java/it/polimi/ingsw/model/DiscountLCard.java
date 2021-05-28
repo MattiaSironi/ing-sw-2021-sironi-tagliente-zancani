@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 
 public class DiscountLCard extends LeaderCard implements Printable, Serializable {
-    //type=1?
+
     private final CardColor color1;
     private final CardColor color2;
     private final ResourceType resType;
@@ -39,12 +39,9 @@ public class DiscountLCard extends LeaderCard implements Printable, Serializable
             return false;
         else {
             DiscountLCard other = (DiscountLCard) lc;
-            if (!(getColor1() == other.getColor1() &&
+            return getColor1() == other.getColor1() &&
                     getColor2() == other.getColor2() &&
-                    getResType() == other.getResType()))
-                return false;
-            else
-                return true;
+                    getResType() == other.getResType();
         }
     }
 

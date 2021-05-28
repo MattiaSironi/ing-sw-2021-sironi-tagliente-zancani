@@ -9,11 +9,11 @@ import java.util.ArrayList;
 
 public class ProductionMessage extends Message {
 
-    ArrayList<ResourceType> resFromWarehouse, resFromStrongbox, resToBuy;
-    int ID;
-    boolean endAction;
-    LeaderCard d;
-    DevCard dc;
+    private final ArrayList<ResourceType> resFromWarehouse, resFromStrongbox, resToBuy;
+    private final int ID;
+    private final boolean endAction;
+    private final LeaderCard d;
+    private final DevCard dc;
 
     public ProductionMessage(ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox, ArrayList<ResourceType> tobuy, LeaderCard d, DevCard dc, int ID, boolean endAction) {
         this.resFromWarehouse = resFromWarehouse;
@@ -29,40 +29,24 @@ public class ProductionMessage extends Message {
         return resToBuy;
     }
 
-    public void setResToBuy(ArrayList<ResourceType> resToBuy) {
-        this.resToBuy = resToBuy;
-    }
+
 
     public ArrayList<ResourceType> getResFromWarehouse() {
         return resFromWarehouse;
     }
 
-    public void setResFromWarehouse(ArrayList<ResourceType> resFromWarehouse) {
-        this.resFromWarehouse = resFromWarehouse;
-    }
+
 
     public ArrayList<ResourceType> getResFromStrongbox() {
         return resFromStrongbox;
-    }
-
-    public void setResFromStrongbox(ArrayList<ResourceType> resFromStrongbox) {
-        this.resFromStrongbox = resFromStrongbox;
     }
 
     public int getID() {
         return ID;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
     public boolean isEndAction() {
         return endAction;
-    }
-
-    public void setEndAction(boolean endAction) {
-        this.endAction = endAction;
     }
 
     public LeaderCard getD() {
@@ -73,7 +57,4 @@ public class ProductionMessage extends Message {
         return dc;
     }
 
-    public void setD(LeaderCard d) {
-        this.d = d;
-    }
 }

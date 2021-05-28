@@ -6,9 +6,9 @@ import it.polimi.ingsw.message.Message;
  * @author Mattia Sironi
  */
 public class MarketMessage extends Message {
-    private boolean row;
-    private int index;
-    private int ID;
+    private final boolean row;
+    private final int index;
+    private final int ID;
 
     public MarketMessage(boolean row, int index, int ID) {
         this.row = row;

@@ -4,7 +4,7 @@ package it.polimi.ingsw.message.CommonMessages;
  * @author Mattia Sironi
  */
 public class GameOverMessage {
-    private int winnerID;
+    private final int winnerID;
 
     public GameOverMessage(int winnerID) {
         this.winnerID = winnerID;

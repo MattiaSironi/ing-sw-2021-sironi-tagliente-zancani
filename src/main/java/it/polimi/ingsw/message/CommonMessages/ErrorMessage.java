@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.ResourceType;
 import java.util.Optional;
 
 public class ErrorMessage extends Message {
-    private String string;
-    private int ID;
+    private final String string;
+    private final int ID;
 
 
     public ErrorMessage(String string, int ID) {
@@ -24,10 +24,5 @@ public class ErrorMessage extends Message {
     public int getID() {
         return ID;
     }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
 
 }

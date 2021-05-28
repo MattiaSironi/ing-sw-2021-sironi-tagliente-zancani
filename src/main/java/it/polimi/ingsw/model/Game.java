@@ -1,5 +1,17 @@
 package it.polimi.ingsw.model;
 
+
+
+import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
+import it.polimi.ingsw.message.CommonMessages.ErrorMessage;
+import it.polimi.ingsw.message.CommonMessages.GameOverMessage;
+import it.polimi.ingsw.message.Message;
+import it.polimi.ingsw.observer.Observable;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.OptionalInt;
+
 /**
  * Class Game contains all the information about the game. It saves the number of players, a reference to the ID of the current player, one to the ID of the next player
  * a list of sorted player. It also contains the main Board of the game and attribute that refers to Lorenzo Il Magnifico if the game is single player.
@@ -7,20 +19,10 @@ package it.polimi.ingsw.model;
  * @author Lea Zancani
  * @see Board
  * @see Player
- * @see LorenzoIlMagnifico
+ * @see Turn
+ * @see Communication
+ *
  */
-
-import it.polimi.ingsw.message.*;
-import it.polimi.ingsw.message.ActionMessages.*;
-import it.polimi.ingsw.message.CommonMessages.*;
-import it.polimi.ingsw.observer.Observable;
-
-
-import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.OptionalInt;
 
 public class Game extends Observable<Message> implements Serializable {
 
@@ -46,7 +48,7 @@ public class Game extends Observable<Message> implements Serializable {
         this.gameOver = gameOver;
         this.board = new Board();
         this.turn = new Turn();
-        this.players = new ArrayList<Player>();
+        this.players = new ArrayList<>();
         this.communication = new Communication();
     }
 
@@ -294,6 +296,7 @@ public class Game extends Observable<Message> implements Serializable {
                 handleSoloActionToken();
                 if (gameOver) {
                     setTurn(findSoloWinner(), ActionPhase.GAME_OVER, false, null);
+                    notify(new GameOverMessage(0));
 
 
                 } else setTurn(0, ActionPhase.WAITING_FOR_ACTION, false, null);
@@ -329,20 +332,10 @@ public class Game extends Observable<Message> implements Serializable {
         }
         else {
             switch (board.getTokenArray().get(0).getDiscard2Card()) {
-                case BLUE: {
-                    setCommunication(0, CommunicationList.LORI_BLUE);
-                    break;
-                }
-
-                case GREEN: {
-                    setCommunication(0, CommunicationList.LORI_GREEN);
-                    break;
-                }
-                case PURPLE: {
-                    setCommunication(0, CommunicationList.LORI_PURPLE);
-                    break;
-                }
-                default: setCommunication(0, CommunicationList.LORI_YELLOW);
+                case BLUE -> setCommunication(0, CommunicationList.LORI_BLUE);
+                case GREEN -> setCommunication(0, CommunicationList.LORI_GREEN);
+                case PURPLE -> setCommunication(0, CommunicationList.LORI_PURPLE);
+                default -> setCommunication(0, CommunicationList.LORI_YELLOW);
             }
             discardTwoDevCards(board.getTokenArray().get(0).getDiscard2Card());
             discardTwoDevCards(board.getTokenArray().get(0).getDiscard2Card());
@@ -545,12 +538,12 @@ public class Game extends Observable<Message> implements Serializable {
     }
 
     public void payFromFirstExtraShelf(int ID, int q){
-        getPlayerById(ID).getPersonalBoard().getWarehouse().payFromFirstExtraShelf(q);
+        getPlayerById(ID).getPersonalBoard().getWarehouse().payFromFirstExtraShelf();
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
     }
 
     public void payFromSecondExtraShelf(int ID, int q){
-        getPlayerById(ID).getPersonalBoard().getWarehouse().payFromSecondExtraShelf(q);
+        getPlayerById(ID).getPersonalBoard().getWarehouse().payFromSecondExtraShelf();
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
     }
 
@@ -578,7 +571,7 @@ public class Game extends Observable<Message> implements Serializable {
     }
 
     public synchronized boolean checkReadyPlayers(){
-        return getPlayers().stream().filter(x -> x.isReady()).count() == getNumPlayer();
+        return getPlayers().stream().filter(Player::isReady).count() == getNumPlayer();
     }
 
     public void setChosenLeader(LeaderCard leader, int ID){
@@ -646,7 +639,7 @@ public class Game extends Observable<Message> implements Serializable {
         clone.board = board.clone();
         clone.turn  = turn.clone();
         clone.communication = communication.clone();
-        clone.players = new ArrayList<Player>();
+        clone.players = new ArrayList<>();
 
         for (Player p: this.players){
             clone.players.add(p.clone());

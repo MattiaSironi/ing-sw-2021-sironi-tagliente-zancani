@@ -15,8 +15,8 @@ import java.util.List;
 
 public class DevDeck implements Printable, Serializable {
 
- // using int for type of card recognition
-    private List<DevCard> cards;
+
+    private final List<DevCard> cards;
 
     public DevDeck(List<DevCard> cards) {
 
@@ -38,7 +38,7 @@ public class DevDeck implements Printable, Serializable {
 
     public DevDeck clone() {
         DevDeck clone = new DevDeck(new ArrayList<>());
-        for (DevCard d : this.cards) clone.cards.add(d);
+        clone.cards.addAll(this.cards);
         return clone;
     }
 }

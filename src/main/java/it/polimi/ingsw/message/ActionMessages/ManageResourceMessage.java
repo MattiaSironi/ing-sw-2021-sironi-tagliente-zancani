@@ -3,9 +3,9 @@ package it.polimi.ingsw.message.ActionMessages;
 import it.polimi.ingsw.message.Message;
 
 public class ManageResourceMessage extends Message {
-    private int shelf1;
-    private int shelf2;
-    private int ID;
+    private final int shelf1;
+    private final int shelf2;
+    private final int ID;
 
     public ManageResourceMessage(int shelf1, int shelf2, int ID) {
         this.shelf1 = shelf1;

@@ -4,7 +4,7 @@ import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.LeaderCard;
 import it.polimi.ingsw.model.ResourceType;
 
-public class LeaderProdMessage extends Message {
+public class LeaderProdMessage extends Message { //TODO DELETE ?
     int id;
     LeaderCard l;
     ResourceType chosenRes;

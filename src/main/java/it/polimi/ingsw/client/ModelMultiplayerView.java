@@ -114,17 +114,6 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     @Override
     public void update(ErrorMessage message) {
-//        notify(message); //socket
-
-//        if (message.getString().equals("ko"))  {
-//            this.cac.getCli().printToConsole("Invalid move. Try another one!");
-//        }
-//        else if (!message.getString().equals("ok")) {
-//            this.cac.getCli().printToConsole(message.getString());
-//            this.cac.getCli().printToConsole("Try another shelf or discard it!");
-//            this.cac.askForResource(message.getR());
-//
-//        }
 
     }
 

@@ -8,11 +8,11 @@ import it.polimi.ingsw.model.ResourceType;
  */
 public class PlaceResourceMessage extends Message {
 
-    private ResourceType res;
-    private int shelf;
-    private int ID;
-    private boolean initialPhase;
-    private boolean discard;
+    private final ResourceType res;
+    private final int shelf;
+    private final int ID;
+    private final boolean initialPhase;
+    private final boolean discard;
 
     public PlaceResourceMessage(ResourceType res, int shelf, int ID, boolean initialPhase, boolean discard) {
         this.res = res;
@@ -37,7 +37,6 @@ public class PlaceResourceMessage extends Message {
     public boolean isInitialPhase() {
         return initialPhase;
     }
-
 
     public boolean isDiscard() {
         return discard;

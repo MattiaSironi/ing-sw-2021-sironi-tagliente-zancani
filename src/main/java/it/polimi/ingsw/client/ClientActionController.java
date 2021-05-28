@@ -17,34 +17,23 @@ import java.util.stream.Stream;
  * @author Mattia Sironi
  */
 public class ClientActionController extends Observable<Message> implements Observer<Message> {
-    private ModelMultiplayerView mmv;
-    private SocketServerConnection serverConnection;
-    private boolean active = true;
+    private final ModelMultiplayerView mmv;
+    private final SocketServerConnection serverConnection;
     private int ID;
-    private CLI cli;
-    private String ready;
-    private Boolean nameConfirmed = false;
+    private final CLI cli;
     private List<Actions> actions;
-    private boolean actionDone = false;
     private boolean singlePlayer;
+    private final boolean local;
 
 
-    public ClientActionController(CLI cli, ModelMultiplayerView mmv, SocketServerConnection socketServerConnection, boolean singlePlayer) {
+    public ClientActionController(CLI cli, ModelMultiplayerView mmv, SocketServerConnection socketServerConnection, boolean singlePlayer, boolean local) {
         this.serverConnection = socketServerConnection;
         this.mmv = mmv;
         this.cli = cli;
+        this.local = local;
         setActions();
         this.singlePlayer = singlePlayer;
     }
-
-    public synchronized boolean isActive() {
-        return active;
-    }
-
-    public synchronized void setActive(boolean active) {
-        this.active = active;
-    }
-
 
     public int getID() {
         return ID;
@@ -54,7 +43,7 @@ public class ClientActionController extends Observable<Message> implements Obser
         this.ID = ID;
     }
 
-    public void setupMultiplayer() throws IOException, ClassNotFoundException {
+    public void setupMultiplayer() throws IOException {
         String string;
         cli.printToConsole("Welcome to the game.");
         cli.printToConsole("Type any key if you are ready to this experience:");
@@ -68,24 +57,25 @@ public class ClientActionController extends Observable<Message> implements Obser
     public void setNumberOfPlayers() {
         String input;
         int numPlayers;
-        Boolean valid = false;
+        boolean valid = false;
         do {
             cli.printToConsole("Choose number of players:");
             input = cli.readFromInput().replaceAll("[^0-9]", "");
             if (input.equals("")) numPlayers = -1;
             else numPlayers = Integer.parseInt(input);
-            if (numPlayers > 1 && numPlayers <= 4) {
+            if (numPlayers >= 1 && numPlayers <= 4) {
+                if (numPlayers == 1) singlePlayer = true;
                 valid = true;
                 cli.printToConsole("Number of players set to " + numPlayers);
             } else {
-                cli.printToConsole("Error! Number must be between 2 and 4");
+                cli.printToConsole("Error! Number must be between 1 and 4");
             }
         } while (!valid);
         send(new ChooseNumberOfPlayer(numPlayers));
     }
 
     public void setActions() {
-        actions = new ArrayList<Actions>(Arrays.asList(Actions.values()));
+        actions = new ArrayList<>(Arrays.asList(Actions.values()));
     }
 
     public void chooseAction() {
@@ -129,9 +119,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                     case SF -> printFaithTrack();
                     case SD -> this.mmv.printDevMatrix();
                     case SP -> printProd();
-                    case SL -> {
-                        actionEnded = printLeaders();
-                    }
+                    case SL -> actionEnded = printLeaders();
                     case SR -> /*mmv.printShelves(0);*/ printShelves();
                     case MR -> {
                         manageResources();
@@ -255,7 +243,7 @@ public class ClientActionController extends Observable<Message> implements Obser
 
     public boolean chooseCard() {
         String input;
-        int index = -1;
+        int index;
         this.mmv.printDevMatrix();
         cli.printToConsole("Choose the Development Card you want to buy");
         input = cli.readFromInput();
@@ -288,26 +276,26 @@ public class ClientActionController extends Observable<Message> implements Obser
         }
     }
 
-    public void PlayLeader() {
-        boolean correctInput = false;
-        int idx;
-        String input;
-        while (!correctInput) {
-            cli.printToConsole("These are your available leaders");
-            this.printLeaders();
-        }
-
-        cli.printToConsole("Choose the Leader you want to activate and select its index");
-        idx = Integer.parseInt(cli.readFromInput());
-
-        if (idx > 0 && idx <= mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().size()) {
-            correctInput = true;
-//                    mmv.sendNotify(new PlayLeaderMessage(ID,idx));
-        } else cli.printToConsole("Invalid int, you selected " + idx);
-    }
+//    public void PlayLeader() { TODO DELETE
+//        boolean correctInput = false;
+//        int idx;
+//        String input;
+//        while (!correctInput) {
+//            cli.printToConsole("These are your available leaders");
+//            this.printLeaders();
+//        }
+//
+//        cli.printToConsole("Choose the Leader you want to activate and select its index");
+//        idx = Integer.parseInt(cli.readFromInput());
+//
+//        if (idx > 0 && idx <= mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().size()) {
+//            correctInput = true;
+////                    mmv.sendNotify(new PlayLeaderMessage(ID,idx));
+//        } else cli.printToConsole("Invalid int, you selected " + idx);
+//    }
 
     public void chooseResToProduce(boolean turn) {
-        ResourceType bought = null;
+        ResourceType bought;
         boolean valid = false;
         mmv.printShelves(ID);
         mmv.printStrongbox(ID);
@@ -329,10 +317,10 @@ public class ClientActionController extends Observable<Message> implements Obser
 
 
     public void chooseBasicRes() {
-        ResourceType chosen1 = null, chosen2 = null;
+        ResourceType chosen1, chosen2;
         cli.printToConsole("Now choose two resources you want to use\n[resource,resource]");
         try {
-            String input[] = cli.readFromInput().toUpperCase(Locale.ROOT).split(",", 2);
+            String[] input = cli.readFromInput().toUpperCase(Locale.ROOT).split(",", 2);
             String part1 = input[0];
             String part2 = input[1];
             if (Stream.of(ResourceType.values()).anyMatch(v -> v.name().equals(part1)) &&
@@ -410,18 +398,9 @@ public class ClientActionController extends Observable<Message> implements Obser
                 case "W" -> {
                     payFrom = true;
                     valid = true;
-                    break;
                 }
-                case "S" -> {
-                    payFrom = false;
-                    valid = true;
-
-                    break;
-                }
-                default -> {
-                    cli.printToConsole("Invalid input");
-                    break;
-                }
+                case "S" -> valid = true;
+                default -> cli.printToConsole("Invalid input");
             }
         }
         if (this.mmv.getGame().getTurn().getPhase() == ActionPhase.B_PAYMENT)
@@ -514,7 +493,7 @@ public class ClientActionController extends Observable<Message> implements Obser
 
     public boolean printLeaders() {
         boolean ok = true;
-        int p = 0;
+        int p;
         p = this.chooseID();
         String in;
 //
@@ -575,9 +554,8 @@ public class ClientActionController extends Observable<Message> implements Obser
                     valid = true;
                 } else cli.printToConsole("Invalid input! Retry!");
             }
-            return false;
-        } else
-            return false;
+        }
+        return false;
     }
 
     private void discardLead(int remaining) {
@@ -777,13 +755,15 @@ public class ClientActionController extends Observable<Message> implements Obser
         if (turn.getPhase() == ActionPhase.GAME_OVER) {
             if (turn.getPlayerPlayingID() == ID) cli.printToConsole("You win!");
             else {
-                if (singlePlayer) {
+                if (local) {
                     cli.printToConsole("Lorenzo Il Magnifico won!");
                     cli.printToConsole("Better luck next time!");
                     System.exit(0);
                 } else {
-                    cli.printToConsole(this.mmv.getGame().getPlayerById(turn.getPlayerPlayingID()) + turn.getPhase().getOthers());
+                    if (turn.getPlayerPlayingID()== -1) cli.printToConsole("Lorenzo Il Magnifico won!");
+                    else cli.printToConsole(this.mmv.getGame().getPlayerById(turn.getPlayerPlayingID()) + turn.getPhase().getOthers());
                     cli.printToConsole("You lose!");
+
 
                 }
             }
@@ -849,21 +829,14 @@ public class ClientActionController extends Observable<Message> implements Obser
         ResourceType res = mmv.getGame().getBoard().getMarket().getHand().get(0).getRes();
 
         switch (res) {
-            case COIN, STONE, SERVANT, SHIELD: {
+            case COIN, STONE, SERVANT, SHIELD -> {
                 mmv.printShelves(ID);
                 cli.printToConsole("you received a " + res.printResourceColouredName() + "!");
                 askForResource(res);
 
-                break;
             }
-            case FAITH_POINT: {
-                send(new PlaceResourceMessage(ResourceType.FAITH_POINT, -1, ID, false, false));
-                break;
-            }
-            default: {
-                whiteMarbleCase();
-                break;
-            } //caso EMPTY, vari controlli!
+            case FAITH_POINT -> send(new PlaceResourceMessage(ResourceType.FAITH_POINT, -1, ID, false, false));
+            default -> whiteMarbleCase();
         }
 
     }
@@ -875,21 +848,19 @@ public class ClientActionController extends Observable<Message> implements Obser
         int count = (int) possibleRes.stream().filter(Objects::nonNull).count();
 
         switch (count) {
-            case 0: {
+            case 0 -> {
                 getCli().printToConsole("You did not receive any Resource Type from the white marble");
                 send(new PlaceResourceMessage(ResourceType.EMPTY, -1, ID, false, false));
-                break;
             }
-            case 1: {
+            case 1 -> {
 
                 getCli().printToConsole("due to your Leader Cards you received a " + possibleRes.get(0).printResourceColouredName() + " from the white marble!");
                 mmv.printShelves(ID);
                 askForResource(possibleRes.get(0));
-                break;
 
 
             }
-            default: {
+            default -> {
 
                 mmv.printShelves(ID);
                 getCli().printToConsole("due to your Leader Cards you can generate one of the following Resources from the white marble : "
@@ -903,10 +874,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                 selectedRes = getResourceType(possibleRes, false, null);
 
                 askForResource(selectedRes);
-                break;
             }
-
-
         }
 
 
@@ -928,11 +896,11 @@ public class ClientActionController extends Observable<Message> implements Obser
     public void nicknameSetUp() {
         cli.printToConsole("Choose your nickname:");
         String nickname = cli.readFromInput();
-        send(new Nickname(nickname, ID, false));
+        send(new Nickname(nickname, ID));
     }
 
     public void send(Message o){
-        if(singlePlayer) {
+        if(local) {
             if (o instanceof PlaceResourceMessage) {
                 notify((PlaceResourceMessage) o);
             } else if (o instanceof Nickname) {

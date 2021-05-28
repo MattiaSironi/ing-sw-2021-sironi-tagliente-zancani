@@ -6,7 +6,7 @@ import java.util.List;
 
 public class DevelopmentCardMatrix implements Serializable {
 
-    private List<DevDeck> devDecks;
+    private final List<DevDeck> devDecks;
     private DevCard chosenCard;
     private int chosenIndex;
     private ArrayList<ResourceType> resToPay;

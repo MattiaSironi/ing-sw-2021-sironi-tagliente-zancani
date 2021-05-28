@@ -15,12 +15,13 @@ import java.lang.*;
 
 
 public class SocketClientConnection extends Observable<Message> implements Runnable {
-    private Socket socket;
+    private final Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private Server server;
+    private final Server server;
     private int ID;
-    private Thread socketListener, pingSender;
+    private final Thread socketListener;
+    private final Thread pingSender;
     private RemoteView remoteView;
 
     public RemoteView getRemoteView() {
@@ -82,10 +83,6 @@ public class SocketClientConnection extends Observable<Message> implements Runna
 
     public synchronized boolean isActive() {
         return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public synchronized void send(Message message) {

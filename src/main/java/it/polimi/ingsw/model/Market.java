@@ -5,7 +5,6 @@ import it.polimi.ingsw.constants.Ball;
 import it.polimi.ingsw.constants.Color;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,8 +51,7 @@ public class Market implements Printable, Serializable {
     }
 
     public ArrayList<Marble> getRow(int index) {
-        ArrayList<Marble> row = new ArrayList<Marble>(Arrays.asList(this.marketBoard[index]));
-        return row;
+        return new ArrayList<>(Arrays.asList(this.marketBoard[index]));
     }
 
     public ArrayList<Marble> getColumn(int index) {
@@ -83,7 +81,7 @@ public class Market implements Printable, Serializable {
 
     private void printLeftOut() {
         String color = this.marbleOut.getRes().getColor();
-        ArrayList<Ball> b= new ArrayList<Ball>(Arrays.asList(Ball.values()));
+        ArrayList<Ball> b= new ArrayList<>(Arrays.asList(Ball.values()));
         for (Ball ball : b)  {
             if (ball.toString().equals("Ball1"))  {
             System.out.println(color +  ball.getBallLine() + Color.ANSI_RESET);
@@ -95,7 +93,7 @@ public class Market implements Printable, Serializable {
     }
 
     private void printRow(List<Marble> asList) {
-        ArrayList<Ball> b = new ArrayList<Ball>(Arrays.asList(Ball.values()));
+        ArrayList<Ball> b = new ArrayList<>(Arrays.asList(Ball.values()));
         for (Ball ball : b) {
             String ballLine = ball.getBallLine();
             System.out.println(asList.get(0).getRes().getColor() + ballLine +
@@ -110,12 +108,10 @@ public class Market implements Printable, Serializable {
         Market clone = new Market();
         clone.marbleOut = this.marbleOut;
         clone.hand = new ArrayList<>();
-        for (Marble m : this.hand) clone.hand.add(m);
+        clone.hand.addAll(this.hand);
         clone.marketBoard = new Marble[3][4];
         for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
-                clone.marketBoard[i][j] = this.marketBoard[i][j];
-            }
+            System.arraycopy(this.marketBoard[i], 0, clone.marketBoard[i], 0, 4);
         }
         return clone;
 

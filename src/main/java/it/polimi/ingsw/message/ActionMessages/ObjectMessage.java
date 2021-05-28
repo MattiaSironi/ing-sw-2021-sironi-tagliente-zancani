@@ -3,9 +3,9 @@ package it.polimi.ingsw.message.ActionMessages;
 import it.polimi.ingsw.message.Message;
 
 public class ObjectMessage extends Message {
-    Object object;
-    int objectID;
-    int ID;
+    private final Object object;
+    private final int objectID;
+    private final int ID;
 
     public ObjectMessage(Object object, int objectID, int ID) {
         this.object = object;

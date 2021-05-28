@@ -14,7 +14,7 @@ public class ShelfWarehouse implements Printable, Serializable {
     private ArrayList<Shelf> shelves;
 
     public ShelfWarehouse() {
-        ArrayList<Shelf> s = new ArrayList<Shelf>();
+        ArrayList<Shelf> s = new ArrayList<>();
         s.add(new Shelf(ResourceType.EMPTY, 0));
         s.add(new Shelf(ResourceType.EMPTY, 0));
         s.add(new Shelf(ResourceType.EMPTY, 0));
@@ -180,11 +180,11 @@ public class ShelfWarehouse implements Printable, Serializable {
 
     }
 
-    public void payFromFirstExtraShelf(int q){
+    public void payFromFirstExtraShelf(){
         this.shelves.get(4).setCount(this.shelves.get(4).getCount() - 1);
     }
 
-    public void payFromSecondExtraShelf(int q){
+    public void payFromSecondExtraShelf(){
         this.shelves.get(5).setCount(this.shelves.get(5).getCount() - 1);
     }
 
@@ -213,11 +213,10 @@ public class ShelfWarehouse implements Printable, Serializable {
 
 
     public boolean canIPay(int i, ResourceType r){
-        if(getResCount(r) < i) return false;
-        else return true;
+        return getResCount(r) >= i;
     }
 
     public int numberOfResources()  {
-        return  this.shelves.stream().mapToInt(x -> x.getCount()).sum();
+        return  this.shelves.stream().mapToInt(Shelf::getCount).sum();
     }
 }

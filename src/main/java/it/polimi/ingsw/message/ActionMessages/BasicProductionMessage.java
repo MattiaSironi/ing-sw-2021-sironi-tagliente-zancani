@@ -4,9 +4,9 @@ import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.ResourceType;
 
 public class BasicProductionMessage extends Message {
-    private ResourceType paidRes1;
-    private ResourceType paidRes2;
-    private ResourceType boughtRes;
+    private final ResourceType paidRes1;
+    private final ResourceType paidRes2;
+    private final ResourceType boughtRes;
     boolean payFrom;
     int ID;
 
@@ -22,24 +22,12 @@ public class BasicProductionMessage extends Message {
         return paidRes1;
     }
 
-    public void setPaidRes1(ResourceType paidRes1) {
-        this.paidRes1 = paidRes1;
-    }
-
     public ResourceType getPaidRes2() {
         return paidRes2;
     }
 
-    public void setPaidRes2(ResourceType paidRes2) {
-        this.paidRes2 = paidRes2;
-    }
-
     public ResourceType getBoughtRes() {
         return boughtRes;
-    }
-
-    public void setBoughtRes(ResourceType boughtRes) {
-        this.boughtRes = boughtRes;
     }
 
     public int getID() {
@@ -54,7 +42,4 @@ public class BasicProductionMessage extends Message {
         return payFrom;
     }
 
-    public void setPayFrom(boolean payFrom) {
-        this.payFrom = payFrom;
-    }
 }

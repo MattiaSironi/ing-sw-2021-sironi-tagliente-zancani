@@ -39,13 +39,9 @@ public class WhiteTrayLCard extends LeaderCard implements Printable, Serializabl
             return false;
         else{
             WhiteTrayLCard c = (WhiteTrayLCard)lc;
-            if(!(getResType()==c.getResType()&&
-                    getX1Color()==c.getX1Color()&&
-                    getX2Color()==c.getX2Color()
-            ))
-                return false;
-            else
-                return true;
+            return getResType() == c.getResType() &&
+                    getX1Color() == c.getX1Color() &&
+                    getX2Color() == c.getX2Color();
         }
     }
 

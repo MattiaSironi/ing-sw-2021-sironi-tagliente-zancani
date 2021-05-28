@@ -14,7 +14,4 @@ public class ChooseNumberOfPlayer extends Message {
         return numPlayers;
     }
 
-    public void setNumPlayers(int num) {
-
-    }
 }

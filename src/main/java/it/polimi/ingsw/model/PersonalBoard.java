@@ -43,23 +43,22 @@ public class PersonalBoard implements Serializable {
     public PersonalBoard()  {
         warehouse = new ShelfWarehouse();
         strongbox = new Strongbox();
-        cardSlot = new ArrayList<DevDeck>();
-        activeLeader = new LeaderDeck(new ArrayList<>()); //lea modifica pure
-        cardSlot.add(new DevDeck(new ArrayList<DevCard>()));
-        cardSlot.add(new DevDeck(new ArrayList<DevCard>()));
-        cardSlot.add(new DevDeck(new ArrayList<DevCard>()));
+        cardSlot = new ArrayList<>();
+        activeLeader = new LeaderDeck(new ArrayList<>());
+        cardSlot.add(new DevDeck(new ArrayList<>()));
+        cardSlot.add(new DevDeck(new ArrayList<>()));
+        cardSlot.add(new DevDeck(new ArrayList<>()));
         this.faithTrack = new FaithTrack(null);
     }
 
-    public boolean totalPaymentChecker(int resArray[]){
+    public boolean totalPaymentChecker(int[] resArray){
         int totCoin, totStone, totServant, totShield;
         totCoin = strongbox.getResCount(ResourceType.COIN) + warehouse.getResCount(ResourceType.COIN);
         totStone = strongbox.getResCount(ResourceType.STONE) + warehouse.getResCount(ResourceType.STONE);
         totServant = strongbox.getResCount(ResourceType.SERVANT) + warehouse.getResCount(ResourceType.SERVANT);
         totShield = strongbox.getResCount(ResourceType.SHIELD) + warehouse.getResCount(ResourceType.SHIELD);
 
-        if(totCoin < resArray[0] || totStone < resArray[1] || totServant < resArray[2] || totShield < resArray[3]) return false;
-        else return true;
+        return totCoin >= resArray[0] && totStone >= resArray[1] && totServant >= resArray[2] && totShield >= resArray[3];
     }
 
     public ExtraProdLCard getLeaderChosen() {
@@ -71,18 +70,13 @@ public class PersonalBoard implements Serializable {
     }
 
     public boolean checkLCardRequirements(LeaderCard lc) {
-        switch (lc.getType()) {
-            case 1:
-                return this.checkDiscountCardRequirements((DiscountLCard) lc);
-            case 2:
-                return this.checkExtraDepotRequirements((ExtraDepotLCard) lc);
-            case 3:
-                return this.checkExtraProdRequirements((ExtraProdLCard) lc);
-            case 4:
-                return this.checkWTrayCardRequirements((WhiteTrayLCard) lc);
-            default:
-                return false;
-        }
+        return switch (lc.getType()) {
+            case 1 -> this.checkDiscountCardRequirements((DiscountLCard) lc);
+            case 2 -> this.checkExtraDepotRequirements((ExtraDepotLCard) lc);
+            case 3 -> this.checkExtraProdRequirements((ExtraProdLCard) lc);
+            case 4 -> this.checkWTrayCardRequirements((WhiteTrayLCard) lc);
+            default -> false;
+        };
     }
 
     /**
@@ -230,7 +224,7 @@ public class PersonalBoard implements Serializable {
             // {System.out.print("X" + " ");}
             i++;
         }
-        System.out.println("");
+        System.out.println();
     }
 
     public PersonalBoard clone() {

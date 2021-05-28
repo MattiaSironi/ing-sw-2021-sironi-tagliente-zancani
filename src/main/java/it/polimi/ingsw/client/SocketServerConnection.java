@@ -14,7 +14,8 @@ public class SocketServerConnection {
     private Socket socket;
     private ObjectInputStream socketIn;
     private ObjectOutputStream socketOut;
-    private Thread socketListener, pingSender;
+    private final Thread socketListener;
+    private final Thread pingSender;
     private boolean isActive = true;
     private ClientActionController cac;
 
@@ -27,10 +28,7 @@ public class SocketServerConnection {
                 Object o = null;
                 try {
                     o = receive();
-                } catch (IOException e) {
-                    close();
-
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     close();
 
                 }
@@ -52,10 +50,6 @@ public class SocketServerConnection {
 
     public void setCac(ClientActionController cac) {
         this.cac = cac;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
     }
 
     public boolean isActive() {
@@ -93,7 +87,7 @@ public class SocketServerConnection {
     }
 
     public Object receive() throws IOException, ClassNotFoundException {
-        Object inputObject = null;
+        Object inputObject;
 
         inputObject = socketIn.readObject();
 
