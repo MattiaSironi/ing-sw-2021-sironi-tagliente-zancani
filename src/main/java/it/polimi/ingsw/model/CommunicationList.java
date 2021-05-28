@@ -4,6 +4,8 @@ package it.polimi.ingsw.model;
  * @author Mattia Sironi
  */
 public enum CommunicationList {
+    NICK_NOT_VALID("This nickame has already been chosen!"),
+    NICK_VALID ("Nickname set correctly"),
     FP("You received one faith point!"),
     FIRST("You are first!"),
     SECOND("You are second!"),

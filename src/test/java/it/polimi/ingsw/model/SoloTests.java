@@ -22,6 +22,8 @@ public class SoloTests {
     public void init()  {
         game = new Game(true, 0);
         controller = new Controller(game);
+        game.getPlayers().add(new Player(0, "GIGI"));
+        game.getPlayerById(0).getPersonalBoard().getFaithTrack().setLoriPos(0);
 
     }
 
@@ -93,6 +95,18 @@ public class SoloTests {
         game.discardTwoDevCards(CardColor.GREEN);
 
         assertTrue(game.checkColumnEmpty());
+
+    }
+
+    @Test
+    @DisplayName("giving points to Lori discarding a res")
+    public void discardRes() {
+        ArrayList<Marble> hand = new ArrayList<>();
+        hand.add(new Marble(ResourceType.COIN));
+        game.setMarketHand(hand);
+        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos());
+        controller.placeRes(ResourceType.COIN, -1, 0, true, false);
+        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos());
 
     }
 }

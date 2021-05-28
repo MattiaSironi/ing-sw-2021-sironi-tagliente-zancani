@@ -15,7 +15,7 @@ import it.polimi.ingsw.observer.Observer;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class CLI extends Observable<Message> implements Observer<Message> {
+public class CLI  {
     private Scanner in = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -37,7 +37,6 @@ public class CLI extends Observable<Message> implements Observer<Message> {
         SocketServerConnection ssc = new SocketServerConnection();
         ClientActionController cms = new ClientActionController(cli, view, ssc, false);
         ssc.setCac(cms);
-        view.addObserver(cli);
         cms.setupMultiplayer();
     }
 
@@ -49,7 +48,6 @@ public class CLI extends Observable<Message> implements Observer<Message> {
         CLI cli = new CLI();
         ModelMultiplayerView modelMultiplayerView = new ModelMultiplayerView(new Game(true, 0));
         ClientActionController clientActionController = new ClientActionController(cli, modelMultiplayerView, null, true);
-        modelMultiplayerView.addObserver(cli);
         clientActionController.addObserver(controller);
         game.addObserver(clientActionController);
         clientActionController.nicknameSetUp();
@@ -65,101 +63,5 @@ public class CLI extends Observable<Message> implements Observer<Message> {
     public synchronized void printToConsole(String message){
         System.out.println(message);
     }
-
-    @Override
-    public void update(Message message) {
-
-    }
-
-    @Override
-    public void update(Nickname message) {
-
-        if (message.getValid())  {
-            System.out.println("Your nickname is " + message.getString() + " and your ID is " + message.getID());
-        }
-        else System.out.println("One of your opponent's nickname is "  + message.getString() + " and his ID is " + message.getID());
-
-    }
-
-
-    @Override
-    public void update(IdMessage message) {
-
-    }
-
-    @Override
-    public void update(ErrorMessage message) {
-
-
-    }
-
-
-    @Override
-    public void update(ChooseNumberOfPlayer message) {
-
-    }
-
-    @Override
-    public void update(PrintableMessage message) {
-        message.getP().print();
-    }
-
-    @Override
-    public void update(ObjectMessage message) {
-
-    }
-
-    @Override
-    public void update(ManageResourceMessage message) {
-
-    }
-
-    @Override
-    public void update(MarketMessage message) {
-
-    }
-
-
-
-    @Override
-    public void update(PlaceResourceMessage message) {
-
-    }
-
-    @Override
-    public void update(BuyDevCardMessage message) {
-
-    }
-
-    @Override
-    public void update(PlayLeaderMessage message) {
-
-    }
-
-    @Override
-    public void update(ProductionMessage message) {
-
-    }
-
-    @Override
-    public void update(EndTurnMessage message) {
-
-    }
-
-    @Override
-    public void update(BasicProductionMessage message) {
-
-    }
-
-    @Override
-    public void update(LeaderProductionMessage message) {
-
-    }
-
-    @Override
-    public void update(GameOverMessage message) {
-
-    }
-
 
 }

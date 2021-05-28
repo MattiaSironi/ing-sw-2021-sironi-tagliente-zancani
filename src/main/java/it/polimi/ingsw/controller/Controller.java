@@ -32,8 +32,9 @@ public class Controller implements Observer<Message> {
         }
         if (found) {
             game.reportError(new Nickname(nickname.getString(), nickname.getID(), false));
+            game.setCommunication(nickname.getID(), CommunicationList.NICK_NOT_VALID);
         } else {
-            game.reportError(new Nickname(nickname.getString(), nickname.getID(), true));
+            game.setCommunication(nickname.getID(), CommunicationList.NICK_VALID);
             game.getPlayers().add(new Player(nickname.getID(), nickname.getString()));
             if(game.getNumPlayer() == 1){
                 game.getPlayerById(0).getPersonalBoard().getFaithTrack().setLoriPos(0);
@@ -250,7 +251,7 @@ public class Controller implements Observer<Message> {
     }
 
     public void discardRes(int ID) {
-        if (game.getNumPlayer() == 1) {
+        if (game.getPlayers().size() == 1) {
             game.moveLoriPos(1);
         } else {
 
@@ -740,11 +741,6 @@ public class Controller implements Observer<Message> {
     @Override
     public void update(ChooseNumberOfPlayer message) {
 
-
-    }
-
-    @Override
-    public void update(PrintableMessage message) {
 
     }
 

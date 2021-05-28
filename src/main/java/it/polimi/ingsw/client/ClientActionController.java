@@ -698,13 +698,6 @@ public class ClientActionController extends Observable<Message> implements Obser
                 cli.printToConsole("Number of players : " + ((ChooseNumberOfPlayer) o).getNumberOfPlayers());
                 nicknameSetUp();
             }
-        } else if (o instanceof Nickname) {
-            if (((Nickname) o).getValid()) {
-                cli.printToConsole("Your nickname is " + ((Nickname) o).getString());
-            } else {
-                cli.printToConsole("This nickname is already chosen\nTry again");
-                send(new Nickname(cli.readFromInput(), ID, false));
-            }
 
         } else if (o instanceof ObjectMessage) {
             handleObject((ObjectMessage) o);
@@ -718,6 +711,7 @@ public class ClientActionController extends Observable<Message> implements Obser
     private void handleObject(ObjectMessage message) {
         if (message.getObjectID() == -1) { //GAME
             this.mmv.setGame((Game) message.getObject());
+            this.mmv.printPlayers(ID);
         } else if (message.getObjectID() == 0) {
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse) message.getObject());
         } else if (message.getObjectID() == 1) {  //MARKET
@@ -772,66 +766,82 @@ public class ClientActionController extends Observable<Message> implements Obser
 
     private void handleCommunication(Communication communication) {
 
-        if (communication.getAddresseeID() == ID || communication.getAddresseeID() == -1)
+        if (communication.getAddresseeID() == ID || communication.getAddresseeID() == -1) {
+
             cli.printToConsole(communication.getCommunication().getString());
+            if (communication.getCommunication() == CommunicationList.NICK_NOT_VALID) nicknameSetUp();
+        }
     }
 
     public void handleTurn(Turn turn) {
         if (turn.getPhase() == ActionPhase.GAME_OVER) {
-            if (turn.getPlayerPlayingID() == ID) cli.printToConsole("you win!");
-            else cli.printToConsole("you lose!");
+            if (turn.getPlayerPlayingID() == ID) cli.printToConsole("You win!");
+            else {
+                if (singlePlayer) {
+                    cli.printToConsole("Lorenzo Il Magnifico won!");
+                    cli.printToConsole("Better luck next time!");
+                    System.exit(0);
+                } else {
+                    cli.printToConsole(this.mmv.getGame().getPlayerById(turn.getPlayerPlayingID()) + turn.getPhase().getOthers());
+                    cli.printToConsole("You lose!");
 
-            if (singlePlayer) System.exit(0);
-        }
-
-
-        if (turn.getPlayerPlayingID() == ID) {
-            if (turn.isError()) {
-                cli.printToConsole(turn.getErrorType().getString());
-            }
-            switch (turn.getPhase()) {
-                case WAITING_FOR_ACTION: {
-                    chooseAction();
-                    break;
-                }
-                case MARKET: {
-
-                    selectResourceFromHand();
-                    break;
-                }
-
-                case A_PAYMENT: {
-                    noMoreActions();
-                    activateProd();
-                    break;
-                }
-
-                case B_PAYMENT:
-                case PAYMENT: {
-                    noMoreActions();
-                    pay();
-                    break;
-                }
-                case CHOOSE_SLOT: {
-                    placeDevCard();
-                    break;
-                }
-                case P_LEADER:{}
-
-                case D_LEADER: {
-                    printLeaders();
-                    break;
-                }
-                case BASIC: {
-                    noMoreActions();
-                    chooseBasicRes();
-                    break;
-                }
-                case SELECT_RES:{
-                    noMoreActions();
-                    chooseResToProduce(false);
                 }
             }
+
+
+        } else {
+
+
+            if (turn.getPlayerPlayingID() == ID) {
+                if (turn.isError()) {
+                    cli.printToConsole(turn.getErrorType().getString());
+                }
+                switch (turn.getPhase()) {
+                    case WAITING_FOR_ACTION: {
+                        chooseAction();
+                        break;
+                    }
+                    case MARKET: {
+
+                        selectResourceFromHand();
+                        break;
+                    }
+
+                    case A_PAYMENT: {
+                        noMoreActions();
+                        activateProd();
+                        break;
+                    }
+
+                    case B_PAYMENT:
+                    case PAYMENT: {
+                        noMoreActions();
+                        pay();
+                        break;
+                    }
+                    case CHOOSE_SLOT: {
+                        placeDevCard();
+                        break;
+                    }
+                    case P_LEADER: {
+                    }
+
+                    case D_LEADER: {
+                        printLeaders();
+                        break;
+                    }
+                    case BASIC: {
+                        noMoreActions();
+                        chooseBasicRes();
+                        break;
+                    }
+                    case SELECT_RES: {
+                        noMoreActions();
+                        chooseResToProduce(false);
+                    }
+                }
+            } else
+                cli.printToConsole(mmv.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
         }
     }
 
@@ -1029,10 +1039,7 @@ public class ClientActionController extends Observable<Message> implements Obser
 
     }
 
-    @Override
-    public void update(PrintableMessage message) {
 
-    }
 }
 
 

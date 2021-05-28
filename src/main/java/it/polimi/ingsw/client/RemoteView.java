@@ -69,11 +69,7 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(Nickname message) {
-        if(message.getID() == this.ID) {
-            clientConnection.send(message);
-        }
-        else if(message.getValid())
-            clientConnection.send(new OutputMessage("One of your opponents is " + message.getString()));
+
     }
 
 
@@ -92,11 +88,6 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(ChooseNumberOfPlayer message) {
-
-    }
-
-    @Override
-    public void update(PrintableMessage message) {
 
     }
 

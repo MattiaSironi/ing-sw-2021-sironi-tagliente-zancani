@@ -677,7 +677,6 @@ public class ControllerTests {
         controller.update(new ErrorMessage("hello", 0));
         controller.update(new IdMessage(0));
         controller.update(new ObjectMessage(game, -1, -1));
-        controller.update(new PrintableMessage(game.getPlayerById(0).getPersonalBoard().getFaithTrack()));
         controller.update(new ChooseNumberOfPlayer(2));
         assertEquals(true, true);
     }

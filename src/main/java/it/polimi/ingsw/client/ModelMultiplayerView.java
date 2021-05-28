@@ -13,18 +13,10 @@ import java.util.ArrayList;
 public class ModelMultiplayerView extends Observable<Message> implements Observer<Message> {
 
     private Game game;
-    private ClientActionController cac; //just for local testing
+
 
     public void setGame(Game game) {
         this.game = game;
-    }
-
-    public ClientActionController getCac() { //just for local testing
-        return cac;
-    }
-
-    public void setCac(ClientActionController cac) { //just for local testing
-        this.cac = cac;
     }
 
     public ModelMultiplayerView(Game game) {
@@ -41,52 +33,29 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     private static int size ;
 
-    public ModelMultiplayerView() {}
-
-    public void sendNotify(ErrorMessage message) {
-        notify(message);
-    }
-
-    public void sendNotify(Message message) {
-        notify(message);
-    }
-
-    public void sendNotify(PlaceResourceMessage message) {
-        notify(message);
-    }
-
-    public void sendNotify(ManageResourceMessage message)  {
-        notify(message);
-    } //local testing
-
-    public void sendNotify(MarketMessage message)  {
-        notify(message);
-    } //local testing
-
-    public void sendNotify(BuyDevCardMessage message){ notify(message); }
-
-    public void sendNotify(PlayLeaderMessage message) {
-        notify((PlayLeaderMessage)message);
-    }
-    public void sendNotify(ProductionMessage message){
-        notify(message);
-    }
-
-
-
     public Game getGame() {
         return game;
     }
 
+    public void printFaithTrack(int ID) {
+        this.getGame().getPlayerById(ID).getPersonalBoard().getFaithTrack().print();
+    }
+
+    public void printActiveLeaders(int ID) {
+        for(LeaderCard d : this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards()){
+            d.print();
+        }
+    }
+
     public void printMarket(){
-        notify(new PrintableMessage(this.game.getBoard().getMarket()));
+        this.game.getBoard().getMarket().print();
     }
 
     public void printShelves(int ID)  {
-        notify(new PrintableMessage(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse()));
+        this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().print();
     }
     public void printStrongbox(int ID)  {
-        notify(new PrintableMessage(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox()));
+        this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().print();
     }
 
     public void printDevMatrix(){
@@ -94,7 +63,7 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
         for(DevDeck d : this.game.getBoard().getMatrix().getDevDecks()){
             if(d.getCards().size() != 0) {
                 System.out.println("Card number: " + index);
-                notify(new PrintableMessage((d.getCards().get(0))));
+                d.getCards().get(0).print();
             }
             else{
                 System.out.println("NO CARDS HERE");
@@ -110,10 +79,18 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
             System.out.println("SLOT: " + slot);
             for(DevCard dc : dd.getCards()){
                 System.out.println("POSITION: " + pos);
-                notify(new PrintableMessage(dc));
+                dc.print();
                 pos++;
             }
             slot++;
+        }
+    }
+
+    public void printPlayers(int ID) {
+        for (Player p : this.game.getPlayers())  {
+            if (p.getId() != ID) System.out.println("One of your opponents' nickname is " + p.getNickname() +
+                    " and his ID is " + p.getId() );
+            else System.out.println("Your nickname is " + p.getNickname() + " and your ID is " + p.getId());
         }
     }
 
@@ -148,8 +125,7 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 //            this.cac.askForResource(message.getR());
 //
 //        }
-        if(message.getID() == this.getCac().getID())
-            this.cac.getCli().printToConsole(message.getString());
+
     }
 
 
@@ -159,10 +135,7 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     }
 
-    @Override
-    public void update(PrintableMessage message) {
 
-    }
 
     @Override
     public void update(ObjectMessage message) {
@@ -239,6 +212,8 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
     }
 
 
+
+
 //    @Override
 //    public void update(LeaderProdMessage message){
 //
@@ -247,14 +222,6 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
 
 
-    public void printFaithTrack(int ID) {
-       notify(new PrintableMessage(this.getGame().getPlayerById(ID).getPersonalBoard().getFaithTrack()));
-    }
 
-    public void printActiveLeaders(int ID) {
-        for(LeaderCard d : this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards()){
-            notify(new PrintableMessage(d));
-        }
-    }
 }
 

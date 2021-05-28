@@ -16,8 +16,6 @@ public interface Observer<Message> {
 
     void update (ChooseNumberOfPlayer message);
 
-    void update (PrintableMessage message);
-
     void update (ObjectMessage message);
 
     void update (ManageResourceMessage message);

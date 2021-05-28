@@ -2,16 +2,25 @@ package it.polimi.ingsw.model;
 
 public enum ActionPhase {
 
-    WAITING_FOR_ACTION,
-    MARKET,
-    B_PAYMENT,
-    CHOOSE_SLOT,
-    A_PAYMENT,
-    SELECT_RES,
-    P_LEADER,
-    D_LEADER,
-    GAME_OVER,
-    BASIC,
-    PAYMENT;
+    WAITING_FOR_ACTION ("is choosing an action!"),
+    MARKET ("is buying resources!"),
+    B_PAYMENT("is paying a Dev Card!"),
+    CHOOSE_SLOT ("is choosing where to place the Dev Card!"),
+    A_PAYMENT ("is paying a Leader Card!"),
+    SELECT_RES("is choosing the resources to produce!"),
+    P_LEADER("is activating a Leader Card!"),
+    D_LEADER("discarded a Leader Card!"),
+    BASIC ("is doing a basic production!"),
+    PAYMENT("is paying!"),
+    GAME_OVER("won!");
 
+    private final String others;
+
+    ActionPhase(String others) {
+        this.others = others;
+    }
+
+    public String getOthers() {
+        return others;
+    }
 }
