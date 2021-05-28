@@ -681,7 +681,6 @@ public class LeaderTests {
 
     }
 
-
     @Test
     @DisplayName("Play White Tray Leader Card")
     void PlayWhiteTrayLeaderNoSpace() {
@@ -724,8 +723,6 @@ public class LeaderTests {
         assertEquals(ResourceType.COIN,game.getPlayerById(0).getWhiteConversion2());
 
     }
-
-
 
     @Test
     @DisplayName("Override equals")

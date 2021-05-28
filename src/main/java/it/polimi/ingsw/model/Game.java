@@ -124,10 +124,6 @@ public class Game extends Observable<Message> implements Serializable {
         return players;
     }
 
-    public void reportError(ErrorMessage message) { //TODO
-        notify(message);
-    }
-
     public void sendGame(){
         notify(new ObjectMessage(this.clone(), -1, -1));
     }

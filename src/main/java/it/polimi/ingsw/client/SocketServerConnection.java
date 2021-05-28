@@ -17,7 +17,7 @@ public class SocketServerConnection {
     private final Thread socketListener;
     private final Thread pingSender;
     private boolean isActive = true;
-    private ClientActionController cac;
+    private UI ui;
 
 
 
@@ -48,8 +48,8 @@ public class SocketServerConnection {
         });
     }
 
-    public void setCac(ClientActionController cac) {
-        this.cac = cac;
+    public void setUI(UI ui) {
+        this.ui = ui;
     }
 
     public boolean isActive() {
@@ -121,18 +121,13 @@ public class SocketServerConnection {
 
     public void messageHandler(Object o){
         if(o instanceof IdMessage){
-            cac.getCli().printToConsole("Your ID is " + ((IdMessage) o).getID());
-            cac.setID(((IdMessage)o).getID());
+            ui.setID(((IdMessage)o).getID());
         }
         else if(o instanceof PingMessage){
 
         }
-        else if (o instanceof ErrorMessage)  {
-            cac.getCli().printToConsole(((ErrorMessage) o).getString());
-        }
-
         else{
-            cac.handleAction(o);
+            ui.handleAction(o);
         }
     }
 }

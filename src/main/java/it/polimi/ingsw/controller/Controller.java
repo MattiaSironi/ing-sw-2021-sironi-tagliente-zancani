@@ -453,25 +453,6 @@ public class Controller implements Observer<Message> {
         }
     }
 
-    public void useLeaderProduction(int ID, ResourceType r, ResourceType newRes, boolean buyFromWarehouse) { //if true -> pay from warehouse
-        if (buyFromWarehouse) {
-            if (!(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(1, r))) {
-                this.game.reportError(new ErrorMessage("You don't have enough resources!", ID)); //TODO
-            } else {
-                this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().pay(1, r);
-                this.game.moveFaithPosByID(ID, 1);
-            }
-        }
-        if (!buyFromWarehouse) {
-            if (!(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(1, r))) {
-                this.game.reportError(new ErrorMessage("You don't have enough resources!", ID)); //TODO
-            } else {
-                this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().pay(1, r);
-                this.game.moveFaithPosByID(ID, 1);
-            }
-        }
-    }
-
     public void PlayLeaderCard(int ID, DiscountLCard dc) {
         Player p = null;
         if (game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(dc)) {

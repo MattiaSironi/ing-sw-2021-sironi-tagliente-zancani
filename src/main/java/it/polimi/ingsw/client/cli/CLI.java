@@ -30,7 +30,7 @@ public class CLI {
         ModelMultiplayerView view = new ModelMultiplayerView(new Game(false, -1));
         SocketServerConnection ssc = new SocketServerConnection();
         ClientActionController cms = new ClientActionController(cli, view, ssc, false, false);
-        ssc.setCac(cms);
+        ssc.setUI(cms);
         cms.setupMultiplayer();
     }
 

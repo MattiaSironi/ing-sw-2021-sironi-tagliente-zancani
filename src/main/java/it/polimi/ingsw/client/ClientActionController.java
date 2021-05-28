@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 /**
  * @author Mattia Sironi
  */
-public class ClientActionController extends Observable<Message> implements Observer<Message> {
+public class ClientActionController extends Observable<Message> implements Observer<Message>, UI {
     private final ModelMultiplayerView mmv;
     private final SocketServerConnection serverConnection;
     private int ID;
@@ -667,7 +667,7 @@ public class ClientActionController extends Observable<Message> implements Obser
         }
     }
 
-
+    @Override
     public void handleAction(Object o) {
         if (o instanceof ChooseNumberOfPlayer) {
             if(((ChooseNumberOfPlayer) o).getNumberOfPlayers() == -1)
