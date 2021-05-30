@@ -59,7 +59,8 @@ public class DevCard implements Printable, Serializable {
                         "\n - Output Resources: " + this.outputRes[0] + " " + ResourceType.COIN.printResourceColouredName()  + " " +  this.outputRes[1] + " " + ResourceType.STONE.printResourceColouredName()  + " " + this.outputRes[2] + " " + ResourceType.SERVANT.printResourceColouredName()  + " " + this.outputRes[3] + " " + ResourceType.SHIELD.printResourceColouredName() + " " + this.outputRes[4] + " " + ResourceType.FAITH_POINT.printResourceColouredName());
     }
 
-//    public int[] useAbility()  {
+
+    //    public int[] useAbility()  {
 //        return getOutputRes();
 //    } //production
 

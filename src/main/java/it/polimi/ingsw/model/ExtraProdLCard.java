@@ -48,4 +48,9 @@ public class ExtraProdLCard extends LeaderCard implements Printable, Serializabl
                 "\n - Required color: " + this.color +
                 "\n - Input resource for production : " + this.input);
     }
+
+    @Override
+    public String toString() {
+        return ("EP"+"-"+this.getInput().toString());
+    }
 }

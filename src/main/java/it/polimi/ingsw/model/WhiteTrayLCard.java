@@ -53,4 +53,9 @@ public class WhiteTrayLCard extends LeaderCard implements Printable, Serializabl
                 "\n - Required colors: " + this.x1Color + " " + this.x2Color + " " + this.x2Color +
                 "\n - White marble conversion resource : " + this.resType);
     }
+
+    @Override
+    public String toString() {
+        return ("W" +  "-" + this.getResType().toString());
+    }
 }
