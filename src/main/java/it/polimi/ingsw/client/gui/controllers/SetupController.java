@@ -99,6 +99,7 @@ public class SetupController implements GUIController{
         this.duplicateNickLabel.setDisable(false);
         nicknameInput.setDisable(false);
         this.nicknameInput.clear();
+        sendButton.setMouseTransparent(false);
     }
 
     public void opacityUp(MouseEvent mouseEvent) {
