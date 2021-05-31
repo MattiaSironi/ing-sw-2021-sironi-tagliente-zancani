@@ -10,8 +10,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.AudioClip;
 
+import javax.swing.*;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
+import java.util.concurrent.TimeUnit;
 
 public class SetupController implements GUIController{
 
@@ -19,6 +24,7 @@ public class SetupController implements GUIController{
     public ImageView sendButton;
     public ImageView playButton;
     public ImageView startButton;
+    @FXML private Label waitingForPlayers;
     @FXML private Label duplicateNickLabel;
     @FXML private Label chooseNickLabel;
     @FXML private TextField nicknameInput;
@@ -28,23 +34,32 @@ public class SetupController implements GUIController{
     @FXML private Label waitingLabel;
     @FXML private ChoiceBox choiceBox;
     @FXML private Label playerLabel;
+//    private static final String clickSoundPath = "ClickSound.wav";
 
 
 
 
     public void setupConnection(MouseEvent actionEvent) {
         try {
+//            playClickSound();
+            addressIn.setDisable(false);
             startButton.setDisable(true);
             waitingLabel.setDisable(false);
             waitingLabel.setVisible(true);
-            gui.setServerConnection(new SocketServerConnection());
-            gui.getServerConnection().setUI(gui);
-            gui.getServerConnection().socketInit(addressIn.getText());
+            gui.getMainController().setServerConnection(new SocketServerConnection());
+            gui.getMainController().getServerConnection().setUI(gui.getMainController());
+            gui.getMainController().getServerConnection().socketInit(addressIn.getText());
+            addressIn.setDisable(true);
 
         } catch(IOException e){
 
         }
     }
+
+//    public void playClickSound(){
+//        AudioClip clickSound = new AudioClip(this.getClass().getResource("sound/" + clickSoundPath).toString());
+//        clickSound.play();
+//    }
 
     public void updateHostScene(){
 
@@ -64,7 +79,16 @@ public class SetupController implements GUIController{
 
     public void setNumberOfPlayers(){
         try {
-            gui.getServerConnection().send(new ChooseNumberOfPlayer(Integer.parseInt(choiceBox.getValue().toString())));
+
+            gui.getMainController().send(new ChooseNumberOfPlayer(Integer.parseInt(choiceBox.getValue().toString())));
+            waitingForPlayers.setVisible(true);
+            waitingForPlayers.setDisable(false);
+            playerLabel.setVisible(false);
+            playerLabel.setDisable(true);
+            choiceBox.setDisable(true);
+            choiceBox.setVisible(false);
+            playButton.setDisable(true);
+            playButton.setVisible(false);
         } catch(NumberFormatException e){
 
         }
@@ -77,6 +101,8 @@ public class SetupController implements GUIController{
 
 
     public void askForNickname() {
+        waitingForPlayers.setDisable(true);
+        waitingForPlayers.setVisible(false);
         playButton.setMouseTransparent(true);
         waitingLabel.setVisible(false);
         waitingLabel.setDisable(true);
@@ -91,7 +117,7 @@ public class SetupController implements GUIController{
     public void sendNickname(MouseEvent actionEvent) {
         nicknameInput.setDisable(true);
         sendButton.setMouseTransparent(true);
-        gui.getServerConnection().send(new Nickname(nicknameInput.getText(), gui.getID()));
+        gui.getMainController().send(new Nickname(nicknameInput.getText(), gui.getID()));
     }
 
     public void setDuplicatedNickname(){

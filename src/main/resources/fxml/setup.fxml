@@ -138,6 +138,27 @@
                   <Image url="@../images/SendButton.png" />
                </image>
             </ImageView>
+            <Label fx:id="waitingForPlayers" disable="true" layoutX="386.0" layoutY="222.0" text="Waiting for players..." visible="false">
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.9666666388511658" green="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
          </children></Pane>
    </children>
 </AnchorPane>

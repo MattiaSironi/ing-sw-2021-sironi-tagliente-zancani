@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.FirstDrawController">
+   <children>
+      <Pane prefHeight="720.0" prefWidth="1270.0">
+         <children>
+            <ImageView fitHeight="720.0" fitWidth="1270.0">
+               <image>
+                  <Image url="@../images/Board/Board2.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="232.0" layoutY="-52.0" prefHeight="212.0" prefWidth="806.0" text="Choose your initial resources">
+               <font>
+                  <Font size="48.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.9666666388511658" green="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+            <Label layoutX="403.0" layoutY="261.0" text="Choose Two Leaders">
+               <font>
+                  <Font size="48.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.9666666388511658" green="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+            <ImageView layoutX="232.0" layoutY="101.0" opacity="0.75">
+               <image>
+                  <Image url="@../images/PunchBoard/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="681.0" layoutY="89.0" opacity="0.75">
+               <image>
+                  <Image url="@../images/PunchBoard/servant.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="933.0" layoutY="102.0" opacity="0.75">
+               <image>
+                  <Image url="@../images/PunchBoard/shield.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="457.0" layoutY="96.0" opacity="0.75">
+            </ImageView>
+            <ImageView fx:id="card1" fitHeight="314.0" fitWidth="209.0" layoutX="175.0" layoutY="377.0" opacity="0.75">
+            </ImageView>
+            <ImageView fx:id="card2" fitHeight="314.0" fitWidth="209.0" layoutX="417.0" layoutY="377.0" opacity="0.75">
+            </ImageView>
+            <ImageView fx:id="card3" fitHeight="314.0" fitWidth="209.0" layoutX="654.0" layoutY="377.0" opacity="0.75">
+            </ImageView>
+            <ImageView fx:id="card4" fitHeight="314.0" fitWidth="209.0" layoutX="886.0" layoutY="377.0" opacity="0.75">
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

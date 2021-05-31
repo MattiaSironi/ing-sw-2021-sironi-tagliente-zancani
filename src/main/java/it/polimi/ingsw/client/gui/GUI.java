@@ -3,14 +3,20 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.SocketServerConnection;
 import it.polimi.ingsw.client.UI;
+import it.polimi.ingsw.client.gui.controllers.FirstDrawController;
 import it.polimi.ingsw.client.gui.controllers.GUIController;
+import it.polimi.ingsw.client.gui.controllers.MainController;
 import it.polimi.ingsw.client.gui.controllers.SetupController;
-import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
+import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
 import it.polimi.ingsw.message.CommonMessages.IdMessage;
+import it.polimi.ingsw.message.CommonMessages.Nickname;
+import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.Communication;
 import it.polimi.ingsw.model.CommunicationList;
+import it.polimi.ingsw.observer.Observable;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -26,56 +32,109 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
-public class GUI extends Application implements UI {
+public class GUI extends Application {
 
-    public static final String SETUP = "setup.fxml";
+
     private final HashMap<String, Scene> nameMapScene = new HashMap<>();
     private final HashMap<String, GUIController> nameMapController = new HashMap<>();
+    private MainController mainController = new MainController(this);
     private Scene currentScene;
-    private SocketServerConnection serverConnection;
     private int ID;
+    private boolean local;
+    private Stage stage;
 
 
+
+
+    public boolean isLocal() {
+        return local;
+    }
+
+    public void setLocal(boolean local) {
+        this.local = local;
+    }
+
+    public MainController getMainController() {
+        return mainController;
+    }
+
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+    }
 
     public static void main(String[] args) {
         launch(args);
     }
 
+    public HashMap<String, Scene> getNameMapScene() {
+        return nameMapScene;
+    }
+
+    public HashMap<String, GUIController> getNameMapController() {
+        return nameMapController;
+    }
+
+    public Scene getCurrentScene() {
+        return currentScene;
+    }
+
+    public void setCurrentScene(Scene currentScene) {
+        this.currentScene = currentScene;
+    }
+
+    public void updateHostScene() {
+        SetupController controller = (SetupController) nameMapController.get(SceneList.SETUP.getSceneName());
+        controller.updateHostScene();
+    }
+
+    public void askForNickname() {
+        SetupController controller = (SetupController) nameMapController.get(SceneList.SETUP.getSceneName());
+        controller.askForNickname();
+    }
+
+    public void setDuplicatedNickname() {
+        SetupController controller = (SetupController) nameMapController.get(SceneList.SETUP.getSceneName());
+        controller.setDuplicatedNickname();
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
         setup();
+        this.stage = stage;
         stage.setResizable(true);
         stage.setFullScreen(false);
         stage.setTitle("Master of Renaissance");
         stage.setScene(currentScene);
+        stage.setResizable(false);
         stage.show();
     }
 
     public void setup() {
         try {
-            List<String> fxmList = new ArrayList<>(Arrays.asList(SETUP));
-            for (String path : fxmList) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + path));
-                nameMapScene.put(path, new Scene(loader.load()));
+            List<SceneList> fxmList = new ArrayList<>(Arrays.asList(SceneList.values()));
+            for (SceneList path : fxmList) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + path.getSceneName()));
+                nameMapScene.put(path.getSceneName(), new Scene(loader.load()));
                 GUIController controller = loader.getController();
                 controller.setGUI(this);
-                nameMapController.put(path, controller);
+                nameMapController.put(path.getSceneName(), controller);
                 }
         }catch(IOException e){
 
         }
-        currentScene = nameMapScene.get(SETUP);
+        currentScene = nameMapScene.get(SceneList.START.getSceneName());
     }
 
-    public SocketServerConnection getServerConnection() {
-        return serverConnection;
+    public void changeScene(SceneList sceneName){
+        Platform.runLater(() -> {
+            currentScene = nameMapScene.get(sceneName.getSceneName());
+            stage.setScene(currentScene);
+            stage.show();
+            }
+        );
     }
 
-    public void setServerConnection(SocketServerConnection serverConnection) {
-        this.serverConnection = serverConnection;
-    }
 
-    @Override
     public void setID(int ID) {
         this.ID = ID;
     }
@@ -84,35 +143,10 @@ public class GUI extends Application implements UI {
         return ID;
     }
 
-    @Override
-    public void handleAction(Object message) {
-        if(message instanceof IdMessage) {
-            setID(((IdMessage) message).getID());
-        }
-        else if (message instanceof ChooseNumberOfPlayer){
-            if(((ChooseNumberOfPlayer) message).getNumberOfPlayers() == -1) {
-                SetupController controller = (SetupController) nameMapController.get(SETUP);
-                controller.updateHostScene();
-            }
-            else{
-                SetupController controller = (SetupController) nameMapController.get(SETUP);
-                controller.askForNickname();
-            }
-        }
-        else if (message instanceof ObjectMessage) {
-            handleObject((ObjectMessage) message);
-        }
-    }
 
-    public void handleObject(ObjectMessage message) {
-        if (message.getObjectID() == 9) { //Communication
-            handleCommunication((Communication) message.getObject());
-        }
-    }
-    public void handleCommunication(Communication communication){
-        if(communication.getCommunication() == CommunicationList.NICK_NOT_VALID && communication.getAddresseeID() == this.ID){
-            SetupController controller = (SetupController) nameMapController.get(SETUP);
-            controller.setDuplicatedNickname();
-        }
+    public void setupFirstDraw() {
+        FirstDrawController controller = (FirstDrawController) nameMapController.get(SceneList.FIRSTDRAW.getSceneName());
+        controller.setup();
     }
 }
+
