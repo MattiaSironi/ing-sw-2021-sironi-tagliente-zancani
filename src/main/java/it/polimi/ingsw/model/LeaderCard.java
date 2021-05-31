@@ -68,6 +68,9 @@ public class LeaderCard implements Serializable, Printable {
         return false;
     }
 
+    public String toString(){
+        return ("");
+    }
 
     @Override
     public void print() {

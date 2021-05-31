@@ -48,4 +48,10 @@ public class ExtraDepotLCard extends LeaderCard implements Printable, Serializab
                 "\n - Required resource: " + this.resType+
                 "\n - Extra Depot resource : " + this.resDepot);
     }
+
+    @Override
+    public String toString() {
+        return ("ED"+ "-" + this.getResDepot());
+    }
 }
+

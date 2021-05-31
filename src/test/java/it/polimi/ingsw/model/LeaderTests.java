@@ -737,9 +737,37 @@ public class LeaderTests {
         assertEquals(false,l3.equals(l4));
     }
 
+    @Test
+    @DisplayName("DiscountString")
+    void DString(){
+        LeaderCard l = new DiscountLCard(1,2,CardColor.GREEN,CardColor.BLUE,ResourceType.STONE);
+        String str = l.toString();
+        assertEquals("D-STONE",str);
+    }
 
+    @Test
+    @DisplayName("ExtraDepotString")
+    void EDString(){
+        LeaderCard l = new ExtraDepotLCard(2,1,ResourceType.COIN,ResourceType.SERVANT);
+        String str = l.toString();
+        assertEquals("ED-SERVANT",str);
+    }
 
+    @Test
+    @DisplayName("ExtraProdString")
+    void EPString(){
+        LeaderCard l = new ExtraProdLCard(3,3,CardColor.PURPLE,ResourceType.STONE);
+        String str = l.toString();
+        assertEquals("EP-STONE",str);
+    }
 
+    @Test
+    @DisplayName("WhiteString")
+    void WString(){
+        LeaderCard l = new WhiteTrayLCard(4,1,ResourceType.COIN,CardColor.BLUE,CardColor.YELLOW);
+        String str = l.toString();
+        assertEquals("W-COIN",str);
+    }
 
 
 

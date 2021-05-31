@@ -53,4 +53,10 @@ public class DiscountLCard extends LeaderCard implements Printable, Serializable
                 "\n - Required colors: " + this.color1 + " " + this.color2 +
                 "\n - Discount resource : " + this.resType);
     }
+
+    @Override
+    public String toString() {
+        return ("D"+"-" + this.getResType().toString());
+    }
 }
+
