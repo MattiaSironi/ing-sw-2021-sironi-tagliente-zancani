@@ -4,27 +4,27 @@ import it.polimi.ingsw.client.SocketServerConnection;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
 import it.polimi.ingsw.message.CommonMessages.Nickname;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 
 public class SetupController implements GUIController{
 
 
+    public ImageView sendButton;
+    public ImageView playButton;
+    public ImageView startButton;
     @FXML private Label duplicateNickLabel;
     @FXML private Label chooseNickLabel;
     @FXML private TextField nicknameInput;
-    @FXML private Button sendNickname;
-    @FXML private Button playButton;
     private GUI gui;
     @FXML private TextField addressIn;
     @FXML private Label label1;
-    @FXML private Button openConnection;
     @FXML private Label waitingLabel;
     @FXML private ChoiceBox choiceBox;
     @FXML private Label playerLabel;
@@ -32,12 +32,11 @@ public class SetupController implements GUIController{
 
 
 
-    public void setupConnection(ActionEvent actionEvent) {
+    public void setupConnection(MouseEvent actionEvent) {
         try {
-            openConnection.setDisable(true);
+            startButton.setDisable(true);
             waitingLabel.setDisable(false);
             waitingLabel.setVisible(true);
-            System.out.println(addressIn.getText());
             gui.setServerConnection(new SocketServerConnection());
             gui.getServerConnection().setUI(gui);
             gui.getServerConnection().socketInit(addressIn.getText());
@@ -78,16 +77,20 @@ public class SetupController implements GUIController{
 
 
     public void askForNickname() {
+        playButton.setMouseTransparent(true);
+        waitingLabel.setVisible(false);
+        waitingLabel.setDisable(true);
         chooseNickLabel.setVisible(true);
         chooseNickLabel.setDisable(false);
         nicknameInput.setVisible(true);
         nicknameInput.setDisable(false);
-        sendNickname.setVisible(true);
-        sendNickname.setDisable(false);
+        sendButton.setVisible(true);
+        sendButton.setDisable(false);
     }
 
-    public void sendNickname(ActionEvent actionEvent) {
+    public void sendNickname(MouseEvent actionEvent) {
         nicknameInput.setDisable(true);
+        sendButton.setMouseTransparent(true);
         gui.getServerConnection().send(new Nickname(nicknameInput.getText(), gui.getID()));
     }
 
@@ -96,5 +99,29 @@ public class SetupController implements GUIController{
         this.duplicateNickLabel.setDisable(false);
         nicknameInput.setDisable(false);
         this.nicknameInput.clear();
+    }
+
+    public void opacityUp(MouseEvent mouseEvent) {
+        startButton.setOpacity(1);
+    }
+
+    public void opacityDown(MouseEvent mouseEvent) {
+        startButton.setOpacity(0.5);
+    }
+
+    public void opacityUpSend(MouseEvent mouseEvent) {
+        sendButton.setOpacity(1);
+    }
+
+    public void opacityDownSend(MouseEvent mouseEvent) {
+        sendButton.setOpacity(0.5);
+    }
+
+    public void opacityUpPlay(MouseEvent mouseEvent) {
+        playButton.setOpacity(1);
+    }
+
+    public void opacityDownPlay(MouseEvent mouseEvent) {
+        playButton.setOpacity(0.5);
     }
 }

@@ -44,6 +44,7 @@ public class GUI extends Application implements UI {
     @Override
     public void start(Stage stage) throws Exception {
         setup();
+        stage.setResizable(true);
         stage.setFullScreen(false);
         stage.setTitle("Master of Renaissance");
         stage.setScene(currentScene);
