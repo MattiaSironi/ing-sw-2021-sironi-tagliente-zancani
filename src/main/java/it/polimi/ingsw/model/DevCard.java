@@ -64,4 +64,7 @@ public class DevCard implements Printable, Serializable {
 //        return getOutputRes();
 //    } //production
 
+    public String toString() {
+        return getLevel() + getColor().toString() + getVictoryPoints();
+    }
 }
