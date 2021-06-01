@@ -189,7 +189,7 @@ public class Server {
         while (true) {
             try {
                 Socket newSocket = serverSocket.accept();
-//                  newSocket.setSoTimeout(20000);
+                  newSocket.setSoTimeout(20000);
                 SocketClientConnection socketConnection = new SocketClientConnection(newSocket, this);
                 RemoteView remoteView = new RemoteView(socketConnection);
                 executor.submit(remoteView);

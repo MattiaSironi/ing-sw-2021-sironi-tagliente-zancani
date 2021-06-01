@@ -70,12 +70,14 @@ public class Controller implements Observer<Message> {
                 }
                 case 1 -> {
                     game.setCommunication(p.getId(), CommunicationList.SECOND);
+                    game.setLeaderCardsToDiscard(p.getId(), 2);
 
                     game.setStartResCountByID(p.getId(), 1);
                 }
                 case 2 -> {
                     game.setCommunication(p.getId(), CommunicationList.THIRD);
                     game.moveFaithPosByID(p.getId(), 1);
+                    game.setLeaderCardsToDiscard(p.getId(), 2);
                     game.setStartResCountByID(p.getId(), 1);
 
 
@@ -83,6 +85,7 @@ public class Controller implements Observer<Message> {
                 case 3 -> {
                     game.setCommunication(p.getId(), CommunicationList.FOURTH);
                     game.moveFaithPosByID(p.getId(), 1);
+                    game.setLeaderCardsToDiscard(p.getId(), 2);
                     game.setStartResCountByID(p.getId(), 2);
 
                 }
@@ -130,14 +133,13 @@ public class Controller implements Observer<Message> {
     }
 
 
-    public void placeRes(ResourceType r, int shelfIndex, int ID, boolean discard, boolean initialPhase) {
+    public synchronized void placeRes(ResourceType r, int shelfIndex, int ID, boolean discard, boolean initialPhase) {
 
 
-        if (initialPhase) {
+        if (initialPhase && game.getPlayerById(ID).getStartResCount()>0 ) {
             int resRemaining = game.getPlayerById(ID).getStartResCount();
             if (this.game.addResourceToWarehouse(ID, shelfIndex, r)) resRemaining--;
             game.setStartResCountByID(ID, resRemaining);
-            if (resRemaining == 0) this.game.setLeaderCardsToDiscard(ID, 2);
         } else {
             if (discard) {
                 discardRes(ID);

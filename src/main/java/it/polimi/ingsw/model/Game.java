@@ -556,13 +556,20 @@ public class Game extends Observable<Message> implements Serializable {
     public void setStartResCountByID(int id, int i) {
         getPlayerById(id).setStartResCount(i);
         notify(new ObjectMessage(i, 5, id));
+        checkReadyPlayer(id);
     }
     public void setLeaderCardsToDiscard(int id, int i) {
         getPlayerById(id).setLeaderCardsToDiscard(i);
         notify(new ObjectMessage(i, 13, id));
-        if (getPlayerById(id).getLeaderCardsToDiscard() == 0) {
+        if (getPlayerById(id).getLeaderCardsToDiscard()==0) notify(new ObjectMessage(getPlayerById(id).getStartResCount(), 5 , id));
+        checkReadyPlayer(id);
+    }
+
+    private synchronized void checkReadyPlayer(int id) {
+        if (getPlayerById(id).getStartResCount() ==0 && getPlayerById(id).getLeaderCardsToDiscard() == 0) {
             getPlayerById(id).setReady(true);
             if (checkReadyPlayers())  setTurn(getPlayers().get(0).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
+
         }
     }
 

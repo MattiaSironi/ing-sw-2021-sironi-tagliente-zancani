@@ -704,7 +704,7 @@ public class ClientActionController extends Observable<Message> implements Obser
         {
             this.mmv.getGame().getPlayerById(message.getID()).setStartResCount((int) message.getObject());
             if (message.getID() == ID) {
-                if (this.mmv.getGame().getPlayerById(ID).getStartResCount() > 0) chooseInitialResources();
+                if (this.mmv.getGame().getPlayerById(ID).getStartResCount() > 0 && this.mmv.getGame().getPlayerById(ID).getLeaderCardsToDiscard() == 0) chooseInitialResources();
             }
         } else if (message.getObjectID() == 6) { //LEADER
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setActiveLeader((LeaderDeck) message.getObject());

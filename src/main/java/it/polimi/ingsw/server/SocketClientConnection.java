@@ -130,7 +130,7 @@ public class SocketClientConnection extends Observable<Message> implements Runna
             out = new ObjectOutputStream(socket.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
             in = new ObjectInputStream(socket.getInputStream());
             socketListener.start();
-//            pingSender.start();
+            pingSender.start();
         } catch (IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
         }
