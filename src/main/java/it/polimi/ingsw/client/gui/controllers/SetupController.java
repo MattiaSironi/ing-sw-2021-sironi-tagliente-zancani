@@ -50,6 +50,10 @@ public class SetupController implements GUIController{
             gui.getMainController().getServerConnection().setUI(gui.getMainController());
             gui.getMainController().getServerConnection().socketInit(addressIn.getText());
             addressIn.setDisable(true);
+            addressIn.setVisible(false);
+            startButton.setVisible(false);
+            startButton.setMouseTransparent(true);
+            label1.setVisible(false);
 
         } catch(IOException e){
 

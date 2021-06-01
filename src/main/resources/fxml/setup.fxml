@@ -13,23 +13,18 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SetupController">
+<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SetupController">
    <children>
-      <Pane prefHeight="500.0" prefWidth="1038.0">
+      <Pane prefHeight="720.0" prefWidth="1270.0">
          <children>
-            <ImageView fitHeight="500.0" fitWidth="1038.0">
+            <ImageView fitHeight="720.0" fitWidth="1270.0">
                <image>
-                  <Image url="@../images/MoRbackground.png" />
+                  <Image url="@../images/MoRBackGround.jpg" />
                </image>
             </ImageView>
-            <ImageView fitHeight="604.0" fitWidth="906.0" layoutX="48.0" layoutY="-202.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/MoRFont.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="label1" alignment="CENTER" layoutX="256.0" layoutY="174.0" prefHeight="17.0" prefWidth="131.0" text="Insert IP" wrapText="true">
+            <Label fx:id="label1" alignment="CENTER" layoutX="277.0" layoutY="343.0" prefHeight="60.0" prefWidth="274.0" text="Insert IP" wrapText="true">
                <font>
-                  <Font size="24.0" />
+                  <Font size="48.0" />
                </font>
                <textFill>
                   <LinearGradient endX="1.0" endY="1.0">
@@ -48,30 +43,30 @@
                   </LinearGradient>
                </textFill>
             </Label>
-            <TextField fx:id="addressIn" layoutX="399.0" layoutY="176.0" />
-            <ImageView fx:id="startButton" fitHeight="69.0" fitWidth="122.0" layoutX="567.0" layoutY="147.0" onMouseClicked="#setupConnection" onMouseEntered="#opacityUp" onMouseExited="#opacityDown" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+            <TextField fx:id="addressIn" layoutX="555.0" layoutY="361.0" />
+            <ImageView fx:id="startButton" fitHeight="101.0" fitWidth="232.0" layoutX="738.0" layoutY="327.0" onMouseClicked="#setupConnection" onMouseEntered="#opacityUp" onMouseExited="#opacityDown" opacity="0.5" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/StartButton1.png" />
                </image>
             </ImageView>
-            <Label fx:id="playerLabel" disable="true" layoutX="333.0" layoutY="236.0" prefHeight="29.0" prefWidth="109.0" text="Players: " textFill="#f6ff00" visible="false">
+            <Label fx:id="playerLabel" disable="true" layoutX="374.0" layoutY="343.0" prefHeight="60.0" prefWidth="171.0" text="Players: " textFill="#f6ff00" visible="false">
                <font>
-                  <Font size="24.0" />
+                  <Font size="48.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="choiceBox" disable="true" layoutX="449.0" layoutY="238.0" prefHeight="25.0" prefWidth="37.0" visible="false">
+            <ChoiceBox fx:id="choiceBox" disable="true" layoutX="617.0" layoutY="362.0" prefHeight="25.0" prefWidth="37.0" visible="false">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </ChoiceBox>
-            <ImageView fx:id="playButton" disable="true" fitHeight="80.0" fitWidth="122.0" layoutX="498.0" layoutY="216.0" onMouseClicked="#setNumberOfPlayers" onMouseEntered="#opacityUpPlay" onMouseExited="#opacityDownPlay" opacity="0.5" pickOnBounds="true" preserveRatio="true" visible="false">
+            <ImageView fx:id="playButton" disable="true" fitHeight="113.0" fitWidth="223.0" layoutX="738.0" layoutY="324.0" onMouseClicked="#setNumberOfPlayers" onMouseEntered="#opacityUpPlay" onMouseExited="#opacityDownPlay" opacity="0.5" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../images/PlayButton1.png" />
                </image>
             </ImageView>
-            <Label fx:id="chooseNickLabel" disable="true" layoutX="282.0" layoutY="349.0" prefHeight="31.0" prefWidth="186.0" text="Choose your nickname:" visible="false">
+            <Label fx:id="chooseNickLabel" disable="true" layoutX="73.0" layoutY="339.0" prefHeight="60.0" prefWidth="547.0" text="Choose your nickname:" visible="false">
                <font>
-                  <Font size="18.0" />
+                  <Font size="48.0" />
                </font>
                <textFill>
                   <LinearGradient endX="1.0" endY="1.0">
@@ -90,31 +85,15 @@
                   </LinearGradient>
                </textFill>
             </Label>
-            <Label fx:id="duplicateNickLabel" alignment="CENTER" disable="true" layoutX="465.0" layoutY="334.0" prefHeight="18.0" prefWidth="186.0" text="nickname already chosen" visible="false">
+            <Label fx:id="duplicateNickLabel" alignment="CENTER" disable="true" layoutX="542.0" layoutY="343.0" prefHeight="18.0" prefWidth="186.0" text="nickname already chosen" visible="false">
                <font>
                   <Font size="14.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.9666666388511658" green="1.0" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="1.0" green="1.0" blue="1.0" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
-            <TextField fx:id="nicknameInput" disable="true" layoutX="468.0" layoutY="352.0" visible="false" />
-            <Label fx:id="waitingLabel" alignment="CENTER" disable="true" graphicTextGap="8.0" layoutX="324.0" layoutY="285.0" lineSpacing="4.0" prefHeight="29.0" prefWidth="288.0" text="Waiting for the host..." textOverrun="CENTER_ELLIPSIS" visible="false">
+            <TextField fx:id="nicknameInput" disable="true" layoutX="555.0" layoutY="362.0" visible="false" />
+            <Label fx:id="waitingLabel" alignment="CENTER" disable="true" graphicTextGap="8.0" layoutX="420.0" layoutY="335.0" lineSpacing="4.0" prefHeight="60.0" prefWidth="444.0" text="Waiting for the host..." textOverrun="CENTER_ELLIPSIS" visible="false">
                <font>
-                  <Font size="24.0" />
+                  <Font size="48.0" />
                </font>
                <textFill>
                   <LinearGradient endX="1.0" endY="1.0">
@@ -133,12 +112,12 @@
                   </LinearGradient>
                </textFill>
             </Label>
-            <ImageView fx:id="sendButton" disable="true" fitHeight="76.0" fitWidth="131.0" layoutX="414.0" layoutY="380.0" onMouseClicked="#sendNickname" onMouseEntered="#opacityUpSend" onMouseExited="#opacityDownSend" opacity="0.5" pickOnBounds="true" preserveRatio="true" visible="false">
+            <ImageView fx:id="sendButton" disable="true" fitHeight="108.0" fitWidth="243.0" layoutX="736.0" layoutY="316.0" onMouseClicked="#sendNickname" onMouseEntered="#opacityUpSend" onMouseExited="#opacityDownSend" opacity="0.5" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../images/SendButton.png" />
                </image>
             </ImageView>
-            <Label fx:id="waitingForPlayers" disable="true" layoutX="386.0" layoutY="222.0" text="Waiting for players..." visible="false">
+            <Label fx:id="waitingForPlayers" disable="true" layoutX="430.0" layoutY="335.0" text="Waiting for players..." visible="false">
                <textFill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
@@ -156,7 +135,7 @@
                   </LinearGradient>
                </textFill>
                <font>
-                  <Font size="24.0" />
+                  <Font size="48.0" />
                </font>
             </Label>
          </children></Pane>

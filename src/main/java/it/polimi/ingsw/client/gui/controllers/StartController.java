@@ -3,9 +3,7 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
 import it.polimi.ingsw.message.CommonMessages.Nickname;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -16,8 +14,8 @@ public class StartController implements GUIController{
     public TextField nicknameInput;
     public Label chooseNickLabel;
     public ImageView sendButton;
-    @FXML private Button localGame;
-    @FXML private Button multiGame;
+    @FXML private ImageView localGame;
+    @FXML private ImageView multiGame;
     private GUI gui;
 
     @Override
@@ -25,8 +23,12 @@ public class StartController implements GUIController{
         this.gui = gui;
     }
 
-    public void playLocalGame(ActionEvent actionEvent) {
+    public void playLocalGame(MouseEvent actionEvent) {
+        gui.setLocal(true);
+        multiGame.setDisable(true);
         localGame.setDisable(true);
+        multiGame.setVisible(false);
+        localGame.setVisible(false);
         chooseNickLabel.setVisible(true);
         chooseNickLabel.setDisable(false);
         nicknameInput.setVisible(true);
@@ -37,7 +39,7 @@ public class StartController implements GUIController{
 
 
 
-    public void startOnlineGame(ActionEvent actionEvent) {
+    public void startOnlineGame(MouseEvent actionEvent) {
         gui.changeScene(SceneList.SETUP);
     }
 
@@ -53,5 +55,21 @@ public class StartController implements GUIController{
 
     public void opacityDownSend(MouseEvent mouseEvent) {
         sendButton.setOpacity(0.5);
+    }
+
+    public void playLocalOpacityUp(MouseEvent mouseEvent) {
+        localGame.setOpacity(1);
+    }
+
+    public void playLocalOpacityDown(MouseEvent mouseEvent) {
+        localGame.setOpacity(0.5);
+    }
+
+    public void playOnlineOpacityUp(MouseEvent mouseEvent) {
+        multiGame.setOpacity(1);
+    }
+
+    public void playOnlineOpacityDown(MouseEvent mouseEvent) {
+        multiGame.setOpacity(0.5);
     }
 }
