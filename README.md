@@ -8,8 +8,9 @@ Prova finale del corso "Ingegneria del Software" A.A. 2020-2021
 
 
 
-## Test Coverage (last update : 28/05/21)
-![Screenshot 2021-05-28 000654](https://user-images.githubusercontent.com/79938902/119910686-f6497000-bf57-11eb-8073-003a8aed9507.png)
+## Test Coverage (last update : 02/06/21)
+![Screenshot 2021-06-02 001832](https://user-images.githubusercontent.com/79938902/120397265-46e61200-c338-11eb-81cd-dc38ea0aee55.png)
+
 
 
 
