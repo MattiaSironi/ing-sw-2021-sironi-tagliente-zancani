@@ -18,7 +18,6 @@ public class Server {
 
     private static final int port = 1234;
     private final ServerSocket serverSocket;
-    private final ExecutorService executor = Executors.newFixedThreadPool(128);
     private final ArrayList<RemoteView> waitingConnection = new ArrayList<>();
     private final Map<Game, ArrayList<RemoteView>> gameList = new HashMap<>();
     private int gameID=0;
@@ -192,7 +191,10 @@ public class Server {
                   newSocket.setSoTimeout(20000);
                 SocketClientConnection socketConnection = new SocketClientConnection(newSocket, this);
                 RemoteView remoteView = new RemoteView(socketConnection);
-                executor.submit(remoteView);
+                new Thread (() -> {
+                    remoteView.run();
+                }).start();
+
             } catch (IOException e) {
                 System.out.println("Connection Error!");
             }
