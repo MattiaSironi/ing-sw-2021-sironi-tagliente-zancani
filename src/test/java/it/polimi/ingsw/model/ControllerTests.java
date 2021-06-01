@@ -638,13 +638,13 @@ public class ControllerTests {
         assertEquals(2,controller.getGame().getPlayers().get(0).getLeaderCardsToDiscard());
         assertEquals(0, controller.getGame().getPlayers().get(1).getPersonalBoard().getFaithTrack().getMarker());
         assertEquals(1,controller.getGame().getPlayers().get(1).getStartResCount() );
-        assertEquals(0,controller.getGame().getPlayers().get(1).getLeaderCardsToDiscard());
+        assertEquals(2,controller.getGame().getPlayers().get(1).getLeaderCardsToDiscard());
         assertEquals(1, controller.getGame().getPlayers().get(2).getPersonalBoard().getFaithTrack().getMarker());
         assertEquals(1,controller.getGame().getPlayers().get(2).getStartResCount() );
-        assertEquals(0,controller.getGame().getPlayers().get(2).getLeaderCardsToDiscard());
+        assertEquals(2,controller.getGame().getPlayers().get(2).getLeaderCardsToDiscard());
         assertEquals(1, controller.getGame().getPlayers().get(3).getPersonalBoard().getFaithTrack().getMarker());
         assertEquals(2,controller.getGame().getPlayers().get(3).getStartResCount() );
-        assertEquals(0,controller.getGame().getPlayers().get(3).getLeaderCardsToDiscard());
+        assertEquals(2,controller.getGame().getPlayers().get(3).getLeaderCardsToDiscard());
 
     }
 
@@ -783,7 +783,6 @@ public class ControllerTests {
         game.getPlayerById(0).setLeaderCardsToDiscard(0);
         controller.placeRes(ResourceType.COIN, 0, 0, false, true );
         assertEquals(0, game.getPlayerById(0).getStartResCount());
-        assertEquals(2, game.getPlayerById(0).getLeaderCardsToDiscard());
         assertEquals(ResourceType.COIN, game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(0).getResType());
         assertEquals(1, game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(0).getCount());
     }
