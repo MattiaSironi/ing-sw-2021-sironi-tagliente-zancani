@@ -41,35 +41,6 @@ public class Observable<Message> {
 
     }
 
-    protected void notify(IdMessage message) {
-        synchronized (observers) {
-            for (Observer<Message> observer : observers) {
-                observer.update(message);
-            }
-        }
-
-    }
-
-    protected void notify(ErrorMessage message) {
-        synchronized (observers) {
-            for (Observer<Message> observer : observers) {
-                observer.update(message);
-            }
-        }
-
-    }
-
-    protected void notify(ChooseNumberOfPlayer message) {
-        synchronized (observers) {
-            for (Observer<Message> observer : observers) {
-                observer.update(message);
-            }
-        }
-
-    }
-
-
-
     protected void notify(ObjectMessage message) {
         synchronized (observers) {
             for (Observer<Message> observer : observers) {

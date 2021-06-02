@@ -679,16 +679,6 @@ public class ControllerTests {
     }
 
     @Test
-    @DisplayName("just for coverage :P")
-    public void randomUpdates()  {
-        controller.update(new ErrorMessage("hello", 0));
-        controller.update(new IdMessage(0));
-        controller.update(new ObjectMessage(game, -1, -1));
-        controller.update(new ChooseNumberOfPlayer(2));
-        assertEquals(true, true);
-    }
-
-    @Test
     @DisplayName("Give Leader Test")
     public void giveLeader(){
         LeaderDeck leaderDeck = game.getBoard().getLeaderDeck().clone();

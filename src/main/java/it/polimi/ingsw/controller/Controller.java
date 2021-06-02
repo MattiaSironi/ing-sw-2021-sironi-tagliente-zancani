@@ -622,23 +622,7 @@ public class Controller implements Observer<Message> {
     }
 
 
-    @Override
-    public void update(IdMessage message) {
 
-    }
-
-    @Override
-    public void update(ErrorMessage message) {
-
-
-    }
-
-
-    @Override
-    public void update(ChooseNumberOfPlayer message) {
-
-
-    }
 
     @Override
     public void update(ObjectMessage message) {

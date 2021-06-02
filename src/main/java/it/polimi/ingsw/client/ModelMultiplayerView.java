@@ -105,27 +105,6 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
 
     }
 
-
-
-    @Override
-    public void update(IdMessage message) {
-
-    }
-
-    @Override
-    public void update(ErrorMessage message) {
-
-    }
-
-
-
-    @Override
-    public void update(ChooseNumberOfPlayer message) {
-
-    }
-
-
-
     @Override
     public void update(ObjectMessage message) {
         if (message.getObjectID()==0)
@@ -199,18 +178,6 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
     public void update(GameOverMessage message) {
 
     }
-
-
-
-
-//    @Override
-//    public void update(LeaderProdMessage message){
-//
-//    }
-
-
-
-
 
 }
 

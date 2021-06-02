@@ -117,21 +117,6 @@ public class MainController extends Observable<Message> implements Observer<Mess
     }
 
     @Override
-    public void update(IdMessage message) {
-
-    }
-
-    @Override
-    public void update(ErrorMessage message) {
-
-    }
-
-    @Override
-    public void update(ChooseNumberOfPlayer message) {
-
-    }
-
-    @Override
     public void update(ObjectMessage message) {
 
     }

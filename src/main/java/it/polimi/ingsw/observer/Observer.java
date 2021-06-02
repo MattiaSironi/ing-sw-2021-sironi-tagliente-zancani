@@ -10,12 +10,6 @@ public interface Observer<Message> {
 
     void update(Nickname message);
 
-    void update(IdMessage message);
-
-    void update(ErrorMessage message);
-
-    void update (ChooseNumberOfPlayer message);
-
     void update (ObjectMessage message);
 
     void update (ManageResourceMessage message);

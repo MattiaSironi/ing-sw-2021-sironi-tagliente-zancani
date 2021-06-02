@@ -680,9 +680,7 @@ public class ClientActionController extends Observable<Message> implements Obser
         } else if (o instanceof ObjectMessage) {
             handleObject((ObjectMessage) o);
         }
-        else if (o instanceof OutputMessage) {
-            cli.printToConsole(((OutputMessage) o).getString());
-        }
+
     }
 
 
@@ -761,7 +759,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                     System.exit(0);
                 } else {
                     if (turn.getPlayerPlayingID()== -1) cli.printToConsole("Lorenzo Il Magnifico won!");
-                    else cli.printToConsole(this.mmv.getGame().getPlayerById(turn.getPlayerPlayingID()) + turn.getPhase().getOthers());
+                    else cli.printToConsole(this.mmv.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
                     cli.printToConsole("You lose!");
 
 
@@ -992,20 +990,7 @@ public class ClientActionController extends Observable<Message> implements Obser
 
     }
 
-    @Override
-    public void update(IdMessage message) {
 
-    }
-
-    @Override
-    public void update(ErrorMessage message) {
-
-    }
-
-    @Override
-    public void update(ChooseNumberOfPlayer message) {
-
-    }
 
 
 }

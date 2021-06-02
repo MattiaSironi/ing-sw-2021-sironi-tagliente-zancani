@@ -54,25 +54,6 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     }
 
-
-
-    @Override
-    public void update(IdMessage message) {
-    }
-
-    @Override
-    public void update(ErrorMessage message) {
-        if (message.getID()==ID) clientConnection.send(message);
-
-    }
-
-
-
-    @Override
-    public void update(ChooseNumberOfPlayer message) {
-
-    }
-
     @Override
     public void update(ObjectMessage message) {
         clientConnection.send(message);
@@ -100,7 +81,7 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(EndTurnMessage message) {
-        clientConnection.send(message);
+
     }
 
     @Override
@@ -121,9 +102,7 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
 
     @Override
     public void update(PlaceResourceMessage message) {
-        if (message.getID()==ID)  {
-            clientConnection.send(message);
-        }
+
 
     }
 

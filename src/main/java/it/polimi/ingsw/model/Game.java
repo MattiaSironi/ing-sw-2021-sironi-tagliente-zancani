@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 
 
 import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
-import it.polimi.ingsw.message.CommonMessages.ErrorMessage;
 import it.polimi.ingsw.message.CommonMessages.GameOverMessage;
 import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.observer.Observable;

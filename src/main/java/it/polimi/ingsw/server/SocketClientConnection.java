@@ -60,7 +60,7 @@ public class SocketClientConnection extends Observable<Message> implements Runna
             } catch (IOException | ClassNotFoundException e) {
                 close();
 
-                System.out.println("Player # " + this.getRemoteView().getID() + "in game # " + this.getRemoteView().getGameID() + "has  been disconnected!");
+                System.out.println("Player #" + this.getRemoteView().getID() + " in game #" + this.getRemoteView().getGameID() + " has been disconnected!");
             }
         });
         this.pingSender =  new Thread(() -> {
@@ -72,7 +72,7 @@ public class SocketClientConnection extends Observable<Message> implements Runna
             } catch (InterruptedException e) {
 
 
-                System.out.println("Player # " + this.getRemoteView().getID() + "in game # " + this.getRemoteView().getGameID() + "has  been disconnected!");
+                System.out.println("Player #" + this.getRemoteView().getID() + " in game #" + this.getRemoteView().getGameID() + " has  been disconnected!");
             }
         });
     }
@@ -149,36 +149,7 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     }
 
 
-//    public Thread ping(){
-//        Thread t = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    ServerSocket pingSocket = new ServerSocket(12346);
-//                    Socket  newPingSocket  =  pingSocket.accept();
-//                    newPingSocket.setSoTimeout(16000);
-//                    pingOut = new ObjectOutputStream(newPingSocket.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
-//                    pingIn = new ObjectInputStream(newPingSocket.getInputStream());
-//                    while (isActive()) {
-//                        pingOut.reset();
-//                        pingOut.write(0);
-//                        pingOut.flush();
-//                        pingIn.read();
-//
-//                    }
-//
-//
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    System.out.println("Player # "  +  );
-//                }
-//
-//
-//            }
-//        });
-//        t.start();
-//        return t;
+
     }
 
 

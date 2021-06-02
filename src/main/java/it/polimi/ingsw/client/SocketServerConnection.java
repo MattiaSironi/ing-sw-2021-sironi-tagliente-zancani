@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.message.CommonMessages.ErrorMessage;
+
 import it.polimi.ingsw.message.CommonMessages.IdMessage;
 import it.polimi.ingsw.message.CommonMessages.PingMessage;
 
