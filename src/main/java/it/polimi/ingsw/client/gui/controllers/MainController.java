@@ -87,18 +87,32 @@ public class MainController extends Observable<Message> implements Observer<Mess
 
     public void handleObject(ObjectMessage message) {
         if(message.getObjectID() == -1){
-            System.out.println("game ricevuto");
             this.game = (Game)message.getObject();
             gui.setupFirstDraw();
         }
-        if (message.getObjectID() == 9) { //Communication
+        else if (message.getObjectID() == 9) { //Communication
             handleCommunication((Communication) message.getObject());
+        }
+        else if (message.getObjectID() == 5) //initialResource
+        {
+            this.game.getPlayerById(message.getID()).setStartResCount((int) message.getObject());
+            if (message.getID() == gui.getID()) {
+                gui.setResCounterLabel(game.getPlayerById(gui.getID()).getStartResCount());
+            }
+        }
+        else if (message.getObjectID() == 13) {
+            this.game.getPlayerById(message.getID()).setLeaderCardsToDiscard((int) message.getObject());
+            if (message.getID() == gui.getID());
+
         }
     }
     public void handleCommunication(Communication communication) {
-        if (communication.getCommunication() == CommunicationList.NICK_NOT_VALID && communication.getAddresseeID() == gui.getID()) {
-            gui.setDuplicatedNickname();
-        }
+        if (communication.getAddresseeID() == gui.getID() || communication.getAddresseeID() == -1) {
+
+            }
+            if (communication.getCommunication() == CommunicationList.NICK_NOT_VALID && communication.getAddresseeID() == gui.getID()) {
+                gui.setDuplicatedNickname();
+            }
     }
 
     @Override

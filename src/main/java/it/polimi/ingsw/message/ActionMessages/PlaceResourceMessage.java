@@ -3,6 +3,8 @@ package it.polimi.ingsw.message.ActionMessages;
 import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.ResourceType;
 
+import java.util.ArrayList;
+
 /**
  * @author Mattia Sironi
  */

@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class Turn implements Serializable { //objectID = 10
 
-    private int playerPlayingID;
+    private int playerPlayingID = -1;
     private ActionPhase phase;
     private boolean error;
     private ErrorList errorType;

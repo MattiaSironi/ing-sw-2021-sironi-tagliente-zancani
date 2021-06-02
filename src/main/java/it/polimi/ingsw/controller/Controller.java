@@ -19,6 +19,11 @@ public class Controller implements Observer<Message> {
         this.game = game;
     }
 
+    public boolean checkTurn(int ID){
+        return ID == game.getTurn().getPlayerPlayingID();
+
+    }
+
     public synchronized void setNickname(Nickname nickname) {
         String nick = nickname.getString();
         boolean found = false;
@@ -44,8 +49,8 @@ public class Controller implements Observer<Message> {
 
                 /* TESTING */
 
-
-                /* END TESTING */
+                LeaderCard leaderCard = new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD);
+                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard);                /* END TESTING */
 
 
                 initialPhase();
@@ -56,7 +61,6 @@ public class Controller implements Observer<Message> {
     public void initialPhase() {
         Collections.shuffle(game.getPlayers(), new Random(game.getNumPlayer()));
         game.sendGame();
-
         for (Player p : game.getPlayers()) {
 
 
@@ -91,6 +95,8 @@ public class Controller implements Observer<Message> {
                 }
             }
         }
+
+
 
     }
 
@@ -441,7 +447,11 @@ public class Controller implements Observer<Message> {
         try {
             LeaderCard leaderCard = game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().get(index);
             if (!(leaderCard instanceof ExtraProdLCard)) {
-                game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT, true, ErrorList.INVALID_MOVE);
+            }
+            else if(!game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(1, ((ExtraProdLCard) leaderCard).getInput()) ||
+                    !game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(1, ((ExtraProdLCard) leaderCard).getInput())){
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT, true, ErrorList.INVALID_MOVE);
             } else {
                 ArrayList<ResourceType> resForLeader = new ArrayList<>();
                 resForLeader.add(((ExtraProdLCard) leaderCard).getInput());
@@ -535,7 +545,7 @@ public class Controller implements Observer<Message> {
         this.game.setNewPlayerCards(ID, lc);
     }
 
-    public void DiscardLeaderCard(int ID, LeaderCard lc, boolean initialPhase) {
+    public synchronized void DiscardLeaderCard(int ID, LeaderCard lc, boolean initialPhase) {
         int i = 0;
         LeaderDeck newLD;
         boolean found = false;
@@ -631,22 +641,29 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(ManageResourceMessage message) {
+        if(!checkTurn(message.getID()))
+            return;
         swapShelves(message.getShelf1(), message.getShelf2(), message.getID());
     }
 
     @Override
     public void update(MarketMessage message) {
+        if(!checkTurn(message.getID()))
+            return;
         goToMarket(message.isRow(), message.getIndex(), message.getID());
     }
 
 
     @Override
     public void update(PlaceResourceMessage message) {
-        placeRes(message.getRes(), message.getShelf(), message.getID(), message.isDiscard(), message.isInitialPhase());
-
+        if(checkTurn(message.getID()) || message.isInitialPhase()) {
+            placeRes(message.getRes(), message.getShelf(), message.getID(), message.isDiscard(), message.isInitialPhase());
+        }
     }
 
     public void update(BuyDevCardMessage message) {
+        if(!checkTurn(message.getID()))
+            return;
         if (game.getTurn().getPhase().equals(ActionPhase.WAITING_FOR_ACTION)) {
             handleChosenDevCard(message.getChosenIndex(), message.getID());
         } else if (game.getTurn().getPhase().equals(ActionPhase.B_PAYMENT)) {
@@ -659,22 +676,26 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(PlayLeaderMessage message) {
-        if (message.getAction()) {
-            LeaderCard c = message.getLc();
-            switch (c.getType()) {
-                case 1 -> PlayLeaderCard(message.getID(), (DiscountLCard) c);
-                case 2 -> PlayLeaderCard(message.getID(), (ExtraDepotLCard) c);
-                case 3 -> PlayLeaderCard(message.getID(), (ExtraProdLCard) c);
-                case 4 -> PlayLeaderCard(message.getID(), (WhiteTrayLCard) c);
-            }
-        } else {
+        if(checkTurn(message.getID()) || message.isInitialPhase()) {
+            if (message.getAction()) {
+                LeaderCard c = message.getLc();
+                switch (c.getType()) {
+                    case 1 -> PlayLeaderCard(message.getID(), (DiscountLCard) c);
+                    case 2 -> PlayLeaderCard(message.getID(), (ExtraDepotLCard) c);
+                    case 3 -> PlayLeaderCard(message.getID(), (ExtraProdLCard) c);
+                    case 4 -> PlayLeaderCard(message.getID(), (WhiteTrayLCard) c);
+                }
+            } else {
 
-            DiscardLeaderCard(message.getID(), message.getLc(), message.isInitialPhase());
+                DiscardLeaderCard(message.getID(), message.getLc(), message.isInitialPhase());
+            }
         }
     }
 
     @Override
     public void update(ProductionMessage message) {
+        if(!checkTurn(message.getID()))
+            return;
         if (message.isEndAction())
             collectNewRes(message.getID());
         else if (!(message.getDc() == null)) {
@@ -686,12 +707,16 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(EndTurnMessage message) {
+        if(!checkTurn(message.getID()))
+            return;
         game.endTurn(message.getID());
 
     }
 
     @Override
     public void update(BasicProductionMessage message) {
+        if(!checkTurn(message.getID()))
+            return;
         if (game.getTurn().getPhase().equals(ActionPhase.WAITING_FOR_ACTION))
             setBoughtRes(message.getBoughtRes(), game.getTurn().getPlayerPlayingID(), true);
         else if (game.getTurn().getPhase().equals((ActionPhase.BASIC))) {
@@ -706,6 +731,9 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(LeaderProductionMessage message) {
+
+        if(!checkTurn(message.getID()))
+            return;
         if (game.getTurn().getPhase() == ActionPhase.WAITING_FOR_ACTION) {
             isExtraProd(message.getIndex(), message.getID());
         } else if (game.getTurn().getPhase() == ActionPhase.SELECT_RES) {

@@ -20,7 +20,28 @@
                   <Image url="@../images/Board/Board2.png" />
                </image>
             </ImageView>
-            <Label layoutX="327.0" layoutY="43.0" text="Choose your starter Resources">
+            <Label fx:id="chooseResLabel" alignment="CENTER" layoutX="404.0" layoutY="102.0">
+               <font>
+                  <Font size="36.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.9666666388511658" green="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+            <Label alignment="CENTER" layoutX="271.0" layoutY="300.0" text="Choose two Leader Cards to discard">
                <font>
                   <Font size="48.0" />
                </font>
@@ -41,63 +62,52 @@
                   </LinearGradient>
                </textFill>
             </Label>
-            <Label layoutX="413.0" layoutY="263.0" text="Choose Two Leaders">
-               <font>
-                  <Font size="48.0" />
-               </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.9666666388511658" green="1.0" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="1.0" green="1.0" blue="1.0" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
-            </Label>
-            <HBox layoutX="249.0" layoutY="136.0" prefHeight="116.0" prefWidth="773.0" spacing="100.0">
+            <HBox layoutX="142.0" layoutY="380.0" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
                <children>
-                  <ImageView fx:id="coin" onMouseEntered="#coinOpacityUp" onMouseExited="#coinOpacityDown" opacity="0.75">
+                  <ImageView fx:id="card1" fitHeight="314.0" fitWidth="209.0" onMouseClicked="#addCard1" onMouseEntered="#card1OpacityUp" onMouseExited="#card1OpacityDown" opacity="0.75">
+            </ImageView>
+                  <ImageView fx:id="card2" fitHeight="314.0" fitWidth="209.0" onMouseClicked="#addCard2" onMouseEntered="#card2OpacityUp" onMouseExited="#card2OpacityDown" opacity="0.75">
+            </ImageView>
+                  <ImageView fx:id="card3" fitHeight="314.0" fitWidth="209.0" onMouseClicked="#addCard3" onMouseEntered="#card3OpacityUp" onMouseExited="#card3OpacityDown" opacity="0.75">
+            </ImageView>
+                  <ImageView fx:id="card4" fitHeight="314.0" fitWidth="209.0" onMouseClicked="#addCard4" onMouseEntered="#card4OpacityUp" onMouseExited="#card4OpacityDown" opacity="0.75">
+            </ImageView>
+               </children>
+            </HBox>
+            <HBox layoutX="249.0" layoutY="165.0" prefHeight="116.0" prefWidth="773.0" spacing="100.0">
+               <children>
+                  <ImageView fx:id="coin" onMouseClicked="#addCoin" onMouseEntered="#coinOpacityUp" onMouseExited="#coinOpacityDown" opacity="0.75">
                      <image>
                         <Image url="@../images/PunchBoard/coin.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="stone" onMouseEntered="#stoneOpacityUp" onMouseExited="#stoneOpacityDown" opacity="0.75">
+                  <ImageView fx:id="stone" onMouseClicked="#addStone" onMouseEntered="#stoneOpacityUp" onMouseExited="#stoneOpacityDown" opacity="0.75">
                      <image>
                         <Image url="@../images/PunchBoard/stone.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="servant" onMouseEntered="#servantOpacityUp" onMouseExited="#servantOpacityDown" opacity="0.75">
+                  <ImageView fx:id="servant" onMouseClicked="#addServant" onMouseEntered="#servantOpacityUp" onMouseExited="#servantOpacityDown" opacity="0.75">
                      <image>
                         <Image url="@../images/PunchBoard/servant.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="shield" onMouseEntered="#shieldOpacityUp" onMouseExited="#shieldOpacityDown" opacity="0.75">
+                  <ImageView fx:id="shield" onMouseClicked="#addShield" onMouseEntered="#shieldOpacityUp" onMouseExited="#shieldOpacityDown" opacity="0.75">
                      <image>
                         <Image url="@../images/PunchBoard/shield.png" />
                      </image>
                   </ImageView>
                </children>
             </HBox>
-            <HBox layoutX="143.0" layoutY="360.0" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
-               <children>
-                  <ImageView fx:id="card1" fitHeight="314.0" fitWidth="209.0" onMouseEntered="#card1OpacityUp" onMouseExited="#card1OpacityDown" opacity="0.75">
+            <ImageView fx:id="nextButton" fitHeight="93.0" fitWidth="109.0" layoutX="1147.0" layoutY="14.0" onMouseClicked="#next" onMouseEntered="#nextButtonOpacityUp" onMouseExited="#nextButtonOpacityDown" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/nextArrow.png" />
+               </image>
             </ImageView>
-                  <ImageView fx:id="card2" fitHeight="314.0" fitWidth="209.0" onMouseEntered="#card2OpacityUp" onMouseExited="#card2OpacityDown" opacity="0.75">
+            <ImageView fx:id="resetButton" fitHeight="93.0" fitWidth="80.0" layoutX="1035.0" layoutY="14.0" onMouseClicked="#resetChoices" onMouseEntered="#resetButtonOpacityUp" onMouseExited="#resetButtonOpacityDown" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resetArrow.png" />
+               </image>
             </ImageView>
-                  <ImageView fx:id="card3" fitHeight="314.0" fitWidth="209.0" onMouseEntered="#card3OpacityUp" onMouseExited="#card3OpacityDown" opacity="0.75">
-            </ImageView>
-                  <ImageView fx:id="card4" fitHeight="314.0" fitWidth="209.0" onMouseEntered="#card4OpacityUp" onMouseExited="#card4OpacityDown" opacity="0.75">
-            </ImageView>
-               </children>
-            </HBox>
          </children>
       </Pane>
    </children>

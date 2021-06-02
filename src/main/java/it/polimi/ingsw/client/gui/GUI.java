@@ -146,7 +146,16 @@ public class GUI extends Application {
 
     public void setupFirstDraw() {
         FirstDrawController controller = (FirstDrawController) nameMapController.get(SceneList.FIRSTDRAW.getSceneName());
-        controller.setup();
+        controller.setup(this.mainController);
+    }
+
+    public void setResCounterLabel(int startResCount) {
+        Platform.runLater(() -> {
+            FirstDrawController controller = (FirstDrawController) nameMapController.get(SceneList.FIRSTDRAW.getSceneName());
+            controller.setResCountLabel(startResCount);
+        }
+        );
+
     }
 }
 
