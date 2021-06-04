@@ -8,8 +8,6 @@ public enum ActionPhase {
     CHOOSE_SLOT ("is choosing where to place the Dev Card!"),
     A_PAYMENT ("is paying a Leader Card!"),
     SELECT_RES("is choosing the resources to produce!"),
-    P_LEADER("is activating a Leader Card!"),
-    D_LEADER("discarded a Leader Card!"),
     BASIC ("is doing a basic production!"),
     PAYMENT("is paying!"),
     GAME_OVER("won!");

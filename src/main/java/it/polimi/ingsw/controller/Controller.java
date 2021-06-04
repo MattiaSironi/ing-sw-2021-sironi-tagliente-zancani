@@ -739,7 +739,7 @@ public class Controller implements Observer<Message> {
             isExtraProd(message.getIndex(), message.getID());
         } else if (game.getTurn().getPhase() == ActionPhase.SELECT_RES) {
             setBoughtRes(message.getWantedRes(), message.getID(), false);
-        } else if (game.getTurn().getPhase() == ActionPhase.PAYMENT) ; //TODO ???
+        }
     }
 
     @Override

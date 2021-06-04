@@ -801,13 +801,6 @@ public class ClientActionController extends Observable<Message> implements Obser
                         placeDevCard();
                         break;
                     }
-                    case P_LEADER: {
-                    }
-
-                    case D_LEADER: {
-                        printLeaders();
-                        break;
-                    }
                     case BASIC: {
                         noMoreActions();
                         chooseBasicRes();

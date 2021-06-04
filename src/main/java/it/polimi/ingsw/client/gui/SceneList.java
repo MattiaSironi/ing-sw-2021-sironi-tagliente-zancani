@@ -4,7 +4,8 @@ public enum SceneList {
 
     SETUP("setup.fxml"),
     START("start.fxml"),
-    FIRSTDRAW("firstDraw.fxml");
+    FIRSTDRAW("firstDraw.fxml"),
+    MAINSCENE("mainScene.fxml");
 
     private final String sceneName;
 
