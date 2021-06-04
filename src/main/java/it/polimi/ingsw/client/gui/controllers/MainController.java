@@ -7,9 +7,7 @@ import it.polimi.ingsw.client.gui.SceneList;
 import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.message.Message;
-import it.polimi.ingsw.model.Communication;
-import it.polimi.ingsw.model.CommunicationList;
-import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 
@@ -86,27 +84,35 @@ public class MainController extends Observable<Message> implements Observer<Mess
     }
 
     public void handleObject(ObjectMessage message) {
-        if(message.getObjectID() == -1){
-            this.game = (Game)message.getObject();
+        if (message.getObjectID() == -1) {
+            this.game = (Game) message.getObject();
             gui.setupFirstDraw();
-        }
-        else if (message.getObjectID() == 9) { //Communication
+        } else if (message.getObjectID() == 9) { //Communication
             handleCommunication((Communication) message.getObject());
-        }
-        else if (message.getObjectID() == 5) //initialResource
+        } else if (message.getObjectID() == 5) //initialResource
         {
             this.game.getPlayerById(message.getID()).setStartResCount((int) message.getObject());
             if (message.getID() == gui.getID()) {
                 System.out.println("gigi " + game.getPlayerById(gui.getID()).getStartResCount());
                 gui.setResCounterLabel(game.getPlayerById(gui.getID()).getStartResCount());
             }
-        }
-        else if (message.getObjectID() == 13) {
+        } else if (message.getObjectID() == 13) {
             this.game.getPlayerById(message.getID()).setLeaderCardsToDiscard((int) message.getObject());
-            if (message.getID() == gui.getID() );
+            if (message.getID() == gui.getID()) ;
 
+        } else if (message.getObjectID() == 10) {
+            this.game.setTurn((Turn) message.getObject());
+            handleTurn((this.game.getTurn()));
         }
     }
+
+    public void handleTurn (Turn turn){
+        if (turn.getPhase() == ActionPhase.WAITING_FOR_ACTION){
+            gui.changeScene(SceneList.MAINSCENE);
+        }
+    }
+
+
     public void handleCommunication(Communication communication) {
         if (communication.getAddresseeID() == gui.getID() || communication.getAddresseeID() == -1) {
 

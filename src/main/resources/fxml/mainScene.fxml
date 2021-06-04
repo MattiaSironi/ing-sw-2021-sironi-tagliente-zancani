@@ -15,11 +15,21 @@
          <children>
             <HBox id="MyBox" layoutX="3.0" layoutY="130.0" prefHeight="563.0" prefWidth="944.0" spacing="3.0">
                <children>
-                  <ImageView fitHeight="638.0" fitWidth="785.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/Board/Board1.png" />
-                     </image>
-                  </ImageView>
+                  <StackPane>
+                     <children>
+                        <ImageView fitHeight="638.0" fitWidth="785.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Board/Board1.png" />
+                           </image>
+                        </ImageView>
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="28.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="65.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </StackPane>
                   <VBox prefHeight="563.0" prefWidth="165.0" spacing="10.0">
                      <children>
                         <ImageView id="Leader1" fitHeight="276.0" fitWidth="192.0" onMouseClicked="#Leader1Clicked" onMouseEntered="#Leader1OpacityUp" onMouseExited="#Leader1OpacityDown" opacity="0.75" pickOnBounds="true" preserveRatio="true">
