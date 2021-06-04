@@ -32,11 +32,11 @@ public class FirstDrawController implements GUIController {
     public ImageView card4;
     private MainController mainController;
     private ArrayList<ResourceType> resources;
-    private ArrayList<Integer> index;
+    private ArrayList<LeaderCard> chosenLeaders;
 
     public void setup(MainController mainController) {
         this.resources = new ArrayList<>();
-        this.index = new ArrayList<>();
+        this.chosenLeaders = new ArrayList<>();
         this.mainController = mainController;
         ArrayList<LeaderCard> leaderCards = gui.getMainController().getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards();
         for (LeaderCard leaderCard : leaderCards) {
@@ -201,37 +201,37 @@ public class FirstDrawController implements GUIController {
     }
 
     public void addCard1(MouseEvent mouseEvent) {
-        index.add(0);
+        chosenLeaders.add(mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0));
         card1.setOpacity(0.75);
         card1.setMouseTransparent(true);
-        if (index.size() == 2)
+        if (chosenLeaders.size() == 2)
             deactivateCards();
         System.out.println("added");
     }
 
     public void addCard2(MouseEvent mouseEvent) {
-        index.add(1);
+        chosenLeaders.add(mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1));
         card2.setOpacity(0.75);
         card2.setMouseTransparent(true);
-        if (index.size() == 2)
+        if (chosenLeaders.size() == 2)
             deactivateCards();
         System.out.println("added");
     }
 
     public void addCard3(MouseEvent mouseEvent) {
-        index.add(2);
+        chosenLeaders.add(mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(2));
         card3.setOpacity(0.75);
         card3.setMouseTransparent(true);
-        if (index.size() == 2)
+        if (chosenLeaders.size() == 2)
             deactivateCards();
         System.out.println("added");
     }
 
     public void addCard4(MouseEvent mouseEvent) {
-        index.add(3);
+        chosenLeaders.add(mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(3));
         card4.setOpacity(0.75);
         card4.setMouseTransparent(true);
-        if (index.size() == 2)
+        if (chosenLeaders.size() == 2)
             deactivateCards();
         System.out.println("added");
     }
@@ -239,29 +239,30 @@ public class FirstDrawController implements GUIController {
     public void next(MouseEvent mouseEvent) {
         nextButton.setMouseTransparent(true);
         resetButton.setMouseTransparent(true);
-        if (resources.size() == mainController.getGame().getPlayerById(gui.getID()).getStartResCount() && index.size() == 2) {
+        res1.setImage(null);
+        res2.setImage(null);
+        if (resources.size() == mainController.getGame().getPlayerById(gui.getID()).getStartResCount() && chosenLeaders.size() == 2) {
             if (mainController.getGame().getPlayerById(gui.getID()).getStartResCount() == 2) {
                 if (resources.get(0).equals(resources.get(1))) {
                     mainController.send(new PlaceResourceMessage(resources.get(0), 2, gui.getID(), true, false));
                 } else {
                     mainController.send(new PlaceResourceMessage(resources.get(0), 1, gui.getID(), true, false));
                 }
-                mainController.send(new PlaceResourceMessage(resources.get(0), 2, gui.getID(), true, false));
+                mainController.send(new PlaceResourceMessage(resources.get(1), 2, gui.getID(), true, false));
             } else if(mainController.getGame().getPlayerById(gui.getID()).getStartResCount() != 0) {
-                mainController.send(new PlaceResourceMessage(resources.get(0), 1, gui.getID(), true, false));
+                mainController.send(new PlaceResourceMessage(resources.get(0), 0, gui.getID(), true, false));
             }
-            if(index.get(0) < index.get(1)) {
-                mainController.send(new PlayLeaderMessage(gui.getID(), index.get(0), false, mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(index.get(0)), true));
-                mainController.send(new PlayLeaderMessage(gui.getID(), index.get(1) - 1, false, mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(index.get(1)), true));
-            }
-            else{
-                mainController.send(new PlayLeaderMessage(gui.getID(), index.get(1), false, mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(index.get(1)), true));
-                mainController.send(new PlayLeaderMessage(gui.getID(), index.get(0) - 1, false, mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(index.get(0)), true));
+            for(LeaderCard l : chosenLeaders){
+                mainController.send(new PlayLeaderMessage(gui.getID(), -1, false, l, true));
             }
         }
         else{
             reset();
         }
+    }
+
+    public void send2ndLeaderCase1(){
+
     }
 
 
@@ -279,7 +280,7 @@ public class FirstDrawController implements GUIController {
 
     public void reset(){
         this.resources = new ArrayList<>();
-        this.index = new ArrayList<>();
+        this.chosenLeaders = new ArrayList<>();
         res1.setImage(null);
         res2.setImage(null);
         activateResourcesButton();

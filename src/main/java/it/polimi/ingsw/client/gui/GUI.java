@@ -23,6 +23,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -156,7 +158,11 @@ public class GUI extends Application {
             controller.setResCountLabel(startResCount);
         }
         );
-
     }
+
+//    public void playButtonSound(){
+//        AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/ClickSound.wav").toExternalForm());
+//        audioClip.play();
+//    }
 }
 

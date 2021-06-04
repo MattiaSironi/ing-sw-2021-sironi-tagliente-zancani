@@ -103,7 +103,7 @@ public class MainController extends Observable<Message> implements Observer<Mess
         }
         else if (message.getObjectID() == 13) {
             this.game.getPlayerById(message.getID()).setLeaderCardsToDiscard((int) message.getObject());
-            if (message.getID() == gui.getID());
+            if (message.getID() == gui.getID() );
 
         }
     }

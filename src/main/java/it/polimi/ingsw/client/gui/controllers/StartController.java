@@ -40,6 +40,7 @@ public class StartController implements GUIController{
 
 
     public void startOnlineGame(MouseEvent actionEvent) {
+//        gui.playButtonSound();
         gui.changeScene(SceneList.SETUP);
     }
 

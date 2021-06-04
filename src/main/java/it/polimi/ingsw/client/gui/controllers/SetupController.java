@@ -41,7 +41,6 @@ public class SetupController implements GUIController{
 
     public void setupConnection(MouseEvent actionEvent) {
         try {
-//            playClickSound();
             addressIn.setDisable(false);
             startButton.setDisable(true);
             waitingLabel.setDisable(false);
