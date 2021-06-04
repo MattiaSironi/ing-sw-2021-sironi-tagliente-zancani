@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
+import it.polimi.ingsw.message.ActionMessages.PlaceResourceMessage;
+import it.polimi.ingsw.message.ActionMessages.PlayLeaderMessage;
 import it.polimi.ingsw.model.LeaderCard;
 import it.polimi.ingsw.model.ResourceType;
 import javafx.scene.control.Label;
@@ -20,6 +22,9 @@ public class FirstDrawController implements GUIController {
     public Label chooseResLabel;
     public ImageView nextButton;
     public ImageView resetButton;
+    public ImageView res1;
+    public ImageView res2;
+    public Label yourRes;
     private GUI gui;
     public ImageView card1;
     public ImageView card2;
@@ -35,7 +40,7 @@ public class FirstDrawController implements GUIController {
         this.mainController = mainController;
         ArrayList<LeaderCard> leaderCards = gui.getMainController().getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards();
         for (LeaderCard leaderCard : leaderCards) {
-            switch(leaderCards.indexOf(leaderCard)){
+            switch (leaderCards.indexOf(leaderCard)) {
                 case 0 -> card1.setImage(new Image(getClass().getResource("/images/Leaders/" + leaderCard.toString() + ".png").toExternalForm()));
                 case 1 -> card2.setImage(new Image(getClass().getResource("/images/Leaders/" + leaderCard.toString() + ".png").toExternalForm()));
                 case 2 -> card3.setImage(new Image(getClass().getResource("/images/Leaders/" + leaderCard.toString() + ".png").toExternalForm()));
@@ -46,25 +51,34 @@ public class FirstDrawController implements GUIController {
     }
 
 
-    public void prepareScene(){
-        if(mainController.getGame().getPlayerById(gui.getID()).getStartResCount() == 0){
+    public void prepareScene() {
+        if (mainController.getGame().getPlayerById(gui.getID()).getStartResCount() == 0) {
             coin.setMouseTransparent(true);
+            coin.setVisible(false);
             stone.setMouseTransparent(true);
+            stone.setVisible(false);
             servant.setMouseTransparent(true);
+            servant.setVisible(false);
             shield.setMouseTransparent(true);
+            shield.setVisible(false);
+            yourRes.setVisible(false);
             chooseResLabel.setOpacity(0.75);
-
+            System.out.println("gigi");
         }
     }
 
     public void setResCountLabel(int count) {
         switch (count) {
-            case 0 -> chooseResLabel.setText("");
+            case 0 -> {
+                chooseResLabel.setText("");
+                prepareScene();
+                deactivateResourcesButton();
+            }
             case 1 -> chooseResLabel.setText("Choose " + count + " starting Resource");
             case 2 -> chooseResLabel.setText("Choose " + count + " starting Resources");
             default -> System.out.println("qui");
         }
-        prepareScene();
+        System.out.println(count);
     }
 
     @Override
@@ -104,103 +118,152 @@ public class FirstDrawController implements GUIController {
         shield.setOpacity(0.75);
     }
 
-    public void card1OpacityUp(MouseEvent mouseEvent) {
-        card1.setOpacity(1);
-    }
 
-    public void card1OpacityDown(MouseEvent mouseEvent) {
-        card1.setOpacity(0.75);
-    }
-
-    public void card2OpacityUp(MouseEvent mouseEvent) {
-        card2.setOpacity(1);
-    }
-
-    public void card2OpacityDown(MouseEvent mouseEvent) {
-        card2.setOpacity(0.75);
-    }
-
-    public void card3OpacityUp(MouseEvent mouseEvent) {
-        card3.setOpacity(1);
-    }
-
-    public void card3OpacityDown(MouseEvent mouseEvent) {
-        card3.setOpacity(0.75);
-    }
-
-    public void card4OpacityUp(MouseEvent mouseEvent) {
-        card4.setOpacity(1);
-    }
-
-    public void card4OpacityDown(MouseEvent mouseEvent) {
-        card4.setOpacity(0.75);
-    }
-
-    public void deactivateResourcesButton(){
+    public void deactivateResourcesButton() {
         coin.setMouseTransparent(true);
         stone.setMouseTransparent(true);
         servant.setMouseTransparent(true);
         shield.setMouseTransparent(true);
     }
+
+    public void activateResourcesButton() {
+        coin.setMouseTransparent(false);
+        stone.setMouseTransparent(false);
+        servant.setMouseTransparent(false);
+        shield.setMouseTransparent(false);
+
+    }
+
     public void addCoin(MouseEvent mouseEvent) {
+        if (resources.size() == 0)
+            res1.setImage(new Image(getClass().getResource("/images/PunchBoard/coin.png").toExternalForm()));
+        else
+            res2.setImage(new Image(getClass().getResource("/images/PunchBoard/coin.png").toExternalForm()));
         this.resources.add(ResourceType.COIN);
-        if(resources.size() < mainController.getGame().getPlayerById(gui.getID()).getStartResCount()){
+        System.out.println("coin");
+        if (resources.size() == mainController.getGame().getPlayerById(gui.getID()).getStartResCount()) {
             deactivateResourcesButton();
         }
     }
 
     public void addStone(MouseEvent mouseEvent) {
+        if (resources.size() == 0)
+            res1.setImage(new Image(getClass().getResource("/images/PunchBoard/stone.png").toExternalForm()));
+        else
+            res2.setImage(new Image(getClass().getResource("/images/PunchBoard/stone.png").toExternalForm()));
         this.resources.add(ResourceType.STONE);
-        if(resources.size() < mainController.getGame().getPlayerById(gui.getID()).getStartResCount()){
+        System.out.println("stone");
+        if (resources.size() == mainController.getGame().getPlayerById(gui.getID()).getStartResCount()) {
             deactivateResourcesButton();
         }
     }
 
     public void addServant(MouseEvent mouseEvent) {
+        if (resources.size() == 0)
+            res1.setImage(new Image(getClass().getResource("/images/PunchBoard/servant.png").toExternalForm()));
+        else
+            res2.setImage(new Image(getClass().getResource("/images/PunchBoard/servant.png").toExternalForm()));
         this.resources.add(ResourceType.SERVANT);
-        if(resources.size() < mainController.getGame().getPlayerById(gui.getID()).getStartResCount()){
+        System.out.println("servant");
+        if (resources.size() == mainController.getGame().getPlayerById(gui.getID()).getStartResCount()) {
             deactivateResourcesButton();
         }
     }
 
     public void addShield(MouseEvent mouseEvent) {
+        if (resources.size() == 0)
+            res1.setImage(new Image(getClass().getResource("/images/PunchBoard/shield.png").toExternalForm()));
+        else
+            res2.setImage(new Image(getClass().getResource("/images/PunchBoard/shield.png").toExternalForm()));
         this.resources.add(ResourceType.SHIELD);
-        if(resources.size() < mainController.getGame().getPlayerById(gui.getID()).getStartResCount()){
+        System.out.println("shield");
+        if (resources.size() == mainController.getGame().getPlayerById(gui.getID()).getStartResCount()) {
             deactivateResourcesButton();
         }
     }
 
-    public void deactivateCards(){
+    public void deactivateCards() {
         card1.setMouseTransparent(true);
         card2.setMouseTransparent(true);
         card3.setMouseTransparent(true);
         card4.setMouseTransparent(true);
+    }
+
+    public void activateCards() {
+        card1.setMouseTransparent(false);
+        card2.setMouseTransparent(false);
+        card3.setMouseTransparent(false);
+        card4.setMouseTransparent(false);
+        card1.setOpacity(1);
+        card2.setOpacity(1);
+        card3.setOpacity(1);
+        card4.setOpacity(1);
     }
 
     public void addCard1(MouseEvent mouseEvent) {
-        index.add(1);
+        index.add(0);
+        card1.setOpacity(0.75);
         card1.setMouseTransparent(true);
-        if(index.size() == 2)
+        if (index.size() == 2)
             deactivateCards();
+        System.out.println("added");
     }
 
     public void addCard2(MouseEvent mouseEvent) {
-        index.add(2);
+        index.add(1);
+        card2.setOpacity(0.75);
         card2.setMouseTransparent(true);
+        if (index.size() == 2)
+            deactivateCards();
+        System.out.println("added");
     }
 
     public void addCard3(MouseEvent mouseEvent) {
-        index.add(3);
+        index.add(2);
+        card3.setOpacity(0.75);
         card3.setMouseTransparent(true);
+        if (index.size() == 2)
+            deactivateCards();
+        System.out.println("added");
     }
 
     public void addCard4(MouseEvent mouseEvent) {
-        index.add(4);
+        index.add(3);
+        card4.setOpacity(0.75);
         card4.setMouseTransparent(true);
+        if (index.size() == 2)
+            deactivateCards();
+        System.out.println("added");
     }
 
     public void next(MouseEvent mouseEvent) {
+        nextButton.setMouseTransparent(true);
+        resetButton.setMouseTransparent(true);
+        if (resources.size() == mainController.getGame().getPlayerById(gui.getID()).getStartResCount() && index.size() == 2) {
+            if (mainController.getGame().getPlayerById(gui.getID()).getStartResCount() == 2) {
+                if (resources.get(0).equals(resources.get(1))) {
+                    mainController.send(new PlaceResourceMessage(resources.get(0), 2, gui.getID(), true, false));
+                } else {
+                    mainController.send(new PlaceResourceMessage(resources.get(0), 1, gui.getID(), true, false));
+                }
+                mainController.send(new PlaceResourceMessage(resources.get(0), 2, gui.getID(), true, false));
+            } else if(mainController.getGame().getPlayerById(gui.getID()).getStartResCount() != 0) {
+                mainController.send(new PlaceResourceMessage(resources.get(0), 1, gui.getID(), true, false));
+            }
+            if(index.get(0) < index.get(1)) {
+                mainController.send(new PlayLeaderMessage(gui.getID(), index.get(0), false, mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(index.get(0)), true));
+                mainController.send(new PlayLeaderMessage(gui.getID(), index.get(1) - 1, false, mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(index.get(1)), true));
+            }
+            else{
+                mainController.send(new PlayLeaderMessage(gui.getID(), index.get(1), false, mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(index.get(1)), true));
+                mainController.send(new PlayLeaderMessage(gui.getID(), index.get(0) - 1, false, mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(index.get(0)), true));
+            }
+        }
+        else{
+            reset();
+        }
     }
+
 
     public void nextButtonOpacityUp(MouseEvent mouseEvent) {
         nextButton.setOpacity(1);
@@ -211,10 +274,18 @@ public class FirstDrawController implements GUIController {
     }
 
     public void resetChoices(MouseEvent mouseEvent) {
+        reset();
+    }
+
+    public void reset(){
         this.resources = new ArrayList<>();
         this.index = new ArrayList<>();
-
-
+        res1.setImage(null);
+        res2.setImage(null);
+        activateResourcesButton();
+        activateCards();
+        nextButton.setMouseTransparent(false);
+        resetButton.setMouseTransparent(false);
     }
 
     public void resetButtonOpacityUp(MouseEvent mouseEvent) {

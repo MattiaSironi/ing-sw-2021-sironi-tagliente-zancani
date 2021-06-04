@@ -64,13 +64,13 @@
             </Label>
             <HBox layoutX="142.0" layoutY="380.0" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
                <children>
-                  <ImageView fx:id="card1" fitHeight="314.0" fitWidth="209.0" onMouseClicked="#addCard1" onMouseEntered="#card1OpacityUp" onMouseExited="#card1OpacityDown" opacity="0.75">
+                  <ImageView fx:id="card1" fitHeight="314.0" fitWidth="209.0" onMouseClicked="#addCard1">
             </ImageView>
-                  <ImageView fx:id="card2" fitHeight="314.0" fitWidth="209.0" onMouseClicked="#addCard2" onMouseEntered="#card2OpacityUp" onMouseExited="#card2OpacityDown" opacity="0.75">
+                  <ImageView fx:id="card2" fitHeight="314.0" fitWidth="209.0" onMouseClicked="#addCard2">
             </ImageView>
-                  <ImageView fx:id="card3" fitHeight="314.0" fitWidth="209.0" onMouseClicked="#addCard3" onMouseEntered="#card3OpacityUp" onMouseExited="#card3OpacityDown" opacity="0.75">
+                  <ImageView fx:id="card3" fitHeight="314.0" fitWidth="209.0" onMouseClicked="#addCard3">
             </ImageView>
-                  <ImageView fx:id="card4" fitHeight="314.0" fitWidth="209.0" onMouseClicked="#addCard4" onMouseEntered="#card4OpacityUp" onMouseExited="#card4OpacityDown" opacity="0.75">
+                  <ImageView fx:id="card4" fitHeight="314.0" fitWidth="209.0" onMouseClicked="#addCard4">
             </ImageView>
                </children>
             </HBox>
@@ -98,16 +98,43 @@
                   </ImageView>
                </children>
             </HBox>
-            <ImageView fx:id="nextButton" fitHeight="93.0" fitWidth="109.0" layoutX="1147.0" layoutY="14.0" onMouseClicked="#next" onMouseEntered="#nextButtonOpacityUp" onMouseExited="#nextButtonOpacityDown" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="nextButton" fitHeight="93.0" fitWidth="109.0" layoutX="1147.0" layoutY="14.0" onMouseClicked="#next" onMouseEntered="#nextButtonOpacityUp" onMouseExited="#nextButtonOpacityDown" opacity="0.5" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/nextArrow.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="resetButton" fitHeight="93.0" fitWidth="80.0" layoutX="1035.0" layoutY="14.0" onMouseClicked="#resetChoices" onMouseEntered="#resetButtonOpacityUp" onMouseExited="#resetButtonOpacityDown" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="resetButton" fitHeight="93.0" fitWidth="80.0" layoutX="1035.0" layoutY="14.0" onMouseClicked="#resetChoices" onMouseEntered="#resetButtonOpacityUp" onMouseExited="#resetButtonOpacityDown" opacity="0.5" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/resetArrow.png" />
                </image>
             </ImageView>
+            <Label fx:id="yourRes" layoutX="1060.0" layoutY="179.0" text="Your Resources:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.9666666388511658" green="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+            <HBox fx:id="container" layoutX="1093.0" layoutY="223.0" prefHeight="68.0" prefWidth="98.0">
+               <children>
+                  <ImageView fx:id="res1" fitHeight="52.0" fitWidth="43.0" preserveRatio="true" />
+                  <ImageView fx:id="res2" fitHeight="55.0" fitWidth="52.0" preserveRatio="true" />
+               </children>
+            </HBox>
          </children>
       </Pane>
    </children>

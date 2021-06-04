@@ -151,6 +151,7 @@ public class GUI extends Application {
 
     public void setResCounterLabel(int startResCount) {
         Platform.runLater(() -> {
+                    System.out.println(startResCount+ "sos");
             FirstDrawController controller = (FirstDrawController) nameMapController.get(SceneList.FIRSTDRAW.getSceneName());
             controller.setResCountLabel(startResCount);
         }

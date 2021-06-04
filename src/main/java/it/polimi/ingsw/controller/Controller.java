@@ -69,6 +69,7 @@ public class Controller implements Observer<Message> {
 
                     game.setCommunication(p.getId(), CommunicationList.FIRST);
                     game.setLeaderCardsToDiscard(p.getId(), 2);
+                    game.setStartResCountByID(p.getId(), 0);
 
 
                 }
