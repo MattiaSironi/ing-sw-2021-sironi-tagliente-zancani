@@ -13,21 +13,21 @@
    <children>
       <Pane prefHeight="694.0" prefWidth="1268.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox id="MyBox" layoutX="-2.0" layoutY="130.0" prefHeight="563.0" prefWidth="944.0" spacing="7.0">
+            <HBox id="MyBox" layoutX="3.0" layoutY="130.0" prefHeight="563.0" prefWidth="944.0" spacing="3.0">
                <children>
                   <ImageView fitHeight="638.0" fitWidth="785.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Board/Board1.png" />
                      </image>
                   </ImageView>
-                  <VBox prefHeight="563.0" prefWidth="165.0" spacing="7.0">
+                  <VBox prefHeight="563.0" prefWidth="165.0" spacing="10.0">
                      <children>
-                        <ImageView id="Leader1" fitHeight="276.0" fitWidth="192.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#Leader1Clicked" onMouseEntered="#Leader1OpacityUp" onMouseExited="#Leader1OpacityDown" opacity="0.75">
+                        <ImageView id="Leader1" fitHeight="276.0" fitWidth="192.0" onMouseClicked="#Leader1Clicked" onMouseEntered="#Leader1OpacityUp" onMouseExited="#Leader1OpacityDown" opacity="0.75" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Leaders/BACK.png" />
                            </image>
                         </ImageView>
-                        <ImageView id="Leader2" fitHeight="352.0" fitWidth="183.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#Leader2Clicked" onMouseEntered="#Leader2OpacityUp" onMouseExited="#Leader2OpacityDown" opacity="0.75">
+                        <ImageView id="Leader2" fitHeight="274.0" fitWidth="192.0" onMouseClicked="#Leader2Clicked" onMouseEntered="#Leader2OpacityUp" onMouseExited="#Leader2OpacityDown" opacity="0.75" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Leaders/BACK.png" />
                            </image>
@@ -43,22 +43,22 @@
                         <Image url="@../images/buttons/resourceMartket.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="119.0" fitWidth="310.0" pickOnBounds="true">
+                  <ImageView fitHeight="123.0" fitWidth="310.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/buttons/DevCardsMarketpng.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="268.0" pickOnBounds="true">
+                  <ImageView fitHeight="123.0" fitWidth="268.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/buttons/activateProd.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="118.0" fitWidth="131.0" pickOnBounds="true">
+                  <ImageView fitHeight="123.0" fitWidth="131.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/buttons/endTurnV.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="121.0" fitWidth="292.0" pickOnBounds="true">
+                  <ImageView fitHeight="123.0" fitWidth="292.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/buttons/background.png" />
                      </image>
