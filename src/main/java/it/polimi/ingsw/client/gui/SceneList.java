@@ -5,7 +5,8 @@ public enum SceneList {
     SETUP("setup.fxml"),
     START("start.fxml"),
     FIRSTDRAW("firstDraw.fxml"),
-    MAINSCENE("mainScene.fxml");
+    MAINSCENE("mainScene.fxml"),
+    MARKET("marketScene.fxml");
 
     private final String sceneName;
 

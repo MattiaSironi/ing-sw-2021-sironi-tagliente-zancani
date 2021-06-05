@@ -4,7 +4,18 @@ import javafx.fxml.FXML;
 
 import javax.swing.text.html.ImageView;
 
-public class MarketController {
-    @FXML private ImageView marble0;
+public class MarketController implements GUIController{
 
+    private MainController mainController;
+
+
+
+
+
+
+    @Override
+    public void setMainController(MainController m) {
+        this.mainController = m;
+
+    }
 }
