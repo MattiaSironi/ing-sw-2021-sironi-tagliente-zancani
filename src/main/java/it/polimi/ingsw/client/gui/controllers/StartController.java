@@ -18,10 +18,6 @@ public class StartController implements GUIController{
     @FXML private ImageView multiGame;
     private GUI gui;
 
-    @Override
-    public void setGUI(GUI gui) {
-        this.gui = gui;
-    }
 
     public void playLocalGame(MouseEvent actionEvent) {
         gui.setLocal(true);
@@ -72,5 +68,10 @@ public class StartController implements GUIController{
 
     public void playOnlineOpacityDown(MouseEvent mouseEvent) {
         multiGame.setOpacity(0.5);
+    }
+
+    @Override
+    public void setMainController(MainController m) {
+        this.gui = m.getGui();
     }
 }

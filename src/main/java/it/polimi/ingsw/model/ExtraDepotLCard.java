@@ -34,7 +34,8 @@ public class ExtraDepotLCard extends LeaderCard implements Printable, Serializab
         else{
             ExtraDepotLCard c = (ExtraDepotLCard)lc;
             return this.getResDepot() == c.getResDepot() &&
-                    this.getResType() == c.getResType();
+                    this.getResType() == c.getResType() &&
+                    this.getVictoryPoints() == c.getVictoryPoints();
         }
     }
 

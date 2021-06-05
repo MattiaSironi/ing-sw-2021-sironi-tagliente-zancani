@@ -61,5 +61,15 @@ public class LeaderDeck implements Printable, Serializable, Cloneable {
             System.out.println();
         }
     }
+
+
+    public boolean isPresent(LeaderCard c){
+        for(LeaderCard l: this.getCards()){
+            if(l.equals(c)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
 

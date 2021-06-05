@@ -34,10 +34,10 @@ public class FirstDrawController implements GUIController {
     private ArrayList<ResourceType> resources;
     private ArrayList<LeaderCard> chosenLeaders;
 
-    public void setup(MainController mainController) {
+    public void setup() {
         this.resources = new ArrayList<>();
         this.chosenLeaders = new ArrayList<>();
-        this.mainController = mainController;
+        gui = mainController.getGui();
         ArrayList<LeaderCard> leaderCards = gui.getMainController().getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards();
         for (LeaderCard leaderCard : leaderCards) {
             switch (leaderCards.indexOf(leaderCard)) {
@@ -81,10 +81,6 @@ public class FirstDrawController implements GUIController {
         System.out.println(count);
     }
 
-    @Override
-    public void setGUI(GUI gui) {
-        this.gui = gui;
-    }
 
     public void coinOpacityUp(MouseEvent mouseEvent) {
         coin.setOpacity(1);
@@ -295,5 +291,10 @@ public class FirstDrawController implements GUIController {
 
     public void resetButtonOpacityDown(MouseEvent mouseEvent) {
         resetButton.setOpacity(0.5);
+    }
+
+    @Override
+    public void setMainController(MainController m) {
+        this.mainController = m;
     }
 }

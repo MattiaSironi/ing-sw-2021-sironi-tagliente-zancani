@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -12,11 +17,16 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="694.0" prefWidth="1268.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
+<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
    <children>
-      <Pane prefHeight="694.0" prefWidth="1268.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane prefHeight="720.0" prefWidth="1270.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox id="MyBox" layoutX="3.0" layoutY="130.0" prefHeight="563.0" prefWidth="944.0" spacing="3.0">
+            <ImageView fitHeight="720.0" fitWidth="1270.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../../../../Desktop/wood+pattern+texture+4-2.jpg" />
+               </image>
+            </ImageView>
+            <HBox id="MyBox" layoutX="3.0" layoutY="150.0" prefHeight="563.0" prefWidth="944.0" spacing="3.0">
                <children>
                   <StackPane>
                      <children>
@@ -27,20 +37,47 @@
                         </ImageView>
                         <Pane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="28.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" />
-                              <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="65.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-202.0" layoutY="-189.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-165.0" layoutY="-189.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-280.0" layoutY="-109.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-203.0" layoutY="-148.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-122.0" layoutY="-189.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-204.0" layoutY="-107.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-243.0" layoutY="-109.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fx:id="activateButton" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="222.0" opacity="0.75" visible="false" disable="true" onMouseEntered="#ActivateOpacityUp" onMouseExited="#ActivateOpacityDown" >
+                                 <image>
+                                    <Image url="@../images/buttons/button_activate.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="discardButton" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="273.0" opacity="0.75" visible="false" disable="true" onMouseEntered="#DiscardOpacityUp" onMouseExited="#DiscardOpacityDown" >
+                                 <image>
+                                    <Image url="@../images/buttons/button_discard.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="backButton" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="327.0" opacity="0.75" visible="false" disable="true" onMouseEntered="#BackOpacityUp" onMouseExited="#BackOpacityDown" >
+                                 <image>
+                                    <Image url="@../images/buttons/button_back.png" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </Pane>
                      </children>
                   </StackPane>
                   <VBox prefHeight="563.0" prefWidth="165.0" spacing="10.0">
                      <children>
-                        <ImageView id="Leader1" fitHeight="276.0" fitWidth="192.0" onMouseClicked="#Leader1Clicked" onMouseEntered="#Leader1OpacityUp" onMouseExited="#Leader1OpacityDown" opacity="0.75" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="leader1" disable="false" fitHeight="276.0" fitWidth="192.0" onMouseClicked="#Leader1Clicked" onMouseEntered="#Leader1OpacityUp" onMouseExited="#Leader1OpacityDown" opacity="0.75" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Leaders/BACK.png" />
                            </image>
                         </ImageView>
-                        <ImageView id="Leader2" fitHeight="274.0" fitWidth="192.0" onMouseClicked="#Leader2Clicked" onMouseEntered="#Leader2OpacityUp" onMouseExited="#Leader2OpacityDown" opacity="0.75" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="leader2" fitHeight="274.0" fitWidth="192.0" onMouseClicked="#Leader2Clicked" onMouseEntered="#Leader2OpacityUp" onMouseExited="#Leader2OpacityDown" opacity="0.75" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Leaders/BACK.png" />
                            </image>
@@ -49,36 +86,36 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox id="Buttons" layoutX="4.0" layoutY="3.0" prefHeight="123.0" prefWidth="1259.0" spacing="5.0">
+            <HBox id="Buttons" layoutX="4.0" layoutY="3.0" prefHeight="140.0" prefWidth="1259.0" spacing="5.0">
                <children>
-                  <ImageView fitHeight="123.0" fitWidth="238.0" pickOnBounds="true">
+                  <ImageView fitHeight="140.0" fitWidth="234.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/buttons/resourceMartket.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="123.0" fitWidth="310.0" pickOnBounds="true">
+                  <ImageView fitHeight="140.0" fitWidth="310.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/buttons/DevCardsMarketpng.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="123.0" fitWidth="268.0" pickOnBounds="true">
+                  <ImageView fitHeight="140.0" fitWidth="268.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/buttons/activateProd.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="123.0" fitWidth="131.0" pickOnBounds="true">
+                  <ImageView fitHeight="140.0" fitWidth="131.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/buttons/endTurnV.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="123.0" fitWidth="292.0" pickOnBounds="true">
+                  <ImageView fitHeight="140.0" fitWidth="297.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/buttons/background.png" />
                      </image>
                   </ImageView>
                </children>
             </HBox>
-            <GridPane layoutX="973.0" layoutY="130.0" prefHeight="563.0" prefWidth="293.0">
+            <GridPane layoutX="973.0" layoutY="150.0" prefHeight="563.0" prefWidth="293.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>

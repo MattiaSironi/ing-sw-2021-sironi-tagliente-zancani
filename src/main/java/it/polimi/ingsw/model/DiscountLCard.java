@@ -41,7 +41,8 @@ public class DiscountLCard extends LeaderCard implements Printable, Serializable
             DiscountLCard other = (DiscountLCard) lc;
             return getColor1() == other.getColor1() &&
                     getColor2() == other.getColor2() &&
-                    getResType() == other.getResType();
+                    getResType() == other.getResType() &&
+                    getVictoryPoints() == other.getVictoryPoints();
         }
     }
 

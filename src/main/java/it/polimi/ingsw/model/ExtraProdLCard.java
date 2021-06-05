@@ -34,7 +34,8 @@ public class ExtraProdLCard extends LeaderCard implements Printable, Serializabl
             return false;
         else{
             ExtraProdLCard nc = (ExtraProdLCard)lc;
-            return getInput() == nc.getInput() && getColor() == nc.getColor();
+            return getInput() == nc.getInput() && getColor() == nc.getColor() &&
+                    getVictoryPoints() == nc.getVictoryPoints();
 
         }
     }

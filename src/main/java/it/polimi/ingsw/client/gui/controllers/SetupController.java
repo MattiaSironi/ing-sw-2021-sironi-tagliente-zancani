@@ -97,10 +97,7 @@ public class SetupController implements GUIController{
         }
     }
 
-    @Override
-    public void setGUI(GUI gui) {
-        this.gui = gui;
-    }
+
 
 
     public void askForNickname() {
@@ -153,5 +150,10 @@ public class SetupController implements GUIController{
 
     public void opacityDownPlay(MouseEvent mouseEvent) {
         playButton.setOpacity(0.5);
+    }
+
+    @Override
+    public void setMainController(MainController m) {
+        this.gui = m.getGui();
     }
 }

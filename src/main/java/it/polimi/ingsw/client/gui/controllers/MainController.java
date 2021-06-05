@@ -83,6 +83,10 @@ public class MainController extends Observable<Message> implements Observer<Mess
         }
     }
 
+    public GUI getGui() {
+        return gui;
+    }
+
     public void handleObject(ObjectMessage message) {
         if (message.getObjectID() == -1) {
             this.game = (Game) message.getObject();

@@ -769,6 +769,35 @@ public class LeaderTests {
         assertEquals("W-COIN",str);
     }
 
+    @Test
+    @DisplayName("present")
+    void present(){
+        LeaderCard l1 = new ExtraProdLCard(2,2,CardColor.BLUE,ResourceType.STONE);
+        LeaderCard l2 = new WhiteTrayLCard(4,1,ResourceType.COIN,CardColor.PURPLE,CardColor.GREEN);
+        LeaderCard l3 = new WhiteTrayLCard(4,1,ResourceType.COIN,CardColor.PURPLE,CardColor.GREEN);
+        ArrayList vett =new ArrayList();
+        vett.add(l1);
+        vett.add(l2);
+        LeaderDeck deck = new LeaderDeck(vett);
+
+        assertEquals(true,deck.isPresent(l3));
+    }
+
+
+    @Test
+    @DisplayName("NotPresent")
+    void NotPresent(){
+        LeaderCard l1 = new ExtraProdLCard(2,2,CardColor.BLUE,ResourceType.STONE);
+        LeaderCard l2 = new WhiteTrayLCard(4,1,ResourceType.COIN,CardColor.PURPLE,CardColor.GREEN);
+        LeaderCard l3 = new WhiteTrayLCard(4,3,ResourceType.COIN,CardColor.PURPLE,CardColor.GREEN);
+        ArrayList vett =new ArrayList();
+        vett.add(l1);
+        vett.add(l2);
+        LeaderDeck deck = new LeaderDeck(vett);
+
+        assertEquals(false,deck.isPresent(l3));
+
+    }
 
 
 }

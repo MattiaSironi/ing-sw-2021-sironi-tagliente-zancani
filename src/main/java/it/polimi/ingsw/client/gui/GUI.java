@@ -118,7 +118,7 @@ public class GUI extends Application {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + path.getSceneName()));
                 nameMapScene.put(path.getSceneName(), new Scene(loader.load()));
                 GUIController controller = loader.getController();
-                controller.setGUI(this);
+                controller.setMainController(this.mainController);
                 nameMapController.put(path.getSceneName(), controller);
                 }
         }catch(IOException e){
@@ -148,7 +148,7 @@ public class GUI extends Application {
 
     public void setupFirstDraw() {
         FirstDrawController controller = (FirstDrawController) nameMapController.get(SceneList.FIRSTDRAW.getSceneName());
-        controller.setup(this.mainController);
+        controller.setup();
     }
 
     public void setResCounterLabel(int startResCount) {
