@@ -156,4 +156,9 @@ public class SetupController implements GUIController{
     public void setMainController(MainController m) {
         this.gui = m.getGui();
     }
+
+    @Override
+    public void setup() {
+
+    }
 }

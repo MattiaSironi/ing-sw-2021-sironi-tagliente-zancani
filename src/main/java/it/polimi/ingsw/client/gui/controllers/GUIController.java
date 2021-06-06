@@ -6,4 +6,5 @@ public interface GUIController {
 
     void setMainController(MainController m);
 
+    void setup();
 }

@@ -90,7 +90,7 @@ public class MainController extends Observable<Message> implements Observer<Mess
     public void handleObject(ObjectMessage message) {
         if (message.getObjectID() == -1) {
             this.game = (Game) message.getObject();
-            gui.setupFirstDraw();
+            gui.changeScene(SceneList.FIRSTDRAW);
         } else if (message.getObjectID() == 9) { //Communication
             handleCommunication((Communication) message.getObject());
         } else if (message.getObjectID() == 5) //initialResource

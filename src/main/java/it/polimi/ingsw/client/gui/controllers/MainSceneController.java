@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
+import it.polimi.ingsw.message.ActionMessages.BuyDevCardMessage;
 import it.polimi.ingsw.model.LeaderCard;
 import it.polimi.ingsw.model.ResourceType;
 import javafx.application.Platform;
@@ -17,6 +18,7 @@ public class MainSceneController implements  GUIController {
     public ImageView activateButton;
     public ImageView discardButton;
     public ImageView backButton;
+    public ImageView devMarket;
     LeaderCard l1;
     LeaderCard l2;
     boolean active1 = false;
@@ -68,14 +70,15 @@ public class MainSceneController implements  GUIController {
     public void setMainController(MainController m) {
         this.mainController = m;
         this.gui=m.getGui();
-        Platform.runLater(() -> {
-            this.setup();
-        });
 
     }
 
-    private void setup() {
+    public void setup() {
         l1 = mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0);
         l2 = mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1);
+    }
+
+    public void buyDevCard(MouseEvent mouseEvent) {
+        gui.changeScene(SceneList.BUYDEVCARD);
     }
 }

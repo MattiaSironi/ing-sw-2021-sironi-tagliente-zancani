@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -17,14 +12,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
+<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
    <children>
       <Pane prefHeight="720.0" prefWidth="1270.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="720.0" fitWidth="1270.0" pickOnBounds="true">
-               <image>
-                  <Image url="" />
-               </image>
             </ImageView>
             <HBox id="MyBox" layoutX="3.0" layoutY="150.0" prefHeight="563.0" prefWidth="944.0" spacing="3.0">
                <children>
@@ -51,17 +43,17 @@
                               <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-122.0" layoutY="-189.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-204.0" layoutY="-107.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-243.0" layoutY="-109.0" pickOnBounds="true" preserveRatio="true" />
-                              <ImageView fx:id="activateButton" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="222.0" opacity="0.75" visible="false" disable="true" onMouseEntered="#ActivateOpacityUp" onMouseExited="#ActivateOpacityDown" >
+                              <ImageView fx:id="activateButton" disable="true" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="222.0" onMouseEntered="#ActivateOpacityUp" onMouseExited="#ActivateOpacityDown" opacity="0.75" visible="false">
                                  <image>
                                     <Image url="@../images/buttons/button_activate.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="discardButton" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="273.0" opacity="0.75" visible="false" disable="true" onMouseEntered="#DiscardOpacityUp" onMouseExited="#DiscardOpacityDown" >
+                              <ImageView fx:id="discardButton" disable="true" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="273.0" onMouseEntered="#DiscardOpacityUp" onMouseExited="#DiscardOpacityDown" opacity="0.75" visible="false">
                                  <image>
                                     <Image url="@../images/buttons/button_discard.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="backButton" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="327.0" opacity="0.75" visible="false" disable="true" onMouseEntered="#BackOpacityUp" onMouseExited="#BackOpacityDown" >
+                              <ImageView fx:id="backButton" disable="true" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="327.0" onMouseEntered="#BackOpacityUp" onMouseExited="#BackOpacityDown" opacity="0.75" visible="false">
                                  <image>
                                     <Image url="@../images/buttons/button_back.png" />
                                  </image>
@@ -93,7 +85,7 @@
                         <Image url="@../images/buttons/resourceMartket.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="140.0" fitWidth="310.0" pickOnBounds="true">
+                  <ImageView fx:id="devMarket" fitHeight="140.0" fitWidth="310.0" onMouseClicked="#buyDevCard" pickOnBounds="true">
                      <image>
                         <Image url="@../images/buttons/DevCardsMarketpng.png" />
                      </image>

@@ -47,7 +47,6 @@ public class FirstDrawController implements GUIController {
                 case 3 -> card4.setImage(new Image(getClass().getResource("/images/Leaders/" + leaderCard.toString() + ".png").toExternalForm()));
             }
         }
-        gui.changeScene(SceneList.FIRSTDRAW);
     }
 
 

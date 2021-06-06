@@ -5,8 +5,10 @@ public enum SceneList {
     SETUP("setup.fxml"),
     START("start.fxml"),
     FIRSTDRAW("firstDraw.fxml"),
+    BUYDEVCARD("buyDevCardScene.fxml"),
     MAINSCENE("mainScene.fxml"),
     MARKET("marketScene.fxml");
+
 
     private final String sceneName;
 

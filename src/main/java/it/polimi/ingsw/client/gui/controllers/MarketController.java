@@ -18,4 +18,9 @@ public class MarketController implements GUIController{
         this.mainController = m;
 
     }
+
+    @Override
+    public void setup() {
+
+    }
 }

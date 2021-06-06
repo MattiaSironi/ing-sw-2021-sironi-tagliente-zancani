@@ -128,6 +128,8 @@ public class GUI extends Application {
     }
 
     public void changeScene(SceneList sceneName){
+        GUIController controller = nameMapController.get(sceneName.getSceneName());
+        controller.setup();
         Platform.runLater(() -> {
             currentScene = nameMapScene.get(sceneName.getSceneName());
             stage.setScene(currentScene);
@@ -143,12 +145,6 @@ public class GUI extends Application {
 
     public int getID() {
         return ID;
-    }
-
-
-    public void setupFirstDraw() {
-        FirstDrawController controller = (FirstDrawController) nameMapController.get(SceneList.FIRSTDRAW.getSceneName());
-        controller.setup();
     }
 
     public void setResCounterLabel(int startResCount) {
