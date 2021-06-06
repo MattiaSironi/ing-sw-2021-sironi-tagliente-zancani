@@ -80,7 +80,7 @@
             </HBox>
             <HBox id="Buttons" layoutX="4.0" layoutY="3.0" prefHeight="140.0" prefWidth="1259.0" spacing="5.0">
                <children>
-                  <ImageView fitHeight="140.0" fitWidth="234.0" pickOnBounds="true">
+                  <ImageView fitHeight="140.0" fitWidth="234.0" pickOnBounds="true" onMouseClicked="#goToMarket">
                      <image>
                         <Image url="@../images/buttons/resourceMartket.png" />
                      </image>

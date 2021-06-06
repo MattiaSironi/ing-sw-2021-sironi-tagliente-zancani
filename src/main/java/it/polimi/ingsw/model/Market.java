@@ -35,6 +35,10 @@ public class Market implements Printable, Serializable {
         hand = new ArrayList<>();
     }
 
+    public Marble[][] getMarketBoard() {
+        return marketBoard;
+    }
+
     public Market() {
         marketBoard = new Marble[3][4];
         marbleOut = new Marble(null);

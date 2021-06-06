@@ -81,4 +81,8 @@ public class MainSceneController implements  GUIController {
     public void buyDevCard(MouseEvent mouseEvent) {
         gui.changeScene(SceneList.BUYDEVCARD);
     }
+
+    public void goToMarket(MouseEvent mouseEvent) {
+        mainController.getGui().changeScene(SceneList.MARKET);
+    }
 }
