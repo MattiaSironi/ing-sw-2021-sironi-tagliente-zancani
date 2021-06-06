@@ -43,17 +43,17 @@
                               <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-122.0" layoutY="-189.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-204.0" layoutY="-107.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-243.0" layoutY="-109.0" pickOnBounds="true" preserveRatio="true" />
-                              <ImageView fx:id="activateButton" disable="true" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="222.0" onMouseEntered="#ActivateOpacityUp" onMouseExited="#ActivateOpacityDown" opacity="0.75" visible="false">
+                              <ImageView fx:id="activateButton" disable="true" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="222.0" onMouseClicked="#activate" onMouseEntered="#ActivateOpacityUp" onMouseExited="#ActivateOpacityDown" opacity="0.75" visible="false">
                                  <image>
                                     <Image url="@../images/buttons/button_activate.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="discardButton" disable="true" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="273.0" onMouseEntered="#DiscardOpacityUp" onMouseExited="#DiscardOpacityDown" opacity="0.75" visible="false">
+                              <ImageView fx:id="discardButton" disable="true" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="273.0" onMouseClicked="#discard" onMouseEntered="#DiscardOpacityUp" onMouseExited="#DiscardOpacityDown" opacity="0.75" visible="false">
                                  <image>
                                     <Image url="@../images/buttons/button_discard.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="backButton" disable="true" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="327.0" onMouseEntered="#BackOpacityUp" onMouseExited="#BackOpacityDown" opacity="0.75" visible="false">
+                              <ImageView fx:id="backButton" disable="true" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="327.0" onMouseClicked="#Back" onMouseEntered="#BackOpacityUp" onMouseExited="#BackOpacityDown" opacity="0.75" visible="false">
                                  <image>
                                     <Image url="@../images/buttons/button_back.png" />
                                  </image>
@@ -64,12 +64,12 @@
                   </StackPane>
                   <VBox prefHeight="563.0" prefWidth="165.0" spacing="10.0">
                      <children>
-                        <ImageView fx:id="leader1" disable="false" fitHeight="276.0" fitWidth="192.0" onMouseClicked="#Leader1Clicked" onMouseEntered="#Leader1OpacityUp" onMouseExited="#Leader1OpacityDown" opacity="0.75" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="leader1" disable="false" fitHeight="276.0" fitWidth="192.0" onMouseClicked="#Leader1Clicked" onMouseEntered="#Leader1OpacityUp" onMouseExited="#Leader1OpacityDown" opacity="1" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Leaders/BACK.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="leader2" fitHeight="274.0" fitWidth="192.0" onMouseClicked="#Leader2Clicked" onMouseEntered="#Leader2OpacityUp" onMouseExited="#Leader2OpacityDown" opacity="0.75" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="leader2" fitHeight="274.0" fitWidth="192.0" onMouseClicked="#Leader2Clicked" onMouseEntered="#Leader2OpacityUp" onMouseExited="#Leader2OpacityDown" opacity="1" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Leaders/BACK.png" />
                            </image>
@@ -134,7 +134,7 @@
                   </ImageView>
                </children>
             </GridPane>
-            <Label alignment="TOP_LEFT" layoutX="980.0" layoutY="17.0" prefHeight="102.0" prefWidth="277.0" text="Invalid move! You don't have enough resources" textFill="#f8ff03" />
+            <Label fx:id="message" alignment="TOP_LEFT" layoutX="980.0" layoutY="17.0" prefHeight="102.0" prefWidth="277.0" text="Invalid move! You don't have enough resources" textFill="#f8ff03" />
          </children>
       </Pane>
    </children>

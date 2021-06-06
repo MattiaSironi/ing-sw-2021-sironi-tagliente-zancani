@@ -108,6 +108,9 @@ public class MainController extends Observable<Message> implements Observer<Mess
             this.game.setTurn((Turn) message.getObject());
             handleTurn((this.game.getTurn()));
         }
+        else if(message.getObjectID()==8){ //leaderDeck
+            this.game.getPlayerById(message.getID()).setLeaderDeck((LeaderDeck)message.getObject());
+        }
     }
 
     public void handleTurn (Turn turn){

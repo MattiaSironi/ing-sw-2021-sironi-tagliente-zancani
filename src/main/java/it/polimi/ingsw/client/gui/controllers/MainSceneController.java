@@ -8,9 +8,12 @@ import it.polimi.ingsw.model.ResourceType;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 import java.sql.SQLOutput;
 
@@ -19,21 +22,29 @@ public class MainSceneController implements  GUIController {
     public ImageView discardButton;
     public ImageView backButton;
     public ImageView devMarket;
-    LeaderCard l1;
-    LeaderCard l2;
+    public Label message;
+    ImageView l1;
+    ImageView l2;
     boolean active1 = false;
     boolean active2 = false;
     public ImageView leader1;
     public ImageView leader2;
     private GUI gui;
+    int choosing = 0;
 
     private MainController mainController;
 
 
-    public void Leader1OpacityUp(MouseEvent mouseEvent) { leader1.setOpacity(1);}
-    public void Leader1OpacityDown(MouseEvent mouseEvent) { leader1.setOpacity(0.75);}
-    public void Leader2OpacityUp(MouseEvent mouseEvent) { leader2.setOpacity(1);}
-    public void Leader2OpacityDown(MouseEvent mouseEvent) { leader2.setOpacity(0.75);}
+    public void Leader1OpacityUp(MouseEvent mouseEvent) {
+        if(!active1&&choosing==0)
+             leader1.setEffect(new Glow(0.3));
+    }
+    public void Leader1OpacityDown(MouseEvent mouseEvent) { leader1.setEffect(new DropShadow(20, Color.BLACK));}
+    public void Leader2OpacityUp(MouseEvent mouseEvent) {
+        if(!active2&&choosing==0)
+             leader2.setEffect(new Glow(0.3));
+    }
+    public void Leader2OpacityDown(MouseEvent mouseEvent) { leader2.setEffect(new DropShadow(20, Color.BLACK));}
     public void ActivateOpacityUp(MouseEvent mouseEvent) {activateButton.setOpacity(1);}
     public void ActivateOpacityDown(MouseEvent mouseEvent) { activateButton.setOpacity(0.75);}
     public void DiscardOpacityUp(MouseEvent mouseEvent) { discardButton.setOpacity(1);}
@@ -43,26 +54,28 @@ public class MainSceneController implements  GUIController {
 
 
     public void Leader1Clicked(MouseEvent mouseEvent) {
-        if(!active1) {
+        if(!active1&&choosing==0) {
             activateButton.setVisible(true);
             activateButton.setDisable(false);
             discardButton.setVisible(true);
             discardButton.setDisable(false);
             backButton.setVisible(true);
             backButton.setDisable(false);
-            leader1.setImage(new Image(getClass().getResource("/images/Leaders/" + leader1.toString() + ".png").toExternalForm()));
+            leader1.setImage(new Image(getClass().getResource("/images/Leaders/"+this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString()+".png").toExternalForm()));
+            choosing=1;
         }
     }
 
     public void Leader2Clicked(MouseEvent mouseEvent) {
-        if(!active2){
+        if(!active2 && choosing==0){
             activateButton.setVisible(true);
             activateButton.setDisable(false);
             discardButton.setVisible(true);
             discardButton.setDisable(false);
             backButton.setVisible(true);
             backButton.setDisable(false);
-            leader2.setImage(new Image(getClass().getResource("/images/Leaders/" + leader2.toString() + ".png").toExternalForm()));
+            leader2.setImage(new Image(getClass().getResource("/images/Leaders/"+this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1).toString()+".png").toExternalForm()));
+            choosing = 2;
         }
     }
 
@@ -74,8 +87,7 @@ public class MainSceneController implements  GUIController {
     }
 
     public void setup() {
-        l1 = mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0);
-        l2 = mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1);
+
     }
 
     public void buyDevCard(MouseEvent mouseEvent) {
@@ -84,5 +96,45 @@ public class MainSceneController implements  GUIController {
 
     public void goToMarket(MouseEvent mouseEvent) {
         mainController.getGui().changeScene(SceneList.MARKET);
+    }
+
+    public void Back(MouseEvent mouseEvent) {
+        activateButton.setVisible(false);
+        activateButton.setDisable(true);
+        discardButton.setVisible(false);
+        discardButton.setDisable(true);
+        backButton.setVisible(false);
+        backButton.setDisable(true);
+        if(!active1)
+             leader1.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
+        if(!active2)
+             leader2.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
+        choosing=0;
+    }
+
+    public void activate(MouseEvent mouseEvent) {
+        //settaggio nel model
+
+        //se tutto ok
+        if(choosing==1){
+        active1 = true;
+        leader1.setImage(new Image(getClass().getResource("/images/Leaders/"+this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString()+".png").toExternalForm()));
+        }
+        else{
+            active2 = true;
+            leader2.setImage(new Image(getClass().getResource("/images/Leaders/"+this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1).toString()+".png").toExternalForm()));
+        }
+        message.setText("Leader card activated");
+        activateButton.setVisible(false);
+        activateButton.setDisable(true);
+        discardButton.setVisible(false);
+        discardButton.setDisable(true);
+        backButton.setVisible(false);
+        backButton.setDisable(true);
+        choosing=0;
+    }
+
+    public void discard(MouseEvent mouseEvent) {
+
     }
 }
