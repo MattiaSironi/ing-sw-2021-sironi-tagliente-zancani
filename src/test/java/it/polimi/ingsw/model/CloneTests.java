@@ -23,28 +23,18 @@ public class CloneTests {
         Turn original = new Turn();
         original.setPlayerPlayingID(0);
         original.setPhase(ActionPhase.MARKET);
-        original.setError(false);
-        original.setErrorType(null);
+
         Turn clone = original.clone();
         assertEquals(original.getPlayerPlayingID(), clone.getPlayerPlayingID());
         assertEquals(original.getPhase(), clone.getPhase());
-        assertEquals(original.isError(), clone.isError());
-        assertEquals(original.getErrorType(), clone.getErrorType());
 
-        clone.setError(true);
-        clone.setErrorType(ErrorList.INVALID_MOVE);
         clone.setPlayerPlayingID(10);
         clone.setPhase(ActionPhase.GAME_OVER);
-
         assertEquals(original.getPlayerPlayingID(), 0);
         assertEquals(original.getPhase(), ActionPhase.MARKET);
-        assertEquals(original.isError(), false);
-        assertEquals(original.getErrorType(), null);
-
         assertEquals(clone.getPlayerPlayingID(), 10);
         assertEquals(clone.getPhase(), ActionPhase.GAME_OVER);
-        assertEquals(clone.isError(), true);
-        assertEquals(clone.getErrorType(), ErrorList.INVALID_MOVE);
+
 
 
 

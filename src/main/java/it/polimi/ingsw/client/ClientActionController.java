@@ -758,8 +758,9 @@ public class ClientActionController extends Observable<Message> implements Obser
                     cli.printToConsole("Better luck next time!");
                     System.exit(0);
                 } else {
-                    if (turn.getPlayerPlayingID()== -1) cli.printToConsole("Lorenzo Il Magnifico won!");
-                    else cli.printToConsole(this.mmv.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
+                    if (turn.getPlayerPlayingID() == -1) cli.printToConsole("Lorenzo Il Magnifico won!");
+                    else
+                        cli.printToConsole(this.mmv.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
                     cli.printToConsole("You lose!");
 
 
@@ -767,13 +768,8 @@ public class ClientActionController extends Observable<Message> implements Obser
             }
 
 
-        } else {
+        } else if (turn.getPlayerPlayingID() == ID) {
 
-
-            if (turn.getPlayerPlayingID() == ID) {
-                if (turn.isError()) {
-                    cli.printToConsole(turn.getErrorType().getString());
-                }
                 switch (turn.getPhase()) {
                     case WAITING_FOR_ACTION: {
                         chooseAction();
@@ -814,7 +810,7 @@ public class ClientActionController extends Observable<Message> implements Obser
             } else
                 cli.printToConsole(mmv.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
         }
-    }
+
 
     private void selectResourceFromHand() {
         ResourceType res = mmv.getGame().getBoard().getMarket().getHand().get(0).getRes();

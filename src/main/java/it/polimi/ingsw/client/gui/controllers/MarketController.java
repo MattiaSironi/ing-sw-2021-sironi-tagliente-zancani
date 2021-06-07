@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.SceneList;
+import it.polimi.ingsw.message.ActionMessages.MarketMessage;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.ResourceType;
@@ -59,7 +60,9 @@ public class MarketController implements GUIController{
     public Button column3;
     public Button column4;
     private MainController mainController;
-    private ArrayList<ImageView> marbles;
+    private ArrayList<Button> arrows;
+
+
 
 
     @Override
@@ -69,14 +72,25 @@ public class MarketController implements GUIController{
             mainController.setWareValid(true);
             showMarket();
             showShelves();
+            groupArrows();
+
+
+
         }
 
 
     }
 
-
-
-
+    private void groupArrows() {
+        arrows = new ArrayList<>();
+        arrows.add(row1);
+        arrows.add(row2);
+        arrows.add(row3);
+        arrows.add(column1);
+        arrows.add(column2);
+        arrows.add(column3);
+        arrows.add(column4);
+    }
 
 
     @Override
@@ -86,7 +100,7 @@ public class MarketController implements GUIController{
     }
 
     public void showShelves() {
-        ShelfWarehouse myshelves = mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getWarehouse();
+        ShelfWarehouse myShelves = mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getWarehouse();
         ArrayList<ImageView> shelf2 = new ArrayList<>();
         ArrayList<ImageView> shelf3 = new ArrayList<>();
         ArrayList<ImageView> shelf4 = new ArrayList<>();
@@ -103,36 +117,36 @@ public class MarketController implements GUIController{
         shelf5.add(shelf5pos1);
         shelf5.add(shelf5pos2);
 
-        if (myshelves.getShelves().get(0).getResType() != ResourceType.EMPTY)
-            shelf1pos1.setImage(new Image(getClass().getResource("/images/PunchBoard/" + myshelves.getShelves().get(0).getResType().toString().toLowerCase() + ".png").toExternalForm()));
+        if (myShelves.getShelves().get(0).getResType() != ResourceType.EMPTY)
+            shelf1pos1.setImage(new Image(getClass().getResource("/images/PunchBoard/" + myShelves.getShelves().get(0).getResType().toString().toLowerCase() + ".png").toExternalForm()));
 
-        if (myshelves.getShelves().get(1).getResType() != ResourceType.EMPTY) {
-            r = myshelves.getShelves().get(1).getResType();
-            max = myshelves.getShelves().get(1).getCount();
+        if (myShelves.getShelves().get(1).getResType() != ResourceType.EMPTY) {
+            r = myShelves.getShelves().get(1).getResType();
+            max = myShelves.getShelves().get(1).getCount();
             for (ImageView iv : shelf2) {
                 if (shelf2.indexOf(iv) <= max - 1)
                     iv.setImage(new Image(getClass().getResource("/images/PunchBoard/" + r.toString().toLowerCase() + ".png").toExternalForm()));
             }
         }
-        if (myshelves.getShelves().get(2).getResType() != ResourceType.EMPTY) {
-            r = myshelves.getShelves().get(2).getResType();
-            max = myshelves.getShelves().get(2).getCount();
+        if (myShelves.getShelves().get(2).getResType() != ResourceType.EMPTY) {
+            r = myShelves.getShelves().get(2).getResType();
+            max = myShelves.getShelves().get(2).getCount();
             for (ImageView iv : shelf3) {
                 if (shelf3.indexOf(iv) <= max - 1)
                     iv.setImage(new Image(getClass().getResource("/images/PunchBoard/" + r.toString().toLowerCase() + ".png").toExternalForm()));
             }
         }
-        if (myshelves.getShelves().get(3).getResType() != null) {
-            r = myshelves.getShelves().get(3).getResType();
-            max = myshelves.getShelves().get(3).getCount();
+        if (myShelves.getShelves().get(3).getResType() != null) {
+            r = myShelves.getShelves().get(3).getResType();
+            max = myShelves.getShelves().get(3).getCount();
             for (ImageView iv : shelf4) {
                 iv.setImage(new Image(getClass().getResource("/images/PunchBoard/" + r.toString().toLowerCase() + ".png").toExternalForm()));
                 if (!(shelf4.indexOf(iv) <= max - 1)) iv.setOpacity(0.5);
             }
         }
-        if (myshelves.getShelves().get(4).getResType() != null) {
-            r = myshelves.getShelves().get(4).getResType();
-            max = myshelves.getShelves().get(4).getCount();
+        if (myShelves.getShelves().get(4).getResType() != null) {
+            r = myShelves.getShelves().get(4).getResType();
+            max = myShelves.getShelves().get(4).getCount();
             for (ImageView iv : shelf5) {
                 iv.setImage(new Image(getClass().getResource("/images/PunchBoard/" + r.toString().toLowerCase() + ".png").toExternalForm()));
                 if (!(shelf5.indexOf(iv) <= max - 1)) iv.setOpacity(0.5);
@@ -183,4 +197,49 @@ public class MarketController implements GUIController{
     }
 
 
+    public void goToMarket(MouseEvent mouseEvent) { //TODO
+        disableArrows();
+        back.setDisable(true);
+        boolean row;
+        int index;
+        Button selected = (Button) (mouseEvent.getTarget());
+        switch (selected.getId()) {
+            case "row1" -> {
+                row = true;
+                index = 0;
+
+            }
+            case "row2" -> {
+                row = true;
+                index = 1;
+            }
+            case "row3" -> {
+                row = true;
+                index = 2;
+            }
+            case "column1" -> {
+                row = false;
+                index = 0;
+            }
+            case "column2" -> {
+                row = false;
+                index = 1;
+            }
+            case "column3" -> {
+                row = false;
+                index = 2;
+            }
+            default -> {
+                row = false;
+                index = 3;
+            }
+        }
+            mainController.send(new MarketMessage(row, index, mainController.getGui().getID()));
+
+        }
+
+
+    private void disableArrows() {
+        for (Button arrow : arrows) arrow.setDisable(true);
+    }
 }

@@ -117,13 +117,15 @@ public class Controller implements Observer<Message> {
     public void swapShelves(int s1, int s2, int ID) {
 
         if ((s1 == s2) || (s1 < 0) || (s1 > 4) || (s2 < 0) || (s2 > 4)) {
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, true, ErrorList.INVALID_MOVE);
+            game.setCommunication(ID, CommunicationList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
             return;
         }
         if (!(game.swapShelvesByID(s1, s2, ID))) {
-            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
+            game.setCommunication(ID, CommunicationList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase());
         } else
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
     }
 
     public void goToMarket(boolean row, int index, int ID) {
@@ -148,7 +150,7 @@ public class Controller implements Observer<Message> {
         m.setMarbleOut(resources.get(0));
 
         game.setMarketHand(resources);
-        game.setTurn(ID, ActionPhase.MARKET, false, null);
+        game.setTurn(ID, ActionPhase.MARKET);
 
     }
 
@@ -175,16 +177,17 @@ public class Controller implements Observer<Message> {
                     if (this.game.addResourceToWarehouse(ID, shelfIndex, r))
                         game.removeFromMarketHand();
                     else {
-                        game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
+                        game.setCommunication(ID, CommunicationList.INVALID_MOVE);
+                        game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase());
                         return;
                     }
                 }
             }
 
             if (game.getBoard().getMarket().getHand().size() == 0) {
-                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
             } else
-                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.MARKET, false, null);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.MARKET);
         }
     }
 
@@ -215,21 +218,24 @@ public class Controller implements Observer<Message> {
         try {
             int[] toPay = checkHasDiscount(game.getBoard().getMatrix().getDevDecks().get(chosenIndex).getCards().get(0).getCostRes(), ID);
             if (!game.getPlayerById(ID).getPersonalBoard().totalPaymentChecker(toPay)) {
-                game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
+                game.setCommunication(ID, CommunicationList.NOT_ENOUGH_RES);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase());
             } else if (!(checkDevCardPlacement(game.getBoard().getMatrix().getDevDecks().get(chosenIndex).getCards().get(0), game.getPlayerById(ID)))) {
-                game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
+                game.setCommunication(ID, CommunicationList.NO_SLOTS);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase());
             } else {
                 game.setResToPay(game.getBoard().getMatrix().getDevDecks().get(chosenIndex).getCards().get(0), ID);
                 game.setChosenDevCard(game.getBoard().getMatrix().getDevDecks().get(chosenIndex).getCards().get(0), chosenIndex);
                 if (game.getBoard().getMatrix().getResToPay().size() == 0) {
                     game.setCommunication(ID, CommunicationList.NO_PAYMENT_NEEDED);
-                    game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.CHOOSE_SLOT, false, null);
+                    game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.CHOOSE_SLOT);
                 } else {
-                    game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.B_PAYMENT, false, null);
+                    game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.B_PAYMENT);
                 }
             }
         } catch (IndexOutOfBoundsException e) {
-            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
+            game.setCommunication(ID, CommunicationList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase());
         }
     }
 
@@ -260,7 +266,8 @@ public class Controller implements Observer<Message> {
 
         if (payFrom) {
             if (!(game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(1, game.getBoard().getMatrix().getResToPay().get(0)))) {
-                game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
+                game.setCommunication(ID, CommunicationList.NOT_ENOUGH_RES);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase());
             } else {
                 if (game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(3).getResType() == game.getBoard().getMatrix().getResToPay().get(0) &&
                         game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(3).getCount() != 0) {
@@ -274,7 +281,8 @@ public class Controller implements Observer<Message> {
             }
         } else {
             if (!(game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(1, game.getBoard().getMatrix().getResToPay().get(0)))) {
-                game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
+                game.setCommunication(ID, CommunicationList.NOT_ENOUGH_RES);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase());
             } else {
                 game.payFromStrongbox(1, game.getBoard().getMatrix().getResToPay().get(0), ID);
                 isEmpty(turn);
@@ -286,31 +294,32 @@ public class Controller implements Observer<Message> {
         game.removeResToPay();
         if (game.getBoard().getMatrix().getResToPay().size() == 0) {
             if (turn)
-                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT, false, null);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT);
             else
-                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.CHOOSE_SLOT, false, null);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.CHOOSE_SLOT);
 
         } else {
             if (turn)
-                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.PAYMENT, false, null);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.PAYMENT);
             else
-                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.B_PAYMENT, false, null);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.B_PAYMENT);
         }
     }
 
     public void placeDevCard(int ID, int slot) {
         if (game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().size() == 0 && game.getBoard().getMatrix().getChosenCard().getLevel() == 1) {
             game.addDevCardToPlayer(ID, slot);
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
             if (game.getPlayers().size() == 1 && game.checkColumnEmpty()) {
                 game.setGameOver(true);
             }
         } else if (game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().size() != 0 &&
                 game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().get(0).getLevel() == game.getBoard().getMatrix().getChosenCard().getLevel() - 1) {
             game.addDevCardToPlayer(ID, slot);
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
         } else {
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.CHOOSE_SLOT, true, ErrorList.INVALID_MOVE);
+            game.setCommunication(ID, CommunicationList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.CHOOSE_SLOT);
         }
     }
 
@@ -416,12 +425,14 @@ public class Controller implements Observer<Message> {
                 !(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(stoneWare, ResourceType.STONE)) ||
                 !(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(servantWare, ResourceType.SERVANT)) ||
                 !(this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(shieldWare, ResourceType.SHIELD))) {
-            this.game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
+            game.setCommunication(ID, CommunicationList.NOT_ENOUGH_RES);
+            this.game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase());
         } else if (!(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(coinStrong, ResourceType.COIN)) ||
                 !(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(stoneStrong, ResourceType.STONE)) ||
                 !(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(servantStrong, ResourceType.SERVANT)) ||
                 !(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(shieldStrong, ResourceType.SHIELD))) {
-            this.game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
+            game.setCommunication(ID, CommunicationList.NOT_ENOUGH_RES);
+            this.game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase());
         } else {
             int faithPoints = (int) boughtRes.stream().filter(x -> x.equals(ResourceType.FAITH_POINT)).count();
             if (!(faithPoints == 0)) {
@@ -448,34 +459,37 @@ public class Controller implements Observer<Message> {
             int earnedShield = (int) boughtRes.stream().filter(x -> x.equals(ResourceType.SHIELD)).count();
 
             game.addEarnedResourcesByID(ID, earnedCoin, earnedStone, earnedServant, earnedShield);
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT, false, null);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT);
         }
     }
 
     public void collectNewRes(int ID) {
         game.addResourceToStrongbox(ID);
-        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
+        game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
     }
 
     public void isExtraProd(int index, int ID) {
         try {
             LeaderCard leaderCard = game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().get(index);
             if (!(leaderCard instanceof ExtraProdLCard)) {
-                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT, true, ErrorList.INVALID_MOVE);
+                game.setCommunication(ID, CommunicationList.INVALID_MOVE);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT);
             }
             else if(!game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(1, ((ExtraProdLCard) leaderCard).getInput()) ||
                     !game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(1, ((ExtraProdLCard) leaderCard).getInput())){
-                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT, true, ErrorList.INVALID_MOVE);
+                game.setCommunication(ID, CommunicationList.INVALID_MOVE);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT);
             } else {
                 ArrayList<ResourceType> resForLeader = new ArrayList<>();
                 resForLeader.add(((ExtraProdLCard) leaderCard).getInput());
                 game.setChosenLeader(leaderCard, ID);
                 game.setPaidResForBasic(resForLeader);
                 game.moveFaithPosByID(ID, 1);
-                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.SELECT_RES, false, null);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.SELECT_RES);
             }
         } catch (IndexOutOfBoundsException e) {
-            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.INVALID_MOVE);
+            game.setCommunication(ID, CommunicationList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase());
         }
     }
 
@@ -487,11 +501,13 @@ public class Controller implements Observer<Message> {
             } else if (this.game.getPlayerById(ID).getResDiscount2() == null) {
                 this.game.getPlayerById(ID).setResDiscount2(dc.getResType());
             } else {
-                game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.TWO_LEADERS);
+                game.setCommunication(ID, CommunicationList.TWO_LEADERS);
+                game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION);
                 return;
             }
         } else {
-            game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.NO_REQUIREMENTS);
+            game.setCommunication(ID, CommunicationList.NO_REQUIREMENTS);
+            game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION);
             return;
         }
         RemoveLeaderFromDeck(ID, dc);
@@ -508,11 +524,13 @@ public class Controller implements Observer<Message> {
                 // game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes2(sc.getResDepot());
                 // game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum2(0);
             } else {
-                game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.TWO_LEADERS);
+                game.setCommunication(ID, CommunicationList.TWO_LEADERS);
+                game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION);
                 return;
             }
         } else {
-            game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.NO_REQUIREMENTS);
+            game.setCommunication(ID, CommunicationList.NO_REQUIREMENTS);
+            game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION);
             return;
         }
         RemoveLeaderFromDeck(ID, sc);
@@ -525,11 +543,13 @@ public class Controller implements Observer<Message> {
             } else if (this.game.getPlayerById(ID).getInputExtraProduction2() == null) {
                 game.getPlayerById(ID).setInputExtraProduction2(c.getInput());
             } else {
-                game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.TWO_LEADERS);
+                game.setCommunication(ID, CommunicationList.TWO_LEADERS);
+                game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION);
                 return;
             }
         } else {
-            game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.NO_REQUIREMENTS);
+            game.setCommunication(ID, CommunicationList.NO_REQUIREMENTS);
+            game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION);
             return;
         }
         RemoveLeaderFromDeck(ID, c);
@@ -542,11 +562,13 @@ public class Controller implements Observer<Message> {
             } else if (this.game.getPlayerById(ID).getWhiteConversion2() == null) {
                 game.getPlayerById(ID).setWhiteConversion2(wc.getResType());
             } else {
-                game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.TWO_LEADERS);
+                game.setCommunication(ID, CommunicationList.TWO_LEADERS);
+                game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION);
                 return;
             }
         } else {
-            game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.NO_REQUIREMENTS);
+            game.setCommunication(ID, CommunicationList.NO_REQUIREMENTS);
+            game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION);
             return;
         }
 
@@ -576,11 +598,13 @@ public class Controller implements Observer<Message> {
                 game.setLeaderCardsToDiscard(ID, game.getPlayerById(ID).getLeaderCardsToDiscard() - 1);
             } else {
                 game.moveFaithPosByID(ID, 1);
-                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, false, null);
+                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
             }
-        } else
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION, true, ErrorList.ZERO_CARDS);
+        } else {
+            game.setCommunication(ID, CommunicationList.ZERO_CARDS);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
 
+        }
     }
 
 
@@ -614,9 +638,9 @@ public class Controller implements Observer<Message> {
         else if (r == ResourceType.SHIELD)
             game.addEarnedResourcesByID(ID, 0, 0, 0, 1);
         if (turn)
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.BASIC, false, null);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.BASIC);
         else
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.PAYMENT, false, null);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.PAYMENT);
     }
 
     public void setBasicProdPayment(ArrayList<ResourceType> resources, int ID) {
@@ -627,10 +651,11 @@ public class Controller implements Observer<Message> {
         resArray[3] = (int) resources.stream().filter(x -> x.equals(ResourceType.SHIELD)).count();
 
         if (!game.getPlayerById(ID).getPersonalBoard().totalPaymentChecker(resArray)) {
-            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase(), true, ErrorList.NOT_ENOUGH_RES);
+            game.setCommunication(ID, CommunicationList.NOT_ENOUGH_RES);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase());
         } else {
             game.setPaidResForBasic(resources);
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.PAYMENT, false, null);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.PAYMENT);
         }
     }
 

@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
 import it.polimi.ingsw.message.ActionMessages.BuyDevCardMessage;
 import it.polimi.ingsw.message.ActionMessages.PlayLeaderMessage;
-import it.polimi.ingsw.model.ErrorList;
+
 import it.polimi.ingsw.model.LeaderCard;
 import it.polimi.ingsw.model.ResourceType;
 import javafx.application.Platform;
@@ -162,7 +162,7 @@ public class MainSceneController implements  GUIController {
         choosing=0;
     }
 
-    public void showErrors(ErrorList errorType) {
-        message.setText(errorType.getString());
-    }
+//    public void showErrors(ErrorList errorType) {
+//        message.setText(errorType.getString());
+//    }
 }

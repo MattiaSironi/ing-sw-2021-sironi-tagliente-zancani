@@ -1,28 +1,11 @@
 package it.polimi.ingsw.client.gui;
 
 
-import it.polimi.ingsw.client.SocketServerConnection;
-import it.polimi.ingsw.client.UI;
 import it.polimi.ingsw.client.gui.controllers.*;
-import it.polimi.ingsw.message.ActionMessages.*;
-import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
-import it.polimi.ingsw.message.CommonMessages.IdMessage;
-import it.polimi.ingsw.message.CommonMessages.Nickname;
-import it.polimi.ingsw.message.Message;
-import it.polimi.ingsw.model.Communication;
-import it.polimi.ingsw.model.CommunicationList;
-import it.polimi.ingsw.model.ErrorList;
-import it.polimi.ingsw.observer.Observable;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 
 public class GUI extends Application {
 
@@ -154,9 +136,15 @@ public class GUI extends Application {
         );
     }
 
-    public void printError(ErrorList errorType) {
-        MainSceneController controller = (MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName());
-        controller.showErrors(errorType);
+//    public void printError(ErrorList errorType) {
+//        MainSceneController controller = (MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName());
+//        controller.showErrors(errorType);
+//    }
+
+    public void showMarket() {
+        Platform.runLater(() -> {
+            ((MarketController)nameMapController.get(SceneList.MARKET.getSceneName())).showMarket();
+        });
     }
 
 //    public void playButtonSound(){

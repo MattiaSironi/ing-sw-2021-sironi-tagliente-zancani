@@ -116,6 +116,8 @@ public class MainController extends Observable<Message> implements Observer<Mess
         else if (message.getObjectID() == 1) { //MARKET
             game.getBoard().setMarket((Market) message.getObject());
             marketValid = false;
+            gui.showMarket();
+            marketValid = true;
         }
                 else if (message.getObjectID() == 9) { //Communication
             handleCommunication((Communication) message.getObject());
@@ -150,9 +152,9 @@ public class MainController extends Observable<Message> implements Observer<Mess
             gui.changeScene(SceneList.MAINSCENE);
         }
         if (turn.getPlayerPlayingID() == gui.getID()) {
-            if (turn.isError()) {
-                gui.printError(turn.getErrorType());
-            }
+//            if (turn.isError()) {
+//                gui.printError(turn.getErrorType());
+//            }
         }
 
     }

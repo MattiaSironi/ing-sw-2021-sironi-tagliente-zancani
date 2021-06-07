@@ -162,11 +162,9 @@ public class Game extends Observable<Message> implements Serializable {
         notify(new ObjectMessage(getBoard().getMarket().clone(), 1, -1));
     }
 
-    public void setTurn(int ID, ActionPhase phase, boolean error, ErrorList errorType){
+    public void setTurn(int ID, ActionPhase phase) {
         getTurn().setPlayerPlayingID(ID);
         getTurn().setPhase(phase);
-        getTurn().setError(error);
-        getTurn().setErrorType(errorType);
         System.out.println("is playing " + turn.getPlayerPlayingID() + " phase: " + turn.getPhase());
         notify(new ObjectMessage(getTurn().clone(), 10, -1));
 
@@ -286,15 +284,15 @@ public class Game extends Observable<Message> implements Serializable {
     public void endTurn(int lastPlayerID) {
         if(numPlayer == 1) {
             if (gameOver) {
-                setTurn(findSoloWinner(), ActionPhase.GAME_OVER, false, null);
+                setTurn(findSoloWinner(), ActionPhase.GAME_OVER);
             } else {
                 handleSoloActionToken();
                 if (gameOver) {
-                    setTurn(findSoloWinner(), ActionPhase.GAME_OVER, false, null);
+                    setTurn(findSoloWinner(), ActionPhase.GAME_OVER);
                     notify(new GameOverMessage(0));
 
 
-                } else setTurn(0, ActionPhase.WAITING_FOR_ACTION, false, null);
+                } else setTurn(0, ActionPhase.WAITING_FOR_ACTION);
             }
         }
         else {
@@ -305,12 +303,12 @@ public class Game extends Observable<Message> implements Serializable {
 
                 } else {
                     int winnerID = findWinner().getId();
-                    setTurn(winnerID, ActionPhase.GAME_OVER, false, null);
+                    setTurn(winnerID, ActionPhase.GAME_OVER);
                     notify(new GameOverMessage(winnerID));
                     return;
                 }
             }
-            setTurn(players.get(position + 1).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
+            setTurn(players.get(position + 1).getId(), ActionPhase.WAITING_FOR_ACTION);
         }
     }
 
@@ -567,7 +565,7 @@ public class Game extends Observable<Message> implements Serializable {
     private synchronized void checkReadyPlayer(int id) {
         if (getPlayerById(id).getStartResCount() ==0 && getPlayerById(id).getLeaderCardsToDiscard() == 0) {
             getPlayerById(id).setReady(true);
-            if (checkReadyPlayers())  setTurn(getPlayers().get(0).getId(), ActionPhase.WAITING_FOR_ACTION, false, null);
+            if (checkReadyPlayers())  setTurn(getPlayers().get(0).getId(), ActionPhase.WAITING_FOR_ACTION);
 
         }
     }
@@ -600,7 +598,7 @@ public class Game extends Observable<Message> implements Serializable {
         notify((new ObjectMessage(getPlayerById(ID).getPersonalBoard().getActiveLeader().clone(),6,ID)));
         notify(new ObjectMessage(this.getPlayerById(ID).clone(),15,ID));
 
-        setTurn(getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION,false,null);
+        setTurn(getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
     }
 
 

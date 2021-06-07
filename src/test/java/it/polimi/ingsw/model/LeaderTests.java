@@ -53,7 +53,7 @@ public class LeaderTests {
         game.getPlayerById(0).setPersonalBoard(personalBoard);
         game.getPlayerById(0).getPersonalBoard().setStrongbox(strongbox);
         game.getPlayerById(0).getPersonalBoard().setWarehouse(warehouse);
-        game.setTurn(0, ActionPhase.WAITING_FOR_ACTION, false, null);
+        game.setTurn(0, ActionPhase.WAITING_FOR_ACTION);
     }
 
     @Test

@@ -34,7 +34,7 @@ public class ControllerTests {
         game.getPlayerById(0).setPersonalBoard(personalBoard);
         game.getPlayerById(0).getPersonalBoard().setStrongbox(strongbox);
         game.getPlayerById(0).getPersonalBoard().setWarehouse(warehouse);
-        game.setTurn(0, ActionPhase.WAITING_FOR_ACTION, false, null);
+        game.setTurn(0, ActionPhase.WAITING_FOR_ACTION);
 
 
 
@@ -620,7 +620,7 @@ public class ControllerTests {
     @DisplayName("End turn")
     public void endTurn()  {
         controller.setNickname(new Nickname("lea", 1));
-        controller.getGame().setTurn(0,ActionPhase.WAITING_FOR_ACTION, false, null);
+        controller.getGame().setTurn(0,ActionPhase.WAITING_FOR_ACTION);
         controller.getGame().endTurn(0);
         assertEquals(1, controller.getGame().getTurn().getPlayerPlayingID());
     }
@@ -631,7 +631,7 @@ public class ControllerTests {
 
 
         controller.update(new Nickname("lea", 1));
-        controller.getGame().setTurn(0, ActionPhase.WAITING_FOR_ACTION, false, null);
+        controller.getGame().setTurn(0, ActionPhase.WAITING_FOR_ACTION);
         controller.update(new EndTurnMessage(0));
         assertEquals(1, controller.getGame().getTurn().getPlayerPlayingID());
 

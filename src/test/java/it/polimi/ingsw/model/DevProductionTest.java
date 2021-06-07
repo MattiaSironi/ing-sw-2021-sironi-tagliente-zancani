@@ -50,7 +50,7 @@ public class DevProductionTest {
         warehouse.getShelves().add(1,two);
         warehouse.getShelves().add(2,three);
         game.getPlayerById(0).getPersonalBoard().setWarehouse(warehouse);
-        game.setTurn(0, ActionPhase.WAITING_FOR_ACTION, false, null);
+        game.setTurn(0, ActionPhase.WAITING_FOR_ACTION);
 
     }
 

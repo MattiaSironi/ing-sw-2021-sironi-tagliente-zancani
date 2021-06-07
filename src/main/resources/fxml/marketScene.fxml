@@ -200,12 +200,12 @@
             </Pane>
             <Pane layoutX="611.0" layoutY="146.0" prefHeight="410.0" prefWidth="323.0">
                <children>
-                  <Button fx:id="row1" layoutX="283.0" layoutY="96.0" mnemonicParsing="false" opacity="0.0" prefHeight="29.0" prefWidth="40.0" text="Button" />
-                  <Button fx:id="row2" layoutX="283.0" layoutY="132.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="40.0" text="Button" />
-                  <Button fx:id="row3" layoutX="283.0" layoutY="171.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="40.0" text="Button" />
-                  <Button fx:id="column1" layoutX="197.0" layoutY="253.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="51.0" rotate="-90.0" text="Button" />
-                  <Button fx:id="column2" layoutX="160.0" layoutY="260.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="51.0" rotate="-90.0" text="Button" />
-                  <Button fx:id="column3" layoutX="123.0" layoutY="259.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="58.0" rotate="-90.0" text="Button" />
+                  <Button fx:id="row1" layoutX="283.0" layoutY="96.0" mnemonicParsing="false" opacity="0.0" prefHeight="29.0" prefWidth="40.0"   onMouseClicked="#goToMarket"/>
+                  <Button fx:id="row2" layoutX="283.0" layoutY="132.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="40.0"  onMouseClicked="#goToMarket"/>
+                  <Button fx:id="row3" layoutX="283.0" layoutY="171.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="40.0"   onMouseClicked="#goToMarket"/>
+                  <Button fx:id="column1" layoutX="197.0" layoutY="253.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="51.0" rotate="-90.0"  onMouseClicked="#goToMarket" />
+                  <Button fx:id="column2" layoutX="160.0" layoutY="260.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="51.0" rotate="-90.0" onMouseClicked="#goToMarket"/>
+                  <Button fx:id="column3" layoutX="123.0" layoutY="259.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="58.0" rotate="-90.0"  onMouseClicked="#goToMarket"/>
                   <Button fx:id="column4" layoutX="86.0" layoutY="259.0" mnemonicParsing="false" opacity="0.0" rotate="-90.0" text="Button" />
                </children>
             </Pane>
