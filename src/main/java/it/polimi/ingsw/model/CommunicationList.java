@@ -4,7 +4,7 @@ package it.polimi.ingsw.model;
  * @author Mattia Sironi
  */
 public enum CommunicationList {
-    NICK_NOT_VALID("This nickame has already been chosen!"),
+    NICK_NOT_VALID("This nickname has already been chosen!"),
     NICK_VALID ("Nickname set correctly"),
     FP("You received one faith point!"),
     FIRST("You are first!"),
@@ -31,7 +31,7 @@ public enum CommunicationList {
     EMPTYCOLUMN("One type of Development card is no longer avaiable in the grid"),
     INVALID_MOVE ("Invalid move"),
     NOT_ENOUGH_RES ("You do not have enough resources!"),
-    NO_SLOTS ("No places available"), //todo
+    NO_SLOTS ("No places available"),
     ZERO_CARDS("No Leaders to discard"),
     TWO_LEADERS("You already have 2 active Leaders"),
     NO_REQUIREMENTS("Can't activate this card");

@@ -268,11 +268,6 @@ public class FirstDrawController implements GUIController {
         }
     }
 
-    public void send2ndLeaderCase1(){
-
-    }
-
-
     public void nextButtonOpacityUp(MouseEvent mouseEvent) {
         nextButton.setOpacity(1);
     }

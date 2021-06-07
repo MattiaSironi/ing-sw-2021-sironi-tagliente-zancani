@@ -128,7 +128,11 @@ public class MainController extends Observable<Message> implements Observer<Mess
                 System.out.println("gigi " + game.getPlayerById(gui.getID()).getStartResCount());
                 gui.setResCounterLabel(game.getPlayerById(gui.getID()).getStartResCount());
             }
-        } else if (message.getObjectID() == 13) {
+        }
+        else if (message.getObjectID() == 8) { //leaderDeck
+                game.getPlayerById(message.getID()).setLeaderDeck((LeaderDeck) message.getObject());
+        }
+        else if (message.getObjectID() == 13) {
             this.game.getPlayerById(message.getID()).setLeaderCardsToDiscard((int) message.getObject());
             if (message.getID() == gui.getID()) ;
 

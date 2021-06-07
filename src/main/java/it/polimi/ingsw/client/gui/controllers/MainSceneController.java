@@ -90,7 +90,7 @@ public class MainSceneController implements  GUIController {
     }
 
     public void setup() {
-
+        System.out.println(mainController.getGui().getID());
     }
 
     @Override

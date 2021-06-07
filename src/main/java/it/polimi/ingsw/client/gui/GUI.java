@@ -9,7 +9,6 @@ import it.polimi.ingsw.message.CommonMessages.Nickname;
 import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.Communication;
 import it.polimi.ingsw.model.CommunicationList;
-import it.polimi.ingsw.model.ErrorList;
 import it.polimi.ingsw.model.Turn;
 import it.polimi.ingsw.observer.Observable;
 import javafx.application.Application;
@@ -129,6 +128,7 @@ public class GUI extends Application {
     }
 
 
+
     public void setID(int ID) {
         this.ID = ID;
     }
@@ -150,24 +150,25 @@ public class GUI extends Application {
 
     public void showMarket() {
         Platform.runLater(() -> {
-            ((MarketController)nameMapController.get(SceneList.MARKET.getSceneName())).showMarket();
-        });
-
-    public void printMessage(Turn turn) {
-        Platform.runLater(()-> {
-            for (GUIController c : nameMapController.values()) {
-                c.print(turn);
-            }
+            ((MarketController) nameMapController.get(SceneList.MARKET.getSceneName())).showMarket();
         });
     }
 
-    public void printMessage(Communication communication){
-        Platform.runLater(()-> {
-            for (GUIController c : nameMapController.values()) {
-                c.print(communication);
-            }
-        });
-    }
+        public void printMessage (Turn turn){
+            Platform.runLater(() -> {
+                for (GUIController c : nameMapController.values()) {
+                    c.print(turn);
+                }
+            });
+        }
+
+        public void printMessage (Communication communication){
+            Platform.runLater(() -> {
+                for (GUIController c : nameMapController.values()) {
+                    c.print(communication);
+                }
+            });
+        }
 
 
 
@@ -176,4 +177,6 @@ public class GUI extends Application {
 //        audioClip.play();
 //    }
 }
+
+
 

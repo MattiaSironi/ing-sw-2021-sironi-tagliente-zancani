@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.SceneList;
 import it.polimi.ingsw.message.ActionMessages.BuyDevCardMessage;
 import it.polimi.ingsw.model.Communication;
 import it.polimi.ingsw.model.Turn;
@@ -30,7 +31,7 @@ public class DevCardController implements GUIController{
     public ImageView card10;
     public ImageView card11;
     public ImageView card12;
-    public ArrayList<ImageView> matrix = new ArrayList<>();
+    public ArrayList<ImageView> matrix;
     public GUI gui;
     public MainController mainController;
     public ImageView chosenCard;
@@ -38,12 +39,15 @@ public class DevCardController implements GUIController{
     public ImageView buyButton;
     public Label uselessLabel;
     public GridPane gridPane;
+    public Label message;
+    public ImageView backButton;
     private int chosenIndex;
     public Label phase;
     public Label comMessages;
 
     public void setup(){
         this.gui = mainController.getGui();
+        this.matrix = new ArrayList<>();
         this.matrix.add(card1);
         this.matrix.add(card2);
         this.matrix.add(card3);
@@ -88,6 +92,7 @@ public class DevCardController implements GUIController{
     @Override
     public void setMainController(MainController m) {
         this.mainController = m;
+        gui = m.getGui();
     }
 
     public void cancel(MouseEvent mouseEvent) {
@@ -132,5 +137,9 @@ public class DevCardController implements GUIController{
     @Override
     public void print(Communication communication) {
         comMessages.setText(communication.getCommunication().getString());
+    }
+
+    public void goBack(MouseEvent mouseEvent) {
+        mainController.getGui().changeScene(SceneList.MAINSCENE);
     }
 }
