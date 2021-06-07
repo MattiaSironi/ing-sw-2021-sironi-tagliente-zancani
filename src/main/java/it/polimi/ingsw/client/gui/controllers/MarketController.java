@@ -1,12 +1,11 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
-import it.polimi.ingsw.model.Marble;
-import it.polimi.ingsw.model.Market;
-import it.polimi.ingsw.model.ResourceType;
-import it.polimi.ingsw.model.ShelfWarehouse;
+import it.polimi.ingsw.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -16,6 +15,7 @@ import java.util.ArrayList;
 
 public class MarketController implements GUIController{
 
+    private GUI gui;
     public Pane background;
     public ImageView bgImage;
     public ImageView marketTray;
@@ -60,6 +60,8 @@ public class MarketController implements GUIController{
     public Button column4;
     private MainController mainController;
     private ArrayList<ImageView> marbles;
+    public Label phase;
+    public Label comMessages;
 
 
     @Override
@@ -74,14 +76,24 @@ public class MarketController implements GUIController{
 
     }
 
+    @Override
+    public void print(Turn turn) {
+        if (turn.getPlayerPlayingID() != gui.getID()) {
+            phase.setText(this.mainController.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
+        } else
+            phase.setText("Your turn");
+    }
 
-
-
+    @Override
+    public void print(Communication communication) {
+        comMessages.setText(communication.getCommunication().getString());
+    }
 
 
     @Override
     public void setMainController(MainController m) {
         this.mainController = m;
+        this.gui=m.getGui();
 
     }
 

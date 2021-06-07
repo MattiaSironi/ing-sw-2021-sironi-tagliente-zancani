@@ -149,22 +149,18 @@ public class MainController extends Observable<Message> implements Observer<Mess
         if (turn.getPhase() == ActionPhase.WAITING_FOR_ACTION) {
             gui.changeScene(SceneList.MAINSCENE);
         }
-        if (turn.getPlayerPlayingID() == gui.getID()) {
-            if (turn.isError()) {
-                gui.printError(turn.getErrorType());
-            }
-        }
-
+            gui.printMessage(turn);
     }
 
 
     public void handleCommunication(Communication communication) {
         if (communication.getAddresseeID() == gui.getID() || communication.getAddresseeID() == -1) {
-
+                    gui.printMessage(communication);
             }
             if (communication.getCommunication() == CommunicationList.NICK_NOT_VALID && communication.getAddresseeID() == gui.getID()) {
                 gui.setDuplicatedNickname();
             }
+
     }
 
     @Override

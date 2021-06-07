@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -12,7 +16,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
+<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
    <children>
       <Pane prefHeight="720.0" prefWidth="1270.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -80,7 +84,7 @@
             </HBox>
             <HBox id="Buttons" layoutX="4.0" layoutY="3.0" prefHeight="140.0" prefWidth="1259.0" spacing="5.0">
                <children>
-                  <ImageView fitHeight="140.0" fitWidth="234.0" pickOnBounds="true" onMouseClicked="#goToMarket">
+                  <ImageView fitHeight="140.0" fitWidth="234.0" onMouseClicked="#goToMarket" pickOnBounds="true">
                      <image>
                         <Image url="@../images/buttons/resourceMartket.png" />
                      </image>
@@ -134,7 +138,8 @@
                   </ImageView>
                </children>
             </GridPane>
-            <Label fx:id="message" alignment="TOP_LEFT" layoutX="980.0" layoutY="17.0" prefHeight="102.0" prefWidth="277.0" text="Invalid move! You don't have enough resources" textFill="#f8ff03" />
+            <Label fx:id="phase" alignment="TOP_LEFT" layoutX="980.0" layoutY="17.0" prefHeight="102.0" prefWidth="277.0" text="Welcome" textFill="#f8ff03" />
+            <Label fx:id="comMessages" layoutX="980.0" layoutY="65.0" text="Label" textFill="#10e1b3" />
          </children>
       </Pane>
    </children>

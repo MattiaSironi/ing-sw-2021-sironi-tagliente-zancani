@@ -4,8 +4,10 @@ import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
 import it.polimi.ingsw.message.ActionMessages.PlaceResourceMessage;
 import it.polimi.ingsw.message.ActionMessages.PlayLeaderMessage;
+import it.polimi.ingsw.model.Communication;
 import it.polimi.ingsw.model.LeaderCard;
 import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.Turn;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,6 +49,16 @@ public class FirstDrawController implements GUIController {
                 case 3 -> card4.setImage(new Image(getClass().getResource("/images/Leaders/" + leaderCard.toString() + ".png").toExternalForm()));
             }
         }
+    }
+
+    @Override
+    public void print(Turn turn) {
+
+    }
+
+    @Override
+    public void print(Communication communication) {
+
     }
 
 

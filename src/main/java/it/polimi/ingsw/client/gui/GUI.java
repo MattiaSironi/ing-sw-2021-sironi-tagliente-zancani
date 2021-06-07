@@ -12,6 +12,7 @@ import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.Communication;
 import it.polimi.ingsw.model.CommunicationList;
 import it.polimi.ingsw.model.ErrorList;
+import it.polimi.ingsw.model.Turn;
 import it.polimi.ingsw.observer.Observable;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -154,10 +155,24 @@ public class GUI extends Application {
         );
     }
 
-    public void printError(ErrorList errorType) {
-        MainSceneController controller = (MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName());
-        controller.showErrors(errorType);
+
+    public void printMessage(Turn turn) {
+        Platform.runLater(()-> {
+            for (GUIController c : nameMapController.values()) {
+                c.print(turn);
+            }
+        });
     }
+
+    public void printMessage(Communication communication){
+        Platform.runLater(()-> {
+            for (GUIController c : nameMapController.values()) {
+                c.print(communication);
+            }
+        });
+    }
+
+
 
 //    public void playButtonSound(){
 //        AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/ClickSound.wav").toExternalForm());

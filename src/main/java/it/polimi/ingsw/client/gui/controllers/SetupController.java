@@ -4,6 +4,8 @@ import it.polimi.ingsw.client.SocketServerConnection;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
 import it.polimi.ingsw.message.CommonMessages.Nickname;
+import it.polimi.ingsw.model.Communication;
+import it.polimi.ingsw.model.Turn;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -159,6 +161,16 @@ public class SetupController implements GUIController{
 
     @Override
     public void setup() {
+
+    }
+
+    @Override
+    public void print(Turn turn) {
+
+    }
+
+    @Override
+    public void print(Communication communication) {
 
     }
 }

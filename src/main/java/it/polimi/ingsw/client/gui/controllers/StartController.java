@@ -3,6 +3,8 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
 import it.polimi.ingsw.message.CommonMessages.Nickname;
+import it.polimi.ingsw.model.Communication;
+import it.polimi.ingsw.model.Turn;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -77,6 +79,16 @@ public class StartController implements GUIController{
 
     @Override
     public void setup() {
+
+    }
+
+    @Override
+    public void print(Turn turn) {
+
+    }
+
+    @Override
+    public void print(Communication communication) {
 
     }
 }

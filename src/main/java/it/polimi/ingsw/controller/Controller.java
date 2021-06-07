@@ -501,12 +501,8 @@ public class Controller implements Observer<Message> {
         if (game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(sc)) {
             if (this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(3).getResType() == null) {
                 game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(sc.getResDepot());
-                // game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes1(sc.getResDepot());
-                //  game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum1(0);
             } else if (this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(4).getResType() == null) {
                 game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(4).setResType(sc.getResDepot());
-                // game.getPlayerById(ID).getPersonalBoard().setExtraShelfRes2(sc.getResDepot());
-                // game.getPlayerById(ID).getPersonalBoard().setExtraShelfNum2(0);
             } else {
                 game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION, true, ErrorList.TWO_LEADERS);
                 return;
