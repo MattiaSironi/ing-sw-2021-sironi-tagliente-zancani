@@ -16,7 +16,24 @@ public class MainController extends Observable<Message> implements Observer<Mess
     private final GUI gui;
     private SocketServerConnection serverConnection;
     private Game game;
+    private boolean marketValid;
+    private boolean wareValid;
 
+    public boolean isMarketValid() {
+        return marketValid;
+    }
+
+    public boolean isWareValid() {
+        return wareValid;
+    }
+
+    public void setWareValid(boolean wareValid) {
+        this.wareValid = wareValid;
+    }
+
+    public void setMarketValid(boolean marketValid) {
+        this.marketValid = marketValid;
+    }
 
     public MainController(GUI gui) {
         this.gui = gui;
@@ -91,7 +108,16 @@ public class MainController extends Observable<Message> implements Observer<Mess
         if (message.getObjectID() == -1) {
             this.game = (Game) message.getObject();
             gui.changeScene(SceneList.FIRSTDRAW);
-        } else if (message.getObjectID() == 9) { //Communication
+        }
+        else if (message.getObjectID() == 0) { //SHELF WAREHOUSE
+            game.getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse) message.getObject());
+            if (gui.getID() == message.getID()) wareValid= false;
+        }
+        else if (message.getObjectID() == 1) { //MARKET
+            game.getBoard().setMarket((Market) message.getObject());
+            marketValid = false;
+        }
+                else if (message.getObjectID() == 9) { //Communication
             handleCommunication((Communication) message.getObject());
         } else if (message.getObjectID() == 5) //initialResource
         {

@@ -49,8 +49,21 @@ public class Controller implements Observer<Message> {
 
                 /* TESTING */
 
-                LeaderCard leaderCard = new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD);
-                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard);                /* END TESTING */
+//                LeaderCard leaderCard = new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD);
+//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard);
+
+
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(ResourceType.COIN);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(4).setResType(ResourceType.SERVANT);
+//                game.getPlayerById(1).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(ResourceType.SHIELD);
+//                game.getPlayerById(1).getPersonalBoard().getWarehouse().getShelves().get(4).setResType(ResourceType.STONE);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(3).setCount(2);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(4).setCount(1);
+//                game.getPlayerById(1).getPersonalBoard().getWarehouse().getShelves().get(3).setCount(1);
+
+
+
+                /* END TESTING */
 
 
                 initialPhase();

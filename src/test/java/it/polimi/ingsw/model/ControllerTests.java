@@ -34,9 +34,15 @@ public class ControllerTests {
         game.getPlayerById(0).setPersonalBoard(personalBoard);
         game.getPlayerById(0).getPersonalBoard().setStrongbox(strongbox);
         game.getPlayerById(0).getPersonalBoard().setWarehouse(warehouse);
+        game.setTurn(0, ActionPhase.WAITING_FOR_ACTION, false, null);
 
 
-//        -------RES INIT  PART------------
+
+
+    }
+
+    void resPart()  {
+        //        -------RES INIT  PART------------
         ArrayList<Marble> hand = new ArrayList<>();
         hand.add(new Marble(ResourceType.COIN)); //JUST TO MAKE SURE THERE IS SOMETHING TO REMOVE. USELESS FOR THESE TESTS
         hand.add(new Marble(ResourceType.SHIELD));
@@ -54,7 +60,6 @@ public class ControllerTests {
         hand.add(new Marble(ResourceType.SERVANT));
         hand.add(new Marble(ResourceType.STONE));
         game.setMarketHand(hand);
-
     }
 
     @Test
@@ -137,6 +142,7 @@ public class ControllerTests {
     @Test
     @DisplayName("adding resources using Controller methods")
     public void addResStandardShelves() {
+        resPart();
 
         controller.placeRes(ResourceType.COIN, 0, 0, false, false); //YES
         controller.placeRes(ResourceType.COIN, 0, 0, false, false); //NO
@@ -248,6 +254,7 @@ public class ControllerTests {
     @Test
     @DisplayName("special shelf 4")
     public void specialShelf4() {
+        resPart();
         controller.getGame().getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(ResourceType.SHIELD);
 
         controller.placeRes(ResourceType.COIN, 0, 0, false, false); //YES
@@ -319,6 +326,7 @@ public class ControllerTests {
     @Test
     @DisplayName("special shelf 4")
     public void specialShelf5() {
+        resPart();
         controller.getGame().getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(4).setResType(ResourceType.COIN);
 
         controller.placeRes(ResourceType.COIN, 0, 0, false, false); //YES
@@ -409,6 +417,7 @@ public class ControllerTests {
     @Test
     @DisplayName("special shelf 4 & 5")
     public void nowBoth() {
+        resPart();
         controller.getGame().getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(ResourceType.COIN);
         controller.getGame().getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(4).setResType(ResourceType.SERVANT);
 
@@ -589,6 +598,7 @@ public class ControllerTests {
     @Test
     @DisplayName("DISCARD RES")
     public void discardRes()  {
+
 
         controller.update(new MarketMessage(true, 0,0));
         assertEquals(4,controller.getGame().getBoard().getMarket().getHand().size());

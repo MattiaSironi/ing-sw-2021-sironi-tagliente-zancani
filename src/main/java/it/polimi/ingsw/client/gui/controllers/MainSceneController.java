@@ -32,6 +32,7 @@ public class MainSceneController implements  GUIController {
     private GUI gui;
     int choosing = 0;
 
+
     private MainController mainController;
 
 
@@ -95,7 +96,7 @@ public class MainSceneController implements  GUIController {
     }
 
     public void goToMarket(MouseEvent mouseEvent) {
-        mainController.getGui().changeScene(SceneList.MARKET);
+        gui.changeScene(SceneList.MARKET);
     }
 
     public void Back(MouseEvent mouseEvent) {
