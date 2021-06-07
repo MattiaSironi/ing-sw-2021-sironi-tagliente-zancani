@@ -2,6 +2,16 @@ package it.polimi.ingsw.client.gui;
 
 
 import it.polimi.ingsw.client.gui.controllers.*;
+import it.polimi.ingsw.message.ActionMessages.*;
+import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
+import it.polimi.ingsw.message.CommonMessages.IdMessage;
+import it.polimi.ingsw.message.CommonMessages.Nickname;
+import it.polimi.ingsw.message.Message;
+import it.polimi.ingsw.model.Communication;
+import it.polimi.ingsw.model.CommunicationList;
+import it.polimi.ingsw.model.ErrorList;
+import it.polimi.ingsw.model.Turn;
+import it.polimi.ingsw.observer.Observable;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -136,16 +146,30 @@ public class GUI extends Application {
         );
     }
 
-//    public void printError(ErrorList errorType) {
-//        MainSceneController controller = (MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName());
-//        controller.showErrors(errorType);
-//    }
+
 
     public void showMarket() {
         Platform.runLater(() -> {
             ((MarketController)nameMapController.get(SceneList.MARKET.getSceneName())).showMarket();
         });
+
+    public void printMessage(Turn turn) {
+        Platform.runLater(()-> {
+            for (GUIController c : nameMapController.values()) {
+                c.print(turn);
+            }
+        });
     }
+
+    public void printMessage(Communication communication){
+        Platform.runLater(()-> {
+            for (GUIController c : nameMapController.values()) {
+                c.print(communication);
+            }
+        });
+    }
+
+
 
 //    public void playButtonSound(){
 //        AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/ClickSound.wav").toExternalForm());

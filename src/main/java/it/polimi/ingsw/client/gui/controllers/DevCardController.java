@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.message.ActionMessages.BuyDevCardMessage;
+import it.polimi.ingsw.model.Communication;
+import it.polimi.ingsw.model.Turn;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
@@ -37,6 +39,8 @@ public class DevCardController implements GUIController{
     public Label uselessLabel;
     public GridPane gridPane;
     private int chosenIndex;
+    public Label phase;
+    public Label comMessages;
 
     public void setup(){
         this.gui = mainController.getGui();
@@ -115,5 +119,18 @@ public class DevCardController implements GUIController{
 
     public void buyOpacityDown(MouseEvent mouseEvent) {
         buyButton.setOpacity(0.75);
+    }
+
+    @Override
+    public void print(Turn turn) {
+        if (turn.getPlayerPlayingID() != gui.getID()) {
+            phase.setText(this.mainController.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
+        } else
+            phase.setText("Your turn");
+    }
+
+    @Override
+    public void print(Communication communication) {
+        comMessages.setText(communication.getCommunication().getString());
     }
 }

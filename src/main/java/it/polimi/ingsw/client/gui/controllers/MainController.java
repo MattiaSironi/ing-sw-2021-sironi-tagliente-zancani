@@ -151,12 +151,7 @@ public class MainController extends Observable<Message> implements Observer<Mess
         if (turn.getPhase() == ActionPhase.WAITING_FOR_ACTION) {
             gui.changeScene(SceneList.MAINSCENE);
         }
-        if (turn.getPlayerPlayingID() == gui.getID()) {
-//            if (turn.isError()) {
-//                gui.printError(turn.getErrorType());
-//            }
-        }
-
+            gui.printMessage(turn);
     }
 
 

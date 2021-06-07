@@ -4,9 +4,7 @@ import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
 import it.polimi.ingsw.message.ActionMessages.BuyDevCardMessage;
 import it.polimi.ingsw.message.ActionMessages.PlayLeaderMessage;
-
-import it.polimi.ingsw.model.LeaderCard;
-import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.*;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,7 +22,8 @@ public class MainSceneController implements  GUIController {
     public ImageView discardButton;
     public ImageView backButton;
     public ImageView devMarket;
-    public Label message;
+    public Label phase;
+    public Label comMessages;
     ImageView l1;
     ImageView l2;
     boolean active1 = false;
@@ -94,6 +93,19 @@ public class MainSceneController implements  GUIController {
 
     }
 
+    @Override
+    public void print(Turn turn) {
+        if (turn.getPlayerPlayingID() != gui.getID()) {
+            phase.setText(this.mainController.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
+        } else
+            phase.setText("Your turn");
+    }
+
+    @Override
+    public void print(Communication communication) {
+            comMessages.setText(communication.getCommunication().getString());
+    }
+
     public void buyDevCard(MouseEvent mouseEvent) {
         gui.changeScene(SceneList.BUYDEVCARD);
     }
@@ -125,8 +137,14 @@ public class MainSceneController implements  GUIController {
                 leader1.setImage(new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString() + ".png").toExternalForm()));
             } else {
                 active2 = true;
-                leader2.setImage(new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1).toString() + ".png").toExternalForm()));
+                if(!active1) {
+                    leader2.setImage(new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1).toString() + ".png").toExternalForm()));
+                }
+                else{
+                    leader2.setImage(new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString() + ".png").toExternalForm()));
+                }
             }
+
         }
         stop = false;
         activateButton.setVisible(false);
@@ -140,7 +158,6 @@ public class MainSceneController implements  GUIController {
 
     public void discard(MouseEvent mouseEvent) {
         mainController.send(new PlayLeaderMessage(gui.getID(), choosing, false, this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(choosing - 1), false));
-        message.setText("Leader card correctly discarded");
         if(choosing==1){
             active1 = true;
             leader1.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
@@ -162,7 +179,6 @@ public class MainSceneController implements  GUIController {
         choosing=0;
     }
 
-//    public void showErrors(ErrorList errorType) {
-//        message.setText(errorType.getString());
-//    }
+
+
 }
