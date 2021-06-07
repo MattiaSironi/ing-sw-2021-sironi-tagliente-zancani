@@ -137,12 +137,24 @@ public class MainController extends Observable<Message> implements Observer<Mess
         else if(message.getObjectID()==8){ //leaderDeck
             this.game.getPlayerById(message.getID()).setLeaderDeck((LeaderDeck)message.getObject());
         }
+        else if (message.getObjectID() == 6) { //LEADER
+            this.game.getPlayerById(message.getID()).getPersonalBoard().setActiveLeader((LeaderDeck) message.getObject());
+        }
+        else if(message.getObjectID()==15){ //PLAYER
+            this.game.setPlayerByID(message.getID(),(Player)message.getObject());
+        }
     }
 
-    public void handleTurn (Turn turn){
-        if (turn.getPhase() == ActionPhase.WAITING_FOR_ACTION){
+    public void handleTurn (Turn turn) {
+        if (turn.getPhase() == ActionPhase.WAITING_FOR_ACTION) {
             gui.changeScene(SceneList.MAINSCENE);
         }
+        if (turn.getPlayerPlayingID() == gui.getID()) {
+            if (turn.isError()) {
+                gui.printError(turn.getErrorType());
+            }
+        }
+
     }
 
 

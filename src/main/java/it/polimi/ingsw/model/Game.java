@@ -592,9 +592,7 @@ public class Game extends Observable<Message> implements Serializable {
                 i++;
         }
 
-//        getPlayerById(ID).getLeaderDeck().getCards().remove(plc); //toglie dal leader deck
         getPlayerById(ID).getLeaderDeck().getCards().remove(i);
-      //  getPlayerById(ID).getLeaderDeck().getCards().remove(getPlayerById(ID).getLeaderDeck().getCards().get(i));
         getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(lc); //aggiunge ai leader attivi
 
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
@@ -610,8 +608,6 @@ public class Game extends Observable<Message> implements Serializable {
 
     public void discard(int ID,LeaderDeck newLd){
         getPlayerById(ID).setLeaderDeck(newLd);
-       // System.out.println("nuovo mazzo modificato");
-       // this.getPlayerById(ID).getLeaderDeck().print();
         notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck().clone(), 8, ID)));
       //  moveFaithPosByID(ID,1);
     }

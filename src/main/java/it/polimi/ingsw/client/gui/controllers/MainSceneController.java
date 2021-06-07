@@ -3,6 +3,8 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
 import it.polimi.ingsw.message.ActionMessages.BuyDevCardMessage;
+import it.polimi.ingsw.message.ActionMessages.PlayLeaderMessage;
+import it.polimi.ingsw.model.ErrorList;
 import it.polimi.ingsw.model.LeaderCard;
 import it.polimi.ingsw.model.ResourceType;
 import javafx.application.Platform;
@@ -31,6 +33,7 @@ public class MainSceneController implements  GUIController {
     public ImageView leader2;
     private GUI gui;
     int choosing = 0;
+    boolean stop = false;
 
 
     private MainController mainController;
@@ -114,18 +117,18 @@ public class MainSceneController implements  GUIController {
     }
 
     public void activate(MouseEvent mouseEvent) {
-        //settaggio nel model
+        mainController.send(new PlayLeaderMessage(gui.getID(), choosing, true, mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(choosing - 1), false));
 
-        //se tutto ok
-        if(choosing==1){
-        active1 = true;
-        leader1.setImage(new Image(getClass().getResource("/images/Leaders/"+this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString()+".png").toExternalForm()));
+        if(!stop) {
+            if (choosing == 1) {
+                active1 = true;
+                leader1.setImage(new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString() + ".png").toExternalForm()));
+            } else {
+                active2 = true;
+                leader2.setImage(new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1).toString() + ".png").toExternalForm()));
+            }
         }
-        else{
-            active2 = true;
-            leader2.setImage(new Image(getClass().getResource("/images/Leaders/"+this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1).toString()+".png").toExternalForm()));
-        }
-        message.setText("Leader card activated");
+        stop = false;
         activateButton.setVisible(false);
         activateButton.setDisable(true);
         discardButton.setVisible(false);
@@ -136,6 +139,30 @@ public class MainSceneController implements  GUIController {
     }
 
     public void discard(MouseEvent mouseEvent) {
+        mainController.send(new PlayLeaderMessage(gui.getID(), choosing, false, this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(choosing - 1), false));
+        message.setText("Leader card correctly discarded");
+        if(choosing==1){
+            active1 = true;
+            leader1.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
+            leader1.setDisable(true);
+            leader1.setOpacity(0.5);
+        }
+        else{
+            active2 = true;
+            leader2.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
+            leader2.setDisable(true);
+            leader2.setOpacity(0.5);
+        }
+        activateButton.setVisible(false);
+        activateButton.setDisable(true);
+        discardButton.setVisible(false);
+        discardButton.setDisable(true);
+        backButton.setVisible(false);
+        backButton.setDisable(true);
+        choosing=0;
+    }
 
+    public void showErrors(ErrorList errorType) {
+        message.setText(errorType.getString());
     }
 }

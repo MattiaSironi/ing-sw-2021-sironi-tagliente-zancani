@@ -3,10 +3,7 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.SocketServerConnection;
 import it.polimi.ingsw.client.UI;
-import it.polimi.ingsw.client.gui.controllers.FirstDrawController;
-import it.polimi.ingsw.client.gui.controllers.GUIController;
-import it.polimi.ingsw.client.gui.controllers.MainController;
-import it.polimi.ingsw.client.gui.controllers.SetupController;
+import it.polimi.ingsw.client.gui.controllers.*;
 import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
 import it.polimi.ingsw.message.CommonMessages.IdMessage;
@@ -14,6 +11,7 @@ import it.polimi.ingsw.message.CommonMessages.Nickname;
 import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.Communication;
 import it.polimi.ingsw.model.CommunicationList;
+import it.polimi.ingsw.model.ErrorList;
 import it.polimi.ingsw.observer.Observable;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -154,6 +152,11 @@ public class GUI extends Application {
             controller.setResCountLabel(startResCount);
         }
         );
+    }
+
+    public void printError(ErrorList errorType) {
+        MainSceneController controller = (MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName());
+        controller.showErrors(errorType);
     }
 
 //    public void playButtonSound(){
