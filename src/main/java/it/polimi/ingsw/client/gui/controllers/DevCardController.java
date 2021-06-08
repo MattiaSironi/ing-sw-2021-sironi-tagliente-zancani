@@ -136,7 +136,7 @@ public class DevCardController implements GUIController{
 
     @Override
     public void print(Communication communication) {
-        comMessages.setText(communication.getCommunication().getString());
+//        comMessages.setText(communication.getCommunication().getString());
     }
 
     public void goBack(MouseEvent mouseEvent) {

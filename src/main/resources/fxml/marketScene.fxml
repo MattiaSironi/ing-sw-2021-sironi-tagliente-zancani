@@ -59,7 +59,7 @@
                <image>
                   <Image url="@../images/PunchBoard/marketHand.png" />
                </image></ImageView>
-            <ImageView fx:id="shelves" fitHeight="417.0" fitWidth="223.0" layoutX="88.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="warehouse" fitHeight="417.0" fitWidth="223.0" layoutX="88.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../images/PunchBoard/shelvesAndStrongbox.png" />
             </image>

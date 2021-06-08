@@ -4,12 +4,7 @@ import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
 import it.polimi.ingsw.message.ActionMessages.MarketMessage;
 import it.polimi.ingsw.message.ActionMessages.PlaceResourceMessage;
-import it.polimi.ingsw.model.Marble;
-import it.polimi.ingsw.model.Market;
-import it.polimi.ingsw.model.ResourceType;
-import it.polimi.ingsw.model.ShelfWarehouse;
 import it.polimi.ingsw.model.*;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -17,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
-import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -31,14 +25,14 @@ public class MarketController implements GUIController{
     public ImageView res1;
     public Label slash;
     public ImageView res2;
-    private GUI gui;
+    public ImageView discard;
     public Pane background;
     public ImageView bgImage;
     public ImageView marketTray;
     public ImageView back;
     public ImageView marketBoard;
     public ImageView marketHand;
-    public ImageView shelves;
+    public ImageView warehouse;
     public ImageView shelf1pos1;
     public ImageView shelf4pos1;
     public ImageView shelf4pos2;
@@ -74,15 +68,14 @@ public class MarketController implements GUIController{
     public Button column2;
     public Button column3;
     public Button column4;
-    private MainController mainController;
-    private ArrayList<Button> arrows;
-    private ArrayList<ImageView> handRes;
-    private ResourceType selectedRes;
-
-
-    private ArrayList<ImageView> marbles;
     public Label phase;
     public Label comMessages;
+    private MainController mainController;
+    private ArrayList<Button> arrows;
+    private ArrayList<Button> shelves;
+    private ArrayList<ImageView> res;
+    private ResourceType selectedRes;
+    private GUI gui;
 
 
     @Override
@@ -93,6 +86,8 @@ public class MarketController implements GUIController{
             showMarket();
             showShelves();
             groupArrows();
+            groupRes();
+            groupShelves();
 
 
 
@@ -101,16 +96,6 @@ public class MarketController implements GUIController{
 
     }
 
-    private void groupArrows() {
-        arrows = new ArrayList<>();
-        arrows.add(row1);
-        arrows.add(row2);
-        arrows.add(row3);
-        arrows.add(column1);
-        arrows.add(column2);
-        arrows.add(column3);
-        arrows.add(column4);
-    }
     @Override
     public void print(Turn turn) {
         if (turn.getPlayerPlayingID() != gui.getID()) {
@@ -124,13 +109,39 @@ public class MarketController implements GUIController{
         comMessages.setText(communication.getCommunication().getString());
     }
 
-
     @Override
     public void setMainController(MainController m) {
         this.mainController = m;
         this.gui=m.getGui();
 
     }
+
+    private void groupShelves() {
+        shelves = new ArrayList<>();
+        shelves.add(shelf1);
+        shelves.add(shelf2);
+        shelves.add(shelf3);
+        shelves.add(shelf4);
+        shelves.add(shelf5);
+    }
+    private void groupRes() {
+        res = new ArrayList<>();
+        res.add(res1);
+        res.add(res2);
+        res.add(discard);
+    }
+
+    private void groupArrows() {
+        arrows = new ArrayList<>();
+        arrows.add(row1);
+        arrows.add(row2);
+        arrows.add(row3);
+        arrows.add(column1);
+        arrows.add(column2);
+        arrows.add(column3);
+        arrows.add(column4);
+    }
+
 
     public void showShelves() {
         ShelfWarehouse myShelves = mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getWarehouse();
@@ -187,23 +198,15 @@ public class MarketController implements GUIController{
                 else iv.setOpacity(1.0);
             }
         }
-
-
-
-
-
-
     }
 
     public void showMarket() {
-
-
 
         Market market = mainController.getGame().getBoard().getMarket();
         Marble[][] marketBoard = market.getMarketBoard();
         ArrayList<Marble> hand = market.getHand();
         int i=0;
-        handRes = new ArrayList<>();
+        ArrayList<ImageView> handRes = new ArrayList<>();
         handRes.add(handPos1);
         handRes.add(handPos2);
         handRes.add(handPos3);
@@ -218,9 +221,6 @@ public class MarketController implements GUIController{
 
         }
         else {
-
-
-
             for (Marble m : hand) {
                 handRes.get(i).setImage((new Image(getClass().getResource("/images/PunchBoard/market/" + m.getRes().toString().toLowerCase() + ".png").toExternalForm())));
                 i++;
@@ -229,13 +229,6 @@ public class MarketController implements GUIController{
             showResourcesToSelect();
         }
             for (; i<4 ; i++) handRes.get(i).setImage(null);
-
-
-
-
-
-
-
 
         marble11.setImage(new Image(getClass().getResource("/images/PunchBoard/market/" + marketBoard[0][0].getRes().toString().toLowerCase() + ".png").toExternalForm()));
         marble12.setImage(new Image(getClass().getResource("/images/PunchBoard/market/" + marketBoard[0][1].getRes().toString().toLowerCase() + ".png").toExternalForm()));
@@ -361,9 +354,7 @@ public class MarketController implements GUIController{
         }
 
 
-    private void disableArrows() {
-        for (Button arrow : arrows) arrow.setDisable(true);
-    }
+
 
 
 
@@ -405,5 +396,52 @@ public class MarketController implements GUIController{
         if (selectedRes == null) return;
         mainController.send(new PlaceResourceMessage(selectedRes, -1, gui.getID(), false, true));
 
+    }
+
+    public void disable() {
+        groupArrows();
+        groupRes();
+        groupShelves();
+        disableArrows();
+        disableRes();
+        disableShelves();
+
+
+
+    }
+
+    public void enable() {
+        groupArrows();
+        groupRes();
+        groupShelves();
+        enableArrows();
+        enableRes();
+        enableShelves();
+
+    }
+
+    private void enableShelves() {
+        for (Button shelf : shelves) shelf.setDisable(false);
+    }
+
+    private void disableShelves() {
+        for (Button shelf : shelves) shelf.setDisable(true);
+
+    }
+
+    private void enableRes() {
+        for (ImageView res : this.res) res.setDisable(true);
+    }
+
+    private void disableRes() {
+        for (ImageView res : this.res) res.setDisable(true);
+
+    }
+
+    private void enableArrows() {
+        for (Button arrow : arrows) arrow.setDisable(false);
+    }
+    private void disableArrows() {
+        for (Button arrow : arrows) arrow.setDisable(true);
     }
 }
