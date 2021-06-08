@@ -128,10 +128,10 @@ public class DevCardController implements GUIController{
 
     @Override
     public void print(Turn turn) {
-        if (turn.getPlayerPlayingID() != gui.getID()) {
-            phase.setText(this.mainController.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
-        } else
-            phase.setText("Your turn");
+//        if (turn.getPlayerPlayingID() != gui.getID()) {
+//            phase.setText(this.mainController.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
+//        } else
+//            phase.setText("Your turn");
     }
 
     @Override

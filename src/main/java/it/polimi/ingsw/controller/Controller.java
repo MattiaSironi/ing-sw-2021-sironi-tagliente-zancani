@@ -60,6 +60,13 @@ public class Controller implements Observer<Message> {
 //                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(3).setCount(2);
 //                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(4).setCount(1);
 //                game.getPlayerById(1).getPersonalBoard().getWarehouse().getShelves().get(3).setCount(1);
+//
+//                LeaderCard leaderCard1 = new WhiteTrayLCard(4,5,ResourceType.SERVANT,CardColor.BLUE,CardColor.YELLOW);
+//                LeaderCard leaderCard2 = new WhiteTrayLCard(4,5,ResourceType.COIN,CardColor.GREEN,CardColor.PURPLE);
+//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard1);
+//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard2);
+//                game.getPlayerById(0).setWhiteConversion2(ResourceType.COIN);
+//                game.getPlayerById(0).setWhiteConversion1(ResourceType.SERVANT);
 
 
 

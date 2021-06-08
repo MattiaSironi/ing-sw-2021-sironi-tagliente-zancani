@@ -111,8 +111,12 @@ public class MainController extends Observable<Message> implements Observer<Mess
         }
         else if (message.getObjectID() == 0) { //SHELF WAREHOUSE
             game.getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse) message.getObject());
-            if (gui.getID() == message.getID()) wareValid= false;
+
+            if (gui.getID() == message.getID()) {
+                gui.showShelves();
+                wareValid= false;
         }
+            }
         else if (message.getObjectID() == 1) { //MARKET
             game.getBoard().setMarket((Market) message.getObject());
             marketValid = false;
@@ -140,9 +144,7 @@ public class MainController extends Observable<Message> implements Observer<Mess
             this.game.setTurn((Turn) message.getObject());
             handleTurn((this.game.getTurn()));
         }
-        else if(message.getObjectID()==8){ //leaderDeck
-            this.game.getPlayerById(message.getID()).setLeaderDeck((LeaderDeck)message.getObject());
-        }
+
         else if (message.getObjectID() == 6) { //LEADER
             this.game.getPlayerById(message.getID()).getPersonalBoard().setActiveLeader((LeaderDeck) message.getObject());
         }

@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MarketController">
 
@@ -54,7 +55,10 @@
                </effect>
             </ImageView>
 
-            <ImageView fx:id="marketHand" fitHeight="84.0" fitWidth="426.0" layoutX="398.0" layoutY="572.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="marketHand" fitHeight="84.0" fitWidth="285.0" layoutX="649.0" layoutY="596.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/PunchBoard/marketHand.png" />
+               </image></ImageView>
             <ImageView fx:id="shelves" fitHeight="417.0" fitWidth="223.0" layoutX="88.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../images/PunchBoard/shelvesAndStrongbox.png" />
@@ -125,30 +129,24 @@
                   <ImageView fx:id="marble23" fitHeight="39.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
 
                   </ImageView>
-                   <ImageView fx:id="marble24" fitHeight="39.0" fitWidth="200.0" pickOnBounds="true"
-                              preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                   <ImageView fx:id="marble24" fitHeight="39.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
 
                    </ImageView>
-                   <ImageView fx:id="marble31" fitHeight="39.0" fitWidth="200.0" pickOnBounds="true"
-                              preserveRatio="true" GridPane.rowIndex="2">
+                   <ImageView fx:id="marble31" fitHeight="39.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
 
                    </ImageView>
-                   <ImageView fx:id="marble32" fitHeight="39.0" fitWidth="200.0" pickOnBounds="true"
-                              preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                   <ImageView fx:id="marble32" fitHeight="39.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
 
                    </ImageView>
-                   <ImageView fx:id="marble33" fitHeight="39.0" fitWidth="200.0" pickOnBounds="true"
-                              preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                   <ImageView fx:id="marble33" fitHeight="39.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
 
                    </ImageView>
-                   <ImageView fx:id="marble34" fitHeight="39.0" fitWidth="132.0" pickOnBounds="true"
-                              preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                   <ImageView fx:id="marble34" fitHeight="39.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
 
                    </ImageView>
                </children>
             </GridPane>
-             <ImageView fx:id="marbleOut" fitHeight="39.0" fitWidth="39.0" layoutX="835.0" layoutY="193.0"
-                        pickOnBounds="true" preserveRatio="true">
+             <ImageView fx:id="marbleOut" fitHeight="39.0" fitWidth="39.0" layoutX="835.0" layoutY="193.0" pickOnBounds="true" preserveRatio="true">
 
              </ImageView>
             <GridPane layoutX="160.0" layoutY="335.0" prefHeight="51.0" prefWidth="103.0">
@@ -191,25 +189,71 @@
             </GridPane>
             <Pane layoutX="85.0" layoutY="150.0" prefHeight="410.0" prefWidth="230.0">
                <children>
-                  <Button fx:id="shelf1" layoutX="101.0" layoutY="84.0" mnemonicParsing="false" opacity="0.0" prefHeight="29.0" prefWidth="51.0" />
-                  <Button fx:id="shelf2" layoutX="75.0" layoutY="136.0" mnemonicParsing="false" opacity="0.0" prefHeight="35.0" prefWidth="103.0" text="Button" />
-                  <Button fx:id="shelf3" layoutX="63.0" layoutY="193.0" mnemonicParsing="false" opacity="0.0" prefHeight="39.0" prefWidth="125.0" text="Button" />
-                  <Button fx:id="shelf4" layoutX="37.0" layoutY="245.0" mnemonicParsing="false" opacity="0.0" prefHeight="36.0" prefWidth="76.0" text="Button" />
-                  <Button fx:id="shelf5" layoutX="126.0" layoutY="245.0" mnemonicParsing="false" opacity="0.0" prefHeight="36.0" prefWidth="76.0" text="Button" />
+                  <Button fx:id="shelf1" layoutX="101.0" layoutY="84.0" mnemonicParsing="false" onMouseClicked="#chooseShelf" opacity="0.0" prefHeight="29.0" prefWidth="51.0" />
+                  <Button fx:id="shelf2" layoutX="75.0" layoutY="136.0" mnemonicParsing="false" onMouseClicked="#chooseShelf" opacity="0.0" prefHeight="35.0" prefWidth="103.0" />
+                  <Button fx:id="shelf3" layoutX="63.0" layoutY="193.0" mnemonicParsing="false" onMouseClicked="#chooseShelf" opacity="0.0" prefHeight="39.0" prefWidth="125.0" />
+                  <Button fx:id="shelf4" layoutX="37.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#chooseShelf" opacity="0.0" prefHeight="36.0" prefWidth="76.0" />
+                  <Button fx:id="shelf5" layoutX="126.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#chooseShelf" opacity="0.0" prefHeight="36.0" prefWidth="76.0" />
                </children>
             </Pane>
             <Pane layoutX="611.0" layoutY="146.0" prefHeight="410.0" prefWidth="323.0">
                <children>
-                  <Button fx:id="row1" layoutX="283.0" layoutY="96.0" mnemonicParsing="false" opacity="0.0" prefHeight="29.0" prefWidth="40.0"   onMouseClicked="#goToMarket"/>
-                  <Button fx:id="row2" layoutX="283.0" layoutY="132.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="40.0"  onMouseClicked="#goToMarket"/>
-                  <Button fx:id="row3" layoutX="283.0" layoutY="171.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="40.0"   onMouseClicked="#goToMarket"/>
-                  <Button fx:id="column1" layoutX="197.0" layoutY="253.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="51.0" rotate="-90.0"  onMouseClicked="#goToMarket" />
-                  <Button fx:id="column2" layoutX="160.0" layoutY="260.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="51.0" rotate="-90.0" onMouseClicked="#goToMarket"/>
-                  <Button fx:id="column3" layoutX="123.0" layoutY="259.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="58.0" rotate="-90.0"  onMouseClicked="#goToMarket"/>
-                  <Button fx:id="column4" layoutX="86.0" layoutY="259.0" mnemonicParsing="false" opacity="0.0" rotate="-90.0" text="Button" />
+                  <Button fx:id="row1" layoutX="283.0" layoutY="96.0" mnemonicParsing="false" onMouseClicked="#goToMarket" opacity="0.0" prefHeight="29.0" prefWidth="40.0" />
+                  <Button fx:id="row2" layoutX="283.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#goToMarket" opacity="0.0" prefHeight="25.0" prefWidth="40.0" />
+                  <Button fx:id="row3" layoutX="283.0" layoutY="171.0" mnemonicParsing="false" onMouseClicked="#goToMarket" opacity="0.0" prefHeight="25.0" prefWidth="40.0" />
+                  <Button fx:id="column1" layoutX="197.0" layoutY="253.0" mnemonicParsing="false" onMouseClicked="#goToMarket" opacity="0.0" prefHeight="25.0" prefWidth="51.0" rotate="-90.0" />
+                  <Button fx:id="column2" layoutX="153.0" layoutY="253.0" mnemonicParsing="false" onMouseClicked="#goToMarket" opacity="0.0" prefHeight="25.0" prefWidth="63.0" rotate="-90.0" />
+                  <Button fx:id="column3" layoutX="120.0" layoutY="253.0" mnemonicParsing="false" onMouseClicked="#goToMarket" opacity="0.0" prefHeight="25.0" prefWidth="58.0" rotate="-90.0" />
+                  <Button fx:id="column4" layoutX="82.0" layoutY="253.0" mnemonicParsing="false" onMouseClicked="#goToMarket" opacity="0.0" prefHeight="25.0" prefWidth="58.0" rotate="-90.0" />
                </children>
             </Pane>
-             <Label fx:id="message" alignment="TOP_LEFT" layoutX="980.0" layoutY="17.0" prefHeight="102.0" prefWidth="277.0" text="Invalid move! You don't have enough resources" textFill="#f8ff03" />
+             <Label fx:id="phase" alignment="TOP_LEFT" layoutX="980.0" layoutY="17.0" prefHeight="102.0" prefWidth="277.0" text="Welcome" textFill="#f8ff03" />
+             <Label fx:id="comMessages" layoutX="980.0" layoutY="65.0" text="Label" textFill="#10e1b3" />
+            <ImageView fx:id="resourceSelector" fitHeight="51.0" fitWidth="25.0" layoutX="687.0" layoutY="678.0" pickOnBounds="true" preserveRatio="true" rotate="-90.0">
+               <image>
+                  <Image url="@../images/nextArrow.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="handPos1" fitHeight="39.0" fitWidth="39.0" layoutX="680.0" layoutY="616.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/PunchBoard/market/shield.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="handPos2" fitHeight="39.0" fitWidth="39.0" layoutX="745.0" layoutY="616.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/PunchBoard/market/shield.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="handPos3" fitHeight="39.0" fitWidth="39.0" layoutX="806.0" layoutY="616.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/PunchBoard/market/shield.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="handPos4" fitHeight="39.0" fitWidth="39.0" layoutX="868.0" layoutY="616.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/PunchBoard/market/shield.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="res1" fitHeight="39.0" fitWidth="39.0" layoutX="572.0" layoutY="616.0" onMouseClicked="#saveRes" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/PunchBoard/stone.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="slash" layoutX="547.0" layoutY="593.0" prefHeight="79.0" prefWidth="25.0" text="/" textFill="WHITE">
+               <font>
+                  <Font size="52.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="res2" fitHeight="39.0" fitWidth="39.0" layoutX="500.0" layoutY="616.0" onMouseClicked="#saveRes" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/PunchBoard/stone.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="discard" fitHeight="50.0" fitWidth="50.0" layoutX="315.0" layoutY="509.0" onMouseClicked="#discardRes" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/PunchBoard/discard.png" />
+               </image>
+            </ImageView>
 
          </children>
       </Pane>

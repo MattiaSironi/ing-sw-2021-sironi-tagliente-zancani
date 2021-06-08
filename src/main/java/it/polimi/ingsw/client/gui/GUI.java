@@ -9,6 +9,7 @@ import it.polimi.ingsw.message.CommonMessages.Nickname;
 import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.Communication;
 import it.polimi.ingsw.model.CommunicationList;
+
 import it.polimi.ingsw.model.Turn;
 import it.polimi.ingsw.observer.Observable;
 import javafx.application.Application;
@@ -154,6 +155,12 @@ public class GUI extends Application {
         });
     }
 
+    public void showShelves() { //TODO FOR OTHERS PLAYERS and OTHER SCENES
+        Platform.runLater(() -> {
+            ((MarketController) nameMapController.get(SceneList.MARKET.getSceneName())).showShelves();
+        });
+    }
+
         public void printMessage (Turn turn){
             Platform.runLater(() -> {
                 for (GUIController c : nameMapController.values()) {
@@ -169,7 +176,6 @@ public class GUI extends Application {
                 }
             });
         }
-
 
 
 //    public void playButtonSound(){

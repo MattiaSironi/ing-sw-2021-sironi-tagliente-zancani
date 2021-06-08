@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
 import it.polimi.ingsw.message.ActionMessages.MarketMessage;
+import it.polimi.ingsw.message.ActionMessages.PlaceResourceMessage;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.ResourceType;
@@ -16,10 +17,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
+import javax.print.DocFlavor;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MarketController implements GUIController{
 
+    public ImageView resourceSelector;
+    public ImageView handPos1;
+    public ImageView handPos2;
+    public ImageView handPos3;
+    public ImageView handPos4;
+    public ImageView res1;
+    public Label slash;
+    public ImageView res2;
     private GUI gui;
     public Pane background;
     public ImageView bgImage;
@@ -65,6 +76,8 @@ public class MarketController implements GUIController{
     public Button column4;
     private MainController mainController;
     private ArrayList<Button> arrows;
+    private ArrayList<ImageView> handRes;
+    private ResourceType selectedRes;
 
 
     private ArrayList<ImageView> marbles;
@@ -162,6 +175,7 @@ public class MarketController implements GUIController{
             for (ImageView iv : shelf4) {
                 iv.setImage(new Image(getClass().getResource("/images/PunchBoard/" + r.toString().toLowerCase() + ".png").toExternalForm()));
                 if (!(shelf4.indexOf(iv) <= max - 1)) iv.setOpacity(0.5);
+                else iv.setOpacity(1.0);
             }
         }
         if (myShelves.getShelves().get(4).getResType() != null) {
@@ -170,6 +184,7 @@ public class MarketController implements GUIController{
             for (ImageView iv : shelf5) {
                 iv.setImage(new Image(getClass().getResource("/images/PunchBoard/" + r.toString().toLowerCase() + ".png").toExternalForm()));
                 if (!(shelf5.indexOf(iv) <= max - 1)) iv.setOpacity(0.5);
+                else iv.setOpacity(1.0);
             }
         }
 
@@ -182,8 +197,44 @@ public class MarketController implements GUIController{
 
     public void showMarket() {
 
-         Market market = mainController.getGame().getBoard().getMarket();
+
+
+        Market market = mainController.getGame().getBoard().getMarket();
         Marble[][] marketBoard = market.getMarketBoard();
+        ArrayList<Marble> hand = market.getHand();
+        int i=0;
+        handRes = new ArrayList<>();
+        handRes.add(handPos1);
+        handRes.add(handPos2);
+        handRes.add(handPos3);
+        handRes.add(handPos4);
+        if (hand.size()==0) {
+            back.setDisable(false);
+            res1.setImage(null);
+            res2.setImage(null);
+            slash.setText("");
+            res1.setUserData(null);
+            res2.setUserData(null);
+
+        }
+        else {
+
+
+
+            for (Marble m : hand) {
+                handRes.get(i).setImage((new Image(getClass().getResource("/images/PunchBoard/market/" + m.getRes().toString().toLowerCase() + ".png").toExternalForm())));
+                i++;
+
+            }
+            showResourcesToSelect();
+        }
+            for (; i<4 ; i++) handRes.get(i).setImage(null);
+
+
+
+
+
+
 
 
         marble11.setImage(new Image(getClass().getResource("/images/PunchBoard/market/" + marketBoard[0][0].getRes().toString().toLowerCase() + ".png").toExternalForm()));
@@ -202,6 +253,57 @@ public class MarketController implements GUIController{
 
 
     }
+
+    private void showResourcesToSelect() {
+        Marble first = mainController.getGame().getBoard().getMarket().getHand().get(0);
+
+        if (first.getRes() != ResourceType.EMPTY) {
+            res1.setImage(new Image(getClass().getResource("/images/PunchBoard/" + first.getRes().toString().toLowerCase() + ".png").toExternalForm()));
+            slash.setText("");
+            res2.setImage(null);
+            res1.setUserData(first.getRes().toString().toLowerCase());
+            res2.setUserData(null);
+        }
+        else whiteMarbleCase();
+
+
+
+    }
+
+    private void whiteMarbleCase() {
+        ArrayList<ResourceType> possibleRes = new ArrayList<>();
+        possibleRes.add(mainController.getGame().getPlayerById(gui.getID()).getWhiteConversion1());
+        possibleRes.add(mainController.getGame().getPlayerById(gui.getID()).getWhiteConversion2());
+        int count = (int) possibleRes.stream().filter(Objects::nonNull).count();
+
+        switch (count) {
+            case 0 -> {
+                res1.setImage(new Image(getClass().getResource("/images/PunchBoard/nothing.png").toExternalForm()));
+                res1.setUserData("empty");
+                slash.setText("");
+                res2.setImage(null);
+
+                res2.setUserData(null);
+
+            }
+            case 1 -> {
+                res1.setImage(new Image(getClass().getResource("/images/PunchBoard/" + possibleRes.get(0).toString().toLowerCase() + ".png").toExternalForm()));
+                res1.setUserData(possibleRes.get(0).toString().toLowerCase());
+                slash.setText("");
+                res2.setImage(null);
+                res2.setUserData(null);
+            }
+            default -> {
+                res1.setImage(new Image(getClass().getResource("/images/PunchBoard/" + possibleRes.get(0).toString().toLowerCase() + ".png").toExternalForm()));
+                res1.setUserData(possibleRes.get(0).toString().toLowerCase());
+                slash.setText("/");
+                res2.setImage(new Image(getClass().getResource("/images/PunchBoard/" + possibleRes.get(1).toString().toLowerCase() + ".png").toExternalForm()));
+                res2.setUserData(possibleRes.get(1).toString().toLowerCase());
+            }
+        }
+    }
+
+
 
     public void backButtonOpacityUp(MouseEvent mouseEvent) {
         back.setOpacity(1);
@@ -261,5 +363,47 @@ public class MarketController implements GUIController{
 
     private void disableArrows() {
         for (Button arrow : arrows) arrow.setDisable(true);
+    }
+
+
+
+    public void saveRes(MouseEvent mouseEvent) {
+        Image image = ((ImageView) (mouseEvent.getTarget())).getImage();
+        if (image == null) return;
+        String s =  (String)((ImageView) (mouseEvent.getTarget())).getUserData();
+        if (!s.equals("empty") && !s.equals("faith_point")) {
+            selectedRes = ResourceType.valueOf(s.toUpperCase());
+
+
+        }
+        else mainController.send(new PlaceResourceMessage(ResourceType.valueOf(s.toUpperCase()), -1, gui.getID(), false, false));
+
+
+    }
+
+    public void chooseShelf(MouseEvent mouseEvent) {
+
+        if (selectedRes == null) return;
+        int shelf;
+        Button selected = (Button) (mouseEvent.getTarget());
+        switch (selected.getId()) {
+            case "shelf1" -> shelf = 0;
+            case "shelf2" -> shelf = 1;
+            case "shelf3" -> shelf = 2;
+            case "shelf4" -> shelf = 3;
+            default -> shelf = 4;
+        }
+        mainController.send(new PlaceResourceMessage(selectedRes, shelf, gui.getID(), false, false  ));
+        selectedRes = null;
+
+
+
+
+    }
+
+    public void discardRes(MouseEvent mouseEvent) {
+        if (selectedRes == null) return;
+        mainController.send(new PlaceResourceMessage(selectedRes, -1, gui.getID(), false, true));
+
     }
 }
