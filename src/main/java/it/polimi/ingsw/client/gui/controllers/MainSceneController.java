@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
 import it.polimi.ingsw.message.ActionMessages.BuyDevCardMessage;
+import it.polimi.ingsw.message.ActionMessages.EndTurnMessage;
 import it.polimi.ingsw.message.ActionMessages.PlayLeaderMessage;
 import it.polimi.ingsw.model.*;
 import javafx.application.Platform;
@@ -24,8 +25,9 @@ public class MainSceneController implements  GUIController {
     public ImageView devMarket;
     public Label phase;
     public Label comMessages;
-    ImageView l1;
-    ImageView l2;
+    public ImageView endTurnButton;
+    Image l1 ;
+    Image l2 ;
     boolean active1 = false;
     boolean active2 = false;
     public ImageView leader1;
@@ -33,6 +35,7 @@ public class MainSceneController implements  GUIController {
     private GUI gui;
     int choosing = 0;
     boolean stop = false;
+    private boolean firstTurn = true;
 
 
     private MainController mainController;
@@ -64,7 +67,7 @@ public class MainSceneController implements  GUIController {
             discardButton.setDisable(false);
             backButton.setVisible(true);
             backButton.setDisable(false);
-            leader1.setImage(new Image(getClass().getResource("/images/Leaders/"+this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString()+".png").toExternalForm()));
+            leader1.setImage(l1);
             choosing=1;
         }
     }
@@ -77,7 +80,7 @@ public class MainSceneController implements  GUIController {
             discardButton.setDisable(false);
             backButton.setVisible(true);
             backButton.setDisable(false);
-            leader2.setImage(new Image(getClass().getResource("/images/Leaders/"+this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1).toString()+".png").toExternalForm()));
+            leader2.setImage(l2);
             choosing = 2;
         }
     }
@@ -91,14 +94,30 @@ public class MainSceneController implements  GUIController {
 
     public void setup() {
         System.out.println(mainController.getGui().getID());
+        if(firstTurn) {
+            Platform.runLater(() -> {
+                l1 = new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString() + ".png").toExternalForm());
+                l2 = new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1).toString() + ".png").toExternalForm());
+            });
+            firstTurn=false;
+        }
+    }
+
+    private void enable() {
+        leader1.setDisable(false);
+        leader2.setDisable(false);
+        endTurnButton.setDisable(false);
     }
 
     @Override
     public void print(Turn turn) {
         if (turn.getPlayerPlayingID() != gui.getID()) {
+            disable();
             phase.setText(this.mainController.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
-        } else
+        } else {
             phase.setText("Your turn");
+            enable();
+        }
     }
 
     @Override
@@ -131,18 +150,14 @@ public class MainSceneController implements  GUIController {
     public void activate(MouseEvent mouseEvent) {
         mainController.send(new PlayLeaderMessage(gui.getID(), choosing, true, mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(choosing - 1), false));
 
+        //posso attivarla
         if(!stop) {
             if (choosing == 1) {
                 active1 = true;
-                leader1.setImage(new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString() + ".png").toExternalForm()));
+                leader1.setImage(l1);
             } else {
                 active2 = true;
-                if(!active1) {
-                    leader2.setImage(new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1).toString() + ".png").toExternalForm()));
-                }
-                else{
-                    leader2.setImage(new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString() + ".png").toExternalForm()));
-                }
+                leader2.setImage(l2);
             }
 
         }
@@ -179,6 +194,15 @@ public class MainSceneController implements  GUIController {
         choosing=0;
     }
 
+    public void disable(){
+        leader1.setDisable(true);
+        leader2.setDisable(true);
+        endTurnButton.setDisable(true);
 
+    }
 
+    public void endTurn(MouseEvent mouseEvent) {
+       disable();
+       mainController. send(new EndTurnMessage(gui.getID()));
+    }
 }

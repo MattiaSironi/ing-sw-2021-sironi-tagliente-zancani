@@ -42,8 +42,8 @@ public class DevCardController implements GUIController{
     public Label message;
     public ImageView backButton;
     private int chosenIndex;
-    public Label phase;
-    public Label comMessages;
+    public Label phase = new Label();
+    public Label comMessages = new Label();
 
     public void setup(){
         this.gui = mainController.getGui();
