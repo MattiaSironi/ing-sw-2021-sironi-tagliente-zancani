@@ -122,8 +122,8 @@ public class ClientActionController extends Observable<Message> implements Obser
                     case SL -> actionEnded = printLeaders();
                     case SR -> /*mmv.printShelves(0);*/ printShelves();
                     case MR -> {
-                        manageResources();
-                        actionEnded = true;
+
+                        actionEnded = manageResources();
                     }
                     case END -> {
                         actionEnded = true;
@@ -227,9 +227,9 @@ public class ClientActionController extends Observable<Message> implements Obser
                     " c1,c2,c3,c4. Type 'q' if you want to quit");
             input = cli.readFromInput();
             inputcleaned = input.replaceAll("[0-9]", " ");
-            if (inputcleaned.equals("q")) return false;
-            if (inputcleaned.equals("r ") || inputcleaned.equals("c ")) {
-                row = input.charAt(0) == 'r';
+            if (inputcleaned.equalsIgnoreCase("q")) return false;
+            if (inputcleaned.equalsIgnoreCase("r ") || inputcleaned.equalsIgnoreCase("c ")) {
+                row = (input.charAt(0) == 'r' || input.charAt(0) == 'R');
                 index = Integer.parseInt(input.replaceAll("[^0-9]", ""));
                 if ((row && index >= 1 && index <= 3) || (!row && index >= 1 && index <= 4)) {
                     valid = true;
@@ -453,15 +453,17 @@ public class ClientActionController extends Observable<Message> implements Obser
         Actions.M.setEnable(false);
     }
 
-    private void manageResources() {
+    private boolean manageResources() {
         mmv.printShelves(ID);
         String input;
         int s1 = 0;
         int s2 = 0;
         boolean valid = false;
         while (!valid) {
-            cli.printToConsole("Select the first shelf:");
-            input = cli.readFromInput().replaceAll("[^0-9]", "");
+            cli.printToConsole("Select the first shelf or press q to quit:");
+            input = cli.readFromInput();
+            if (input.equalsIgnoreCase("q") )return false;
+            else input = input.replaceAll("[^0-9]", "");
             if (input.equals("") || input.length() != 1) s1 = -1;
             else s1 = Integer.parseInt(input);
 
@@ -476,6 +478,7 @@ public class ClientActionController extends Observable<Message> implements Obser
 
         }
         send(new ManageResourceMessage(s1 - 1, s2 - 1, ID));
+        return true;
     }
 
 
@@ -872,8 +875,8 @@ public class ClientActionController extends Observable<Message> implements Obser
         while (!valid) {
             input = cli.readFromInput();
             String finalInput = input;
-            if (possibleRes.stream().anyMatch(v -> v.name().equals(finalInput))) {
-                selectedRes = ResourceType.valueOf(finalInput);
+            if (possibleRes.stream().anyMatch(v -> v.name().equals(finalInput.toUpperCase()))) {
+                selectedRes = ResourceType.valueOf(finalInput.toUpperCase());
                 valid = true;
             } else cli.printToConsole("Invalid input, try again!");
         }

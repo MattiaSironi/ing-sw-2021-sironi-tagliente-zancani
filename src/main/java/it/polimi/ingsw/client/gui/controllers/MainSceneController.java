@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
 import it.polimi.ingsw.message.ActionMessages.BuyDevCardMessage;
+import it.polimi.ingsw.message.ActionMessages.EndTurnMessage;
 import it.polimi.ingsw.message.ActionMessages.PlayLeaderMessage;
 import it.polimi.ingsw.model.*;
 import javafx.application.Platform;
@@ -180,5 +181,7 @@ public class MainSceneController implements  GUIController {
     }
 
 
-
+    public void endTurn(MouseEvent mouseEvent) {
+        mainController.send(new EndTurnMessage(gui.getID())); //todo
+    }
 }

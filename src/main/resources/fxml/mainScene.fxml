@@ -101,7 +101,7 @@
                         <Image url="@../images/buttons/activateProd.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="140.0" fitWidth="131.0" pickOnBounds="true">
+                  <ImageView fitHeight="140.0" fitWidth="131.0" pickOnBounds="true" onMouseClicked="#endTurn">
                      <image>
                         <Image url="@../images/buttons/endTurnV.png" />
                      </image>
