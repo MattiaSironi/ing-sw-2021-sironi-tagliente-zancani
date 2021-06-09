@@ -40,6 +40,10 @@ public class FirstDrawController implements GUIController {
         this.resources = new ArrayList<>();
         this.chosenLeaders = new ArrayList<>();
         gui = mainController.getGui();
+        coin.setImage(new Image(getClass().getResource("/images/PunchBoard/coin.png").toExternalForm()));
+        stone.setImage(new Image(getClass().getResource("/images/PunchBoard/stone.png").toExternalForm()));
+        servant.setImage(new Image(getClass().getResource("/images/PunchBoard/servant.png").toExternalForm()));
+        shield.setImage(new Image(getClass().getResource("/images/PunchBoard/shield.png").toExternalForm()));
         ArrayList<LeaderCard> leaderCards = gui.getMainController().getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards();
         for (LeaderCard leaderCard : leaderCards) {
             switch (leaderCards.indexOf(leaderCard)) {
@@ -58,6 +62,16 @@ public class FirstDrawController implements GUIController {
 
     @Override
     public void print(Communication communication) {
+
+    }
+
+    @Override
+    public void disable() {
+
+    }
+
+    @Override
+    public void enable() {
 
     }
 

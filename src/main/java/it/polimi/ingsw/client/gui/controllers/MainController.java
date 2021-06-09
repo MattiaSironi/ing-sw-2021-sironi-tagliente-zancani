@@ -11,6 +11,8 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 
+import java.util.ArrayList;
+
 public class MainController extends Observable<Message> implements Observer<Message>, UI {
 
     private final GUI gui;
@@ -18,6 +20,15 @@ public class MainController extends Observable<Message> implements Observer<Mess
     private Game game;
     private boolean marketValid;
     private boolean wareValid;
+    boolean firstAction;
+
+    public boolean isFirstAction() {
+        return firstAction;
+    }
+
+    public void setFirstAction(boolean firstAction) {
+        this.firstAction = firstAction;
+    }
 
     public boolean isMarketValid() {
         return marketValid;
@@ -108,22 +119,26 @@ public class MainController extends Observable<Message> implements Observer<Mess
         if (message.getObjectID() == -1) {
             this.game = (Game) message.getObject();
             gui.changeScene(SceneList.FIRSTDRAW);
-        }
-        else if (message.getObjectID() == 0) { //SHELF WAREHOUSE
+        } else if (message.getObjectID() == 0) { //SHELF WAREHOUSE
             game.getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse) message.getObject());
 
             if (gui.getID() == message.getID()) {
                 gui.showShelves();
                 wareValid= false;
-        }
             }
-        else if (message.getObjectID() == 1) { //MARKET
+        } else if (message.getObjectID() == 1) { //MARKET
             game.getBoard().setMarket((Market) message.getObject());
             marketValid = false;
             gui.showMarket();
             marketValid = true;
+        } else if (message.getObjectID() == 2) { //MATRIX OF DEV CARD
+            this.game.getBoard().setMatrix((DevelopmentCardMatrix) message.getObject());
         }
-                else if (message.getObjectID() == 9) { //Communication
+        else if (message.getObjectID() == 3) //STRONGBOX
+            game.getPlayerById(message.getID()).getPersonalBoard().setStrongbox((Strongbox) message.getObject());
+        else if (message.getObjectID() == 4) //CARDSLOT
+            game.getPlayerById(message.getID()).getPersonalBoard().setCardSlot((ArrayList<DevDeck>) message.getObject());
+        else if (message.getObjectID() == 9) { //Communication
             handleCommunication((Communication) message.getObject());
         } else if (message.getObjectID() == 5) //initialResource
         {
@@ -154,10 +169,30 @@ public class MainController extends Observable<Message> implements Observer<Mess
     }
 
     public void handleTurn (Turn turn) {
-        if (turn.getPhase() == ActionPhase.WAITING_FOR_ACTION) {
+        if(turn.getPhase() == ActionPhase.FIRST_ROUND){
+            gui.controllerSetup();
             gui.changeScene(SceneList.MAINSCENE);
         }
-            gui.printMessage(turn);
+        else if (turn.getPhase() == ActionPhase.WAITING_FOR_ACTION) {
+            if(turn.getPlayerPlayingID() == gui.getID()){
+                if(!firstAction) {
+                    gui.enable();
+                    firstAction = true;
+                    gui.changeScene(SceneList.MAINSCENE);
+                }
+            }
+            else{
+                gui.disable();
+            }
+
+        }
+        else if(turn.getPhase() == ActionPhase.B_PAYMENT && turn.getPlayerPlayingID() == gui.getID()){
+            gui.changeScene(SceneList.PAYDEVCARDSCENE);
+        }
+        else if(turn.getPhase() == ActionPhase.CHOOSE_SLOT && turn.getPlayerPlayingID() == gui.getID()){
+            gui.changeScene(SceneList.PLACEDEVCARDSCENE);
+        }
+            //gui.printMessage(turn);
     }
 
 

@@ -69,6 +69,16 @@ public class Controller implements Observer<Message> {
 //                game.getPlayerById(0).setWhiteConversion1(ResourceType.SERVANT);
 
 
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 10);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 10);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 10);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
 
                 /* END TESTING */
 
@@ -270,7 +280,7 @@ public class Controller implements Observer<Message> {
     }
 
     public void payRes(boolean payFrom, int ID, boolean turn) {
-
+        System.out.println("ricevuto");
         if (payFrom) {
             if (!(game.getPlayerById(ID).getPersonalBoard().getWarehouse().canIPay(1, game.getBoard().getMatrix().getResToPay().get(0)))) {
                 game.setCommunication(ID, CommunicationList.NOT_ENOUGH_RES);
@@ -757,6 +767,7 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(BasicProductionMessage message) {
+        System.out.println("update");
         if(!checkTurn(message.getID()))
             return;
         if (game.getTurn().getPhase().equals(ActionPhase.WAITING_FOR_ACTION))

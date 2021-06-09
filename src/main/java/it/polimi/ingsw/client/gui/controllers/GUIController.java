@@ -5,11 +5,16 @@ import it.polimi.ingsw.model.Communication;
 import it.polimi.ingsw.model.Turn;
 
 public interface GUIController {
-
+    
     void setMainController(MainController m);
 
     void setup();
 
     void print(Turn turn);
+
     void print(Communication communication);
+
+    void disable();
+
+    void enable();
 }

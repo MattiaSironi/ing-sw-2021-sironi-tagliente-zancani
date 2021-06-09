@@ -7,7 +7,9 @@ public enum SceneList {
     FIRSTDRAW("firstDraw.fxml"),
     BUYDEVCARD("buyDevCardScene.fxml"),
     MAINSCENE("mainScene.fxml"),
-    MARKET("marketScene.fxml");
+    PAYDEVCARDSCENE("payDevCardScene.fxml"),
+    MARKET("marketScene.fxml"),
+    PLACEDEVCARDSCENE("placeDevCardScene.fxml");
 
 
     private final String sceneName;

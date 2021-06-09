@@ -25,6 +25,10 @@ public class MainSceneController implements  GUIController {
     public ImageView devMarket;
     public Label phase;
     public Label comMessages;
+    public ImageView market;
+    public ImageView dev1;
+    public ImageView dev2;
+    public ImageView dev3;
     ImageView l1;
     ImageView l2;
     boolean active1 = false;
@@ -91,7 +95,23 @@ public class MainSceneController implements  GUIController {
     }
 
     public void setup() {
-        System.out.println(mainController.getGui().getID());
+
+        if(mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(0).getCards().size() != 0){
+            dev1.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
+                    mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(0).getCards().get(0) +
+                    ".png").toExternalForm()));
+
+        }
+        if(mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(1).getCards().size() != 0){
+            dev2.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
+                    mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(1).getCards().get(0) +
+                    ".png").toExternalForm()));
+        }
+        if(mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(2).getCards().size() != 0){
+            dev3.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
+                    mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(2).getCards().get(0) +
+                    ".png").toExternalForm()));
+        }
     }
 
     @Override
@@ -105,6 +125,24 @@ public class MainSceneController implements  GUIController {
     @Override
     public void print(Communication communication) {
             comMessages.setText(communication.getCommunication().getString());
+    }
+
+    @Override
+    public void disable() {
+        activateButton.setMouseTransparent(true);
+        activateButton.setOpacity(0.5);
+        discardButton.setMouseTransparent(true);
+        discardButton.setOpacity(0.5);
+        devMarket.setDisable(true);
+    }
+
+    @Override
+    public void enable() {
+        activateButton.setMouseTransparent(false);
+        activateButton.setOpacity(1);
+        discardButton.setMouseTransparent(false);
+        discardButton.setOpacity(1);
+        devMarket.setDisable(false);
     }
 
     public void buyDevCard(MouseEvent mouseEvent) {
@@ -182,6 +220,7 @@ public class MainSceneController implements  GUIController {
 
 
     public void endTurn(MouseEvent mouseEvent) {
+        mainController.setFirstAction(false);
         mainController.send(new EndTurnMessage(gui.getID())); //todo
     }
 }

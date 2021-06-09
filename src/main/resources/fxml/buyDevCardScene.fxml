@@ -13,7 +13,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="it.polimi.ingsw.client.gui.controllers.DevCardController">
+<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.DevCardController">
    <children>
       <Pane layoutX="-6.0" prefHeight="720.0" prefWidth="1270.0">
          <children>
@@ -65,42 +65,42 @@
                   </LinearGradient>
                </textFill>
             </Label>
-            <GridPane fx:id="gridPane" layoutX="190.0" layoutY="91.0" prefHeight="600.0" prefWidth="420.0">
+            <GridPane fx:id="gridPane" layoutX="186.0" layoutY="91.0" prefHeight="600.0" prefWidth="420.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="200.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="200.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="200.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="200.0" />
               </columnConstraints>
               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ImageView fx:id="card7" fitHeight="146.0" fitWidth="100.0" GridPane.rowIndex="1">
+                  <ImageView fx:id="card7" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                   </ImageView>
-                  <ImageView fx:id="card8" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <ImageView fx:id="card8" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                   </ImageView>
-                  <ImageView fx:id="card9" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <ImageView fx:id="card9" fitHeight="146.0" fitWidth="100.0">
                   </ImageView>
-                  <ImageView fx:id="card4" fitHeight="146.0" fitWidth="100.0" GridPane.rowIndex="2">
+                  <ImageView fx:id="card4" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
                   </ImageView>
-                  <ImageView fx:id="card5" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <ImageView fx:id="card5" fitHeight="146.0" fitWidth="100.0" GridPane.rowIndex="1">
                   </ImageView>
-                  <ImageView fx:id="card6" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <ImageView fx:id="card6" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                   </ImageView>
-                  <ImageView fx:id="card1" fitHeight="146.0" fitWidth="100.0" GridPane.rowIndex="3">
+                  <ImageView fx:id="card1" fitHeight="146.0" fitWidth="100.0" GridPane.rowIndex="2">
                   </ImageView>
-                  <ImageView fx:id="card2" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <ImageView fx:id="card2" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                   </ImageView>
-                  <ImageView fx:id="card3" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                  <ImageView fx:id="card3" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                   </ImageView>
-                  <ImageView fx:id="card10" fitHeight="146.0" fitWidth="100.0">
+                  <ImageView fx:id="card10" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="1">
                   </ImageView>
-                  <ImageView fx:id="card11" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="1">
+                  <ImageView fx:id="card11" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="2">
                   </ImageView>
-                  <ImageView fx:id="card12" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="2">
+                  <ImageView fx:id="card12" fitHeight="146.0" fitWidth="100.0" GridPane.columnIndex="3">
                   </ImageView>
                </children>
             </GridPane>

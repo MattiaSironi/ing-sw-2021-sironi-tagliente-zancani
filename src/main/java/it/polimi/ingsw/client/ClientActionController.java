@@ -695,6 +695,7 @@ public class ClientActionController extends Observable<Message> implements Obser
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse) message.getObject());
         } else if (message.getObjectID() == 1) {  //MARKET
             this.mmv.getGame().getBoard().setMarket((Market) message.getObject());
+
         } else if (message.getObjectID() == 2) //MATRIX OF DEV CARD
             this.mmv.getGame().getBoard().setMatrix((DevelopmentCardMatrix) message.getObject());
         else if (message.getObjectID() == 3) //STRONGBOX

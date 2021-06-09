@@ -265,7 +265,10 @@ public class MarketController implements GUIController{
         }
         for (; i < 4; i++) this.hand.get(i).setImage(null);
 
-        if (hand.size() == 0) shelvesForSwap();
+        if (hand.size() == 0){
+            shelvesForSwap();
+            back.setDisable(false);
+        }
         else showResourcesToSelect();
     }
 
@@ -454,12 +457,14 @@ public class MarketController implements GUIController{
         disableArrows();
         disableRes();
         disableShelves();
+        res1.setOpacity(0.5);
 
 
 
     }
 
     public void enable() {
+        groupHand();
         groupArrows();
         groupRes();
         groupShelves();
@@ -467,6 +472,7 @@ public class MarketController implements GUIController{
         enableRes();
         enableShelves();
         shelvesForSwap();
+
 
     }
 
@@ -487,7 +493,7 @@ public class MarketController implements GUIController{
     }
 
     private void enableRes() {
-        for (ImageView res : this.res) res.setDisable(true);
+        for (ImageView res : this.res) res.setDisable(false);
     }
     private void disableRes() {
         for (ImageView res : this.res) res.setDisable(true);

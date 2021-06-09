@@ -10,7 +10,8 @@ public enum ActionPhase {
     SELECT_RES("is choosing the resources to produce!"),
     BASIC ("is doing a basic production!"),
     PAYMENT("is paying!"),
-    GAME_OVER("won!");
+    GAME_OVER("won!"),
+    FIRST_ROUND ("is the first player");
 
     private final String others;
 
