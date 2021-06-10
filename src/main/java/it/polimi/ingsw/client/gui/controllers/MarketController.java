@@ -79,7 +79,6 @@ public class MarketController implements GUIController{
     private ResourceType selectedRes;
     private GUI gui;
     private Integer s1;
-    private Integer s2;
 
 
     @Override
@@ -268,6 +267,7 @@ public class MarketController implements GUIController{
         if (hand.size() == 0){
             shelvesForSwap();
             back.setDisable(false);
+            discard.setDisable(true);
         }
         else showResourcesToSelect();
     }
@@ -275,7 +275,7 @@ public class MarketController implements GUIController{
 
     private void showResourcesToSelect() {
 
-
+        discard.setDisable(false);
         Marble first = mainController.getGame().getBoard().getMarket().getHand().get(0);
 
         if (first.getRes() != ResourceType.EMPTY) {
@@ -378,6 +378,7 @@ public class MarketController implements GUIController{
         mainController.send(new MarketMessage(row, index, mainController.getGui().getID()));
         shelvesForMarket();
 
+
         }
 
 
@@ -437,16 +438,18 @@ public class MarketController implements GUIController{
     public void discardRes(MouseEvent mouseEvent) {
         if (selectedRes == null) return;
         mainController.send(new PlaceResourceMessage(selectedRes, -1, gui.getID(), false, true));
+        selectedRes = null;
+        discard.setDisable(true);
 
     }
 
     public void swap(MouseEvent mouseEvent) {
         if (s1 == null) s1 = selectedShelves(((Button) mouseEvent.getTarget()).getId());
         else {
-            s2 = selectedShelves(((Button) mouseEvent.getTarget()).getId());
+            int s2 = selectedShelves(((Button) mouseEvent.getTarget()).getId());
             mainController.send(new ManageResourceMessage(s1, s2, gui.getID()));
             s1 = null;
-            s2 = null;
+
         }
     }
 
@@ -457,7 +460,6 @@ public class MarketController implements GUIController{
         disableArrows();
         disableRes();
         disableShelves();
-        res1.setOpacity(0.5);
 
 
 
@@ -472,7 +474,7 @@ public class MarketController implements GUIController{
         enableRes();
         enableShelves();
         shelvesForSwap();
-
+        discard.setDisable(true);
 
     }
 

@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class Controller implements Observer<Message> {
     private Game game;
+    private boolean actionDone;
 
     public Controller(Game game) {
         this.game = game;
@@ -66,19 +67,19 @@ public class Controller implements Observer<Message> {
 //                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard1);
 //                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard2);
 //                game.getPlayerById(0).setWhiteConversion2(ResourceType.COIN);
-//                game.getPlayerById(0).setWhiteConversion1(ResourceType.SERVANT);
+                game.getPlayerById(0).setWhiteConversion1(ResourceType.SERVANT);
 
 
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 10);
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 10);
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 10);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 10);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 10);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 10);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
 
                 /* END TESTING */
 
@@ -326,6 +327,7 @@ public class Controller implements Observer<Message> {
     public void placeDevCard(int ID, int slot) {
         if (game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().size() == 0 && game.getBoard().getMatrix().getChosenCard().getLevel() == 1) {
             game.addDevCardToPlayer(ID, slot);
+            actionDone = true;
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
             if (game.getPlayers().size() == 1 && game.checkColumnEmpty()) {
                 game.setGameOver(true);
@@ -333,6 +335,7 @@ public class Controller implements Observer<Message> {
         } else if (game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().size() != 0 &&
                 game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().get(0).getLevel() == game.getBoard().getMatrix().getChosenCard().getLevel() - 1) {
             game.addDevCardToPlayer(ID, slot);
+            actionDone = true;
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
         } else {
             game.setCommunication(ID, CommunicationList.INVALID_MOVE);
@@ -700,9 +703,15 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(MarketMessage message) {
-        if(!checkTurn(message.getID()))
+        if (!checkTurn(message.getID()))
             return;
-        goToMarket(message.isRow(), message.getIndex(), message.getID());
+        if (actionDone) {
+            game.setCommunication(message.getID(), CommunicationList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
+        } else {
+            actionDone = true;
+            goToMarket(message.isRow(), message.getIndex(), message.getID());
+        }
     }
 
 
@@ -716,12 +725,18 @@ public class Controller implements Observer<Message> {
     public void update(BuyDevCardMessage message) {
         if(!checkTurn(message.getID()))
             return;
-        if (game.getTurn().getPhase().equals(ActionPhase.WAITING_FOR_ACTION)) {
-            handleChosenDevCard(message.getChosenIndex(), message.getID());
-        } else if (game.getTurn().getPhase().equals(ActionPhase.B_PAYMENT)) {
-            payRes(message.isPayFrom(), message.getID(), false);
-        } else if (game.getTurn().getPhase().equals(ActionPhase.CHOOSE_SLOT)) {
-            placeDevCard(message.getID(), message.getSlot());
+        if (actionDone) {
+            game.setCommunication(message.getID(), CommunicationList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
+        }
+        else {
+            if (game.getTurn().getPhase().equals(ActionPhase.WAITING_FOR_ACTION)) {
+                handleChosenDevCard(message.getChosenIndex(), message.getID());
+            } else if (game.getTurn().getPhase().equals(ActionPhase.B_PAYMENT)) {
+                payRes(message.isPayFrom(), message.getID(), false);
+            } else if (game.getTurn().getPhase().equals(ActionPhase.CHOOSE_SLOT)) {
+                placeDevCard(message.getID(), message.getSlot());
+            }
         }
 
     }
@@ -746,14 +761,20 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(ProductionMessage message) {
-        if(!checkTurn(message.getID()))
+        if (!checkTurn(message.getID()))
             return;
-        if (message.isEndAction())
-            collectNewRes(message.getID());
-        else if (!(message.getDc() == null)) {
-            payResources(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getResToBuy());
-        } else
-            payResources(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getResToBuy());
+        if (actionDone) {
+            game.setCommunication(message.getID(), CommunicationList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
+        } else {
+            if (message.isEndAction()) {
+                collectNewRes(message.getID());
+                actionDone = true;
+            } else if (!(message.getDc() == null)) {
+                payResources(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getResToBuy());
+            } else
+                payResources(message.getID(), message.getResFromWarehouse(), message.getResFromStrongbox(), message.getResToBuy());
+        }
     }
 
 
@@ -761,7 +782,10 @@ public class Controller implements Observer<Message> {
     public void update(EndTurnMessage message) {
         if(!checkTurn(message.getID()))
             return;
+
+        actionDone = false;
         game.endTurn(message.getID());
+
 
     }
 
@@ -785,12 +809,18 @@ public class Controller implements Observer<Message> {
     @Override
     public void update(LeaderProductionMessage message) {
 
-        if(!checkTurn(message.getID()))
+        if (!checkTurn(message.getID()))
             return;
-        if (game.getTurn().getPhase() == ActionPhase.WAITING_FOR_ACTION) {
-            isExtraProd(message.getIndex(), message.getID());
-        } else if (game.getTurn().getPhase() == ActionPhase.SELECT_RES) {
-            setBoughtRes(message.getWantedRes(), message.getID(), false);
+
+        if (actionDone) {
+            game.setCommunication(message.getID(), CommunicationList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
+        } else {
+            if (game.getTurn().getPhase() == ActionPhase.WAITING_FOR_ACTION) {
+                isExtraProd(message.getIndex(), message.getID());
+            } else if (game.getTurn().getPhase() == ActionPhase.SELECT_RES) {
+                setBoughtRes(message.getWantedRes(), message.getID(), false);
+            }
         }
     }
 
