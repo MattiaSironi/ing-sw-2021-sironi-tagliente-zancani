@@ -123,13 +123,30 @@ public class MainSceneController implements  GUIController {
 
     public void setup() {
         System.out.println(mainController.getGui().getID());
-        if(firstTurn) {
-                l1 = new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString() + ".png").toExternalForm());
-                l2 = new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1).toString() + ".png").toExternalForm());
-                lc1 = this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0);
-                lc2= this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1);
-            firstTurn=false;
+        if (firstTurn) {
+            l1 = new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString() + ".png").toExternalForm());
+            l2 = new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1).toString() + ".png").toExternalForm());
+            lc1 = this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0);
+            lc2 = this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1);
+            firstTurn = false;
         }
+        if(mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(0).getCards().size() != 0){
+            dev1.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
+                    mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(0).getCards().get(0) +
+                    ".png").toExternalForm()));
+
+        }
+        if(mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(1).getCards().size() != 0){
+            dev2.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
+                    mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(1).getCards().get(0) +
+                    ".png").toExternalForm()));
+        }
+        if(mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(2).getCards().size() != 0){
+            dev3.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
+                    mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(2).getCards().get(0) +
+                    ".png").toExternalForm()));
+        }
+
         groupShelves();
         showShelves();
         showStrongbox();
