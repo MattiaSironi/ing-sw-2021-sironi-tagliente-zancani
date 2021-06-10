@@ -69,8 +69,8 @@ public class MarketController implements GUIController{
     public Button column2;
     public Button column3;
     public Button column4;
-    public Label phase;
-    public Label comMessages;
+    public Label phase = new Label();
+    public Label comMessages = new Label();
     private MainController mainController;
     private ArrayList<Button> arrows;
     private ArrayList<Button> shelves;

@@ -192,13 +192,13 @@ public class MainController extends Observable<Message> implements Observer<Mess
         else if(turn.getPhase() == ActionPhase.CHOOSE_SLOT && turn.getPlayerPlayingID() == gui.getID()){
             gui.changeScene(SceneList.PLACEDEVCARDSCENE);
         }
-            //gui.printMessage(turn);
+            gui.printMessage(turn);
     }
 
 
     public void handleCommunication(Communication communication) {
         if (communication.getAddresseeID() == gui.getID() || communication.getAddresseeID() == -1) {
-//            gui.printMessage(communication);
+            gui.printMessage(communication);
 
             }
             if (communication.getCommunication() == CommunicationList.NICK_NOT_VALID && communication.getAddresseeID() == gui.getID()) {
