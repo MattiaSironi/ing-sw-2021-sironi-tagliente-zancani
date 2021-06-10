@@ -150,6 +150,8 @@ public class GUI extends Application {
     public void showShelves() { //TODO FOR OTHERS PLAYERS and OTHER SCENES
         Platform.runLater(() -> {
             ((MarketController) nameMapController.get(SceneList.MARKET.getSceneName())).showShelves();
+            ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showShelves();
+
         });
     }
 
@@ -194,6 +196,13 @@ public class GUI extends Application {
                 controller.enable();
             }
         });
+    }
+
+    public void showStrongbox() {
+        Platform.runLater(() -> {
+            ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showStrongbox();
+        });
+
     }
 
 //    public void playButtonSound(){

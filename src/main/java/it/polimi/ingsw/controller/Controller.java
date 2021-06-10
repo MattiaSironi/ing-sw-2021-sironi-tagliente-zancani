@@ -49,37 +49,37 @@ public class Controller implements Observer<Message> {
 
 
                 /* TESTING */
-
-//                LeaderCard leaderCard = new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD);
-//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard);
-
-
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(ResourceType.COIN);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(4).setResType(ResourceType.SERVANT);
-                game.getPlayerById(1).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(ResourceType.SHIELD);
-                game.getPlayerById(1).getPersonalBoard().getWarehouse().getShelves().get(4).setResType(ResourceType.STONE);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(3).setCount(2);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(4).setCount(1);
-                game.getPlayerById(1).getPersonalBoard().getWarehouse().getShelves().get(3).setCount(1);
-
-//                LeaderCard leaderCard1 = new WhiteTrayLCard(4,5,ResourceType.SERVANT,CardColor.BLUE,CardColor.YELLOW);
-//                LeaderCard leaderCard2 = new WhiteTrayLCard(4,5,ResourceType.COIN,CardColor.GREEN,CardColor.PURPLE);
-//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard1);
-//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard2);
-//                game.getPlayerById(0).setWhiteConversion2(ResourceType.COIN);
-//                game.getPlayerById(0).setWhiteConversion1(ResourceType.SERVANT);
-
-
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 10);
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 10);
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 10);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+//
+////                LeaderCard leaderCard = new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD);
+////                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard);
+//
+//
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(ResourceType.COIN);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(4).setResType(ResourceType.SERVANT);
+//                game.getPlayerById(1).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(ResourceType.SHIELD);
+//                game.getPlayerById(1).getPersonalBoard().getWarehouse().getShelves().get(4).setResType(ResourceType.STONE);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(3).setCount(2);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(4).setCount(1);
+//                game.getPlayerById(1).getPersonalBoard().getWarehouse().getShelves().get(3).setCount(1);
+//
+////                LeaderCard leaderCard1 = new WhiteTrayLCard(4,5,ResourceType.SERVANT,CardColor.BLUE,CardColor.YELLOW);
+////                LeaderCard leaderCard2 = new WhiteTrayLCard(4,5,ResourceType.COIN,CardColor.GREEN,CardColor.PURPLE);
+////                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard1);
+////                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard2);
+////                game.getPlayerById(0).setWhiteConversion2(ResourceType.COIN);
+////                game.getPlayerById(0).setWhiteConversion1(ResourceType.SERVANT);
+//
+//
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 10);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 10);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 10);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
 
                 /* END TESTING */
 

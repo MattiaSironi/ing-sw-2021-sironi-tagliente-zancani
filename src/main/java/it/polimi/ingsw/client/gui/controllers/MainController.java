@@ -134,8 +134,13 @@ public class MainController extends Observable<Message> implements Observer<Mess
         } else if (message.getObjectID() == 2) { //MATRIX OF DEV CARD
             this.game.getBoard().setMatrix((DevelopmentCardMatrix) message.getObject());
         }
-        else if (message.getObjectID() == 3) //STRONGBOX
+        else if (message.getObjectID() == 3) {//STRONGBOX
             game.getPlayerById(message.getID()).getPersonalBoard().setStrongbox((Strongbox) message.getObject());
+            if (gui.getID() == message.getID()) {
+                gui.showStrongbox();
+
+            }
+        }
         else if (message.getObjectID() == 4) //CARDSLOT
             game.getPlayerById(message.getID()).getPersonalBoard().setCardSlot((ArrayList<DevDeck>) message.getObject());
         else if (message.getObjectID() == 9) { //Communication

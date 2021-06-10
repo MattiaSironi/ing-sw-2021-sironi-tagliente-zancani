@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
 import it.polimi.ingsw.message.ActionMessages.BuyDevCardMessage;
 import it.polimi.ingsw.message.ActionMessages.EndTurnMessage;
+import it.polimi.ingsw.message.ActionMessages.ManageResourceMessage;
 import it.polimi.ingsw.message.ActionMessages.PlayLeaderMessage;
 import it.polimi.ingsw.model.*;
 import javafx.application.Platform;
@@ -17,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 
 public class MainSceneController implements  GUIController {
     public ImageView activateButton;
@@ -30,6 +32,25 @@ public class MainSceneController implements  GUIController {
     public ImageView dev2;
     public ImageView dev3;
     public ImageView endTurnButton;
+    public ImageView shelf1pos1;
+    public ImageView shelf4pos1;
+    public ImageView shelf4pos2;
+    public ImageView shelf5pos1;
+    public ImageView shelf5pos2;
+    public ImageView shelf3pos1;
+    public ImageView shelf3pos2;
+    public ImageView shelf3pos3;
+    public ImageView shelf2pos1;
+    public ImageView shelf2pos2;
+    public Button shelf2;
+    public Button shelf3;
+    public Button shelf4;
+    public Button shelf5;
+    public Button shelf1;
+    public Label shieldNum;
+    public Label servantNum;
+    public Label coinNum;
+    public Label stoneNum;
     private LeaderCard lc1;
     private LeaderCard lc2;
     private Image l1 ;
@@ -42,6 +63,8 @@ public class MainSceneController implements  GUIController {
     int choosing = 0;
     boolean stop = true;
     private boolean firstTurn = true;
+    Integer s1;
+    ArrayList<Button> shelves;
 
 
     private MainController mainController;
@@ -107,17 +130,20 @@ public class MainSceneController implements  GUIController {
                 lc2= this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1);
             firstTurn=false;
         }
+        groupShelves();
+        showShelves();
+        showStrongbox();
     }
 
 
     @Override
     public void print(Turn turn) {
         if (turn.getPlayerPlayingID() != gui.getID()) {
-            disable();
+
             phase.setText(this.mainController.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
         } else {
             phase.setText("Your turn");
-            enable();
+
         }
     }
 
@@ -136,6 +162,8 @@ public class MainSceneController implements  GUIController {
         leader1.setDisable(true);
         leader2.setDisable(true);
         endTurnButton.setDisable(true);
+        groupShelves();
+        disableShelves();
     }
 
     @Override
@@ -148,6 +176,8 @@ public class MainSceneController implements  GUIController {
         leader1.setDisable(false);
         leader2.setDisable(false);
         endTurnButton.setDisable(false);
+        groupShelves();
+        enableShelves();
     }
 
     public void buyDevCard(MouseEvent mouseEvent) {
@@ -240,4 +270,118 @@ public class MainSceneController implements  GUIController {
         mainController.setFirstAction(false);
         mainController.send(new EndTurnMessage(gui.getID())); //todo
     }
+
+
+    public void swap(MouseEvent mouseEvent) {
+        if (s1 == null) s1 = selectedShelves(((Button) mouseEvent.getTarget()).getId());
+        else {
+            int s2 = selectedShelves(((Button) mouseEvent.getTarget()).getId());
+            mainController.send(new ManageResourceMessage(s1, s2, gui.getID()));
+            s1 = null;
+
+        }
+    }
+    private int selectedShelves(String id) {
+        switch (id) {
+            case "shelf1" -> {
+                return 0;
+            }
+            case "shelf2" -> {
+                return 1;
+            }
+            case "shelf3" -> {
+                return 2;
+            }
+            case "shelf4" -> {
+                return 3;
+            }
+            default -> {
+                return 4;
+            }
+        }
+    }
+    private void groupShelves() {
+        shelves = new ArrayList<>();
+        shelves.add(shelf1);
+        shelves.add(shelf2);
+        shelves.add(shelf3);
+        shelves.add(shelf4);
+        shelves.add(shelf5);
+    }
+
+    private void enableShelves() {
+        for (Button shelf : shelves) shelf.setDisable(false);
+    }
+
+    private void disableShelves() {
+        for (Button shelf : shelves) shelf.setDisable(true);
+
+    }
+
+    public void showShelves() {
+        ShelfWarehouse myShelves = mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getWarehouse();
+        ArrayList<ImageView> shelf2 = new ArrayList<>();
+        ArrayList<ImageView> shelf3 = new ArrayList<>();
+        ArrayList<ImageView> shelf4 = new ArrayList<>();
+        ArrayList<ImageView> shelf5 = new ArrayList<>();
+        int max;
+        ResourceType r;
+        shelf2.add(shelf2pos1);
+        shelf2.add(shelf2pos2);
+        shelf3.add(shelf3pos1);
+        shelf3.add(shelf3pos2);
+        shelf3.add(shelf3pos3);
+        shelf4.add(shelf4pos1);
+        shelf4.add(shelf4pos2);
+        shelf5.add(shelf5pos1);
+        shelf5.add(shelf5pos2);
+
+        if (myShelves.getShelves().get(0).getResType() != ResourceType.EMPTY)
+            shelf1pos1.setImage(new Image(getClass().getResource("/images/PunchBoard/" + myShelves.getShelves().get(0).getResType().toString().toLowerCase() + ".png").toExternalForm()));
+        else shelf1pos1.setImage(null);
+
+
+        r = myShelves.getShelves().get(1).getResType();
+        max = myShelves.getShelves().get(1).getCount();
+        for (ImageView iv : shelf2) {
+            if (shelf2.indexOf(iv) <= max - 1)
+                iv.setImage(new Image(getClass().getResource("/images/PunchBoard/" + r.toString().toLowerCase() + ".png").toExternalForm()));
+            else iv.setImage(null);
+        }
+
+
+        r = myShelves.getShelves().get(2).getResType();
+        max = myShelves.getShelves().get(2).getCount();
+        for (ImageView iv : shelf3) {
+            if (shelf3.indexOf(iv) <= max - 1)
+                iv.setImage(new Image(getClass().getResource("/images/PunchBoard/" + r.toString().toLowerCase() + ".png").toExternalForm()));
+            else iv.setImage(null);
+        }
+
+        if (myShelves.getShelves().get(3).getResType() != null) {
+            r = myShelves.getShelves().get(3).getResType();
+            max = myShelves.getShelves().get(3).getCount();
+            for (ImageView iv : shelf4) {
+                iv.setImage(new Image(getClass().getResource("/images/PunchBoard/" + r.toString().toLowerCase() + ".png").toExternalForm()));
+                if (!(shelf4.indexOf(iv) <= max - 1)) iv.setOpacity(0.5);
+                else iv.setOpacity(1.0);
+            }
+        }
+        if (myShelves.getShelves().get(4).getResType() != null) {
+            r = myShelves.getShelves().get(4).getResType();
+            max = myShelves.getShelves().get(4).getCount();
+            for (ImageView iv : shelf5) {
+                iv.setImage(new Image(getClass().getResource("/images/PunchBoard/" + r.toString().toLowerCase() + ".png").toExternalForm()));
+                if (!(shelf5.indexOf(iv) <= max - 1)) iv.setOpacity(0.5);
+                else iv.setOpacity(1.0);
+            }
+        }
+    }
+    public void showStrongbox(){
+        coinNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.COIN));
+        stoneNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.STONE));
+        servantNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.SERVANT));
+        shieldNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.SHIELD));
+    }
+
 }
