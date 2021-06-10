@@ -96,7 +96,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                         if (Actions.M.isEnable()) {
 
                             actionEnded = goToMarket();
-                            if (actionEnded) noMoreActions();
+
 
                             // do things
                         } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
@@ -144,7 +144,7 @@ public class ClientActionController extends Observable<Message> implements Obser
         ArrayList<ResourceType> Str = new ArrayList<>();
         ArrayList<ResourceType> Ware = new ArrayList<>();
 
-        cli.printToConsole("Choose the productions you want to activate in this turn:\nType:\n1 to activate the basic prodcution" +
+        cli.printToConsole("Choose the productions you want to activate in this turn:\nType:\n1 to activate the basic production" +
                 "\n2 to activate the leader production\n3 to activate the development card production\n0 to end the production phase");
         while (!valid) {
             String input = cli.readFromInput().replaceAll("[^0-9]", "");
@@ -260,10 +260,10 @@ public class ClientActionController extends Observable<Message> implements Obser
                     + " " + ResourceType.SHIELD.printResourceColouredName());
             cli.printToConsole("Continue? [y/n]");
             input = cli.readFromInput();
-            if (input.equals("y")) {
+            if (input.equalsIgnoreCase("y")) {
                 send(new BuyDevCardMessage(index - 1, ID, false, -1));
                 return true;
-            } else if (input.equals("n")) {
+            } else if (input.equalsIgnoreCase("n")) {
                 cli.printToConsole("Aborted");
                 return false;
             } else {
@@ -275,24 +275,6 @@ public class ClientActionController extends Observable<Message> implements Obser
             return false;
         }
     }
-
-//    public void PlayLeader() { TODO DELETE
-//        boolean correctInput = false;
-//        int idx;
-//        String input;
-//        while (!correctInput) {
-//            cli.printToConsole("These are your available leaders");
-//            this.printLeaders();
-//        }
-//
-//        cli.printToConsole("Choose the Leader you want to activate and select its index");
-//        idx = Integer.parseInt(cli.readFromInput());
-//
-//        if (idx > 0 && idx <= mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().size()) {
-//            correctInput = true;
-////                    mmv.sendNotify(new PlayLeaderMessage(ID,idx));
-//        } else cli.printToConsole("Invalid int, you selected " + idx);
-//    }
 
     public void chooseResToProduce(boolean turn) {
         ResourceType bought;

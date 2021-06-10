@@ -79,7 +79,6 @@ public class MarketController implements GUIController{
     private ResourceType selectedRes;
     private GUI gui;
     private Integer s1;
-    private Integer s2;
 
 
     @Override
@@ -447,10 +446,10 @@ public class MarketController implements GUIController{
     public void swap(MouseEvent mouseEvent) {
         if (s1 == null) s1 = selectedShelves(((Button) mouseEvent.getTarget()).getId());
         else {
-            s2 = selectedShelves(((Button) mouseEvent.getTarget()).getId());
+            int s2 = selectedShelves(((Button) mouseEvent.getTarget()).getId());
             mainController.send(new ManageResourceMessage(s1, s2, gui.getID()));
             s1 = null;
-            s2 = null;
+
         }
     }
 
