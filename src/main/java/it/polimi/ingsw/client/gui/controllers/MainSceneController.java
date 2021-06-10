@@ -29,18 +29,18 @@ public class MainSceneController implements  GUIController {
     public ImageView dev1;
     public ImageView dev2;
     public ImageView dev3;
-    ImageView l1;
-    ImageView l2;
     public ImageView endTurnButton;
-    Image l1 ;
-    Image l2 ;
+    private LeaderCard lc1;
+    private LeaderCard lc2;
+    private Image l1 ;
+    private Image l2 ;
     boolean active1 = false;
     boolean active2 = false;
     public ImageView leader1;
     public ImageView leader2;
     private GUI gui;
     int choosing = 0;
-    boolean stop = false;
+    boolean stop = true;
     private boolean firstTurn = true;
 
 
@@ -101,19 +101,14 @@ public class MainSceneController implements  GUIController {
     public void setup() {
         System.out.println(mainController.getGui().getID());
         if(firstTurn) {
-            Platform.runLater(() -> {
                 l1 = new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString() + ".png").toExternalForm());
                 l2 = new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1).toString() + ".png").toExternalForm());
-            });
+                lc1 = this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0);
+                lc2= this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1);
             firstTurn=false;
         }
     }
 
-    private void enable() {
-        leader1.setDisable(false);
-        leader2.setDisable(false);
-        endTurnButton.setDisable(false);
-    }
 
     @Override
     public void print(Turn turn) {
@@ -138,6 +133,9 @@ public class MainSceneController implements  GUIController {
         discardButton.setMouseTransparent(true);
         discardButton.setOpacity(0.5);
         devMarket.setDisable(true);
+        leader1.setDisable(true);
+        leader2.setDisable(true);
+        endTurnButton.setDisable(true);
     }
 
     @Override
@@ -147,6 +145,9 @@ public class MainSceneController implements  GUIController {
         discardButton.setMouseTransparent(false);
         discardButton.setOpacity(1);
         devMarket.setDisable(false);
+        leader1.setDisable(false);
+        leader2.setDisable(false);
+        endTurnButton.setDisable(false);
     }
 
     public void buyDevCard(MouseEvent mouseEvent) {
@@ -157,7 +158,7 @@ public class MainSceneController implements  GUIController {
         gui.changeScene(SceneList.MARKET);
     }
 
-    public void Back(MouseEvent mouseEvent) {
+    public void back(MouseEvent mouseEvent) {
         activateButton.setVisible(false);
         activateButton.setDisable(true);
         discardButton.setVisible(false);
@@ -172,20 +173,34 @@ public class MainSceneController implements  GUIController {
     }
 
     public void activate(MouseEvent mouseEvent) {
-        mainController.send(new PlayLeaderMessage(gui.getID(), choosing, true, mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(choosing - 1), false));
 
-        //posso attivarla
+        if(choosing==1){
+            mainController.send(new PlayLeaderMessage(gui.getID(), choosing, true, lc1, false));
+            if(mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getActiveLeader().isPresent(lc1))
+                stop=false;
+        }else{
+            mainController.send(new PlayLeaderMessage(gui.getID(), choosing, true, lc2, false));
+            if(mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getActiveLeader().isPresent(lc2))
+                stop=false;
+        }
+
         if(!stop) {
             if (choosing == 1) {
                 active1 = true;
+                leader1.setDisable(true);
                 leader1.setImage(l1);
             } else {
                 active2 = true;
+                leader2.setDisable(true);
                 leader2.setImage(l2);
             }
-
+        }else{
+            if(!active1)
+                leader1.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
+            if(!active2)
+                leader2.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
         }
-        stop = false;
+        stop = true;
         activateButton.setVisible(false);
         activateButton.setDisable(true);
         discardButton.setVisible(false);
@@ -196,14 +211,16 @@ public class MainSceneController implements  GUIController {
     }
 
     public void discard(MouseEvent mouseEvent) {
-        mainController.send(new PlayLeaderMessage(gui.getID(), choosing, false, this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(choosing - 1), false));
+
         if(choosing==1){
+            mainController.send(new PlayLeaderMessage(gui.getID(), choosing, false, lc1, false));
             active1 = true;
             leader1.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
             leader1.setDisable(true);
             leader1.setOpacity(0.5);
         }
         else{
+            mainController.send(new PlayLeaderMessage(gui.getID(), choosing, false, lc2, false));
             active2 = true;
             leader2.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
             leader2.setDisable(true);
@@ -218,17 +235,7 @@ public class MainSceneController implements  GUIController {
         choosing=0;
     }
 
-    public void disable(){
-        leader1.setDisable(true);
-        leader2.setDisable(true);
-        endTurnButton.setDisable(true);
 
-    }
-
-    public void endTurn(MouseEvent mouseEvent) {
-       disable();
-       mainController. send(new EndTurnMessage(gui.getID()));
-    }
     public void endTurn(MouseEvent mouseEvent) {
         mainController.setFirstAction(false);
         mainController.send(new EndTurnMessage(gui.getID())); //todo

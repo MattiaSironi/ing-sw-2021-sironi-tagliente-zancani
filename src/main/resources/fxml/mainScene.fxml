@@ -76,7 +76,7 @@
                                     <Image url="@../images/buttons/button_discard.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="backButton" disable="true" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="327.0" onMouseClicked="#Back" onMouseEntered="#BackOpacityUp" onMouseExited="#BackOpacityDown" opacity="0.75" visible="false">
+                              <ImageView fx:id="backButton" disable="true" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="327.0" onMouseClicked="#back" onMouseEntered="#BackOpacityUp" onMouseExited="#BackOpacityDown" opacity="0.75" visible="false">
                                  <image>
                                     <Image url="@../images/buttons/button_back.png" />
                                  </image>
