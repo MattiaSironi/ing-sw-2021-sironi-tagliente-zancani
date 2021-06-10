@@ -2,16 +2,8 @@ package it.polimi.ingsw.client.gui;
 
 
 import it.polimi.ingsw.client.gui.controllers.*;
-import it.polimi.ingsw.message.ActionMessages.*;
-import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
-import it.polimi.ingsw.message.CommonMessages.IdMessage;
-import it.polimi.ingsw.message.CommonMessages.Nickname;
-import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.Communication;
-import it.polimi.ingsw.model.CommunicationList;
-
 import it.polimi.ingsw.model.Turn;
-import it.polimi.ingsw.observer.Observable;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -119,8 +111,8 @@ public class GUI extends Application {
 
     public void changeScene(SceneList sceneName){
         GUIController controller = nameMapController.get(sceneName.getSceneName());
-        controller.setup();
         Platform.runLater(() -> {
+            controller.setup();
             currentScene = nameMapScene.get(sceneName.getSceneName());
             stage.setScene(currentScene);
             stage.show();
@@ -161,22 +153,48 @@ public class GUI extends Application {
         });
     }
 
-        public void printMessage (Turn turn){
-            Platform.runLater(() -> {
-                for (GUIController c : nameMapController.values()) {
-                    c.print(turn);
-                }
-            });
-        }
+    public void printMessage (Turn turn){
+        Platform.runLater(() -> {
+            for (GUIController c : nameMapController.values()) {
+                c.print(turn);
+            }
+        });
+    }
 
-        public void printMessage (Communication communication){
-            Platform.runLater(() -> {
-                for (GUIController c : nameMapController.values()) {
-                    c.print(communication);
-                }
-            });
-        }
+    public void printMessage (Communication communication){
+        Platform.runLater(() -> {
+            for (GUIController c : nameMapController.values()) {
+                c.print(communication);
+            }
+        });
+    }
 
+    public void controllerSetup(){
+        Platform.runLater(() -> {
+            for (GUIController controller : nameMapController.values()) {
+                controller.setup();
+            }
+        });
+
+    }
+
+    public void disable() {
+        Platform.runLater(() -> {
+            for (GUIController controller : nameMapController.values()) {
+                controller.disable();
+            }
+        });
+
+
+    }
+
+    public void enable() {
+        Platform.runLater(() -> {
+            for (GUIController controller : nameMapController.values()) {
+                controller.enable();
+            }
+        });
+    }
 
 //    public void playButtonSound(){
 //        AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/ClickSound.wav").toExternalForm());

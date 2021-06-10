@@ -173,4 +173,14 @@ public class SetupController implements GUIController{
     public void print(Communication communication) {
 
     }
+
+    @Override
+    public void disable() {
+
+    }
+
+    @Override
+    public void enable() {
+
+    }
 }

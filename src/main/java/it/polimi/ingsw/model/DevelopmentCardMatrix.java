@@ -13,7 +13,7 @@ public class DevelopmentCardMatrix implements Serializable {
 
     public DevelopmentCardMatrix(List<DevDeck> devDecks) {
         this.devDecks = devDecks;
-
+        resToPay = new ArrayList<>();
     }
 
     public List<DevDeck> getDevDecks() {

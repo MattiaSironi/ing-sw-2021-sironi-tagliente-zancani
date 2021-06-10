@@ -25,6 +25,12 @@ public class MainSceneController implements  GUIController {
     public ImageView devMarket;
     public Label phase;
     public Label comMessages;
+    public ImageView market;
+    public ImageView dev1;
+    public ImageView dev2;
+    public ImageView dev3;
+    ImageView l1;
+    ImageView l2;
     public ImageView endTurnButton;
     Image l1 ;
     Image l2 ;
@@ -125,6 +131,24 @@ public class MainSceneController implements  GUIController {
             comMessages.setText(communication.getCommunication().getString());
     }
 
+    @Override
+    public void disable() {
+        activateButton.setMouseTransparent(true);
+        activateButton.setOpacity(0.5);
+        discardButton.setMouseTransparent(true);
+        discardButton.setOpacity(0.5);
+        devMarket.setDisable(true);
+    }
+
+    @Override
+    public void enable() {
+        activateButton.setMouseTransparent(false);
+        activateButton.setOpacity(1);
+        discardButton.setMouseTransparent(false);
+        discardButton.setOpacity(1);
+        devMarket.setDisable(false);
+    }
+
     public void buyDevCard(MouseEvent mouseEvent) {
         gui.changeScene(SceneList.BUYDEVCARD);
     }
@@ -204,5 +228,9 @@ public class MainSceneController implements  GUIController {
     public void endTurn(MouseEvent mouseEvent) {
        disable();
        mainController. send(new EndTurnMessage(gui.getID()));
+    }
+    public void endTurn(MouseEvent mouseEvent) {
+        mainController.setFirstAction(false);
+        mainController.send(new EndTurnMessage(gui.getID())); //todo
     }
 }

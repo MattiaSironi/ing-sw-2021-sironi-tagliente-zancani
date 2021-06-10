@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.SceneList;
+import it.polimi.ingsw.message.ActionMessages.ManageResourceMessage;
 import it.polimi.ingsw.message.ActionMessages.MarketMessage;
 import it.polimi.ingsw.message.ActionMessages.PlaceResourceMessage;
 import it.polimi.ingsw.model.*;
@@ -74,8 +75,11 @@ public class MarketController implements GUIController{
     private ArrayList<Button> arrows;
     private ArrayList<Button> shelves;
     private ArrayList<ImageView> res;
+    private ArrayList<ImageView> hand;
     private ResourceType selectedRes;
     private GUI gui;
+    private Integer s1;
+    private Integer s2;
 
 
     @Override
@@ -83,18 +87,24 @@ public class MarketController implements GUIController{
         if (!mainController.isMarketValid() || !mainController.isWareValid()) {
             mainController.setMarketValid(true);
             mainController.setWareValid(true);
-            showMarket();
-            showShelves();
             groupArrows();
             groupRes();
             groupShelves();
+            groupHand();
+            showShelves();
+            showMarket();
+
+
+
 
 
 
         }
+        back.setDisable(false);
 
 
     }
+
 
     @Override
     public void print(Turn turn) {
@@ -141,6 +151,14 @@ public class MarketController implements GUIController{
         arrows.add(column3);
         arrows.add(column4);
     }
+    private void groupHand() {
+        hand = new ArrayList<>();
+        hand.add(handPos1);
+        hand.add(handPos2);
+        hand.add(handPos3);
+        hand.add(handPos4);
+    }
+
 
 
     public void showShelves() {
@@ -163,23 +181,26 @@ public class MarketController implements GUIController{
 
         if (myShelves.getShelves().get(0).getResType() != ResourceType.EMPTY)
             shelf1pos1.setImage(new Image(getClass().getResource("/images/PunchBoard/" + myShelves.getShelves().get(0).getResType().toString().toLowerCase() + ".png").toExternalForm()));
+        else shelf1pos1.setImage(null);
 
-        if (myShelves.getShelves().get(1).getResType() != ResourceType.EMPTY) {
+
             r = myShelves.getShelves().get(1).getResType();
             max = myShelves.getShelves().get(1).getCount();
             for (ImageView iv : shelf2) {
                 if (shelf2.indexOf(iv) <= max - 1)
                     iv.setImage(new Image(getClass().getResource("/images/PunchBoard/" + r.toString().toLowerCase() + ".png").toExternalForm()));
+                else iv.setImage(null);
             }
-        }
-        if (myShelves.getShelves().get(2).getResType() != ResourceType.EMPTY) {
+
+
             r = myShelves.getShelves().get(2).getResType();
             max = myShelves.getShelves().get(2).getCount();
             for (ImageView iv : shelf3) {
                 if (shelf3.indexOf(iv) <= max - 1)
                     iv.setImage(new Image(getClass().getResource("/images/PunchBoard/" + r.toString().toLowerCase() + ".png").toExternalForm()));
+                else iv.setImage(null);
             }
-        }
+
         if (myShelves.getShelves().get(3).getResType() != null) {
             r = myShelves.getShelves().get(3).getResType();
             max = myShelves.getShelves().get(3).getCount();
@@ -204,31 +225,6 @@ public class MarketController implements GUIController{
 
         Market market = mainController.getGame().getBoard().getMarket();
         Marble[][] marketBoard = market.getMarketBoard();
-        ArrayList<Marble> hand = market.getHand();
-        int i=0;
-        ArrayList<ImageView> handRes = new ArrayList<>();
-        handRes.add(handPos1);
-        handRes.add(handPos2);
-        handRes.add(handPos3);
-        handRes.add(handPos4);
-        if (hand.size()==0) {
-            back.setDisable(false);
-            res1.setImage(null);
-            res2.setImage(null);
-            slash.setText("");
-            res1.setUserData(null);
-            res2.setUserData(null);
-
-        }
-        else {
-            for (Marble m : hand) {
-                handRes.get(i).setImage((new Image(getClass().getResource("/images/PunchBoard/market/" + m.getRes().toString().toLowerCase() + ".png").toExternalForm())));
-                i++;
-
-            }
-            showResourcesToSelect();
-        }
-            for (; i<4 ; i++) handRes.get(i).setImage(null);
 
         marble11.setImage(new Image(getClass().getResource("/images/PunchBoard/market/" + marketBoard[0][0].getRes().toString().toLowerCase() + ".png").toExternalForm()));
         marble12.setImage(new Image(getClass().getResource("/images/PunchBoard/market/" + marketBoard[0][1].getRes().toString().toLowerCase() + ".png").toExternalForm()));
@@ -244,10 +240,42 @@ public class MarketController implements GUIController{
         marble34.setImage(new Image(getClass().getResource("/images/PunchBoard/market/" + marketBoard[2][3].getRes().toString().toLowerCase() + ".png").toExternalForm()));
         marbleOut.setImage(new Image(getClass().getResource("/images/PunchBoard/market/" + market.getMarbleOut().getRes().toString().toLowerCase() + ".png").toExternalForm()));
 
+        res1.setImage(null);
+        res2.setImage(null);
+        slash.setText("");
+        res1.setUserData(null);
+        res2.setUserData(null);
+        for (ImageView iv : this.hand) iv.setImage(null);
+
+        if (mainController.getGame().getTurn().getPlayerPlayingID() == gui.getID()) showHand();
+
+
 
     }
 
+
+    private void showHand() {
+        int i = 0;
+        ArrayList<Marble> hand = mainController.getGame().getBoard().getMarket().getHand();
+
+        for (Marble m : hand) {
+            this.hand.get(i).setImage((new Image(getClass().getResource("/images/PunchBoard/market/" + m.getRes().toString().toLowerCase() + ".png").toExternalForm())));
+            i++;
+
+        }
+        for (; i < 4; i++) this.hand.get(i).setImage(null);
+
+        if (hand.size() == 0){
+            shelvesForSwap();
+            back.setDisable(false);
+        }
+        else showResourcesToSelect();
+    }
+
+
     private void showResourcesToSelect() {
+
+
         Marble first = mainController.getGame().getBoard().getMarket().getHand().get(0);
 
         if (first.getRes() != ResourceType.EMPTY) {
@@ -256,9 +284,7 @@ public class MarketController implements GUIController{
             res2.setImage(null);
             res1.setUserData(first.getRes().toString().toLowerCase());
             res2.setUserData(null);
-        }
-        else whiteMarbleCase();
-
+        } else whiteMarbleCase();
 
 
     }
@@ -312,7 +338,7 @@ public class MarketController implements GUIController{
     }
 
 
-    public void goToMarket(MouseEvent mouseEvent) { //TODO
+    public void goToMarket(MouseEvent mouseEvent) {
         disableArrows();
         back.setDisable(true);
         boolean row;
@@ -349,7 +375,8 @@ public class MarketController implements GUIController{
                 index = 3;
             }
         }
-            mainController.send(new MarketMessage(row, index, mainController.getGui().getID()));
+        mainController.send(new MarketMessage(row, index, mainController.getGui().getID()));
+        shelvesForMarket();
 
         }
 
@@ -377,13 +404,8 @@ public class MarketController implements GUIController{
         if (selectedRes == null) return;
         int shelf;
         Button selected = (Button) (mouseEvent.getTarget());
-        switch (selected.getId()) {
-            case "shelf1" -> shelf = 0;
-            case "shelf2" -> shelf = 1;
-            case "shelf3" -> shelf = 2;
-            case "shelf4" -> shelf = 3;
-            default -> shelf = 4;
-        }
+        shelf = selectedShelves(selected.getId());
+
         mainController.send(new PlaceResourceMessage(selectedRes, shelf, gui.getID(), false, false  ));
         selectedRes = null;
 
@@ -392,10 +414,40 @@ public class MarketController implements GUIController{
 
     }
 
+    private int selectedShelves(String id) {
+        switch (id) {
+            case "shelf1" -> {
+                return 0;
+            }
+            case "shelf2" -> {
+                return 1;
+            }
+            case "shelf3" -> {
+                return 2;
+            }
+            case "shelf4" -> {
+                return 3;
+            }
+            default -> {
+                return 4;
+            }
+        }
+    }
+
     public void discardRes(MouseEvent mouseEvent) {
         if (selectedRes == null) return;
         mainController.send(new PlaceResourceMessage(selectedRes, -1, gui.getID(), false, true));
 
+    }
+
+    public void swap(MouseEvent mouseEvent) {
+        if (s1 == null) s1 = selectedShelves(((Button) mouseEvent.getTarget()).getId());
+        else {
+            s2 = selectedShelves(((Button) mouseEvent.getTarget()).getId());
+            mainController.send(new ManageResourceMessage(s1, s2, gui.getID()));
+            s1 = null;
+            s2 = null;
+        }
     }
 
     public void disable() {
@@ -405,18 +457,22 @@ public class MarketController implements GUIController{
         disableArrows();
         disableRes();
         disableShelves();
+        res1.setOpacity(0.5);
 
 
 
     }
 
     public void enable() {
+        groupHand();
         groupArrows();
         groupRes();
         groupShelves();
         enableArrows();
         enableRes();
         enableShelves();
+        shelvesForSwap();
+
 
     }
 
@@ -428,11 +484,17 @@ public class MarketController implements GUIController{
         for (Button shelf : shelves) shelf.setDisable(true);
 
     }
-
-    private void enableRes() {
-        for (ImageView res : this.res) res.setDisable(true);
+    private void shelvesForSwap() {
+        for (Button shelf : shelves) shelf.setOnMouseClicked(this::swap);
     }
 
+    private void shelvesForMarket() {
+        for (Button shelf : shelves) shelf.setOnMouseClicked(this::chooseShelf);
+    }
+
+    private void enableRes() {
+        for (ImageView res : this.res) res.setDisable(false);
+    }
     private void disableRes() {
         for (ImageView res : this.res) res.setDisable(true);
 
@@ -441,7 +503,9 @@ public class MarketController implements GUIController{
     private void enableArrows() {
         for (Button arrow : arrows) arrow.setDisable(false);
     }
+
     private void disableArrows() {
         for (Button arrow : arrows) arrow.setDisable(true);
     }
+
 }

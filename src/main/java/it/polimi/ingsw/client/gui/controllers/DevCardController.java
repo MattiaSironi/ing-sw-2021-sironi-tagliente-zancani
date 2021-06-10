@@ -60,6 +60,8 @@ public class DevCardController implements GUIController{
         this.matrix.add(card10);
         this.matrix.add(card11);
         this.matrix.add(card12);
+        cancelButton.setMouseTransparent(false);
+        buyButton.setMouseTransparent(false);
         int i = 0;
         for (ImageView imageView : matrix) {
             imageView.setOnMouseEntered(mouseEvent -> {
@@ -137,6 +139,16 @@ public class DevCardController implements GUIController{
     @Override
     public void print(Communication communication) {
 //        comMessages.setText(communication.getCommunication().getString());
+    }
+
+    @Override
+    public void disable() {
+
+    }
+
+    @Override
+    public void enable() {
+
     }
 
     public void goBack(MouseEvent mouseEvent) {

@@ -6,6 +6,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,7 +18,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
+<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
    <children>
       <Pane prefHeight="720.0" prefWidth="1270.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -50,6 +51,21 @@
                               <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-122.0" layoutY="-189.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-204.0" layoutY="-107.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="-243.0" layoutY="-109.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fx:id="dev1" fitHeight="200.0" fitWidth="131.0" layoutX="307.0" layoutY="267.0">
+                                 <effect>
+                                    <DropShadow />
+                                 </effect>
+                              </ImageView>
+                              <ImageView fx:id="dev2" fitHeight="200.0" fitWidth="131.0" layoutX="456.0" layoutY="267.0">
+                                 <effect>
+                                    <DropShadow />
+                                 </effect>
+                              </ImageView>
+                              <ImageView fx:id="dev3" fitHeight="200.0" fitWidth="131.0" layoutX="610.0" layoutY="267.0">
+                                 <effect>
+                                    <DropShadow />
+                                 </effect>
+                              </ImageView>
                               <ImageView fx:id="activateButton" disable="true" fitHeight="45.0" fitWidth="107.0" layoutX="663.0" layoutY="222.0" onMouseClicked="#activate" onMouseEntered="#ActivateOpacityUp" onMouseExited="#ActivateOpacityDown" opacity="0.75" visible="false">
                                  <image>
                                     <Image url="@../images/buttons/button_activate.png" />
@@ -87,7 +103,7 @@
             </HBox>
             <HBox id="Buttons" layoutX="4.0" layoutY="3.0" prefHeight="140.0" prefWidth="1259.0" spacing="5.0">
                <children>
-                  <ImageView fitHeight="140.0" fitWidth="234.0" onMouseClicked="#goToMarket" pickOnBounds="true">
+                  <ImageView fx:id="market" fitHeight="140.0" fitWidth="234.0" onMouseClicked="#goToMarket" pickOnBounds="true">
                      <image>
                         <Image url="@../images/buttons/resourceMartket.png" />
                      </image>

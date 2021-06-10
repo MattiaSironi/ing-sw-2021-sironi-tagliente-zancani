@@ -215,29 +215,17 @@
                </image>
             </ImageView>
             <ImageView fx:id="handPos1" fitHeight="39.0" fitWidth="39.0" layoutX="680.0" layoutY="616.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/PunchBoard/market/shield.png" />
-               </image>
             </ImageView>
             <ImageView fx:id="handPos2" fitHeight="39.0" fitWidth="39.0" layoutX="745.0" layoutY="616.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/PunchBoard/market/shield.png" />
-               </image>
+
             </ImageView>
             <ImageView fx:id="handPos3" fitHeight="39.0" fitWidth="39.0" layoutX="806.0" layoutY="616.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/PunchBoard/market/shield.png" />
-               </image>
+
             </ImageView>
             <ImageView fx:id="handPos4" fitHeight="39.0" fitWidth="39.0" layoutX="868.0" layoutY="616.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/PunchBoard/market/shield.png" />
-               </image>
             </ImageView>
             <ImageView fx:id="res1" fitHeight="39.0" fitWidth="39.0" layoutX="572.0" layoutY="616.0" onMouseClicked="#saveRes" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/PunchBoard/stone.png" />
-               </image>
+
             </ImageView>
             <Label fx:id="slash" layoutX="547.0" layoutY="593.0" prefHeight="79.0" prefWidth="25.0" text="/" textFill="WHITE">
                <font>
@@ -245,9 +233,6 @@
                </font>
             </Label>
             <ImageView fx:id="res2" fitHeight="39.0" fitWidth="39.0" layoutX="500.0" layoutY="616.0" onMouseClicked="#saveRes" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/PunchBoard/stone.png" />
-               </image>
             </ImageView>
             <ImageView fx:id="discard" fitHeight="50.0" fitWidth="50.0" layoutX="315.0" layoutY="509.0" onMouseClicked="#discardRes" pickOnBounds="true" preserveRatio="true">
                <image>

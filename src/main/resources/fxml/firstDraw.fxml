@@ -77,24 +77,12 @@
             <HBox layoutX="249.0" layoutY="165.0" prefHeight="116.0" prefWidth="773.0" spacing="100.0">
                <children>
                   <ImageView fx:id="coin" onMouseClicked="#addCoin" onMouseEntered="#coinOpacityUp" onMouseExited="#coinOpacityDown" opacity="0.75">
-                     <image>
-                        <Image url="@../images/PunchBoard/coin.png" />
-                     </image>
                   </ImageView>
                   <ImageView fx:id="stone" onMouseClicked="#addStone" onMouseEntered="#stoneOpacityUp" onMouseExited="#stoneOpacityDown" opacity="0.75">
-                     <image>
-                        <Image url="@../images/PunchBoard/stone.png" />
-                     </image>
                   </ImageView>
                   <ImageView fx:id="servant" onMouseClicked="#addServant" onMouseEntered="#servantOpacityUp" onMouseExited="#servantOpacityDown" opacity="0.75">
-                     <image>
-                        <Image url="@../images/PunchBoard/servant.png" />
-                     </image>
                   </ImageView>
                   <ImageView fx:id="shield" onMouseClicked="#addShield" onMouseEntered="#shieldOpacityUp" onMouseExited="#shieldOpacityDown" opacity="0.75">
-                     <image>
-                        <Image url="@../images/PunchBoard/shield.png" />
-                     </image>
                   </ImageView>
                </children>
             </HBox>

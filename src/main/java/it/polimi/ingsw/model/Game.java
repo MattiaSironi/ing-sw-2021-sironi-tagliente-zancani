@@ -565,9 +565,12 @@ public class Game extends Observable<Message> implements Serializable {
     private synchronized void checkReadyPlayer(int id) {
         if (getPlayerById(id).getStartResCount() ==0 && getPlayerById(id).getLeaderCardsToDiscard() == 0) {
             getPlayerById(id).setReady(true);
-            if (checkReadyPlayers())  setTurn(getPlayers().get(0).getId(), ActionPhase.WAITING_FOR_ACTION);
-
+            if (checkReadyPlayers()) {
+                setTurn(getPlayers().get(0).getId(), ActionPhase.FIRST_ROUND);
+                setTurn(getPlayers().get(0).getId(), ActionPhase.WAITING_FOR_ACTION);
+            }
         }
+
     }
 
     public synchronized boolean checkReadyPlayers(){
