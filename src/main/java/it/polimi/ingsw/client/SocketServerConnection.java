@@ -1,12 +1,14 @@
 package it.polimi.ingsw.client;
 
 
+import it.polimi.ingsw.client.gui.controllers.MainController;
 import it.polimi.ingsw.message.CommonMessages.IdMessage;
 import it.polimi.ingsw.message.CommonMessages.PingMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -65,12 +67,18 @@ public class SocketServerConnection {
     }
 
     public void socketInit(String s) throws IOException {
-        socket = new Socket(s, 1234);
-        socketIn = new ObjectInputStream(socket.getInputStream());
-        socketOut = new ObjectOutputStream(socket.getOutputStream());
-        System.out.println("Connection established");
-        socketListener.start();
-        pingSender.start();
+        try {
+            socket = new Socket(s, 1234);
+            socketIn = new ObjectInputStream(socket.getInputStream());
+            socketOut = new ObjectOutputStream(socket.getOutputStream());
+            System.out.println("Connection established");
+            socketListener.start();
+            pingSender.start();
+        } catch (ConnectException e) {
+
+            System.out.println("Server not available at this IP address. Closing the application...");
+            System.exit(0);
+        }
     }
 
 
