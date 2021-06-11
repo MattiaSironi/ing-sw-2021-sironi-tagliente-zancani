@@ -76,6 +76,9 @@ public class MainSceneController implements  GUIController {
     public ImageView ft22;
     public ImageView ft23;
     public ImageView ft24;
+    public ImageView tile1;
+    public ImageView tile2;
+    public ImageView tile3;
     private LeaderCard lc1;
     private LeaderCard lc2;
     private Image l1 ;
@@ -180,19 +183,33 @@ public class MainSceneController implements  GUIController {
     }
 
     public void showFaithTrack() {
+        FaithTrack ft = this.mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getFaithTrack();
         int pos = 0;
         int loripos=0;
-        pos = mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getFaithTrack().getMarker();
+        pos = ft.getMarker();
         this.faithTrack.get(pos).setImage((new Image(getClass().getResource("/images/PunchBoard/faith_point.png").toExternalForm())));
         for (int i=0;i<pos;i++){
             this.faithTrack.get(i).setImage(null);
         }
         if(mainController.getGame().getNumPlayer()==1){
-            loripos = mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getFaithTrack().getLoriPos();
+            loripos = ft.getLoriPos();
             if(loripos==pos) {  //nuova immagine}
             }
             this.faithTrack.get(loripos).setImage((new Image(getClass().getResource("/images/PunchBoard/croce.png").toExternalForm())));
         }
+
+
+        //TODO : immagine con entrambi
+
+        Integer t1 = ft.getFavorTile1();
+        Integer t2 = ft.getFavorTile2();
+        Integer t3 = ft.getFavorTile3();
+
+        if (t1!=null) tile1.setImage(new Image(getClass().getResource("/images/PunchBoard/t1" + t1 +".png").toExternalForm()));
+        if (t2!=null) tile2.setImage(new Image(getClass().getResource("/images/PunchBoard/t1" + t2 +".png").toExternalForm()));
+        if (t3!=null) tile3.setImage(new Image(getClass().getResource("/images/PunchBoard/t1" + t3 +".png").toExternalForm()));
+
+
 
 
     }
@@ -376,7 +393,6 @@ public class MainSceneController implements  GUIController {
         faithTrack.add(ft18);
         faithTrack.add(ft19);
         faithTrack.add(ft20);
-        faithTrack.add(ft0);
         faithTrack.add(ft21);
         faithTrack.add(ft22);
         faithTrack.add(ft23);

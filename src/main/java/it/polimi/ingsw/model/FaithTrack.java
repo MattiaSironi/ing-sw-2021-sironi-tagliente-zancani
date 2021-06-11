@@ -13,17 +13,17 @@ import java.util.Arrays;
  */
 public class FaithTrack implements Printable, Serializable { //ObjectID = 13
     private int marker;
-    private int favorTile1;
-    private int favorTile2;
-    private int favorTile3;
+    private Integer favorTile1;
+    private Integer favorTile2;
+    private Integer favorTile3;
     private final ArrayList<Slot> faithTrackSlot;
     private Integer loriPos;
 
 
     public FaithTrack(Integer loriPos) {
-        favorTile1 = 0;
-        favorTile2 = 0;
-        favorTile3 = 0;
+        favorTile1 = null;
+        favorTile2 = null;
+        favorTile3 = null;
         faithTrackSlot = createFaithTrack();
         marker = 0;
         this.loriPos = loriPos;
@@ -42,16 +42,16 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
         if (marker>24) marker=24;
     }
 
-    public void setFavorTile(int ft) {
+    public void setFavorTile(int ft, int value) {
         switch (ft) {
             case 0:
-                this.favorTile1 = 1;
+                this.favorTile1 = value;
                 break;
             case 1:
-                this.favorTile2 = 1;
+                this.favorTile2 = value;
                 break;
             case 2:
-                this.favorTile3 = 1;
+                this.favorTile3 = value;
                 break;
             default:
         }
@@ -65,15 +65,15 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
         this.marker = marker;
     }
 
-    public int getFavorTile1() {
+    public Integer getFavorTile1() {
         return favorTile1;
     }
 
-    public int getFavorTile2() {
+    public Integer getFavorTile2() {
         return favorTile2;
     }
 
-    public int getFavorTile3() {
+    public Integer getFavorTile3() {
         return favorTile3;
     }
 
@@ -93,13 +93,14 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
 
     @Override
     public void print() {
-        System.out.println("POSITION = " + getMarker());
-        System.out.println("FAVOR TILE 1 = " + getFavorTile1());
-        System.out.println("FAVOR TILE 2 = " + getFavorTile2());
-        System.out.println("FAVOR TILE 3 = " + getFavorTile3());
-        if(loriPos != null){
-            System.out.println("LORENZO IL MAGNIFICO POSITION = " + getLoriPos());
-        }
+
+            System.out.println("POSITION = " + getMarker());
+            if (getFavorTile1()!=null) System.out.println("FAVOR TILE 1 = " + getFavorTile1());
+            if (getFavorTile2()!=null) System.out.println("FAVOR TILE 2 = " + getFavorTile2());
+            if (getFavorTile2()!=null) System.out.println("FAVOR TILE 3 = " + getFavorTile3());
+            if (loriPos != null) System.out.println("LORENZO IL MAGNIFICO POSITION = " + getLoriPos());
+
+
     }
 
     public void moveLoriPos(int number) {

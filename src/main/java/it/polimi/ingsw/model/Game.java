@@ -248,11 +248,16 @@ public class Game extends Observable<Message> implements Serializable {
     public void checkEveryPlayerPos(int popeSpace, int vatican)  {
         for (Player p : this.players)  {
             if (p.getPersonalBoard().getFaithTrack().getMarker() >= (popeSpace-3-vatican)){
-                p.getPersonalBoard().getFaithTrack().setFavorTile(vatican);
+                p.getPersonalBoard().getFaithTrack().setFavorTile(vatican, 1);
                 setCommunication(p.getId(), CommunicationList.VATICAN_YES);
                 notify(new ObjectMessage(p.getPersonalBoard().getFaithTrack().clone(), 12, p.getId()));
             }
-            else setCommunication(p.getId(), CommunicationList.VATICAN_NOPE);
+            else {
+                p.getPersonalBoard().getFaithTrack().setFavorTile(vatican, 0);
+                setCommunication(p.getId(), CommunicationList.VATICAN_NOPE);
+                notify(new ObjectMessage(p.getPersonalBoard().getFaithTrack().clone(), 12, p.getId()));
+
+            }
 
         }
     }
