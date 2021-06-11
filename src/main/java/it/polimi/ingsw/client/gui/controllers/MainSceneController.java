@@ -181,14 +181,20 @@ public class MainSceneController implements  GUIController {
 
     public void showFaithTrack() {
         int pos = 0;
-        if(mainController.getGame().getNumPlayer()==1){
-            pos = mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getFaithTrack().getLoriPos();
-            this.faithTrack.get(pos).setImage((new Image(getClass().getResource("/images/PunchBoard/croce.png").toExternalForm())));
-        }
+        int loripos=0;
         pos = mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getFaithTrack().getMarker();
         this.faithTrack.get(pos).setImage((new Image(getClass().getResource("/images/PunchBoard/faith_point.png").toExternalForm())));
+        for (int i=0;i<pos;i++){
+            this.faithTrack.get(i).setImage(null);
+        }
+        if(mainController.getGame().getNumPlayer()==1){
+            loripos = mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getFaithTrack().getLoriPos();
+            if(loripos==pos) {  //nuova immagine}
+            }
+            this.faithTrack.get(loripos).setImage((new Image(getClass().getResource("/images/PunchBoard/croce.png").toExternalForm())));
+        }
 
-        //TODO : immagine con entrambi
+
     }
 
 
