@@ -61,7 +61,6 @@ public class MainSceneController implements  GUIController {
     public ImageView leader2;
     private GUI gui;
     int choosing = 0;
-    boolean stop = true;
     private boolean firstTurn = true;
     Integer s1;
     ArrayList<Button> shelves;
@@ -220,42 +219,24 @@ public class MainSceneController implements  GUIController {
     }
 
     public void activate(MouseEvent mouseEvent) {
-
-        if(choosing==1){
+        if (choosing == 1) {
             mainController.send(new PlayLeaderMessage(gui.getID(), choosing, true, lc1, false));
-            if(mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getActiveLeader().isPresent(lc1))
-                stop=false;
-        }else{
+            showLeaders();
+        }
+        else{
             mainController.send(new PlayLeaderMessage(gui.getID(), choosing, true, lc2, false));
-            if(mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getActiveLeader().isPresent(lc2))
-                stop=false;
+            showLeaders();
         }
 
-        if(!stop) {
-            if (choosing == 1) {
-                active1 = true;
-                leader1.setDisable(true);
-                leader1.setImage(l1);
-            } else {
-                active2 = true;
-                leader2.setDisable(true);
-                leader2.setImage(l2);
-            }
-        }else{
-            if(!active1)
-                leader1.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
-            if(!active2)
-                leader2.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
+            activateButton.setVisible(false);
+            activateButton.setDisable(true);
+            discardButton.setVisible(false);
+            discardButton.setDisable(true);
+            backButton.setVisible(false);
+            backButton.setDisable(true);
+            choosing = 0;
         }
-        stop = true;
-        activateButton.setVisible(false);
-        activateButton.setDisable(true);
-        discardButton.setVisible(false);
-        discardButton.setDisable(true);
-        backButton.setVisible(false);
-        backButton.setDisable(true);
-        choosing=0;
-    }
+
 
     public void discard(MouseEvent mouseEvent) {
 
@@ -401,4 +382,20 @@ public class MainSceneController implements  GUIController {
         shieldNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.SHIELD));
     }
 
+    public void showLeaders() {
+        if(mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getActiveLeader().isPresent(lc1)){
+            leader1.setImage(l1);
+            active1=true;
+            leader1.setDisable(true);
+        }else{
+            leader1.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
+        }
+        if(mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getActiveLeader().isPresent(lc2)){
+            leader2.setImage(l2);
+            active2=true;
+            leader2.setDisable(true);
+        }else{
+            leader2.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
+        }
+    }
 }

@@ -70,10 +70,10 @@ public class Controller implements Observer<Message> {
 ////                game.getPlayerById(0).setWhiteConversion1(ResourceType.SERVANT);
 //
 //
-//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 10);
-//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
-//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 10);
-//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 10);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 10);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 10);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 10);
 //                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
 //                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
 //                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
@@ -514,7 +514,7 @@ public class Controller implements Observer<Message> {
     }
 
     public void PlayLeaderCard(int ID, DiscountLCard dc) {
-        Player p = null;
+
         if (game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(dc)) {
             if (this.game.getPlayerById(ID).getResDiscount1() == null) {
                 game.getPlayerById(ID).setResDiscount1(dc.getResType());
@@ -534,6 +534,7 @@ public class Controller implements Observer<Message> {
     }
 
     public void PlayLeaderCard(int ID, ExtraDepotLCard sc) {
+        System.out.println("Sono nella playLeader");
         if (game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(sc)) {
             if (this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(3).getResType() == null) {
                 game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(sc.getResDepot());

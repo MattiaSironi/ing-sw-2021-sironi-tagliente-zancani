@@ -155,6 +155,7 @@ public class MainController extends Observable<Message> implements Observer<Mess
         }
         else if (message.getObjectID() == 8) { //leaderDeck
                 game.getPlayerById(message.getID()).setLeaderDeck((LeaderDeck) message.getObject());
+                gui.showLeaders();
         }
         else if (message.getObjectID() == 13) {
             this.game.getPlayerById(message.getID()).setLeaderCardsToDiscard((int) message.getObject());

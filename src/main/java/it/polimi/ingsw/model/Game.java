@@ -594,7 +594,9 @@ public class Game extends Observable<Message> implements Serializable {
         }
 
         getPlayerById(ID).getLeaderDeck().getCards().remove(i);
+        getPlayerById(ID).getLeaderDeck().print();
         getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(lc); //aggiunge ai leader attivi
+        getPlayerById(ID).getPersonalBoard().getActiveLeader().print();
 
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
         notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck().clone(), 8, ID)));

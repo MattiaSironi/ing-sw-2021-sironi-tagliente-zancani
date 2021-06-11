@@ -155,6 +155,12 @@ public class GUI extends Application {
         });
     }
 
+    public void showLeaders(){
+        Platform.runLater(()->{
+            ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showLeaders();
+        });
+    }
+
     public void printMessage (Turn turn){
         Platform.runLater(() -> {
             for (GUIController c : nameMapController.values()) {
