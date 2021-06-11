@@ -211,6 +211,12 @@ public class GUI extends Application {
 
     }
 
+    public void showFaithTrack() {
+        Platform.runLater(() -> {
+            ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showFaithTrack();
+        });
+    }
+
 //    public void playButtonSound(){
 //        AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/ClickSound.wav").toExternalForm());
 //        audioClip.play();

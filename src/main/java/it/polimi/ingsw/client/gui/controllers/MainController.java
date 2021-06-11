@@ -164,6 +164,9 @@ public class MainController extends Observable<Message> implements Observer<Mess
         } else if (message.getObjectID() == 10) {
             this.game.setTurn((Turn) message.getObject());
             handleTurn((this.game.getTurn()));
+        }else if (message.getObjectID() == 12){
+            this.game.getPlayerById(message.getID()).getPersonalBoard().setFaithTrack((FaithTrack) message.getObject());
+            gui.showFaithTrack();
         }
 
         else if (message.getObjectID() == 6) { //LEADER

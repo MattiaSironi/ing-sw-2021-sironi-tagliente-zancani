@@ -51,6 +51,31 @@ public class MainSceneController implements  GUIController {
     public Label servantNum;
     public Label coinNum;
     public Label stoneNum;
+    public ImageView ft0;
+    public ImageView ft1;
+    public ImageView ft2;
+    public ImageView ft3;
+    public ImageView ft4;
+    public ImageView ft5;
+    public ImageView ft6;
+    public ImageView ft7;
+    public ImageView ft8;
+    public ImageView ft9;
+    public ImageView ft10;
+    public ImageView ft11;
+    public ImageView ft12;
+    public ImageView ft13;
+    public ImageView ft14;
+    public ImageView ft15;
+    public ImageView ft16;
+    public ImageView ft17;
+    public ImageView ft18;
+    public ImageView ft19;
+    public ImageView ft20;
+    public ImageView ft21;
+    public ImageView ft22;
+    public ImageView ft23;
+    public ImageView ft24;
     private LeaderCard lc1;
     private LeaderCard lc2;
     private Image l1 ;
@@ -64,6 +89,7 @@ public class MainSceneController implements  GUIController {
     private boolean firstTurn = true;
     Integer s1;
     ArrayList<Button> shelves;
+    ArrayList<ImageView> faithTrack;
 
 
     private MainController mainController;
@@ -147,8 +173,22 @@ public class MainSceneController implements  GUIController {
         }
 
         groupShelves();
+        groupFaithSlots();
+        showFaithTrack();
         showShelves();
         showStrongbox();
+    }
+
+    public void showFaithTrack() {
+        int pos = 0;
+        if(mainController.getGame().getNumPlayer()==1){
+            pos = mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getFaithTrack().getLoriPos();
+            this.faithTrack.get(pos).setImage((new Image(getClass().getResource("/images/PunchBoard/croce.png").toExternalForm())));
+        }
+        pos = mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getFaithTrack().getMarker();
+        this.faithTrack.get(pos).setImage((new Image(getClass().getResource("/images/PunchBoard/faith_point.png").toExternalForm())));
+
+        //TODO : immagine con entrambi
     }
 
 
@@ -305,6 +345,36 @@ public class MainSceneController implements  GUIController {
         shelves.add(shelf3);
         shelves.add(shelf4);
         shelves.add(shelf5);
+    }
+
+    private void groupFaithSlots() {
+        faithTrack = new ArrayList<>();
+        faithTrack.add(ft0);
+        faithTrack.add(ft1);
+        faithTrack.add(ft2);
+        faithTrack.add(ft3);
+        faithTrack.add(ft4);
+        faithTrack.add(ft5);
+        faithTrack.add(ft6);
+        faithTrack.add(ft7);
+        faithTrack.add(ft8);
+        faithTrack.add(ft9);
+        faithTrack.add(ft10);
+        faithTrack.add(ft11);
+        faithTrack.add(ft12);
+        faithTrack.add(ft13);
+        faithTrack.add(ft14);
+        faithTrack.add(ft15);
+        faithTrack.add(ft16);
+        faithTrack.add(ft17);
+        faithTrack.add(ft18);
+        faithTrack.add(ft19);
+        faithTrack.add(ft20);
+        faithTrack.add(ft0);
+        faithTrack.add(ft21);
+        faithTrack.add(ft22);
+        faithTrack.add(ft23);
+        faithTrack.add(ft24);
     }
 
     private void enableShelves() {
