@@ -160,7 +160,7 @@ public class SetupController implements GUIController{
     }
 
     @Override
-    public void setup() {
+    public void setup(int num) {
 
     }
 

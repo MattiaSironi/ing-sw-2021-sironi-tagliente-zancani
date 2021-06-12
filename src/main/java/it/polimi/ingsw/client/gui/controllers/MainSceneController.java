@@ -8,6 +8,7 @@ import it.polimi.ingsw.message.ActionMessages.ManageResourceMessage;
 import it.polimi.ingsw.message.ActionMessages.PlayLeaderMessage;
 import it.polimi.ingsw.model.*;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -79,6 +80,9 @@ public class MainSceneController implements  GUIController {
     public ImageView tile1;
     public ImageView tile2;
     public ImageView tile3;
+    public ImageView opponent1;
+    public ImageView opponent2;
+    public ImageView opponent3;
     private LeaderCard lc1;
     private LeaderCard lc2;
     private Image l1 ;
@@ -93,6 +97,7 @@ public class MainSceneController implements  GUIController {
     Integer s1;
     ArrayList<Button> shelves;
     ArrayList<ImageView> faithTrack;
+    ArrayList<ImageView> opponents;
 
 
     private MainController mainController;
@@ -149,14 +154,38 @@ public class MainSceneController implements  GUIController {
 
     }
 
-    public void setup() {
+    public void setup(int num) {
         System.out.println(mainController.getGui().getID());
         if (firstTurn) {
             l1 = new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString() + ".png").toExternalForm());
             l2 = new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1).toString() + ".png").toExternalForm());
             lc1 = this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0);
             lc2 = this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1);
+
+            groupOpponents();
+
+            for (int i=0, j=0; i < mainController.getGame().getPlayers().size(); i++) {
+                if (i!= gui.getID()) {
+                    opponents.get(j).setImage(new Image(getClass().getResource("/images/Board/opponentBoard.png").toExternalForm()));
+                    opponents.get(j).setUserData(i);
+                    opponents.get(j).setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            gui.changeOtherScene((int)  ((ImageView)mouseEvent.getTarget()).getUserData());
+                        }
+                    });
+                    j++;
+                }
+            }
+
+
+
+
+
+
             firstTurn = false;
+
+
         }
         if(mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(0).getCards().size() != 0){
             dev1.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
@@ -176,26 +205,52 @@ public class MainSceneController implements  GUIController {
         }
 
         groupShelves();
-        groupFaithSlots();
+
         showFaithTrack();
         showShelves();
         showStrongbox();
+
+
+
     }
 
+    private void groupOpponents() {
+        opponents = new ArrayList<>();
+        opponents.add(opponent1);
+        opponents.add(opponent2);
+        opponents.add(opponent3);
+
+    }
+
+
     public void showFaithTrack() {
+        groupFaithSlots();
         FaithTrack ft = this.mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getFaithTrack();
-        int pos = 0;
-        int loripos=0;
-        pos = ft.getMarker();
-        this.faithTrack.get(pos).setImage((new Image(getClass().getResource("/images/PunchBoard/faith_point.png").toExternalForm())));
-        for (int i=0;i<pos;i++){
-            this.faithTrack.get(i).setImage(null);
-        }
-        if(mainController.getGame().getNumPlayer()==1){
-            loripos = ft.getLoriPos();
-            if(loripos==pos) {  //nuova immagine}
-            }
-            this.faithTrack.get(loripos).setImage((new Image(getClass().getResource("/images/PunchBoard/croce.png").toExternalForm())));
+//        int pos = 0;
+//        int loripos=0;
+//        pos = ft.getMarker();
+//        this.faithTrack.get(pos).setImage((new Image(getClass().getResource("/images/PunchBoard/faith_point.png").toExternalForm())));
+//        for (int i=0;i<pos;i++){
+//            this.faithTrack.get(i).setImage(null);
+//        }
+//        if(mainController.getGame().getNumPlayer()==1){
+//            loripos = ft.getLoriPos();
+//            if(loripos==pos) {  //nuova immagine}
+//            }
+//            this.faithTrack.get(loripos).setImage((new Image(getClass().getResource("/images/PunchBoard/croce.png").toExternalForm())));
+//        }
+
+
+
+
+        for (ImageView slot : this.faithTrack) {
+            if ( mainController.getGame().getPlayers().size() == 1 && faithTrack.indexOf(slot) == ft.getMarker() && faithTrack.indexOf(slot) == ft.getLoriPos()) {
+            }//new image
+            else if (faithTrack.indexOf(slot) == ft.getMarker())
+                slot.setImage((new Image(getClass().getResource("/images/PunchBoard/faith_point.png").toExternalForm())));
+            else if ( mainController.getGame().getPlayers().size() == 1 && faithTrack.indexOf(slot) == ft.getLoriPos())
+                slot.setImage((new Image(getClass().getResource("/images/PunchBoard/croce.png").toExternalForm())));
+            else slot.setImage(null);
         }
 
 
@@ -205,11 +260,12 @@ public class MainSceneController implements  GUIController {
         Integer t2 = ft.getFavorTile2();
         Integer t3 = ft.getFavorTile3();
 
-        if (t1!=null) tile1.setImage(new Image(getClass().getResource("/images/PunchBoard/t1" + t1 +".png").toExternalForm()));
-        if (t2!=null) tile2.setImage(new Image(getClass().getResource("/images/PunchBoard/t1" + t2 +".png").toExternalForm()));
-        if (t3!=null) tile3.setImage(new Image(getClass().getResource("/images/PunchBoard/t1" + t3 +".png").toExternalForm()));
-
-
+        if (t1 != null)
+            tile1.setImage(new Image(getClass().getResource("/images/PunchBoard/t1" + t1 + ".png").toExternalForm()));
+        if (t2 != null)
+            tile2.setImage(new Image(getClass().getResource("/images/PunchBoard/t1" + t2 + ".png").toExternalForm()));
+        if (t3 != null)
+            tile3.setImage(new Image(getClass().getResource("/images/PunchBoard/t1" + t3 + ".png").toExternalForm()));
 
 
     }

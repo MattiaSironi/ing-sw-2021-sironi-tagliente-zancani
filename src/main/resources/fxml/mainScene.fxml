@@ -227,25 +227,25 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ImageView fitHeight="180.0" fitWidth="285.0" pickOnBounds="true">
+                  <ImageView fx:id="opponent1" fitHeight="180.0" fitWidth="285.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../images/Board/opponentBoard.png" />
+
                      </image>
                      <GridPane.margin>
                         <Insets bottom="5.0" />
                      </GridPane.margin>
                   </ImageView>
-                  <ImageView fitHeight="180.0" fitWidth="282.0" pickOnBounds="true" GridPane.rowIndex="1">
+                  <ImageView  fx:id="opponent2" fitHeight="180.0" fitWidth="282.0" pickOnBounds="true" GridPane.rowIndex="1">
                      <image>
-                        <Image url="@../images/Board/opponentBoard.png" />
+
                      </image>
                      <GridPane.margin>
                         <Insets bottom="5.0" />
                      </GridPane.margin>
                   </ImageView>
-                  <ImageView fitHeight="180.0" fitWidth="283.0" pickOnBounds="true" GridPane.rowIndex="2">
+                  <ImageView fx:id="opponent3" fitHeight="180.0" fitWidth="283.0" pickOnBounds="true" GridPane.rowIndex="2">
                      <image>
-                        <Image url="@../images/Board/opponentBoard.png" />
+
                      </image>
                      <GridPane.margin>
                         <Insets bottom="5.0" />

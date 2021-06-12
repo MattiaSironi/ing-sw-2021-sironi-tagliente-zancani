@@ -73,7 +73,7 @@ public class PayDevCardController implements GUIController {
     }
 
     @Override
-    public void setup() {
+    public void setup(int num) {
         resToPay = new ArrayList<>();
         prepareScene();
         showShelves();

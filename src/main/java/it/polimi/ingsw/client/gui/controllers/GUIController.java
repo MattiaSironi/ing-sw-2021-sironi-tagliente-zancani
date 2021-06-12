@@ -8,7 +8,7 @@ public interface GUIController {
     
     void setMainController(MainController m);
 
-    void setup();
+    void setup(int num);
 
     void print(Turn turn);
 

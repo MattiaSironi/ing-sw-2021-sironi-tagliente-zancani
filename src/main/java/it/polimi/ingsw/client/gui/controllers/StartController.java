@@ -78,7 +78,7 @@ public class StartController implements GUIController{
     }
 
     @Override
-    public void setup() {
+    public void setup(int  num) {
 
     }
 

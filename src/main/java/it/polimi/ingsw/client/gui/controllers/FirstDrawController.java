@@ -36,7 +36,7 @@ public class FirstDrawController implements GUIController {
     private ArrayList<ResourceType> resources;
     private ArrayList<LeaderCard> chosenLeaders;
 
-    public void setup() {
+    public void setup(int num) {
         this.resources = new ArrayList<>();
         this.chosenLeaders = new ArrayList<>();
         gui = mainController.getGui();

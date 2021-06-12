@@ -21,7 +21,7 @@ public class PlaceDevCardScene implements GUIController{
     }
 
     @Override
-    public void setup() {
+    public void setup(int num) {
         back.setDisable(true);
     }
 

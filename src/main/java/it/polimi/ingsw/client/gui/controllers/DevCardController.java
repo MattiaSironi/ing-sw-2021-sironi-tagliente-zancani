@@ -45,7 +45,7 @@ public class DevCardController implements GUIController{
     public Label phase = new Label();
     public Label comMessages = new Label();
 
-    public void setup(){
+    public void setup(int num){
         this.gui = mainController.getGui();
         this.matrix = new ArrayList<>();
         this.matrix.add(card1);

@@ -82,7 +82,7 @@ public class MarketController implements GUIController{
 
 
     @Override
-    public void setup() {
+    public void setup(int num) {
         if (!mainController.isMarketValid() || !mainController.isWareValid()) {
             mainController.setMarketValid(true);
             mainController.setWareValid(true);

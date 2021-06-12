@@ -21,11 +21,13 @@ public class GUI extends Application {
 
     private final HashMap<String, Scene> nameMapScene = new HashMap<>();
     private final HashMap<String, GUIController> nameMapController = new HashMap<>();
+    private final HashMap<Integer, OtherPlayersController> others = new HashMap<>();
     private MainController mainController = new MainController(this);
     private Scene currentScene;
     private int ID;
     private boolean local;
     private Stage stage;
+    private Scene othersScene;
 
 
 
@@ -103,6 +105,8 @@ public class GUI extends Application {
                 controller.setMainController(this.mainController);
                 nameMapController.put(path.getSceneName(), controller);
                 }
+
+
         }catch(IOException e){
 
         }
@@ -112,13 +116,26 @@ public class GUI extends Application {
     public void changeScene(SceneList sceneName){
         GUIController controller = nameMapController.get(sceneName.getSceneName());
         Platform.runLater(() -> {
-            controller.setup();
+            controller.setup(getID());
             currentScene = nameMapScene.get(sceneName.getSceneName());
             stage.setScene(currentScene);
             stage.show();
             }
         );
     }
+
+    public void changeOtherScene(int userData) {
+        GUIController controller = nameMapController.get(SceneList.OPPONENTS.getSceneName());
+        Platform.runLater(() -> {
+                    controller.setup(userData);
+                    currentScene = nameMapScene.get(SceneList.OPPONENTS.getSceneName());
+                    stage.setScene(currentScene);
+                    stage.show();
+                }
+        );
+    }
+
+
 
 
 
@@ -180,7 +197,7 @@ public class GUI extends Application {
     public void controllerSetup(){
         Platform.runLater(() -> {
             for (GUIController controller : nameMapController.values()) {
-                controller.setup();
+                controller.setup(getID());
             }
         });
 
@@ -217,11 +234,19 @@ public class GUI extends Application {
         });
     }
 
+
+
+
+
+    }
+
+
+
 //    public void playButtonSound(){
 //        AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/ClickSound.wav").toExternalForm());
 //        audioClip.play();
 //    }
-}
+
 
 
 
