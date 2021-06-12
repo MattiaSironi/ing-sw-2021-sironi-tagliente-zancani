@@ -68,14 +68,19 @@ public class DevCardController implements GUIController{
             imageView.setOnMouseExited(mouseEvent -> {
                 imageView.setEffect(new DropShadow(20, Color.BLACK));
             });
-            imageView.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" + this.mainController.getGame().getBoard().getMatrix().getDevDecks().get(i).getCards().get(0).toString() + ".png").toExternalForm()));
-            imageView.setEffect(new DropShadow(20, Color.BLACK));
-            imageView.setOnMouseClicked(mouseEvent -> {
-                chosenCard.setImage(imageView.getImage());
-                chosenIndex = matrix.indexOf(imageView);
-                System.out.println(chosenIndex);
-                activateButtons();
-            });
+            if(mainController.getGame().getBoard().getMatrix().getDevDecks().get(i).getCards().size() != 0) {
+                imageView.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" + this.mainController.getGame().getBoard().getMatrix().getDevDecks().get(i).getCards().get(0).toString() + ".png").toExternalForm()));
+                imageView.setEffect(new DropShadow(20, Color.BLACK));
+                imageView.setOnMouseClicked(mouseEvent -> {
+                    chosenCard.setImage(imageView.getImage());
+                    chosenIndex = matrix.indexOf(imageView);
+                    System.out.println(chosenIndex);
+                    activateButtons();
+                });
+            }
+            else{
+                imageView.setImage(null);
+            }
             i++;
         }
     }
