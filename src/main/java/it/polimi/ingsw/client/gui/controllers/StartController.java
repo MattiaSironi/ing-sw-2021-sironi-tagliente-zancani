@@ -33,6 +33,7 @@ public class StartController implements GUIController{
         nicknameInput.setDisable(false);
         sendButton.setVisible(true);
         sendButton.setDisable(false);
+        gui.createLocalGame();
     }
 
 

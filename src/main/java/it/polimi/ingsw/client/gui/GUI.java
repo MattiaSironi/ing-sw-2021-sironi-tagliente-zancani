@@ -1,8 +1,13 @@
 package it.polimi.ingsw.client.gui;
 
 
+import it.polimi.ingsw.client.ClientActionController;
+import it.polimi.ingsw.client.ModelMultiplayerView;
+import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.controllers.*;
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Communication;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Turn;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -247,6 +252,13 @@ public class GUI extends Application {
             ((PlaceDevCardScene) nameMapController.get(SceneList.PLACEDEVCARDSCENE.getSceneName())).updateDevSlot();
         });
     }
+
+    public void createLocalGame() {
+        Game game = new Game(true, 0);
+        game.setNumPlayer(1);
+        Controller controller = new Controller(game);
+        mainController.addObserver(controller);
+        game.addObserver(mainController); }
 }
 
 

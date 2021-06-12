@@ -225,18 +225,15 @@ public class Game extends Observable<Message> implements Serializable {
             }
         }
                 if (maxP >= 8 && !firstvatican) {
-                    setCommunication(-1, CommunicationList.VATICAN);
                     checkEveryPlayerPos(8, 0);
                     setFirstvatican(true);
                     notify(new ObjectMessage(true, 11, 0));
 
                 } else if (maxP >= 16 && !secondvatican) {
-                    setCommunication(-1, CommunicationList.VATICAN);
                     checkEveryPlayerPos(16, 1);
                     setSecondvatican(true);
                     notify(new ObjectMessage(true, 11, 1));
                 } else if (maxP == 24 && !thirdvatican) {
-                    setCommunication(-1, CommunicationList.VATICAN);
                     checkEveryPlayerPos(24, 2);
                     setThirdvatican(true);
                     setGameOver(true);

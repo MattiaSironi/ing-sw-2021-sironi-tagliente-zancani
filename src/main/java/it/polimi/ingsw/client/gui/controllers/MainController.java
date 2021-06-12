@@ -243,6 +243,7 @@ public class MainController extends Observable<Message> implements Observer<Mess
 
     @Override
     public void update(ObjectMessage message) {
+        handleObject(message);
 
     }
 

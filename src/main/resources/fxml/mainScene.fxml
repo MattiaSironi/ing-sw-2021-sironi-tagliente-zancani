@@ -286,8 +286,8 @@
 
                </children>
             </StackPane>
-            <Label fx:id="phase" alignment="TOP_LEFT" layoutX="980.0" layoutY="17.0" prefHeight="102.0" prefWidth="277.0" text="Welcome" textFill="#f8ff03" />
-            <Label fx:id="comMessages" layoutX="980.0" layoutY="65.0" text="Label" textFill="#10e1b3" />
+            <Label fx:id="phase" alignment="TOP_LEFT" layoutX="980.0" layoutY="17.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="102.0" prefWidth="277.0" text="Welcome" textFill="#f8ff03" wrapText="true" />
+            <Label fx:id="comMessages" layoutX="980.0" layoutY="65.0" prefHeight="69.0" prefWidth="282.0"  textFill="#10e1b3" wrapText="true" />
          </children>
       </Pane>
    </children>
