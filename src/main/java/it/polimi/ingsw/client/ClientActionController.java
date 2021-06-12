@@ -26,6 +26,8 @@ public class ClientActionController extends Observable<Message> implements Obser
     private final boolean local;
 
 
+
+
     public ClientActionController(CLI cli, ModelMultiplayerView mmv, SocketServerConnection socketServerConnection, boolean singlePlayer, boolean local) {
         this.serverConnection = socketServerConnection;
         this.mmv = mmv;
@@ -172,7 +174,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                     }
                     case 0 -> {
                         valid = true;
-                        send(new ProductionMessage(null, null, null, null, null, ID, true));
+                        send(new ProductionMessage(null, null, null, null, null, ID, true, -1));
                     }
                     default -> {
                         valid = false;
@@ -625,7 +627,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                 n--;
             }
         }
-        send(new ProductionMessage(resFromWarehouse, resFromStrongbox, resToBuy, null, d, this.ID, false));
+        send(new ProductionMessage(resFromWarehouse, resFromStrongbox, resToBuy, null, d, this.ID, false, input));
 
     }
 
@@ -757,38 +759,32 @@ public class ClientActionController extends Observable<Message> implements Obser
         } else if (turn.getPlayerPlayingID() == ID) {
 
                 switch (turn.getPhase()) {
-                    case WAITING_FOR_ACTION: {
+                    case WAITING_FOR_ACTION -> {
                         chooseAction();
-                        break;
                     }
-                    case MARKET: {
+                    case MARKET -> {
 
                         selectResourceFromHand();
-                        break;
                     }
 
-                    case A_PAYMENT: {
+                    case A_PAYMENT -> {
+                        System.out.println("apay");
                         noMoreActions();
                         activateProd();
-                        break;
                     }
 
-                    case B_PAYMENT:
-                    case PAYMENT: {
+                    case PAYMENT, B_PAYMENT -> {
                         noMoreActions();
                         pay();
-                        break;
                     }
-                    case CHOOSE_SLOT: {
+                    case CHOOSE_SLOT -> {
                         placeDevCard();
-                        break;
                     }
-                    case BASIC: {
+                    case BASIC -> {
                         noMoreActions();
                         chooseBasicRes();
-                        break;
                     }
-                    case SELECT_RES: {
+                    case SELECT_RES -> {
                         noMoreActions();
                         chooseResToProduce(false);
                     }

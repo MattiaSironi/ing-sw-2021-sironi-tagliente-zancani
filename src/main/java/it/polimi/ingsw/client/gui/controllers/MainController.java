@@ -141,8 +141,13 @@ public class MainController extends Observable<Message> implements Observer<Mess
 
             }
         }
-        else if (message.getObjectID() == 4) //CARDSLOT
+        else if (message.getObjectID() == 4) {//CARDSLOT
             game.getPlayerById(message.getID()).getPersonalBoard().setCardSlot((ArrayList<DevDeck>) message.getObject());
+            if(gui.getID() == message.getID()) {
+                gui.updateDevSlot(SceneList.PLACEDEVCARDSCENE);
+            }
+        }
+
         else if (message.getObjectID() == 9) { //Communication
             handleCommunication((Communication) message.getObject());
         } else if (message.getObjectID() == 5) //initialResource
@@ -193,7 +198,6 @@ public class MainController extends Observable<Message> implements Observer<Mess
             else{
                 gui.disable();
             }
-
         }
         else if(turn.getPhase() == ActionPhase.B_PAYMENT && turn.getPlayerPlayingID() == gui.getID()){
             gui.changeScene(SceneList.PAYDEVCARDSCENE);

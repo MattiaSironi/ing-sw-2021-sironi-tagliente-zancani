@@ -42,8 +42,8 @@ public class DevCardController implements GUIController{
     public Label message;
     public ImageView backButton;
     private int chosenIndex;
-    public Label phase = new Label();
-    public Label comMessages = new Label();
+    public Label phase;
+    public Label comMessages;
 
     public void setup(int num){
         this.gui = mainController.getGui();
@@ -60,8 +60,6 @@ public class DevCardController implements GUIController{
         this.matrix.add(card10);
         this.matrix.add(card11);
         this.matrix.add(card12);
-        cancelButton.setMouseTransparent(false);
-        buyButton.setMouseTransparent(false);
         int i = 0;
         for (ImageView imageView : matrix) {
             imageView.setOnMouseEntered(mouseEvent -> {
@@ -130,25 +128,30 @@ public class DevCardController implements GUIController{
 
     @Override
     public void print(Turn turn) {
-//        if (turn.getPlayerPlayingID() != gui.getID()) {
-//            phase.setText(this.mainController.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
-//        } else
-//            phase.setText("Your turn");
+        if (turn.getPlayerPlayingID() != gui.getID()) {
+
+            phase.setText(this.mainController.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
+        } else {
+            phase.setText("Your turn");
+
+        }
     }
 
     @Override
     public void print(Communication communication) {
-//        comMessages.setText(communication.getCommunication().getString());
+        comMessages.setText(communication.getCommunication().getString());
     }
 
     @Override
     public void disable() {
-
+        buyButton.setDisable(true);
+        buyButton.setMouseTransparent(true);
     }
 
     @Override
     public void enable() {
-
+        buyButton.setDisable(false);
+        buyButton.setMouseTransparent(false);
     }
 
     public void goBack(MouseEvent mouseEvent) {

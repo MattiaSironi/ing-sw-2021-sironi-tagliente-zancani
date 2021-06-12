@@ -14,8 +14,9 @@ public class ProductionMessage extends Message {
     private final boolean endAction;
     private final LeaderCard d;
     private final DevCard dc;
+    private int index;
 
-    public ProductionMessage(ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox, ArrayList<ResourceType> tobuy, LeaderCard d, DevCard dc, int ID, boolean endAction) {
+    public ProductionMessage(ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox, ArrayList<ResourceType> tobuy, LeaderCard d, DevCard dc, int ID, boolean endAction, int index) {
         this.resFromWarehouse = resFromWarehouse;
         this.resFromStrongbox = resFromStrongbox;
         this.resToBuy = tobuy;
@@ -23,6 +24,7 @@ public class ProductionMessage extends Message {
         this.endAction = endAction;
         this.d = d;
         this.dc=dc;
+        this.index = index;
     }
 
     public ArrayList<ResourceType> getResToBuy() {
@@ -57,4 +59,11 @@ public class ProductionMessage extends Message {
         return dc;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 }

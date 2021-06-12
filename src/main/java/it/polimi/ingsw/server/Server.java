@@ -35,10 +35,8 @@ public class Server {
     }
 
     public synchronized void waitingRoom(RemoteView rv) {
-        System.out.println("gew");
         waitingConnection.add(rv);
         if (waitingConnection.size() == 1) {
-            System.out.println("rg");
             waitingConnection.get(0).getClientConnection().send(new ChooseNumberOfPlayer(-1));
         }
     }
@@ -121,7 +119,6 @@ public class Server {
             Game game;
             if (numPlayers==1)  game = new Game(true, gameID);
             else game = new Game(false, gameID);
-
             Controller controller = new Controller(game);
             RemoteView rv1 = waitingConnection.get(0);
             rv1.setID(0);
@@ -173,7 +170,6 @@ public class Server {
             gameID++;
             numPlayers = -1;
             if (waitingConnection.size() >= 1) {
-                System.out.println("rg");
                 waitingConnection.get(0).getClientConnection().send(new ChooseNumberOfPlayer(-1));
             }
         }

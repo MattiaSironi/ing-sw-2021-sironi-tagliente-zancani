@@ -47,6 +47,8 @@ public class PayDevCardController implements GUIController {
     private MainController mainController;
     private GUI gui;
     private ArrayList<ImageView> resToPay;
+    public Label phase;
+    public Label comMessages;
 
     public void prepareScene(){
         for(ImageView imageView : resToPay){
@@ -162,12 +164,18 @@ public class PayDevCardController implements GUIController {
 
     @Override
     public void print(Turn turn) {
+        if (turn.getPlayerPlayingID() != gui.getID()) {
 
+            phase.setText(this.mainController.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
+        } else {
+            phase.setText("Your turn");
+
+        }
     }
 
     @Override
     public void print(Communication communication) {
-
+        comMessages.setText(communication.getCommunication().getString());
     }
 
     @Override

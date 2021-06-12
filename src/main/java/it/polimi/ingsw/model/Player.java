@@ -24,6 +24,13 @@ public class Player implements Serializable, Cloneable{
     private ResourceType inputExtraProduction1;
     private ResourceType inputExtraProduction2;
     private PersonalBoard personalBoard;
+    private boolean basicProdDone;
+    private boolean leader1ProdDone;
+    private boolean leader2ProdDone;
+    private boolean dev1ProdDone;
+    private boolean dev2ProdDone;
+    private boolean dev3ProdDone;
+
 
     public int getLeaderCardsToDiscard() {
         return leaderCardsToDiscard;
@@ -170,6 +177,63 @@ public class Player implements Serializable, Cloneable{
 
     public void setStartResCount(int startResCount) {
         this.startResCount = startResCount;
+    }
+
+    public boolean isBasicProdDone() {
+        return basicProdDone;
+    }
+
+    public void setBasicProdDone(boolean basicProdDone) {
+        this.basicProdDone = basicProdDone;
+    }
+
+    public boolean isLeader1ProdDone() {
+        return leader1ProdDone;
+    }
+
+    public void setLeader1ProdDone(boolean leader1ProdDone) {
+        this.leader1ProdDone = leader1ProdDone;
+    }
+
+    public boolean isLeader2ProdDone() {
+        return leader2ProdDone;
+    }
+
+    public void setLeader2ProdDone(boolean leader2ProdDone) {
+        this.leader2ProdDone = leader2ProdDone;
+    }
+
+    public boolean isDev1ProdDone() {
+        return dev1ProdDone;
+    }
+
+    public void setDev1ProdDone(boolean dev1ProdDone) {
+        this.dev1ProdDone = dev1ProdDone;
+    }
+
+    public boolean isDev2ProdDone() {
+        return dev2ProdDone;
+    }
+
+    public void setDev2ProdDone(boolean dev2ProdDone) {
+        this.dev2ProdDone = dev2ProdDone;
+    }
+
+    public boolean isDev3ProdDone() {
+        return dev3ProdDone;
+    }
+
+    public void setDev3ProdDone(boolean dev3ProdDone) {
+        this.dev3ProdDone = dev3ProdDone;
+    }
+
+    public void setAllFalse(){
+        setBasicProdDone(false);
+        setLeader1ProdDone(false);
+        setLeader2ProdDone(false);
+        setDev1ProdDone(false);
+        setDev2ProdDone(false);
+        setDev3ProdDone(false);
     }
 
     public Player clone(){

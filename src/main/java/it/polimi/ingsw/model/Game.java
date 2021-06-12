@@ -575,7 +575,6 @@ public class Game extends Observable<Message> implements Serializable {
                 setTurn(getPlayers().get(0).getId(), ActionPhase.WAITING_FOR_ACTION);
             }
         }
-
     }
 
     public synchronized boolean checkReadyPlayers(){

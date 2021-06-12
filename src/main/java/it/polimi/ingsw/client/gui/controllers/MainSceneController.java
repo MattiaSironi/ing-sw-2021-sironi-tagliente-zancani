@@ -293,7 +293,6 @@ public class MainSceneController implements  GUIController {
         activateButton.setOpacity(0.5);
         discardButton.setMouseTransparent(true);
         discardButton.setOpacity(0.5);
-        devMarket.setDisable(true);
         leader1.setDisable(true);
         leader2.setDisable(true);
         endTurnButton.setDisable(true);
@@ -307,7 +306,6 @@ public class MainSceneController implements  GUIController {
         activateButton.setOpacity(1);
         discardButton.setMouseTransparent(false);
         discardButton.setOpacity(1);
-        devMarket.setDisable(false);
         leader1.setDisable(false);
         leader2.setDisable(false);
         endTurnButton.setDisable(false);

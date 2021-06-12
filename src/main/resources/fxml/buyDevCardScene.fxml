@@ -114,7 +114,14 @@
                   <Image url="@../images/buyButton.png" />
                </image>
             </ImageView>
-            <Label fx:id="message" alignment="TOP_LEFT" layoutX="980.0" layoutY="17.0" prefHeight="102.0" prefWidth="277.0" text="Invalid move! You don't have enough resources" textFill="#f8ff03" />
+            <Label fx:id="comMessages" alignment="TOP_LEFT" layoutX="925.0" layoutY="647.0" prefHeight="63.0" prefWidth="277.0" textFill="#f8ff03">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="phase" alignment="TOP_LEFT" layoutX="923.0" layoutY="562.0" prefHeight="63.0" prefWidth="277.0" textFill="#05ffb4">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
             <ImageView fx:id="backButton" fitHeight="95.0" fitWidth="113.0" layoutX="35.0" layoutY="27.0" onMouseClicked="#goBack" pickOnBounds="true" preserveRatio="true" rotate="180.0">
                <image>
                   <Image url="@../images/nextArrow.png" />

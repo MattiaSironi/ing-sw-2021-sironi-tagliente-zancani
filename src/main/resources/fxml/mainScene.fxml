@@ -114,7 +114,7 @@
                               <Button fx:id="shelf4" layoutX="20.0" layoutY="384.0" mnemonicParsing="false" onMouseClicked="#swap" opacity="0.0" prefHeight="36.0" prefWidth="76.0" />
                               <Button fx:id="shelf5" layoutX="101.0" layoutY="384.0" mnemonicParsing="false" onMouseClicked="#swap" opacity="0.0" prefHeight="36.0" prefWidth="69.0" />
                               
-                                                                                          <ImageView fx:id="dev1" fitHeight="200.0" fitWidth="131.0" layoutX="307.0" layoutY="267.0">
+                               <ImageView fx:id="dev1" fitHeight="200.0" fitWidth="131.0" layoutX="307.0" layoutY="267.0">
                                  <effect>
                                     <DropShadow />
                                  </effect>
