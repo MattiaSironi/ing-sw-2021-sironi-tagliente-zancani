@@ -177,8 +177,15 @@ public class MainController extends Observable<Message> implements Observer<Mess
         else if (message.getObjectID() == 6) { //LEADER
             this.game.getPlayerById(message.getID()).getPersonalBoard().setActiveLeader((LeaderDeck) message.getObject());
         }
+        else if (message.getObjectID()==14) { //SoloActionTokens
+            this.game.getBoard().setTokenArray((ArrayList<SoloActionToken>) message.getObject());
+            gui.showTokens();
+        }
         else if(message.getObjectID()==15){ //PLAYER
             this.game.setPlayerByID(message.getID(),(Player)message.getObject());
+        }
+        else if (message.getObjectID()==16) { //token played
+            gui.showTokenPlayed(((SoloActionToken) message.getObject()).toString());
         }
     }
 

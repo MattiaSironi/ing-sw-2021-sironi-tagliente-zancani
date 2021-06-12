@@ -318,6 +318,7 @@ public class Game extends Observable<Message> implements Serializable {
     }
 
     public void handleSoloActionToken(){
+        notify(new ObjectMessage(board.getTokenArray().get(0), 16, -1));
         if(board.getTokenArray().get(0).isMoveBlack2()) {
             setCommunication(0, CommunicationList.LORI_MOVE2);
             moveLoriPos(2);
@@ -342,6 +343,7 @@ public class Game extends Observable<Message> implements Serializable {
                 gameOver = true;
             }
         }
+
         notify(new ObjectMessage(board.getMatrix().clone(), 2, 0));
         notify(new ObjectMessage(board.getTokenArrayClone(), 14, -1));
 

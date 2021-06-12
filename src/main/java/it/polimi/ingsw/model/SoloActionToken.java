@@ -31,4 +31,10 @@ public class SoloActionToken implements Serializable {
         return moveBlackAndShuffle;
     }
 
+    public String toString() {
+        if (discard2Cards!=null) return discard2Cards.toString();
+        else if (moveBlack2) return "+2";
+        else return "+1";
+    }
+
 }

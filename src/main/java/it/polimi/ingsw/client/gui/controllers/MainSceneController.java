@@ -83,6 +83,14 @@ public class MainSceneController implements  GUIController {
     public ImageView opponent1;
     public ImageView opponent2;
     public ImageView opponent3;
+    public ImageView token1;
+    public ImageView token2;
+    public ImageView token3;
+    public ImageView token4;
+    public ImageView token5;
+    public ImageView token6;
+    public ImageView token7;
+    public ImageView tokenPlayed;
     private LeaderCard lc1;
     private LeaderCard lc2;
     private Image l1 ;
@@ -98,6 +106,7 @@ public class MainSceneController implements  GUIController {
     ArrayList<Button> shelves;
     ArrayList<ImageView> faithTrack;
     ArrayList<ImageView> opponents;
+    ArrayList<ImageView> tokens;
 
 
     private MainController mainController;
@@ -164,14 +173,14 @@ public class MainSceneController implements  GUIController {
 
             groupOpponents();
 
-            for (int i=0, j=0; i < mainController.getGame().getPlayers().size(); i++) {
-                if (i!= gui.getID()) {
+            for (int i = 0, j = 0; i < mainController.getGame().getPlayers().size(); i++) {
+                if (i != gui.getID()) {
                     opponents.get(j).setImage(new Image(getClass().getResource("/images/Board/opponentBoard.png").toExternalForm()));
                     opponents.get(j).setUserData(i);
                     opponents.get(j).setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent mouseEvent) {
-                            gui.changeOtherScene((int)  ((ImageView)mouseEvent.getTarget()).getUserData());
+                            gui.changeOtherScene((int) ((ImageView) mouseEvent.getTarget()).getUserData());
                         }
                     });
                     j++;
@@ -179,26 +188,22 @@ public class MainSceneController implements  GUIController {
             }
 
 
-
-
-
-
             firstTurn = false;
 
 
         }
-        if(mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(0).getCards().size() != 0){
+        if (mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(0).getCards().size() != 0) {
             dev1.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
                     mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(0).getCards().get(0) +
                     ".png").toExternalForm()));
 
         }
-        if(mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(1).getCards().size() != 0){
+        if (mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(1).getCards().size() != 0) {
             dev2.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
                     mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(1).getCards().get(0) +
                     ".png").toExternalForm()));
         }
-        if(mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(2).getCards().size() != 0){
+        if (mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(2).getCards().size() != 0) {
             dev3.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
                     mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(2).getCards().get(0) +
                     ".png").toExternalForm()));
@@ -210,7 +215,35 @@ public class MainSceneController implements  GUIController {
         showShelves();
         showStrongbox();
 
+        if (mainController.getGame().getPlayers().size() == 1) {
+            groupTokens();
+            showTokens();
 
+
+        }
+    }
+
+    public void showTokens() {
+        int size = mainController.getGame().getBoard().getTokenArray().size();
+
+        for (ImageView t : tokens) {
+            if (tokens.indexOf(t)< size) t.setImage(new Image(getClass().getResource("/images/Punchboard/retro cerchi.png").toExternalForm()));
+            else t.setImage(null);
+
+        }
+
+
+    }
+
+    private void groupTokens() {
+        tokens = new ArrayList<>();
+        tokens.add(token1);
+        tokens.add(token2);
+        tokens.add(token3);
+        tokens.add(token4);
+        tokens.add(token5);
+        tokens.add(token6);
+        tokens.add(token7);
 
     }
 
@@ -543,5 +576,9 @@ public class MainSceneController implements  GUIController {
         }else{
             leader2.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
         }
+    }
+
+    public void showTokenPlayed(String s) {
+        tokenPlayed.setImage(new Image(getClass().getResource("/images/Punchboard/" + s + ".png").toExternalForm()));
     }
 }

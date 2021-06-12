@@ -136,7 +136,11 @@ public class GUI extends Application {
     }
 
 
-
+    public void showTokenPlayed(String s) {
+        Platform.runLater(() -> {
+            ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showTokenPlayed(s);
+        });
+    }
 
 
     public void setID(int ID) {
@@ -153,6 +157,7 @@ public class GUI extends Application {
             controller.setResCountLabel(startResCount);
         });
     }
+
 
 
 
@@ -207,8 +212,12 @@ public class GUI extends Application {
                 controller.disable();
             }
         });
+    }
 
-
+    public void showTokens() {
+        Platform.runLater(() -> {
+            ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showTokens();
+        });
     }
 
     public void enable() {
