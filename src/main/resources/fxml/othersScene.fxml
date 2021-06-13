@@ -132,11 +132,17 @@
                      <image>
                         <Image url="@../images/Leaders/BACK.png" />
                      </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
                   </ImageView>
                   <ImageView fx:id="leader2" fitHeight="274.0" fitWidth="192.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Leaders/BACK.png" />
                      </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
                   </ImageView>
                </children>
             </VBox>
