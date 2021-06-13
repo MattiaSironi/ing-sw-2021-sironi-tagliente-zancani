@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.GameOverController">
+   <children>
+      <Pane prefHeight="720.0" prefWidth="1270.0">
+         <children>
+            <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1270.0">
+               <children>
+                  <ImageView fitHeight="720.0" fitWidth="1270.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/backGroundWood.jpeg" />
+                     </image>
+                  </ImageView>
+                  <VBox fx:id="box" fillWidth="false" layoutX="200.0" layoutY="200.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="700.0">
+                     <children>
+                        <ImageView fx:id="finalMessage" fitHeight="130.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="first" alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="700.0" textFill="#ebddbc">
+                           <font>
+                              <Font name="AppleMyungjo Regular" size="39.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="second" alignment="CENTER" layoutX="10.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="700.0" textFill="#ebddbc">
+                           <font>
+                              <Font name="AppleMyungjo Regular" size="39.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="third" alignment="CENTER" layoutX="10.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="700.0" textFill="#ebddbc">
+                           <font>
+                              <Font name="AppleMyungjo Regular" size="39.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="fourth" alignment="CENTER" layoutX="10.0" layoutY="310.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="700.0" textFill="#ebddbc">
+                           <font>
+                              <Font name="AppleMyungjo Regular" size="39.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

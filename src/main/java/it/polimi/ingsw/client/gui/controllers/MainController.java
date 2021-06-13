@@ -11,7 +11,10 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainController extends Observable<Message> implements Observer<Message>, UI {
 
@@ -212,8 +215,18 @@ public class MainController extends Observable<Message> implements Observer<Mess
         else if(turn.getPhase() == ActionPhase.CHOOSE_SLOT && turn.getPlayerPlayingID() == gui.getID()){
             gui.changeScene(SceneList.PLACEDEVCARDSCENE);
         }
+        else if(turn.getPhase()==ActionPhase.GAME_OVER){
+            if (turn.getPlayerPlayingID() == gui.getID()) {
+                gui.gameOver(true);
+            }
+            else {
+                gui.gameOver(false);
+            }
+            gui.changeScene(SceneList.GAMEOVERSCENE);
+        }
             gui.printMessage(turn);
     }
+
 
 
     public void handleCommunication(Communication communication) {
