@@ -150,9 +150,11 @@ public class Player implements Serializable, Cloneable{
     }
 
     public int sumPope() {
-
-        return ((personalBoard.getFaithTrack().getFavorTile1() * 2) + (personalBoard.getFaithTrack().getFavorTile2() * 3) + (personalBoard.getFaithTrack().getFavorTile3() * 4));
-
+        int value=0;
+        if (personalBoard.getFaithTrack().getFavorTile1()!=null) value+= (personalBoard.getFaithTrack().getFavorTile1()*2);
+        if (personalBoard.getFaithTrack().getFavorTile2()!=null) value+= (personalBoard.getFaithTrack().getFavorTile2()*3);
+        if (personalBoard.getFaithTrack().getFavorTile3()!=null) value+= (personalBoard.getFaithTrack().getFavorTile3()*4);
+        return value;
     }
 
     public int getValuePos() {
