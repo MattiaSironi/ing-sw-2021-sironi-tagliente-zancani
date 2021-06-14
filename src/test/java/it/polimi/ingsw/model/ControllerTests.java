@@ -81,7 +81,7 @@ public class ControllerTests {
         game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
         game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
         game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-        controller.payRes(true, 0, true);
+        controller.payRes(true, 0, ActionPhase.PAYMENT);
 
         assertEquals(0, game.getPlayerById(0).getPersonalBoard().getStrongbox().getResCount(ResourceType.COIN));
     }
@@ -95,7 +95,7 @@ public class ControllerTests {
         game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
         game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
         game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-        controller.payRes(true, 0, false);
+        controller.payRes(true, 0, ActionPhase.PAYMENT);
 
         assertEquals(0, game.getPlayerById(0).getPersonalBoard().getStrongbox().getResCount(ResourceType.COIN));
     }
@@ -728,18 +728,18 @@ public class ControllerTests {
         game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 50);
         game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 50);
         controller.handleChosenDevCard(1, 0);
-        controller.payRes(true, 0, false);
-        controller.payRes(false, 0, false);
+        controller.payRes(true, 0, ActionPhase.PAYMENT);
+        controller.payRes(false, 0, ActionPhase.PAYMENT);
         controller.placeDevCard(0, 0);
         controller.handleChosenDevCard(1, 0);
-        controller.payRes(false, 0, false);
+        controller.payRes(false, 0, ActionPhase.PAYMENT);
         controller.placeDevCard(0, 0);
         controller.placeDevCard(0, 1);
         controller.handleChosenDevCard(4, 0);
-        controller.payRes(false, 0, false);
+        controller.payRes(false, 0, ActionPhase.PAYMENT);
         controller.placeDevCard(0, 0);
         controller.handleChosenDevCard(4, 0);
-        controller.payRes(false, 0, false);
+        controller.payRes(false, 0, ActionPhase.PAYMENT);
         controller.placeDevCard(0, 2);
         controller.placeDevCard(0, 1);
         controller.handleChosenDevCard(8, 0);

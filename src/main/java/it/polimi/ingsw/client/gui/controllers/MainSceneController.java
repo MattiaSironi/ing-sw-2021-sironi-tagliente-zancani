@@ -83,6 +83,7 @@ public class MainSceneController implements  GUIController {
     public ImageView opponent1;
     public ImageView opponent2;
     public ImageView opponent3;
+    public ImageView productionButton;
     public ImageView token1;
     public ImageView token2;
     public ImageView token3;
@@ -576,6 +577,10 @@ public class MainSceneController implements  GUIController {
         }else{
             leader2.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
         }
+    }
+
+    public void useProduction(MouseEvent mouseEvent) {
+        gui.changeScene(SceneList.GENERALPRODSCENE);
     }
 
     public void showTokenPlayed(String s) {

@@ -9,38 +9,17 @@ import java.util.ArrayList;
 
 public class ProductionMessage extends Message {
 
-    private final ArrayList<ResourceType> resFromWarehouse, resFromStrongbox, resToBuy;
     private final int ID;
     private final boolean endAction;
-    private final LeaderCard d;
-    private final DevCard dc;
     private int index;
+    private boolean payFrom;
 
-    public ProductionMessage(ArrayList<ResourceType> resFromWarehouse, ArrayList<ResourceType> resFromStrongbox, ArrayList<ResourceType> tobuy, LeaderCard d, DevCard dc, int ID, boolean endAction, int index) {
-        this.resFromWarehouse = resFromWarehouse;
-        this.resFromStrongbox = resFromStrongbox;
-        this.resToBuy = tobuy;
+    public ProductionMessage(int ID, boolean endAction, int index, boolean payFrom) {
         this.ID = ID;
         this.endAction = endAction;
-        this.d = d;
-        this.dc=dc;
         this.index = index;
-    }
+        this.payFrom = payFrom;
 
-    public ArrayList<ResourceType> getResToBuy() {
-        return resToBuy;
-    }
-
-
-
-    public ArrayList<ResourceType> getResFromWarehouse() {
-        return resFromWarehouse;
-    }
-
-
-
-    public ArrayList<ResourceType> getResFromStrongbox() {
-        return resFromStrongbox;
     }
 
     public int getID() {
@@ -51,19 +30,19 @@ public class ProductionMessage extends Message {
         return endAction;
     }
 
-    public LeaderCard getD() {
-        return d;
-    }
-
-    public DevCard getDc() {
-        return dc;
-    }
-
     public int getIndex() {
         return index;
     }
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public boolean isPayFrom() {
+        return payFrom;
+    }
+
+    public void setPayFrom(boolean payFrom) {
+        this.payFrom = payFrom;
     }
 }

@@ -200,7 +200,7 @@
                         <Image url="@../images/buttons/DevCardsMarketpng.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="140.0" fitWidth="268.0" pickOnBounds="true">
+                  <ImageView fx:id="productionButton" fitHeight="140.0" fitWidth="268.0" onMouseClicked="#useProduction" pickOnBounds="true">
                      <image>
                         <Image url="@../images/buttons/activateProd.png" />
                      </image>

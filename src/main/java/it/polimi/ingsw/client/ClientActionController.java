@@ -142,9 +142,6 @@ public class ClientActionController extends Observable<Message> implements Obser
 
     private void activateProd() {
         boolean valid = false;
-        ArrayList<ResourceType> buy = new ArrayList<>();
-        ArrayList<ResourceType> Str = new ArrayList<>();
-        ArrayList<ResourceType> Ware = new ArrayList<>();
 
         cli.printToConsole("Choose the productions you want to activate in this turn:\nType:\n1 to activate the basic production" +
                 "\n2 to activate the leader production\n3 to activate the development card production\n0 to end the production phase");
@@ -174,7 +171,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                     }
                     case 0 -> {
                         valid = true;
-                        send(new ProductionMessage(null, null, null, null, null, ID, true, -1));
+                        send(new ProductionMessage(ID, true, -1, false));
                     }
                     default -> {
                         valid = false;
@@ -389,6 +386,8 @@ public class ClientActionController extends Observable<Message> implements Obser
         }
         if (this.mmv.getGame().getTurn().getPhase() == ActionPhase.B_PAYMENT)
             send(new BuyDevCardMessage(-1, ID, payFrom, -1));
+        else if(this.mmv.getGame().getTurn().getPhase() == ActionPhase.D_PAYMENT)
+            send(new ProductionMessage(this.ID, false, -1, payFrom));
         else
             send(new BasicProductionMessage(null, null, null, ID, payFrom));
     }
@@ -568,68 +567,79 @@ public class ClientActionController extends Observable<Message> implements Obser
 
     }
 
-    public void useDevProduction () throws IndexOutOfBoundsException {
-        boolean valid = false, validInput = false, validNum = false;
-        int input = 0;
-        boolean okInt = false;
-        String in;
-        ProductionMessage m;
-        DevCard d;
-        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
-        ArrayList<ResourceType> resFromStrongbox = new ArrayList<>();
-        ArrayList<ResourceType> resToBuy = new ArrayList<>();
-
-        cli.printToConsole("Choose the production card you want to activate : [1/2/3]");
-        mmv.printProd(this.ID, this.ID);
-        while (!valid) {
-            in = cli.readFromInput().replaceAll("[^0-9]", "");
-            if (in.equals("")) input = -1;
-            else {
-                input = Integer.parseInt(in);
-            }
-           // input = Integer.parseInt(cli.readFromInput());
-            if (!(input >= 1 && input <= mmv.getGame().getPlayerById(ID).getPersonalBoard().getCardSlot().size())) {
-                cli.printToConsole("Invalid input, try again");
-            } else
-                valid = true;
+    public void useDevProduction(){
+        cli.printToConsole("Choose the slot (1,2 or 3):");
+        String input = cli.readFromInput();
+        try{
+            int slot = Integer.parseInt(input);
+            send(new ProductionMessage(this.ID, false, slot - 1, false));
+        }catch(PatternSyntaxException e){
+            useDevProduction();
         }
-        d = mmv.getGame().getPlayerById(ID).getPersonalBoard().getCardSlot().get(input - 1).getCards().get(0);
-        for (int i = 0; i < 4; i++) {
-            int n = d.getInputRes()[i];
-            while (n > 0) {
-                valid = false;
-                cli.printToConsole("You have to pay 1 " + FromIntToRes(i).toString() + "\nType 1 if you want to take it from your Warehouse\n" +
-                        "Type 2 if you want to take it from your Strongbox");
-                while (!valid) {
-                    in = cli.readFromInput().replaceAll("[^0-9]", "");
-                    if (in.equals("")) input = -1;
-                    else {
-                        input = Integer.parseInt(in);
-                    }
-                   // input = Integer.parseInt(cli.readFromInput());
-                    if (!(input == 1 || input == 2)) {
-                        cli.printToConsole("Invalid input, try again");
-                    } else {
-                        valid = true;
-                        if (input == 1)
-                            resFromWarehouse.add(FromIntToRes(i));
-                        else
-                            resFromStrongbox.add(FromIntToRes(i));
-                    }
-                }
-                n--;
-            }
-        }
-        for (int i = 0; i < 5; i++) {
-            int n = d.getOutputRes()[i];
-            while (n > 0) {
-                resToBuy.add(FromIntToRes(i));
-                n--;
-            }
-        }
-        send(new ProductionMessage(resFromWarehouse, resFromStrongbox, resToBuy, null, d, this.ID, false, input));
-
     }
+
+//    public void useDevProduction () throws IndexOutOfBoundsException {
+//        boolean valid = false, validInput = false, validNum = false;
+//        int input = 0;
+//        boolean okInt = false;
+//        String in;
+//        ProductionMessage m;
+//        DevCard d;
+//        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
+//        ArrayList<ResourceType> resFromStrongbox = new ArrayList<>();
+//        ArrayList<ResourceType> resToBuy = new ArrayList<>();
+//
+//        cli.printToConsole("Choose the production card you want to activate : [1/2/3]");
+//        mmv.printProd(this.ID, this.ID);
+//        while (!valid) {
+//            in = cli.readFromInput().replaceAll("[^0-9]", "");
+//            if (in.equals("")) input = -1;
+//            else {
+//                input = Integer.parseInt(in);
+//            }
+//           // input = Integer.parseInt(cli.readFromInput());
+//            if (!(input >= 1 && input <= mmv.getGame().getPlayerById(ID).getPersonalBoard().getCardSlot().size())) {
+//                cli.printToConsole("Invalid input, try again");
+//            } else
+//                valid = true;
+//        }
+//        d = mmv.getGame().getPlayerById(ID).getPersonalBoard().getCardSlot().get(input - 1).getCards().get(0);
+//        for (int i = 0; i < 4; i++) {
+//            int n = d.getInputRes()[i];
+//            while (n > 0) {
+//                valid = false;
+//                cli.printToConsole("You have to pay 1 " + FromIntToRes(i).toString() + "\nType 1 if you want to take it from your Warehouse\n" +
+//                        "Type 2 if you want to take it from your Strongbox");
+//                while (!valid) {
+//                    in = cli.readFromInput().replaceAll("[^0-9]", "");
+//                    if (in.equals("")) input = -1;
+//                    else {
+//                        input = Integer.parseInt(in);
+//                    }
+//                   // input = Integer.parseInt(cli.readFromInput());
+//                    if (!(input == 1 || input == 2)) {
+//                        cli.printToConsole("Invalid input, try again");
+//                    } else {
+//                        valid = true;
+//                        if (input == 1)
+//                            resFromWarehouse.add(FromIntToRes(i));
+//                        else
+//                            resFromStrongbox.add(FromIntToRes(i));
+//                    }
+//                }
+//                n--;
+//            }
+//        }
+//        for (int i = 0; i < 5; i++) {
+//            int n = d.getOutputRes()[i];
+//            while (n > 0) {
+//                resToBuy.add(FromIntToRes(i));
+//                n--;
+//            }
+//        }
+//        send(new ProductionMessage(resFromWarehouse, resFromStrongbox, resToBuy, null, d, this.ID, false, input));
+//
+//    }
 
     public ResourceType FromIntToRes(int i) {
         switch (i) {
@@ -773,7 +783,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                         activateProd();
                     }
 
-                    case PAYMENT, B_PAYMENT -> {
+                    case PAYMENT, B_PAYMENT, D_PAYMENT -> {
                         noMoreActions();
                         pay();
                     }

@@ -46,6 +46,12 @@ public class DevCardController implements GUIController{
     public Label comMessages;
 
     public void setup(int num){
+        chosenCard.setImage(null);
+        cancelButton.setMouseTransparent(true);
+        cancelButton.setVisible(false);
+        buyButton.setMouseTransparent(true);
+        buyButton.setVisible(false);
+        uselessLabel.setText("");
         this.gui = mainController.getGui();
         this.matrix = new ArrayList<>();
         this.matrix.add(card1);
@@ -73,6 +79,11 @@ public class DevCardController implements GUIController{
                 imageView.setEffect(new DropShadow(20, Color.BLACK));
                 imageView.setOnMouseClicked(mouseEvent -> {
                     chosenCard.setImage(imageView.getImage());
+                    cancelButton.setMouseTransparent(false);
+                    cancelButton.setVisible(true);
+                    buyButton.setMouseTransparent(false);
+                    buyButton.setVisible(true);
+                    uselessLabel.setText("Are you sure?");
                     chosenIndex = matrix.indexOf(imageView);
                     System.out.println(chosenIndex);
                     activateButtons();

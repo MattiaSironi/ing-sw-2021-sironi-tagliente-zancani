@@ -205,7 +205,7 @@ public class Game extends Observable<Message> implements Serializable {
 
     }
 
-    public void setPaidResForBasic(ArrayList<ResourceType> r){
+    public void setResToPay(ArrayList<ResourceType> r){
         getBoard().getMatrix().setResToPay(r);
         notify(new ObjectMessage(getBoard().getMatrix().clone(), 2, -1));
     }
@@ -545,10 +545,10 @@ public class Game extends Observable<Message> implements Serializable {
     }
 
     public void addEarnedResourcesByID(int ID, int numCoin, int numStone, int numServant, int numShield){
-        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedCoin(numCoin);
-        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedStone(numStone);
-        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedServant(numServant);
-        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedShield(numShield);
+        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedCoin(getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedCoin() + numCoin);
+        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedStone(getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedStone() + numStone);
+        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedServant(getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedServant() + numServant);
+        getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedShield(getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedShield() + numShield);
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox().clone(), 3, ID));
     }
 

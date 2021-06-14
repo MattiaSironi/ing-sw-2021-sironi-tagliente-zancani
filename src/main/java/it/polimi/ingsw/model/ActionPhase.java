@@ -11,7 +11,8 @@ public enum ActionPhase {
     BASIC ("is doing a basic production!"),
     PAYMENT("is paying!"),
     GAME_OVER("won!"),
-    FIRST_ROUND ("is the first player");
+    FIRST_ROUND ("is the first player"),
+    D_PAYMENT("is using a development card's production");
 
     private final String others;
 

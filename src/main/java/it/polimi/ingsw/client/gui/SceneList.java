@@ -10,7 +10,9 @@ public enum SceneList {
     PAYDEVCARDSCENE("payDevCardScene.fxml"),
     MARKET("marketScene.fxml"),
     PLACEDEVCARDSCENE("placeDevCardScene.fxml"),
-    OPPONENTS("othersScene.fxml");
+    OPPONENTS("othersScene.fxml"),
+    GENERALPRODSCENE("productionScene.fxml"),
+    BASICPRODSCENE("basicProductionScene.fxml");
 
 
 

@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="it.polimi.ingsw.client.gui.controllers.PayDevCardController">
+<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.PayDevCardController">
    <children>
       <Pane prefHeight="720.0" prefWidth="1270.0">
          <children>
@@ -30,7 +30,7 @@
                   <Image url="@../images/PunchBoard/shelvesAndStrongbox.png" />
                </image>
             </ImageView>
-            <Label layoutX="674.0" layoutY="40.0" text="You have to pay these resources:">
+            <Label layoutX="674.0" layoutY="40.0" prefHeight="171.0" prefWidth="505.0" text="You have to pay these resources:" wrapText="true">
                <font>
                   <Font size="36.0" />
                </font>
