@@ -259,6 +259,12 @@ public class GUI extends Application {
         Controller controller = new Controller(game);
         mainController.addObserver(controller);
         game.addObserver(mainController); }
+
+    public void gameOver(boolean doIWin) {
+        Platform.runLater(() -> {
+            ((GameOverController) nameMapController.get(SceneList.GAMEOVERSCENE.getSceneName())).findWinner(doIWin);
+        });
+    }
 }
 
 

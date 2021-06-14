@@ -148,13 +148,9 @@ public class OtherPlayersController implements GUIController {
         name.setText(mainController.getGame().getPlayerById(getID()).getNickname() + "'s BOARD");
 
 
-        if (firstTurn) {
-            l1 = new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(getID()).getLeaderDeck().getCards().get(0).toString() + ".png").toExternalForm());
-            l2 = new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(getID()).getLeaderDeck().getCards().get(1).toString() + ".png").toExternalForm());
-            lc1 = this.mainController.getGame().getPlayerById(getID()).getLeaderDeck().getCards().get(0);
-            lc2 = this.mainController.getGame().getPlayerById(getID()).getLeaderDeck().getCards().get(1);
-            firstTurn = false;
-        }
+
+
+
         if(mainController.getGame().getPlayerById(getID()).getPersonalBoard().getCardSlot().get(0).getCards().size() != 0){
             dev1.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
                     mainController.getGame().getPlayerById(getID()).getPersonalBoard().getCardSlot().get(0).getCards().get(0) +
@@ -176,6 +172,7 @@ public class OtherPlayersController implements GUIController {
         showFaithTrack();
         showShelves();
         showStrongbox();
+        showLeaders();
     }
 
     @Override
@@ -353,20 +350,17 @@ public class OtherPlayersController implements GUIController {
         shieldNum.setText("" + mainController.getGame().getPlayerById(getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.SHIELD));
     }
     public void showLeaders() {
-        if(mainController.getGame().getPlayerById(getID()).getPersonalBoard().getActiveLeader().isPresent(lc1)){
-            leader1.setImage(l1);
-            active1=true;
-            leader1.setDisable(true);
-        }else{
-            leader1.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
+        ArrayList<ImageView> leaders = new ArrayList<>();
+        leaders.add(leader1);
+        leaders.add(leader2);
+        int i=0;
+        for (LeaderCard l : mainController.getGame().getPlayerById(getID()).getPersonalBoard().getActiveLeader().getCards()) {
+            leaders.get(i).setImage(new Image(getClass().getResource("/images/Leaders/" + l.toString() + ".png" ).toExternalForm())); //Active leaders
+            i++;
+
         }
-        if(mainController.getGame().getPlayerById(getID()).getPersonalBoard().getActiveLeader().isPresent(lc2)){
-            leader2.setImage(l2);
-            active2=true;
-            leader2.setDisable(true);
-        }else{
-            leader2.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png").toExternalForm()));
-        }
+        for (LeaderCard l : mainController.getGame().getPlayerById(getID()).getLeaderDeck().getCards()) i++; //inactive leaders
+        for (; i<2 ; i++) leaders.get(i).setOpacity(0.5); //discarded leaders
     }
 
 }

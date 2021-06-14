@@ -29,21 +29,21 @@ public class Game extends Observable<Message> implements Serializable {
     private int numPlayer;
     private ArrayList<Player> players;
     private Board board;
-    private boolean firstvatican = false;
-    private boolean secondvatican = false;
-    private boolean thirdvatican = false;
+    private boolean firstVatican = false;
+    private boolean secondVatican = false;
+    private boolean thirdVatican = false;
     private boolean gameOver;
     private Turn turn;
     private Communication communication;
 
     public Game() { }
 
-    public Game(int gameID, int numPlayer,  boolean firstvatican, boolean secondvatican, boolean thirdvatican, boolean gameOver) {
+    public Game(int gameID, int numPlayer, boolean firstVatican, boolean secondVatican, boolean thirdVatican, boolean gameOver) {
         this.gameID = gameID;
         this.numPlayer = numPlayer;
-        this.firstvatican = firstvatican;
-        this.secondvatican = secondvatican;
-        this.thirdvatican = thirdvatican;
+        this.firstVatican = firstVatican;
+        this.secondVatican = secondVatican;
+        this.thirdVatican = thirdVatican;
         this.gameOver = gameOver;
         this.board = new Board();
         this.turn = new Turn();
@@ -79,28 +79,28 @@ public class Game extends Observable<Message> implements Serializable {
         this.turn = turn;
     }
 
-    public boolean isFirstvatican() {
-        return firstvatican;
+    public boolean isFirstVatican() {
+        return firstVatican;
     }
 
-    public void setFirstvatican(boolean firstvatican) {
-        this.firstvatican = firstvatican;
+    public void setFirstVatican(boolean firstVatican) {
+        this.firstVatican = firstVatican;
     }
 
-    public boolean isSecondvatican() {
-        return secondvatican;
+    public boolean isSecondVatican() {
+        return secondVatican;
     }
 
-    public void setSecondvatican(boolean secondvatican) {
-        this.secondvatican = secondvatican;
+    public void setSecondVatican(boolean secondVatican) {
+        this.secondVatican = secondVatican;
     }
 
-    public boolean isThirdvatican() {
-        return thirdvatican;
+    public boolean isThirdVatican() {
+        return thirdVatican;
     }
 
-    public void setThirdvatican(boolean thirdvatican) {
-        this.thirdvatican = thirdvatican;
+    public void setThirdVatican(boolean thirdVatican) {
+        this.thirdVatican = thirdVatican;
     }
 
     public Communication getCommunication() {
@@ -224,18 +224,18 @@ public class Game extends Observable<Message> implements Serializable {
                 maxP = maxPos.getAsInt();
             }
         }
-                if (maxP >= 8 && !firstvatican) {
+                if (maxP >= 8 && !firstVatican) {
                     checkEveryPlayerPos(8, 0);
-                    setFirstvatican(true);
+                    setFirstVatican(true);
                     notify(new ObjectMessage(true, 11, 0));
 
-                } else if (maxP >= 16 && !secondvatican) {
+                } else if (maxP >= 16 && !secondVatican) {
                     checkEveryPlayerPos(16, 1);
-                    setSecondvatican(true);
+                    setSecondVatican(true);
                     notify(new ObjectMessage(true, 11, 1));
-                } else if (maxP == 24 && !thirdvatican) {
+                } else if (maxP == 24 && !thirdVatican) {
                     checkEveryPlayerPos(24, 2);
-                    setThirdvatican(true);
+                    setThirdVatican(true);
                     setGameOver(true);
                     notify(new ObjectMessage(true, 11, 2));
 
@@ -636,9 +636,9 @@ public class Game extends Observable<Message> implements Serializable {
         Game clone = new Game();
         clone.gameID = this.gameID;
         clone.numPlayer = this.numPlayer;
-        clone.firstvatican = this.firstvatican;
-        clone.secondvatican = this.secondvatican;
-        clone.thirdvatican = this.thirdvatican;
+        clone.firstVatican = this.firstVatican;
+        clone.secondVatican = this.secondVatican;
+        clone.thirdVatican = this.thirdVatican;
         clone.gameOver = this.gameOver;
         clone.board = board.clone();
         clone.turn  = turn.clone();

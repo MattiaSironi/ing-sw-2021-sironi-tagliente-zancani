@@ -1,12 +1,8 @@
 package it.polimi.ingsw.model;
 
-import org.apache.commons.io.input.ClassLoaderObjectInputStream;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestTemplate;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -198,9 +194,9 @@ public class CloneTests {
 
         assertEquals(clone.getGameID(),game.getGameID());
         assertEquals(clone.getNumPlayer(),game.getNumPlayer());
-        assertEquals(clone.isFirstvatican(),game.isFirstvatican());
-        assertEquals(clone.isSecondvatican(),game.isSecondvatican());
-        assertEquals(clone.isThirdvatican(),game.isThirdvatican());
+        assertEquals(clone.isFirstVatican(),game.isFirstVatican());
+        assertEquals(clone.isSecondVatican(),game.isSecondVatican());
+        assertEquals(clone.isThirdVatican(),game.isThirdVatican());
         assertEquals(clone.isGameOver(),game.isGameOver());
         assertEquals(clone.getPlayers().get(0).getNickname(),game.getPlayers().get(0).getNickname());
         assertEquals(clone.getPlayerById(0).getLeaderDeck().getCards().get(0),game.getPlayerById(0).getLeaderDeck().getCards().get(0));

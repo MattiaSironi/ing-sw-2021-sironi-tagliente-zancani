@@ -244,9 +244,9 @@ public class FindWinnerTest {
         game.moveFaithPosByID(1, 2); //LEA 4
 
 
-        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getFavorTile1());
-        assertEquals(0, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getFavorTile1());
-        assertEquals(0, game.getPlayerById(2).getPersonalBoard().getFaithTrack().getFavorTile1());
+        assertEquals(null, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getFavorTile1());
+        assertEquals(null, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getFavorTile1());
+        assertEquals(null, game.getPlayerById(2).getPersonalBoard().getFaithTrack().getFavorTile1());
 
         game.moveFaithPosByID(0, 2); //GIGI 8
 
@@ -271,9 +271,9 @@ public class FindWinnerTest {
         game.moveFaithPosByID(1, 6); //LEA 15
         game.moveFaithPosByID(2, 2); //SIMO 12
         game.moveFaithPosByID(0, 3); //GIGI 11
-        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getFavorTile2());
-        assertEquals(0, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getFavorTile2());
-        assertEquals(0, game.getPlayerById(2).getPersonalBoard().getFaithTrack().getFavorTile2());
+        assertEquals(null, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getFavorTile2());
+        assertEquals(null, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getFavorTile2());
+        assertEquals(null, game.getPlayerById(2).getPersonalBoard().getFaithTrack().getFavorTile2());
 
         game.moveFaithPosByID(1, 2); //LEA 17
 
@@ -292,9 +292,9 @@ public class FindWinnerTest {
         game.moveFaithPosByID(1, 1); //LEA 18
         game.moveFaithPosByID(0, 10); //GIGI 21
         game.moveFaithPosByID(0, 2); //GIGI 23
-        assertEquals(0, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getFavorTile3());
-        assertEquals(0, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getFavorTile3());
-        assertEquals(0, game.getPlayerById(2).getPersonalBoard().getFaithTrack().getFavorTile3());
+        assertEquals(null, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getFavorTile3());
+        assertEquals(null, game.getPlayerById(1).getPersonalBoard().getFaithTrack().getFavorTile3());
+        assertEquals(null, game.getPlayerById(2).getPersonalBoard().getFaithTrack().getFavorTile3());
 
         game.moveFaithPosByID(0, 5); //GIGI 24 CAPPED
         assertEquals(24, game.getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker());

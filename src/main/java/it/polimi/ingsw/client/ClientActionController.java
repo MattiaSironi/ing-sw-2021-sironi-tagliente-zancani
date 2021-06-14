@@ -717,11 +717,11 @@ public class ClientActionController extends Observable<Message> implements Obser
             handleTurn((mmv.getGame().getTurn()));
         } else if (message.getObjectID() == 11) {
             if (message.getID() == 0)
-                this.mmv.getGame().setFirstvatican(true);
+                this.mmv.getGame().setFirstVatican(true);
             else if (message.getID() == 1)
-                this.mmv.getGame().setSecondvatican(true);
+                this.mmv.getGame().setSecondVatican(true);
             else
-                this.mmv.getGame().setThirdvatican(true);
+                this.mmv.getGame().setThirdVatican(true);
         } else if (message.getObjectID() == 12)
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setFaithTrack((FaithTrack) message.getObject());
         else if (message.getObjectID() == 13) {

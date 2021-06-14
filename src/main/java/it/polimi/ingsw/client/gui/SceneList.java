@@ -11,8 +11,7 @@ public enum SceneList {
     MARKET("marketScene.fxml"),
     PLACEDEVCARDSCENE("placeDevCardScene.fxml"),
     OPPONENTS("othersScene.fxml"),
-    GENERALPRODSCENE("productionScene.fxml"),
-    BASICPRODSCENE("basicProductionScene.fxml");
+    GAMEOVERSCENE("gameOver.fxml");
 
 
 
