@@ -158,7 +158,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>it.polimi.ingsw.Santorini</mainClass>
+                            <mainClass>it.polimi.ingsw.MRMain</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

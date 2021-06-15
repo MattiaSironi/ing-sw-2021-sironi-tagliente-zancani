@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
-/**
+/** Enum CommunicationList has all the communication the game has to do to a player.
+ * @see Communication
  * @author Mattia Sironi
  */
 public enum CommunicationList {

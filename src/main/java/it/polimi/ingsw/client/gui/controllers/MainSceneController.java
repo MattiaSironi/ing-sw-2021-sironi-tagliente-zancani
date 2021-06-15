@@ -107,7 +107,7 @@ public class MainSceneController implements  GUIController {
     ArrayList<Button> shelves;
     ArrayList<ImageView> faithTrack;
     ArrayList<ImageView> opponents;
-    ArrayList<ImageView> tokens;
+    ArrayList<ImageView> tokens = new ArrayList<>();
 
 
     private MainController mainController;
@@ -580,7 +580,7 @@ public class MainSceneController implements  GUIController {
     }
 
     public void useProduction(MouseEvent mouseEvent) {
-        gui.changeScene(SceneList.GENERALPRODSCENE);
+//        gui.changeScene(SceneList.GENERALPRODSCENE);
     }
 
     public void showTokenPlayed(String s) {

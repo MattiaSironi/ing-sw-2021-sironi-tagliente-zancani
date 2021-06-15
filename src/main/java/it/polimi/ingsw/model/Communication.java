@@ -2,7 +2,9 @@ package it.polimi.ingsw.model;
 
 import java.io.Serializable;
 
-/**
+/** Class Communication represent the Model part where players can have information on what's happening during the game.
+ * Communications could be broadcasts (using addresseeID == -1) or personal.
+ *
  * @author Mattia Sironi
  */
 public class Communication implements Serializable {
@@ -27,6 +29,11 @@ public class Communication implements Serializable {
     public void setCommunication(CommunicationList communication) {
         this.communication = communication;
     }
+
+    /**
+     * This method makes a deep copy of a Communication instance.
+     * @return a deep clone of Communication.
+     */
 
     public Communication clone()  {
         Communication clone = new Communication();

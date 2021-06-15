@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Class Board represents the main game board of "Master of Renaissance. It's composed by the Market, the Leader Deck, the matrix of Development Cards and the pile of Solo
+ * Class Board represents the main game board of "Master of Renaissance". It's composed by the Market, the Leader Deck, the matrix of Development Cards and the pile of Solo
  * Action Token if the game is single player.
  *
  * @author Simone Tagliente
@@ -37,6 +37,11 @@ public class Board implements Serializable {
 
     }
 
+    /**
+     * This method parses a JSON file containing all possible tokens. It shuffles the tokens.
+     * @return a Collection of SoloActionToken shuffled.
+     */
+
     public ArrayList<SoloActionToken> createTokensArray() {
         Gson gson = new Gson();
         ArrayList<SoloActionToken> solo = new ArrayList<>();
@@ -49,6 +54,10 @@ public class Board implements Serializable {
         return solo;
     }
 
+    /**
+     * This method parses four JSON files containing all possible LeaderCards. It shuffles the deck created with these cards.
+     * @return a LeaderDeck shuffled.
+     */
 
 
     private LeaderDeck createLeaderDeck() {
@@ -79,6 +88,11 @@ public class Board implements Serializable {
         return ret;
     }
 
+    /**
+     * This method parses a JSON file containing all possible marbles. It shuffle them, the first 12 are put in the marketBoard. The last one is put in the left out spot.
+     * @return a Market shuffled with 12 marbles in the marketBoard, 0 marbles in marketHand and one marble in the left out spot.
+     */
+
     private Market createMarket() {
         Gson gson = new Gson();
         Reader reader =  new InputStreamReader(Board.class.getResourceAsStream("/json/tray.json"));
@@ -97,6 +111,11 @@ public class Board implements Serializable {
 
         return new Market(marbleTray, marbles[12]);
     }
+
+    /**
+     * This method parses a JSON file containing all possible DevCards. it creates 12 decks shuffled. Each card in a deck has the same Color and the same level.
+     * @return a Collection of shuffled DevDecks.
+     */
 
     public List<DevDeck> createDevDecks()  {
 
@@ -186,6 +205,11 @@ public class Board implements Serializable {
         this.matrix = matrix;
     }
 
+    /**
+     * This method makes a deep copy of the entire Board.
+     * @return a deep clone of the Board.
+     */
+
     public Board clone() {
         Board clone = new Board();
         clone.market = market.clone();
@@ -197,6 +221,12 @@ public class Board implements Serializable {
         else clone.tokenArray = null;
         return clone;
     }
+
+    /**
+     *  This method makes a deep copy of the Collection of SoloActionTokens.
+     * @see Board
+     * @return a deep copy of the Collection of SoloActionTokens
+     */
 
     public ArrayList<SoloActionToken> getTokenArrayClone() {
         return new ArrayList<>(this.tokenArray);

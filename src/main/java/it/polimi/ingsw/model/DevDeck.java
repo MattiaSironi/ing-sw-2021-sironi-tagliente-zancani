@@ -32,9 +32,18 @@ public class DevDeck implements Printable, Serializable {
         return cards;
     }
 
+    /**
+     * This method prints to console first DevCard in a DevDeck
+     */
+
     public void print(){
         this.cards.get(0).print();
     }
+
+    /**
+     * This method makes a deep copy of the DevDeck.
+     * @return a deep clone of the DevDeck.
+     */
 
     public DevDeck clone() {
         DevDeck clone = new DevDeck(new ArrayList<>());

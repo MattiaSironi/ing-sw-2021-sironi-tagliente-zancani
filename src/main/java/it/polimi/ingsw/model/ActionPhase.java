@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+/**
+ * This Enum contains all possible actions player can do in this game, besides managing resources and end the turn
+ *
+ */
 public enum ActionPhase {
 
     WAITING_FOR_ACTION ("is choosing an action!"),
@@ -20,6 +24,10 @@ public enum ActionPhase {
         this.others = others;
     }
 
+    /**
+     * this method gets a string that players not in turn will see.
+     * @return String others.
+     */
     public String getOthers() {
         return others;
     }

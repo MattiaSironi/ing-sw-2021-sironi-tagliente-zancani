@@ -49,6 +49,10 @@ public class DevCard implements Printable, Serializable {
         return outputRes;
     }
 
+    /**
+     * This methods print to console all information about a DevCard.
+     */
+
     @Override
     public void print(){
         System.out.println("Card details" +

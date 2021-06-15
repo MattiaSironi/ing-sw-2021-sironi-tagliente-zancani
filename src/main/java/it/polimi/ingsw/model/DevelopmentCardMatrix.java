@@ -44,6 +44,11 @@ public class DevelopmentCardMatrix implements Serializable {
         this.resToPay = resToPay;
     }
 
+    /**
+     * This method makes a deep copy of an entire DevelopmentCardMatrix instance.
+     * @return a deep clone of the  DevelopmentCardMatrix instance.
+     */
+
     public DevelopmentCardMatrix clone()  {
         DevelopmentCardMatrix clone = new DevelopmentCardMatrix(new ArrayList<>());
         clone.chosenIndex = chosenIndex;
