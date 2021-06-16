@@ -93,7 +93,7 @@ public class PayDevCardController implements GUIController {
         resToPay.add(res8);
         int i = 0;
         if(!(mainController.getGame().getBoard().getMatrix().getResToPay().size() == 0)) {
-            resToPay.get(0).setImage(new Image(getClass().getResource("/images/PunchBoard/" + mainController.getGame().getBoard().getMatrix().getResToPay().get(0) + ".png").toExternalForm()));
+            resToPay.get(0).setImage(new Image(getClass().getResource("/images/PunchBoard/" + mainController.getGame().getBoard().getMatrix().getResToPay().get(0).toString().toLowerCase() + ".png").toExternalForm()));
         }
         //for (ResourceType resource : mainController.getGame().getBoard().getMatrix().getResToPay()) {
         //    resToPay.get(i).setImage(new Image(getClass().getResource("/images/PunchBoard/" + resource.toString() + ".png").toExternalForm()));

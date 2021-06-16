@@ -228,7 +228,7 @@ public class MainSceneController implements  GUIController {
         int size = mainController.getGame().getBoard().getTokenArray().size();
 
         for (ImageView t : tokens) {
-            if (tokens.indexOf(t)< size) t.setImage(new Image(getClass().getResource("/images/Punchboard/retro cerchi.png").toExternalForm()));
+            if (tokens.indexOf(t)< size) t.setImage(new Image(getClass().getResource("/images/PunchBoard/retro cerchi.png").toExternalForm()));
             else t.setImage(null);
 
         }
@@ -584,6 +584,6 @@ public class MainSceneController implements  GUIController {
     }
 
     public void showTokenPlayed(String s) {
-        tokenPlayed.setImage(new Image(getClass().getResource("/images/Punchboard/" + s + ".png").toExternalForm()));
+        tokenPlayed.setImage(new Image(getClass().getResource("/images/PunchBoard/" + s + ".png").toExternalForm()));
     }
 }
