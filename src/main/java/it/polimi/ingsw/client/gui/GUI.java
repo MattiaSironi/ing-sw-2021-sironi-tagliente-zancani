@@ -1,9 +1,6 @@
 package it.polimi.ingsw.client.gui;
 
 
-import it.polimi.ingsw.client.ClientActionController;
-import it.polimi.ingsw.client.ModelMultiplayerView;
-import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.controllers.*;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Communication;
@@ -263,6 +260,12 @@ public class GUI extends Application {
     public void gameOver(boolean doIWin) {
         Platform.runLater(() -> {
             ((GameOverController) nameMapController.get(SceneList.GAMEOVERSCENE.getSceneName())).findWinner(doIWin);
+        });
+    }
+
+    public void activateChoiceBox() {
+        Platform.runLater(() -> {
+            ((BasicProductionController) nameMapController.get(SceneList.BASICSCENE.getSceneName())).enableHBox();
         });
     }
 }

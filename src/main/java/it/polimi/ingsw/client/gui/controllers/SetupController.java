@@ -94,7 +94,7 @@ public class SetupController implements GUIController{
             choiceBox.setVisible(false);
             playButton.setDisable(true);
             playButton.setVisible(false);
-        } catch(NumberFormatException e){
+        } catch(NumberFormatException | NullPointerException e){
 
         }
     }

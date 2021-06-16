@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.BasicProductionController">
+    <children>
+        <Pane prefHeight="720.0" prefWidth="1270.0">
+            <children>
+            <ImageView fitHeight="720.0" fitWidth="1270.0">
+               <image>
+                  <Image url="@../images/PunchBoard/wood.png" />
+               </image>
+            </ImageView>
+                <ImageView fitHeight="538.0" fitWidth="763.0" layoutX="52.0" layoutY="150.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/Board/Board1.png" />
+                    </image>
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                </ImageView>
+                <Label fx:id="label1" layoutX="346.0" layoutY="33.0" text="Select the resource you want to produce" visible="false">
+                    <font>
+                        <Font size="36.0" />
+                    </font>
+                    <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                            <stops>
+                                <Stop>
+                                    <color>
+                                        <Color red="0.9666666388511658" green="1.0" />
+                                    </color>
+                                </Stop>
+                                <Stop offset="1.0">
+                                    <color>
+                                        <Color red="1.0" green="1.0" blue="1.0" />
+                                    </color>
+                                </Stop>
+                            </stops>
+                        </LinearGradient>
+                    </textFill>
+                </Label>
+            <Label fx:id="label2" layoutX="359.0" layoutY="33.0" text="Select two resources you want to use" visible="false">
+               <font>
+                  <Font size="36.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.9666666388511658" green="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+                <ImageView fx:id="dev1" fitHeight="180.0" fitWidth="120.0" layoutX="350.0" layoutY="408.0">
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                </ImageView>
+                <ImageView fx:id="dev2" fitHeight="180.0" fitWidth="120.0" layoutX="493.0" layoutY="408.0">
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                </ImageView>
+                <ImageView fx:id="dev3" fitHeight="180.0" fitWidth="120.0" layoutX="640.0" layoutY="408.0">
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                </ImageView>
+            <HBox fx:id="choicesHBox" layoutX="860.0" layoutY="456.0" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="coinImage" fitHeight="90.0" fitWidth="90.0" onMouseClicked="#chooseCoin" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PunchBoard/coin.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="stoneImage" fitHeight="90.0" fitWidth="90.0" onMouseClicked="#chooseStone" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PunchBoard/stone.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="servantImage" fitHeight="90.0" fitWidth="90.0" onMouseClicked="#chooseServant" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PunchBoard/servant.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="shieldImage" fitHeight="90.0" fitWidth="90.0" onMouseClicked="#chooseShield" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PunchBoard/shield.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <ImageView fx:id="paid1" fitHeight="90.0" fitWidth="30.0" layoutX="250.0" layoutY="532.0" preserveRatio="true" />
+            <ImageView fx:id="paid2" fitHeight="90.0" fitWidth="30.0" layoutX="249.0" layoutY="556.0" preserveRatio="true" />
+            <ImageView fx:id="result" fitHeight="90.0" fitWidth="30.0" layoutX="294.0" layoutY="541.0" preserveRatio="true" />
+            <ImageView fx:id="shelf1pos1" fitHeight="90.0" fitWidth="30.0" layoutX="139.0" layoutY="386.0" preserveRatio="true" />
+            <ImageView fx:id="shelf2pos1" fitHeight="90.0" fitWidth="30.0" layoutX="117.0" layoutY="430.0" preserveRatio="true" />
+            <ImageView fx:id="shelf2pos2" fitHeight="90.0" fitWidth="30.0" layoutX="150.0" layoutY="430.0" preserveRatio="true" />
+            <ImageView fx:id="shelf3pos1" fitHeight="90.0" fitWidth="30.0" layoutX="102.0" layoutY="476.0" preserveRatio="true" />
+            <ImageView fx:id="shelf3pos2" fitHeight="90.0" fitWidth="30.0" layoutX="134.0" layoutY="476.0" preserveRatio="true" />
+            <ImageView fx:id="shelf3pos3" fitHeight="90.0" fitWidth="30.0" layoutX="166.0" layoutY="477.0" preserveRatio="true" />
+            <ImageView fx:id="shelf4pos1" fitHeight="90.0" fitWidth="30.0" layoutX="87.0" layoutY="522.0" preserveRatio="true" />
+            <ImageView fx:id="shelf4pos2" fitHeight="90.0" fitWidth="30.0" layoutX="117.0" layoutY="522.0" preserveRatio="true" />
+            <ImageView fx:id="shelf5pos1" fitHeight="90.0" fitWidth="30.0" layoutX="149.0" layoutY="522.0" preserveRatio="true" />
+            <ImageView fx:id="shelf5pos2" fitHeight="90.0" fitWidth="30.0" layoutX="181.0" layoutY="522.0" preserveRatio="true" />
+            <HBox layoutX="860.0" layoutY="160.0" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="coinImage1" fitHeight="90.0" fitWidth="90.0" onMouseClicked="#buyCoin" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PunchBoard/coin.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="stoneImage1" fitHeight="90.0" fitWidth="90.0" onMouseClicked="#buyStone" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PunchBoard/stone.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="servantImage1" fitHeight="90.0" fitWidth="90.0" onMouseClicked="#buyServant" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PunchBoard/servant.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="shieldImage1" fitHeight="90.0" fitWidth="90.0" onMouseClicked="#buyShield" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PunchBoard/shield.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+                <Label fx:id="coinNum" layoutX="86.0" layoutY="562.0" textFill="#f6ff00">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Label fx:id="stoneNum" layoutX="86.0" layoutY="606.0" textFill="#f6ff00">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Label fx:id="servantNum" layoutX="150.0" layoutY="562.0" textFill="#f6ff00">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Label fx:id="shieldNum" layoutX="150.0" layoutY="606.0" textFill="#f6ff00">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+            <Label fx:id="resetChoice" layoutX="1001.0" layoutY="113.0" onMouseClicked="#resetChoice" text="resetChoice" textFill="#f6ff00" />
+            <Label fx:id="confirm1" layoutX="1011.0" layoutY="312.0" onMouseClicked="#confirmChoice" text="Confirm" textFill="#f6ff00" />
+            <Label fx:id="endBasic" layoutX="1011.0" layoutY="580.0" onMouseClicked="#sendResources" text="Confirm" textFill="#f6ff00" />
+            <Label fx:id="resetChoice2" layoutX="1000.0" layoutY="411.0" onMouseClicked="#resetSelection" text="resetChoice" textFill="#f6ff00" />
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>
