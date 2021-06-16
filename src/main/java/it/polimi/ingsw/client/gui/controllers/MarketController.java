@@ -209,6 +209,7 @@ public class MarketController implements GUIController{
                 else iv.setOpacity(1.0);
             }
         }
+        else for (ImageView iv : shelf4) iv.setImage(null);
         if (myShelves.getShelves().get(4).getResType() != null) {
             r = myShelves.getShelves().get(4).getResType();
             max = myShelves.getShelves().get(4).getCount();
@@ -218,6 +219,7 @@ public class MarketController implements GUIController{
                 else iv.setOpacity(1.0);
             }
         }
+        else for (ImageView iv : shelf5) iv.setImage(null);
     }
 
     public void showMarket() {
@@ -268,6 +270,7 @@ public class MarketController implements GUIController{
             shelvesForSwap();
             back.setDisable(false);
             discard.setDisable(true);
+
         }
         else showResourcesToSelect();
     }
@@ -339,8 +342,9 @@ public class MarketController implements GUIController{
 
 
     public void goToMarket(MouseEvent mouseEvent) {
-        disableArrows();
+        mainController.noMoreActions();
         back.setDisable(true);
+
         boolean row;
         int index;
         Button selected = (Button) (mouseEvent.getTarget());
@@ -506,7 +510,7 @@ public class MarketController implements GUIController{
         for (Button arrow : arrows) arrow.setDisable(false);
     }
 
-    private void disableArrows() {
+    public void disableArrows() {
         for (Button arrow : arrows) arrow.setDisable(true);
     }
 

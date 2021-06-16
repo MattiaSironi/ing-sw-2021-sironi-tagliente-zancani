@@ -147,16 +147,18 @@ public class PayDevCardController implements GUIController {
             for (ImageView iv : shelf4) {
                 iv.setImage(new Image(getClass().getResource("/images/PunchBoard/" + r.toString().toLowerCase() + ".png").toExternalForm()));
                 if (!(shelf4.indexOf(iv) <= max - 1)) iv.setOpacity(0.5);
+                else iv.setOpacity(1.0);
             }
-        }
+        }else for (ImageView iv : shelf4) iv.setImage(null);
         if (myShelves.getShelves().get(4).getResType() != null) {
             r = myShelves.getShelves().get(4).getResType();
             max = myShelves.getShelves().get(4).getCount();
             for (ImageView iv : shelf5) {
                 iv.setImage(new Image(getClass().getResource("/images/PunchBoard/" + r.toString().toLowerCase() + ".png").toExternalForm()));
                 if (!(shelf5.indexOf(iv) <= max - 1)) iv.setOpacity(0.5);
+                else iv.setOpacity(1.0);
             }
-        }
+        }else for (ImageView iv : shelf5) iv.setImage(null);
     }
 
     @Override

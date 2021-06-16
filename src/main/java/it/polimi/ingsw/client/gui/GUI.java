@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.gui.controllers.*;
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.message.ActionMessages.MarketMessage;
 import it.polimi.ingsw.model.Communication;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Turn;
@@ -268,6 +269,13 @@ public class GUI extends Application {
             ((BasicProductionController) nameMapController.get(SceneList.BASICSCENE.getSceneName())).enableHBox();
         });
     }
+
+    public void disableMarket() {
+        Platform.runLater(() -> {
+            ((MarketController) nameMapController.get(SceneList.MARKET.getSceneName())).disableArrows();
+        });
+    }
+
 }
 
 

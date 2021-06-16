@@ -88,6 +88,7 @@ public class PlaceDevCardScene implements GUIController{
     }
 
     public void back(ActionEvent actionEvent) {
+        mainController.noMoreActions();
         mainController.getGui().changeScene(SceneList.MAINSCENE);
     }
 

@@ -545,6 +545,7 @@ public class MainSceneController implements  GUIController {
                 else iv.setOpacity(1.0);
             }
         }
+        else for (ImageView iv : shelf4) iv.setImage(null);
         if (myShelves.getShelves().get(4).getResType() != null) {
             r = myShelves.getShelves().get(4).getResType();
             max = myShelves.getShelves().get(4).getCount();
@@ -553,7 +554,7 @@ public class MainSceneController implements  GUIController {
                 if (!(shelf5.indexOf(iv) <= max - 1)) iv.setOpacity(0.5);
                 else iv.setOpacity(1.0);
             }
-        }
+        }else for (ImageView iv : shelf5) iv.setImage(null);
     }
     public void showStrongbox(){
         coinNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.COIN));
@@ -580,7 +581,7 @@ public class MainSceneController implements  GUIController {
     }
 
     public void useProduction(MouseEvent mouseEvent) {
-//        gui.changeScene(SceneList.GENERALPRODSCENE);
+        gui.changeScene(SceneList.GENERALPRODSCENE);
     }
 
     public void showTokenPlayed(String s) {

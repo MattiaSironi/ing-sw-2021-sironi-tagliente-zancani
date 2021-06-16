@@ -249,6 +249,12 @@ public class MainController extends Observable<Message> implements Observer<Mess
             }
     }
 
+    public void noMoreActions() { //TODO
+        gui.disableMarket();
+        //gui.disableBuy
+        //gui.disableProd
+    }
+
     @Override
     public void setID(int ID) {
         gui.setID(ID);

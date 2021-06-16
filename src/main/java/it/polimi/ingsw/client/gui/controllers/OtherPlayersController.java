@@ -332,7 +332,8 @@ public class OtherPlayersController implements GUIController {
                 if (!(shelf4.indexOf(iv) <= max - 1)) iv.setOpacity(0.5);
                 else iv.setOpacity(1.0);
             }
-        }
+        } else for (ImageView iv : shelf4) iv.setImage(null);
+
         if (myShelves.getShelves().get(4).getResType() != null) {
             r = myShelves.getShelves().get(4).getResType();
             max = myShelves.getShelves().get(4).getCount();
@@ -341,7 +342,8 @@ public class OtherPlayersController implements GUIController {
                 if (!(shelf5.indexOf(iv) <= max - 1)) iv.setOpacity(0.5);
                 else iv.setOpacity(1.0);
             }
-        }
+        } else for (ImageView iv : shelf5) iv.setImage(null);
+
     }
     public void showStrongbox(){
         coinNum.setText("" + mainController.getGame().getPlayerById(getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.COIN));
