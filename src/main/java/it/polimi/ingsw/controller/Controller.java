@@ -80,6 +80,10 @@ public class Controller implements Observer<Message> {
 //                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
 //                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
 //                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+//game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(23);
+//game.setFirstVatican(true);
+//game.setSecondVatican(true);
+
 
                 /* END TESTING */
 

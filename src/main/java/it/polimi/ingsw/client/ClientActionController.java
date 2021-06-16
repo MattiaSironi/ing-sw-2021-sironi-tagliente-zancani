@@ -754,7 +754,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                 if (local) {
                     cli.printToConsole("Lorenzo Il Magnifico won!");
                     cli.printToConsole("Better luck next time!");
-                    System.exit(0);
+
                 } else {
                     if (turn.getPlayerPlayingID() == -1) cli.printToConsole("Lorenzo Il Magnifico won!");
                     else
@@ -958,6 +958,7 @@ public class ClientActionController extends Observable<Message> implements Obser
 
     @Override
     public void update(GameOverMessage message) {
+        System.exit(0);
 
     }
 

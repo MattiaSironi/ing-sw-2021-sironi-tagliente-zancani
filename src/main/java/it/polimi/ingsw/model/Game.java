@@ -284,14 +284,15 @@ public class Game extends Observable<Message> implements Serializable {
     }
 
     public void endTurn(int lastPlayerID) {
-        if(numPlayer == 1) {
+        if(players.size()==1) {
             if (gameOver) {
                 setTurn(findSoloWinner(), ActionPhase.GAME_OVER);
+                notify(new GameOverMessage(0));
             } else {
                 handleSoloActionToken();
                 if (gameOver) {
                     setTurn(findSoloWinner(), ActionPhase.GAME_OVER);
-                    notify(new GameOverMessage(0));
+                    notify(new GameOverMessage(-1));
 
 
                 } else setTurn(0, ActionPhase.WAITING_FOR_ACTION);

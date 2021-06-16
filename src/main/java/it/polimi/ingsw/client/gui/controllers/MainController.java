@@ -223,6 +223,7 @@ public class MainController extends Observable<Message> implements Observer<Mess
                 gui.gameOver(false);
             }
             gui.changeScene(SceneList.GAMEOVERSCENE);
+            return;
         }
             gui.printMessage(turn);
     }
