@@ -181,11 +181,11 @@ public class ShelfWarehouse implements Printable, Serializable {
     }
 
     public void payFromFirstExtraShelf(){
-        this.shelves.get(4).setCount(this.shelves.get(4).getCount() - 1);
+        this.shelves.get(3).setCount(this.shelves.get(3).getCount() - 1);
     }
 
     public void payFromSecondExtraShelf(){
-        this.shelves.get(5).setCount(this.shelves.get(5).getCount() - 1);
+        this.shelves.get(4).setCount(this.shelves.get(4).getCount() - 1);
     }
 
     public ArrayList<Shelf> getShelves() {

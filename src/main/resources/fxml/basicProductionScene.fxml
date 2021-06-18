@@ -86,7 +86,7 @@
                         <DropShadow />
                     </effect>
                 </ImageView>
-            <HBox fx:id="choicesHBox" layoutX="860.0" layoutY="456.0" prefHeight="100.0" prefWidth="200.0">
+            <HBox layoutX="859.0" layoutY="160.0" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <ImageView fx:id="coinImage" fitHeight="90.0" fitWidth="90.0" onMouseClicked="#chooseCoin" preserveRatio="true">
                      <image>
@@ -123,7 +123,7 @@
             <ImageView fx:id="shelf4pos2" fitHeight="90.0" fitWidth="30.0" layoutX="117.0" layoutY="522.0" preserveRatio="true" />
             <ImageView fx:id="shelf5pos1" fitHeight="90.0" fitWidth="30.0" layoutX="149.0" layoutY="522.0" preserveRatio="true" />
             <ImageView fx:id="shelf5pos2" fitHeight="90.0" fitWidth="30.0" layoutX="181.0" layoutY="522.0" preserveRatio="true" />
-            <HBox layoutX="860.0" layoutY="160.0" prefHeight="100.0" prefWidth="200.0">
+            <HBox fx:id="choicesHBox" layoutX="860.0" layoutY="456.0" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <ImageView fx:id="coinImage1" fitHeight="90.0" fitWidth="90.0" onMouseClicked="#buyCoin" preserveRatio="true">
                      <image>
@@ -167,10 +167,23 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-            <Label fx:id="resetChoice" layoutX="1001.0" layoutY="113.0" onMouseClicked="#resetChoice" text="resetChoice" textFill="#f6ff00" />
+            <Label fx:id="resetChoice" layoutX="1001.0" layoutY="386.0" onMouseClicked="#resetChoice" text="resetChoice" textFill="#f6ff00" />
             <Label fx:id="confirm1" layoutX="1011.0" layoutY="312.0" onMouseClicked="#confirmChoice" text="Confirm" textFill="#f6ff00" />
             <Label fx:id="endBasic" layoutX="1011.0" layoutY="580.0" onMouseClicked="#sendResources" text="Confirm" textFill="#f6ff00" />
-            <Label fx:id="resetChoice2" layoutX="1000.0" layoutY="411.0" onMouseClicked="#resetSelection" text="resetChoice" textFill="#f6ff00" />
+            <Label fx:id="resetChoice2" layoutX="1000.0" layoutY="110.0" onMouseClicked="#resetSelection" text="resetChoice" textFill="#f6ff00" />
+            <ImageView fx:id="back" fitHeight="117.0" fitWidth="151.0" layoutX="28.0" layoutY="16.0" onMouseClicked="#goBack" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+                <image>
+                    <Image url="@../images/nextArrow.png" />
+                </image>
+            </ImageView>
+                <Label fx:id="comMessages" alignment="TOP_LEFT" layoutX="979.0" layoutY="40.0" prefHeight="63.0" prefWidth="277.0" textFill="#f8ff03">
+                    <font>
+                        <Font size="14.0" />
+                    </font></Label>
+                <Label fx:id="phase" alignment="TOP_LEFT" layoutX="979.0" layoutY="9.0" prefHeight="63.0" prefWidth="277.0" textFill="#05ffb4">
+                    <font>
+                        <Font size="14.0" />
+                    </font></Label>
             </children>
         </Pane>
     </children>

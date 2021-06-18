@@ -761,9 +761,10 @@ public class ControllerTests {
         game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 50);
 
         game.getTurn().setPhase(ActionPhase.WAITING_FOR_ACTION);
-        controller.update(new BasicProductionMessage(null, null, ResourceType.STONE, 0, false));
-        game.getTurn().setPhase(ActionPhase.BASIC);
         controller.update(new BasicProductionMessage(ResourceType.COIN, ResourceType.SERVANT, null, 0, false));
+        game.getTurn().setPhase(ActionPhase.BASIC);
+
+        controller.update(new BasicProductionMessage(null, null, ResourceType.STONE, 0, false));
         game.getTurn().setPhase(ActionPhase.PAYMENT);
         controller.update(new BasicProductionMessage(null, null, null, 0, false));
         controller.update(new BasicProductionMessage(null, null, null, 0, false));

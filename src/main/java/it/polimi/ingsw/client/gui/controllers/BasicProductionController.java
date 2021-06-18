@@ -52,6 +52,8 @@ public class BasicProductionController implements GUIController{
     public Label label2;
     public Label endBasic;
     public Label resetChoice2;
+    public Label comMessages;
+    public Label phase;
     private MainController mainController;
     private ArrayList<ImageView> inputChoices;
     private ArrayList<ImageView> outputChoices;
@@ -77,7 +79,12 @@ public class BasicProductionController implements GUIController{
         showShelves();
         showDevCard();
         showStrongbox();
-        resetChoice2.setDisable(true);
+        resetChoice.setDisable(true);
+        paid1.setImage(null);
+        paid2.setImage(null);
+        result.setImage(null);
+        newResource = null;
+        chosenResources = new ArrayList<>();
     }
 
     public void showStrongbox(){
@@ -176,12 +183,18 @@ public class BasicProductionController implements GUIController{
 
     @Override
     public void print(Turn turn) {
+        if (turn.getPlayerPlayingID() != mainController.getGui().getID()) {
 
+            phase.setText(this.mainController.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
+        } else {
+            phase.setText("Your turn");
+
+        }
     }
 
     @Override
     public void print(Communication communication) {
-
+        comMessages.setText(communication.getCommunication().getString());
     }
 
     @Override
@@ -210,11 +223,11 @@ public class BasicProductionController implements GUIController{
         if(chosenResources.size() == 0) {
             chosenResources.add(ResourceType.STONE);
             paid1.setImage(new Image(getClass().getResource("/images/PunchBoard/stone.png").toExternalForm()));
-            confirm1.setDisable(false);
         }
         else if (chosenResources.size() == 1){
             chosenResources.add(ResourceType.STONE);
             paid2.setImage(new Image(getClass().getResource("/images/PunchBoard/stone.png").toExternalForm()));
+            confirm1.setDisable(false);
         }
     }
 
@@ -226,6 +239,7 @@ public class BasicProductionController implements GUIController{
         else if (chosenResources.size() == 1){
             chosenResources.add(ResourceType.SERVANT);
             paid2.setImage(new Image(getClass().getResource("/images/PunchBoard/servant.png").toExternalForm()));
+            confirm1.setDisable(false);
         }
     }
 
@@ -237,41 +251,34 @@ public class BasicProductionController implements GUIController{
         else if (chosenResources.size() == 1){
             chosenResources.add(ResourceType.SHIELD);
             paid2.setImage(new Image(getClass().getResource("/images/PunchBoard/shield.png").toExternalForm()));
+            confirm1.setDisable(false);
         }
     }
 
     public void buyCoin(MouseEvent mouseEvent) {
         newResource = ResourceType.COIN;
         result.setImage(new Image(getClass().getResource("/images/PunchBoard/coin.png").toExternalForm()));
-        confirm1.setDisable(false);
     }
 
     public void buyStone(MouseEvent mouseEvent) {
         newResource = ResourceType.STONE;
         result.setImage(new Image(getClass().getResource("/images/PunchBoard/stone.png").toExternalForm()));
-        confirm1.setDisable(false);
     }
 
     public void buyServant(MouseEvent mouseEvent) {
         newResource = ResourceType.SERVANT;
         result.setImage(new Image(getClass().getResource("/images/PunchBoard/servant.png").toExternalForm()));
-        confirm1.setDisable(false);
     }
 
     public void buyShield(MouseEvent mouseEvent) {
         newResource = ResourceType.SHIELD;
         result.setImage(new Image(getClass().getResource("/images/PunchBoard/shield.png").toExternalForm()));
-        confirm1.setDisable(false);
     }
 
     public void resetChoice(MouseEvent mouseEvent) {
-        paid1.setImage(null);
-        paid2.setImage(null);
         result.setImage(null);
-
         newResource = null;
         confirm1.setDisable(true);
-        chosenResources = new ArrayList<>();
     }
 
     public void enableHBox(){
@@ -279,19 +286,22 @@ public class BasicProductionController implements GUIController{
         label2.setVisible(true);
         choicesHBox.setDisable(false);
         choicesHBox.setVisible(true);
-        resetChoice.setDisable(true);
-        resetChoice2.setDisable(false);
+        resetChoice.setDisable(false);
         confirm1.setDisable(true);
-        resetChoice2.setDisable(false);
+        resetChoice2.setDisable(true);
         endBasic.setDisable(false);
     }
 
     public void confirmChoice(MouseEvent mouseEvent) {
-        mainController.send(new BasicProductionMessage(null, null, newResource, mainController.getGui().getID(), false));
+        mainController.send(new BasicProductionMessage(chosenResources.get(0), chosenResources.get(1), null, mainController.getGui().getID(), false));
+        back.setDisable(true);
     }
 
     public void sendResources(MouseEvent mouseEvent) {
-        mainController.send(new BasicProductionMessage(chosenResources.get(0), chosenResources.get(1), null, mainController.getGui().getID(), false));
+
+        mainController.send(new BasicProductionMessage(null, null, newResource, mainController.getGui().getID(), false));
+        back.setDisable(false);
+
     }
 
     public void resetSelection(MouseEvent mouseEvent) {

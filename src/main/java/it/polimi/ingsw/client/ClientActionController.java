@@ -154,7 +154,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                 switch (prod) {
                     case 1 -> {
                         valid = true;
-                        chooseResToProduce(true);
+                        chooseBasicRes();
                     }
                     case 2 -> {
                         valid = true;
@@ -778,8 +778,6 @@ public class ClientActionController extends Observable<Message> implements Obser
                     }
 
                     case A_PAYMENT -> {
-                        System.out.println("apay");
-                        noMoreActions();
                         activateProd();
                     }
 
@@ -792,7 +790,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                     }
                     case BASIC -> {
                         noMoreActions();
-                        chooseBasicRes();
+                        chooseResToProduce(true);
                     }
                     case SELECT_RES -> {
                         noMoreActions();

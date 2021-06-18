@@ -20,7 +20,10 @@ public class ProductionController implements GUIController{
     public Label servantNum;
     public Label shieldNum;
     public Label end;
+    public Label comMessages;
+    public Label phase;
     private MainController mainController;
+    private boolean enableEndAction;
 
     @Override
     public void setMainController(MainController m) {
@@ -29,6 +32,10 @@ public class ProductionController implements GUIController{
 
     @Override
     public void setup(int num) {
+        if(enableEndAction)
+            end.setDisable(false);
+        else
+            end.setDisable(true);
         coinNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getEarnedCoin());
         stoneNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getEarnedStone());
         servantNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getEarnedServant());
@@ -37,12 +44,18 @@ public class ProductionController implements GUIController{
 
     @Override
     public void print(Turn turn) {
+        if (turn.getPlayerPlayingID() != mainController.getGui().getID()) {
 
+            phase.setText(this.mainController.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers());
+        } else {
+            phase.setText("Your turn");
+
+        }
     }
 
     @Override
     public void print(Communication communication) {
-
+        comMessages.setText(communication.getCommunication().getString());
     }
 
     @Override
@@ -60,9 +73,11 @@ public class ProductionController implements GUIController{
     }
 
     public void useDevProduction(ActionEvent actionEvent) {
+        enableEndAction = true;
     }
 
     public void useLeaderProduction(ActionEvent actionEvent) {
+        enableEndAction = true;
     }
 
     public void goBack(MouseEvent mouseEvent) {
@@ -70,6 +85,16 @@ public class ProductionController implements GUIController{
     }
 
     public void endProductionPhase(MouseEvent mouseEvent) {
+        back.setDisable(false);
+        back.setMouseTransparent(false);
+        end.setDisable(true);
+        end.setMouseTransparent(true);
         mainController.send(new ProductionMessage(mainController.getGui().getID(), true, -1, false));
+    }
+
+    public void disableBackButton() {
+        back.setDisable(true);
+        back.setMouseTransparent(true);
+        enableEndAction = true;
     }
 }

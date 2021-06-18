@@ -244,6 +244,14 @@
                   </LinearGradient>
                </textFill>
             </Label>
+            <Label fx:id="comMessages" alignment="TOP_LEFT" layoutX="979.0" layoutY="14.0" prefHeight="63.0" prefWidth="277.0" textFill="#f8ff03">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="phase" alignment="TOP_LEFT" layoutX="979.0" layoutY="58.0" prefHeight="63.0" prefWidth="277.0" textFill="#05ffb4">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
          </children>
       </Pane>
    </children>

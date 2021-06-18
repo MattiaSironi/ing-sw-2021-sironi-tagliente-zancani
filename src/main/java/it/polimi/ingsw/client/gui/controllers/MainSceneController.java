@@ -330,6 +330,8 @@ public class MainSceneController implements  GUIController {
         leader1.setDisable(true);
         leader2.setDisable(true);
         endTurnButton.setDisable(true);
+        productionButton.setDisable(true);
+        productionButton.setMouseTransparent(true);
         groupShelves();
         disableShelves();
     }
@@ -343,6 +345,8 @@ public class MainSceneController implements  GUIController {
         leader1.setDisable(false);
         leader2.setDisable(false);
         endTurnButton.setDisable(false);
+        productionButton.setDisable(false);
+        productionButton.setMouseTransparent(false);
         groupShelves();
         enableShelves();
     }
@@ -586,5 +590,10 @@ public class MainSceneController implements  GUIController {
 
     public void showTokenPlayed(String s) {
         tokenPlayed.setImage(new Image(getClass().getResource("/images/PunchBoard/" + s + ".png").toExternalForm()));
+    }
+
+    public void disableProductionButton() {
+        productionButton.setDisable(true);
+        productionButton.setMouseTransparent(true);
     }
 }

@@ -276,6 +276,17 @@ public class GUI extends Application {
         });
     }
 
+    public void disableProduction() {
+        Platform.runLater(() -> {
+            ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).disableProductionButton();
+        });
+    }
+
+    public void disableBackProduction() {
+        Platform.runLater(() -> {
+            ((ProductionController) nameMapController.get(SceneList.GENERALPRODSCENE.getSceneName())).disableBackButton();
+        });
+    }
 }
 
 

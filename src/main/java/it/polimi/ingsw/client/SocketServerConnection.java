@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class SocketServerConnection {
@@ -74,7 +75,7 @@ public class SocketServerConnection {
             System.out.println("Connection established");
             socketListener.start();
             pingSender.start();
-        } catch (ConnectException e) {
+        } catch (ConnectException | UnknownHostException e) {
 
             System.out.println("Server not available at this IP address. Closing the application...");
             System.exit(0);

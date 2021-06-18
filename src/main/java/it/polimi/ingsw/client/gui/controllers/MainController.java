@@ -210,6 +210,7 @@ public class MainController extends Observable<Message> implements Observer<Mess
             }
         }
         else if(turn.getPhase() == ActionPhase.B_PAYMENT && turn.getPlayerPlayingID() == gui.getID()){
+            noMoreActions();
             gui.changeScene(SceneList.PAYDEVCARDSCENE);
         }
         else if(turn.getPhase() == ActionPhase.CHOOSE_SLOT && turn.getPlayerPlayingID() == gui.getID()){
@@ -219,6 +220,8 @@ public class MainController extends Observable<Message> implements Observer<Mess
             gui.activateChoiceBox();
         }
         else if(turn.getPhase() == ActionPhase.PAYMENT && turn.getPlayerPlayingID() == gui.getID()){
+            noMoreActions();
+            gui.disableBackProduction();
             gui.changeScene(SceneList.PAYDEVCARDSCENE);
         }
         else if(turn.getPhase() == ActionPhase.A_PAYMENT && turn.getPlayerPlayingID() == gui.getID()){
@@ -252,7 +255,7 @@ public class MainController extends Observable<Message> implements Observer<Mess
     public void noMoreActions() { //TODO
         gui.disableMarket();
         //gui.disableBuy
-        //gui.disableProd
+        gui.disableProduction();
     }
 
     @Override

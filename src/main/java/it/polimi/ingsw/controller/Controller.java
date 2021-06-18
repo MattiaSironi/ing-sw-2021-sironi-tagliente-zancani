@@ -74,10 +74,10 @@ public class Controller implements Observer<Message> {
 //                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
 //                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 10);
 //                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 10);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
 //game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(23);
 //game.setFirstVatican(true);
 //game.setSecondVatican(true);
@@ -697,10 +697,10 @@ public class Controller implements Observer<Message> {
 
         if (!game.getPlayerById(ID).getPersonalBoard().totalPaymentChecker(resArray)) {
             game.setCommunication(ID, CommunicationList.NOT_ENOUGH_RES);
-            game.setTurn(game.getTurn().getPlayerPlayingID(), game.getTurn().getPhase());
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT);
         } else {
             game.setResToPay(resources);
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.PAYMENT);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.BASIC);
         }
     }
 
@@ -877,17 +877,17 @@ public class Controller implements Observer<Message> {
             game.setCommunication(message.getID(), CommunicationList.INVALID_MOVE);
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
         } else {
-            if (game.getTurn().getPhase().equals(ActionPhase.WAITING_FOR_ACTION) || game.getTurn().getPhase().equals(ActionPhase.A_PAYMENT)) {
+            if (game.getTurn().getPhase().equals((ActionPhase.BASIC))) {
                 if (!game.getPlayerById(message.getID()).isBasicProdDone()) {
                     game.getPlayerById(message.getID()).setBasicProdDone(true);
                     setBoughtRes(message.getBoughtRes(), game.getTurn().getPlayerPlayingID());
-                    game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.BASIC);
+                    game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.PAYMENT);
                 } else {
                     game.setCommunication(message.getID(), CommunicationList.INVALID_MOVE);
                     game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT);
                 }
 
-            } else if (game.getTurn().getPhase().equals((ActionPhase.BASIC))) {
+            } else if (game.getTurn().getPhase().equals(ActionPhase.WAITING_FOR_ACTION) || game.getTurn().getPhase().equals(ActionPhase.A_PAYMENT)) {
                 ArrayList<ResourceType> resources = new ArrayList<>();
                 resources.add(message.getPaidRes1());
                 resources.add(message.getPaidRes2());
