@@ -8,4 +8,5 @@ public interface UI {
 
     void handleAction(Object message);
 
+    void disconnect();
 }

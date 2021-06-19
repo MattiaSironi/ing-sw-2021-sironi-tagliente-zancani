@@ -4,6 +4,7 @@ package it.polimi.ingsw.client.cli;
 import it.polimi.ingsw.client.ClientActionController;
 import it.polimi.ingsw.client.ModelMultiplayerView;
 import it.polimi.ingsw.client.SocketServerConnection;
+import it.polimi.ingsw.constants.Color;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Game;
 
@@ -13,8 +14,8 @@ import java.util.Scanner;
 public class CLI {
     private final Scanner in = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException {
-        System.out.println("Choose MODE:\n0->SINGLEPLAYER\n1->MULTIPLAYER");
+    public static void main(String[] args) throws IOException { //TODO PRINT TITLE
+        System.out.println("Choose MODE:\n0->LOCAL\n1->ONLINE");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         if (input.equals("0")) {
@@ -55,12 +56,10 @@ public class CLI {
 
     public synchronized void printToConsole(String message) {
         System.out.println(message);
-
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            System.exit(0);
-        }
-
     }
+
+    public synchronized void printErrorToConsole(String message) {
+        System.out.println(Color.ANSI_RED + message + Color.ANSI_RESET);
+    }
+
 }

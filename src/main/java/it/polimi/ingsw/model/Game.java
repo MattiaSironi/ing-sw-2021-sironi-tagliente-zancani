@@ -586,28 +586,33 @@ public class Game extends Observable<Message> implements Serializable {
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getLeaderChosen(), 7, ID));
     }
 
-    public void setNewPlayerCards (int ID, LeaderCard lc){
+    public  synchronized void setNewPlayerCards (int ID, LeaderCard lc) {
+        try {
 
-        int i=0;
-        for(LeaderCard l : getPlayerById(ID).getLeaderDeck().getCards())
-        {
-            if(l.equals(lc))
-                break;
-            else
-                i++;
+            int i = 0;
+            for (LeaderCard l : getPlayerById(ID).getLeaderDeck().getCards()) {
+                if (l.equals(lc))
+                    break;
+                else
+                    i++;
+            }
+
+            getPlayerById(ID).getLeaderDeck().getCards().remove(i);
+            getPlayerById(ID).getLeaderDeck().print();
+            getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(lc); //aggiunge ai leader attivi
+            getPlayerById(ID).getPersonalBoard().getActiveLeader().print();
+
+            notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
+            notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck().clone(), 8, ID)));
+            notify((new ObjectMessage(getPlayerById(ID).getPersonalBoard().getActiveLeader().clone(), 6, ID)));
+            notify(new ObjectMessage(this.getPlayerById(ID).clone(), 15, ID));
+
+            setTurn(getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
         }
-
-        getPlayerById(ID).getLeaderDeck().getCards().remove(i);
-        getPlayerById(ID).getLeaderDeck().print();
-        getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().add(lc); //aggiunge ai leader attivi
-        getPlayerById(ID).getPersonalBoard().getActiveLeader().print();
-
-        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
-        notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck().clone(), 8, ID)));
-        notify((new ObjectMessage(getPlayerById(ID).getPersonalBoard().getActiveLeader().clone(),6,ID)));
-        notify(new ObjectMessage(this.getPlayerById(ID).clone(),15,ID));
-
-        setTurn(getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
+        catch (IndexOutOfBoundsException e) {
+            setCommunication(ID, CommunicationList.INVALID_MOVE);
+            setTurn(getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
+        }
     }
 
 

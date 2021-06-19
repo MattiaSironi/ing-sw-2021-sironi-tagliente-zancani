@@ -122,10 +122,12 @@ public class SocketServerConnection {
     public synchronized void closeConnection() throws IOException {
         if (!socket.isClosed()) {
             System.out.println("Game is ended. See you next time!");
+            ui.disconnect();
 
             socketIn.close();
             socketOut.close();
             socket.close();
+
         }
     }
 

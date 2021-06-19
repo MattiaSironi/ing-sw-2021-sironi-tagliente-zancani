@@ -421,7 +421,7 @@ public class MainSceneController implements  GUIController {
 
     public void endTurn(MouseEvent mouseEvent) {
         mainController.setFirstAction(false);
-        mainController.send(new EndTurnMessage(gui.getID())); //todo
+        mainController.send(new EndTurnMessage(gui.getID()));
     }
 
 

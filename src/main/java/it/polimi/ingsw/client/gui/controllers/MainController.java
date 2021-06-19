@@ -114,6 +114,8 @@ public class MainController extends Observable<Message> implements Observer<Mess
         }
     }
 
+
+
     public GUI getGui() {
         return gui;
     }
@@ -255,10 +257,20 @@ public class MainController extends Observable<Message> implements Observer<Mess
             }
     }
 
-    public void noMoreActions() { //TODO
+    public void noMoreActions() {
         gui.disableMarket();
-        //gui.disableBuy
         gui.disableProduction();
+    }
+    @Override
+    public void disconnect() {
+        try {
+            gui.stop();
+        }
+        catch (Exception e) {
+            System.out.println("Error closing app!");
+        }
+
+
     }
 
     @Override

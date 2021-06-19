@@ -71,7 +71,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                 valid = true;
                 cli.printToConsole("Number of players set to " + numPlayers);
             } else {
-                cli.printToConsole("Error! Number must be between 1 and 4");
+                cli.printErrorToConsole("Error! Number must be between 1 and 4");
             }
         } while (!valid);
         send(new ChooseNumberOfPlayer(numPlayers));
@@ -102,7 +102,7 @@ public class ClientActionController extends Observable<Message> implements Obser
 
 
                             // do things
-                        } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
+                        } else cli.printErrorToConsole("You cannot do this move twice or more in a single turn!");
                     }
 
                     case B -> {
@@ -110,20 +110,20 @@ public class ClientActionController extends Observable<Message> implements Obser
                             actionEnded = chooseCard();
 
                             // do things
-                        } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
+                        } else cli.printErrorToConsole("You cannot do this move twice or more in a single turn!");
                     }
                     case A -> {
                         if (Actions.A.isEnable()) {
                             activateProd();
                             actionEnded = true;
-                        } else cli.printToConsole("You cannot do this move twice or more in a single turn!");
+                        } else cli.printErrorToConsole("You cannot do this move twice or more in a single turn!");
                     }
                     case SM -> mmv.printMarket();
                     case SF -> printFaithTrack();
                     case SD -> this.mmv.printDevMatrix();
                     case SP -> printProd();
                     case SL -> actionEnded = printLeaders();
-                    case SR -> /*mmv.printShelves(0);*/ printShelves();
+                    case SR ->  printShelves();
                     case MR -> {
 
                         actionEnded = manageResources();
@@ -133,10 +133,10 @@ public class ClientActionController extends Observable<Message> implements Obser
                         resetEnable();
                         send(new EndTurnMessage(ID));
                     }
-                    default -> cli.printToConsole("Invalid input");
+                    default -> cli.printErrorToConsole("Invalid input");
                 }
             } else
-                cli.printToConsole("Invalid input");
+                cli.printErrorToConsole("Invalid input");
         }
     }
 
@@ -149,7 +149,7 @@ public class ClientActionController extends Observable<Message> implements Obser
         while (!valid) {
             String input = cli.readFromInput().replaceAll("[^0-9]", "");
             if (input.equals(""))
-                cli.printToConsole("Invalid input, try again");
+                cli.printErrorToConsole("Invalid input, try again");
             else {
                 int prod = Integer.parseInt(input);
                 switch (prod) {
@@ -166,7 +166,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                         try {
                             useDevProduction();
                         }catch(IndexOutOfBoundsException e){
-                            cli.printToConsole("You do not have any development card!");
+                            cli.printErrorToConsole("You do not have any development card!");
                             activateProd();
                         }
                     }
@@ -176,7 +176,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                     }
                     default -> {
                         valid = false;
-                        cli.printToConsole("Invalid input, try again");
+                        cli.printErrorToConsole("Invalid input, try again");
                     }
                 }
             }
@@ -208,7 +208,7 @@ public class ClientActionController extends Observable<Message> implements Obser
             input = cli.readFromInput().replaceAll("[^0-9]", "");
             if (!input.equals("") && input.length() < 10) tempID = Integer.parseInt(input);
             if (mmv.getGame().getPlayerById(tempID) == null)
-                cli.printToConsole("there is no player with this ID associated. try another ID");
+                cli.printErrorToConsole("there is no player with this ID associated. try another ID");
             else valid = true;
         }
         return tempID;
@@ -233,8 +233,8 @@ public class ClientActionController extends Observable<Message> implements Obser
                 index = Integer.parseInt(input.replaceAll("[^0-9]", ""));
                 if ((row && index >= 1 && index <= 3) || (!row && index >= 1 && index <= 4)) {
                     valid = true;
-                } else cli.printToConsole("Invalid int, you selected " + index);
-            } else cli.printToConsole("Invalid command");
+                } else cli.printErrorToConsole("Invalid int, you selected " + index);
+            } else cli.printErrorToConsole("Invalid command");
         }
         noMoreActions();
         send(new MarketMessage(row, index - 1, ID));
@@ -250,7 +250,7 @@ public class ClientActionController extends Observable<Message> implements Obser
         try {
             index = Integer.parseInt(input);
             if (!(index >= 0 && index <= 12)) {
-                cli.printToConsole("Invalid input");
+                cli.printErrorToConsole("Invalid input");
                 return false;
             }
             cli.printToConsole("This card has cost:" + mmv.getGame().getBoard().getMatrix().getDevDecks().get(index - 1).getCards().get(0).getCostRes()[0]
@@ -264,14 +264,14 @@ public class ClientActionController extends Observable<Message> implements Obser
                 send(new BuyDevCardMessage(index - 1, ID, false, -1));
                 return true;
             } else if (input.equalsIgnoreCase("n")) {
-                cli.printToConsole("Aborted");
+                cli.printErrorToConsole("Aborted");
                 return false;
             } else {
-                cli.printToConsole("Invalid input, try again");
+                cli.printErrorToConsole("Invalid input, try again");
                 return false;
             }
         }catch(NumberFormatException  | IndexOutOfBoundsException e){
-            cli.printToConsole("Invalid input, try again!");
+            cli.printErrorToConsole("Invalid input, try again!");
             return false;
         }
     }
@@ -314,7 +314,7 @@ public class ClientActionController extends Observable<Message> implements Obser
             else
                 chooseBasicRes();
         } catch(PatternSyntaxException | ArrayIndexOutOfBoundsException e){
-            cli.printToConsole("Invalid Input, try again!");
+            cli.printErrorToConsole("Invalid Input, try again!");
             chooseBasicRes();
         }
     }
@@ -328,7 +328,7 @@ public class ClientActionController extends Observable<Message> implements Obser
             int index = Integer.parseInt(input);
             send(new LeaderProductionMessage(index - 1, ID, null));
         } else {
-            cli.printToConsole("Invalid input, try again");
+            cli.printErrorToConsole("Invalid input, try again");
             useLeaderProduction();
         }
     }
@@ -348,7 +348,7 @@ public class ClientActionController extends Observable<Message> implements Obser
             } else if (input.equalsIgnoreCase("n")) {
                 discardRes(res);
                 valid = true;
-            } else cli.printToConsole("Invalid input! Retry!");
+            } else cli.printErrorToConsole("Invalid input! Retry!");
         }
     }
 
@@ -367,7 +367,7 @@ public class ClientActionController extends Observable<Message> implements Obser
 
     private void discardRes(ResourceType res) {
         send(new PlaceResourceMessage(res, -1, ID, false, true));
-        cli.printToConsole("Other players will receive one faith point.");
+        cli.printErrorToConsole("Other players will receive one faith point.");
     }
 
     public void pay() {
@@ -382,7 +382,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                     valid = true;
                 }
                 case "S" -> valid = true;
-                default -> cli.printToConsole("Invalid input");
+                default -> cli.printErrorToConsole("Invalid input");
             }
         }
         if (this.mmv.getGame().getTurn().getPhase() == ActionPhase.B_PAYMENT)
@@ -404,7 +404,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                 send(new BuyDevCardMessage(-1, ID, false, chosenIndex - 1));
             }
         } catch(NumberFormatException e){
-            cli.printToConsole("Invalid input, try again");
+            cli.printErrorToConsole("Invalid input, try again");
             placeDevCard();
         }
     }
@@ -425,7 +425,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                 s1 = Integer.parseInt(s);
             }
             if (1 <= s1 && s1 <= 5) valid = true;
-            else cli.printToConsole("Invalid input! retry!");
+            else cli.printErrorToConsole("Invalid input! retry!");
         }
         send(new PlaceResourceMessage(res, s1 - 1, ID, initialPhase, false));
     }
@@ -458,7 +458,7 @@ public class ClientActionController extends Observable<Message> implements Obser
 
             if (s1 != s2 && s1 >= 1 && s1 <= 5 && s2 >= 1 && s2 <= 5) {
                 valid = true;
-            } else cli.printToConsole("Invalid input! Retry!");
+            } else cli.printErrorToConsole("Invalid input! Retry!");
 
         }
         send(new ManageResourceMessage(s1 - 1, s2 - 1, ID));
@@ -514,9 +514,9 @@ public class ClientActionController extends Observable<Message> implements Obser
                             send(new PlayLeaderMessage(ID, idx, true, mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1), false));
                             return true;
                         } else
-                            cli.printToConsole("Invalid input");
+                            cli.printErrorToConsole("Invalid input");
                     } else
-                        cli.printToConsole("you already have 2 active leaders");
+                        cli.printErrorToConsole("you already have 2 active leaders");
                     valid = true;
 
                 } else if (input.equalsIgnoreCase("d")) {
@@ -532,14 +532,14 @@ public class ClientActionController extends Observable<Message> implements Obser
                         send(new PlayLeaderMessage(ID, idx, false, this.mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().get(idx - 1), false));
                         return true;
                     } else {
-                        cli.printToConsole("Invalid input");
+                        cli.printErrorToConsole("Invalid input");
                         if (idx > mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().size())
                             return false;
                     }
                     valid = true;
                 } else if (input.equalsIgnoreCase("x")) {
                     valid = true;
-                } else cli.printToConsole("Invalid input! Retry!");
+                } else cli.printErrorToConsole("Invalid input! Retry!");
             }
         }
         return false;
@@ -558,7 +558,7 @@ public class ClientActionController extends Observable<Message> implements Obser
             if (input.equals("") || input.length() != 1 ) idx = -1;
             else idx = Integer.parseInt(input);
             if (idx > 0 && idx <= mmv.getGame().getPlayerById(ID).getLeaderDeck().getCards().size()) valid = true;
-            else cli.printToConsole("Invalid value!");
+            else cli.printErrorToConsole("Invalid value!");
 
 
         }
@@ -679,6 +679,11 @@ public class ClientActionController extends Observable<Message> implements Obser
             handleObject((ObjectMessage) o);
         }
 
+    }
+
+    @Override
+    public void disconnect() {
+        System.exit(0);
     }
 
 
@@ -866,7 +871,7 @@ public class ClientActionController extends Observable<Message> implements Obser
             if (possibleRes.stream().anyMatch(v -> v.name().equals(finalInput.toUpperCase()))) {
                 selectedRes = ResourceType.valueOf(finalInput.toUpperCase());
                 valid = true;
-            } else cli.printToConsole("Invalid input, try again!");
+            } else cli.printErrorToConsole("Invalid input, try again!");
         }
         return selectedRes;
     }

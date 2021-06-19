@@ -9,9 +9,11 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Turn;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -96,6 +98,7 @@ public class GUI extends Application {
         stage.setScene(currentScene);
         stage.setResizable(false);
         stage.show();
+
     }
 
     public void setup() {
@@ -170,7 +173,7 @@ public class GUI extends Application {
         });
     }
 
-    public void showShelves() { //TODO FOR OTHERS PLAYERS and OTHER SCENES
+    public void showShelves() {
         Platform.runLater(() -> {
             ((MarketController) nameMapController.get(SceneList.MARKET.getSceneName())).showShelves();
             ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showShelves();

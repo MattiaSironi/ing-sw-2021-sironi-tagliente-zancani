@@ -103,7 +103,7 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     }
 
     public synchronized void closeConnection() {
-        //send("Connection closed!");
+
         active = false;
         try {
             socket.close();
@@ -127,7 +127,7 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     public void run() {
 
         try {
-            out = new ObjectOutputStream(socket.getOutputStream()); // SE LI INVERTO NON FUNZIONA?
+            out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
             socketListener.start();
             pingSender.start();
