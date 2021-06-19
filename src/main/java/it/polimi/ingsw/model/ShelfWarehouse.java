@@ -198,6 +198,7 @@ public class ShelfWarehouse implements Printable, Serializable {
 
     @Override
     public void print() {
+        System.out.println("======================");
 
         for (Shelf s : this.shelves)  {
              if (shelves.indexOf(s) <=2) {
@@ -209,6 +210,7 @@ public class ShelfWarehouse implements Printable, Serializable {
              else if(s.getResType()==null) System.out.println("Special shelf "  + (this.shelves.indexOf(s) + 1) + " is not available.");
              else System.out.println("Special Shelf " + (this.shelves.indexOf(s) + 1) + " contains " + s.getCount() + " " + s.getResType().printResourceColouredName() + "(s)");
         }
+        System.out.println("======================");
     }
 
 

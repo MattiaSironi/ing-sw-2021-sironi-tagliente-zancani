@@ -116,10 +116,12 @@ public class Strongbox implements Printable, Serializable {
 
     @Override
     public void print() {
+        System.out.println("======================");
         System.out.println("STRONGBOX: ");
         for (Shelf s : this.getInfinityShelf()) {
                 System.out.println(s.getCount() + " " + s.getResType().printResourceColouredName() + "(s)");
         }
+        System.out.println("======================");
     }
 
     public Strongbox clone() {

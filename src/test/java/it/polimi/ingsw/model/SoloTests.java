@@ -25,6 +25,7 @@ public class SoloTests {
         controller = new Controller(game);
         game.getPlayers().add(new Player(0, "GIGI"));
         game.getPlayerById(0).getPersonalBoard().getFaithTrack().setLoriPos(0);
+        game.setTurn(0, ActionPhase.WAITING_FOR_ACTION);
 
     }
 
@@ -112,4 +113,125 @@ public class SoloTests {
         assertEquals(-1 , game.findSoloWinner());
 
     }
+
+    @Test
+    @DisplayName("player wins")
+    public void playerWins() {
+        game.setFirstVatican(true);
+        game.setSecondVatican(true);
+        game.moveFaithPosByID(0,24);
+        controller.update(new EndTurnMessage(0));
+        assertEquals(true, game.isGameOver());
+        assertEquals(0, game.findSoloWinner());
+
+    }
+
+    @Test
+    @DisplayName("Lori wins")
+    public void loriWins() {
+        game.setFirstVatican(true);
+        game.setSecondVatican(true);
+        assertEquals(false, game.isGameOver());
+        game.moveLoriPos(24);
+        assertEquals(true, game.isGameOver());
+        controller.update(new EndTurnMessage(0));
+        assertEquals(-1, game.findSoloWinner());
+
+    }
+
+    @Test
+    @DisplayName("Lori action, move 1 and shuffle")
+    public void loriAction1() {
+        game.getBoard().getTokenArray().set(0, new SoloActionToken(null, false , true));
+        controller.update(new EndTurnMessage(0));
+        assertTrue(game.getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos()==1);
+        assertTrue(game.getBoard().getTokenArray().size()==7);
+
+    }
+    @Test
+    @DisplayName("Lori action, move 2 ")
+    public void loriAction2() {
+        game.getBoard().getTokenArray().set(0, new SoloActionToken(null, true , false));
+        controller.update(new EndTurnMessage(0));
+        assertTrue(game.getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos()==2);
+        assertTrue(game.getBoard().getTokenArray().size()==6);
+
+    }
+
+    @Test
+    @DisplayName("Lori action, discard 2 green ")
+    public void loriAction3() {
+        game.getBoard().getTokenArray().set(0, new SoloActionToken(CardColor.GREEN, false, false));
+        controller.update(new EndTurnMessage(0));
+        assertTrue(game.getBoard().getDevDecks().get(0).getCards().size()==2);
+        assertTrue(game.getBoard().getTokenArray().size()==6);
+
+    }
+    @Test
+    @DisplayName("Lori action, discard 2 blue ")
+    public void loriAction4() {
+        game.getBoard().getTokenArray().set(0, new SoloActionToken(CardColor.BLUE, false, false));
+        controller.update(new EndTurnMessage(0));
+        assertTrue(game.getBoard().getDevDecks().get(1).getCards().size()==2);
+        assertTrue(game.getBoard().getTokenArray().size()==6);
+
+    }
+    @Test
+    @DisplayName("Lori action, discard 2 yellow ")
+    public void loriAction5() {
+        game.getBoard().getTokenArray().set(0, new SoloActionToken(CardColor.YELLOW, false, false));
+        controller.update(new EndTurnMessage(0));
+        assertTrue(game.getBoard().getDevDecks().get(2).getCards().size()==2);
+        assertTrue(game.getBoard().getTokenArray().size()==6);
+
+    }
+    @Test
+    @DisplayName("Lori action, discard 2 purple ")
+    public void loriAction6() {
+        game.getBoard().getTokenArray().set(0, new SoloActionToken(CardColor.PURPLE, false, false));
+        controller.update(new EndTurnMessage(0));
+        assertTrue(game.getBoard().getDevDecks().get(3).getCards().size()==2);
+        assertTrue(game.getBoard().getTokenArray().size()==6);
+
+    }
+
+    @Test
+    @DisplayName("Lori action, discard all purples")
+    public void loriAction7() {
+        game.getBoard().getTokenArray().set(0, new SoloActionToken(CardColor.PURPLE, false, false));
+        game.getBoard().getTokenArray().set(1, new SoloActionToken(CardColor.PURPLE, false, false));
+        game.getBoard().getTokenArray().set(2, new SoloActionToken(CardColor.PURPLE, false, false));
+        game.getBoard().getTokenArray().set(3, new SoloActionToken(CardColor.PURPLE, false, false));
+        game.getBoard().getTokenArray().set(4, new SoloActionToken(CardColor.PURPLE, false, false));
+        game.getBoard().getTokenArray().set(5, new SoloActionToken(CardColor.PURPLE, false, false));
+        controller.update(new EndTurnMessage(0));
+        assertTrue(game.getBoard().getDevDecks().get(3).getCards().size()==2);
+        assertTrue(game.getBoard().getTokenArray().size()==6);
+        controller.update(new EndTurnMessage(0));
+        assertTrue(game.getBoard().getDevDecks().get(3).getCards().size()==0);
+        assertTrue(game.getBoard().getTokenArray().size()==5);
+        controller.update(new EndTurnMessage(0));
+        assertTrue(game.getBoard().getDevDecks().get(7).getCards().size()==2);
+        assertTrue(game.getBoard().getTokenArray().size()==4);
+        controller.update(new EndTurnMessage(0));
+        assertTrue(game.getBoard().getDevDecks().get(7).getCards().size()==0);
+        assertTrue(game.getBoard().getTokenArray().size()==3);
+        controller.update(new EndTurnMessage(0));
+        assertTrue(game.getBoard().getDevDecks().get(11).getCards().size()==2);
+        assertTrue(game.getBoard().getTokenArray().size()==2);
+        controller.update(new EndTurnMessage(0));
+        assertTrue(game.getBoard().getDevDecks().get(11).getCards().size()==0);
+        assertTrue(game.getBoard().getTokenArray().size()==1);
+        assertTrue(game.isGameOver());
+
+    }
+
+
+
+
+
+
 }
+//    assertTrue(game.getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos() ==1 || game.getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos() ==2 ||
+//        game.getBoard().getMatrix().getDevDecks().get(0).getCards().size() == 2 || game.getBoard().getMatrix().getDevDecks().get(1).getCards().size() == 2 ||
+//        game.getBoard().getMatrix().getDevDecks().get(2).getCards().size() == 2 || game.getBoard().getMatrix().getDevDecks().get(3).getCards().size() == 2);

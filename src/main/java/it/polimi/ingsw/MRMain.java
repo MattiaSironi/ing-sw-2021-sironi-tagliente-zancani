@@ -23,7 +23,10 @@ public class MRMain {
                 case "server" -> Server.main(null);
                 case "CLI" -> CLI.main(null);
                 case "GUI" -> GUI.main(null);
-                default -> System.exit(0);
+                default -> {
+                    System.out.println("Invalid arg.");
+                    System.exit(0);
+                }
             }
         }
     }

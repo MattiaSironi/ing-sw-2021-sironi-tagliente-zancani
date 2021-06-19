@@ -97,7 +97,7 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
             System.out.println("POSITION = " + getMarker());
             if (getFavorTile1()!=null) System.out.println("FAVOR TILE 1 = " + getFavorTile1());
             if (getFavorTile2()!=null) System.out.println("FAVOR TILE 2 = " + getFavorTile2());
-            if (getFavorTile2()!=null) System.out.println("FAVOR TILE 3 = " + getFavorTile3());
+            if (getFavorTile3()!=null) System.out.println("FAVOR TILE 3 = " + getFavorTile3());
             if (loriPos != null) System.out.println("LORENZO IL MAGNIFICO POSITION = " + getLoriPos());
 
 

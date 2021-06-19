@@ -94,6 +94,7 @@ public class Market implements Printable, Serializable {
                 System.out.println(color + "                   " +  ball.getBallLine() + Color.ANSI_RESET);
             }
         }
+        System.out.println("");
     }
 
     private void printRow(List<Marble> asList) {
