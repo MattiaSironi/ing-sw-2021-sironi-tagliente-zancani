@@ -95,9 +95,18 @@ public class GUI extends Application {
         stage.setResizable(true);
         stage.setFullScreen(false);
         stage.setTitle("Master of Renaissance");
+        this.stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                Platform.exit();
+                mainController.getServerConnection().close();
+
+            }
+        });
         stage.setScene(currentScene);
         stage.setResizable(false);
         stage.show();
+
 
     }
 

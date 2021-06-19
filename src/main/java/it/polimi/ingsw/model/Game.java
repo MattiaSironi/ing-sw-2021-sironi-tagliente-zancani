@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 
 
 import it.polimi.ingsw.message.ActionMessages.ObjectMessage;
-import it.polimi.ingsw.message.CommonMessages.GameOverMessage;
+
 import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.observer.Observable;
 
@@ -287,12 +287,12 @@ public class Game extends Observable<Message> implements Serializable {
         if(players.size()==1) {
             if (gameOver) {
                 setTurn(findSoloWinner(), ActionPhase.GAME_OVER);
-                notify(new GameOverMessage(0));
+
             } else {
                 handleSoloActionToken();
                 if (gameOver) {
                     setTurn(findSoloWinner(), ActionPhase.GAME_OVER);
-                    notify(new GameOverMessage(-1));
+
 
 
                 } else setTurn(0, ActionPhase.WAITING_FOR_ACTION);
@@ -307,7 +307,6 @@ public class Game extends Observable<Message> implements Serializable {
                 } else {
                     int winnerID = findWinner().getId();
                     setTurn(winnerID, ActionPhase.GAME_OVER);
-                    notify(new GameOverMessage(winnerID));
                     return;
                 }
             }

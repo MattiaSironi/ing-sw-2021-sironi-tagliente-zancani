@@ -755,24 +755,24 @@ public class ClientActionController extends Observable<Message> implements Obser
 
     public void handleTurn(Turn turn) {
         if (turn.getPhase() == ActionPhase.GAME_OVER) {
-            if (turn.getPlayerPlayingID() == ID) cli.printToConsole(Color.ANSI_RED +"You win!" + Color.ANSI_RESET);
+            if (turn.getPlayerPlayingID() == ID) cli.printToConsole(Color.ANSI_RED + "You win!" + Color.ANSI_RESET);
             else {
-                if (local) {
+                if (turn.getPlayerPlayingID() == -1) {
                     cli.printToConsole(Color.ANSI_RED + "Lorenzo Il Magnifico won!" + Color.ANSI_RESET);
-                    cli.printToConsole( Color.ANSI_RED + "Better luck next time!" + Color.ANSI_RESET);
+                    cli.printToConsole(Color.ANSI_RED + "Better luck next time!" + Color.ANSI_RESET);
+                    System.exit(0);
 
                 } else {
-                    if (turn.getPlayerPlayingID() == -1) cli.printToConsole(Color.ANSI_RED + "Lorenzo Il Magnifico won!" + Color.ANSI_RESET);
-                    else
-                        cli.printToConsole( Color.ANSI_BLUE + this.mmv.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers() + Color.ANSI_RESET);
+                    cli.printToConsole(Color.ANSI_BLUE + this.mmv.getGame().getPlayerById(turn.getPlayerPlayingID()).getNickname() + " " + turn.getPhase().getOthers() + Color.ANSI_RESET);
                     cli.printToConsole(Color.ANSI_RED + "You lose!" + Color.ANSI_RESET);
 
 
                 }
             }
+        }
 
 
-        } else if (turn.getPlayerPlayingID() == ID) {
+         else if (turn.getPlayerPlayingID() == ID) {
 
                 switch (turn.getPhase()) {
                     case WAITING_FOR_ACTION -> {
@@ -957,12 +957,6 @@ public class ClientActionController extends Observable<Message> implements Obser
 
     @Override
     public void update(LeaderProductionMessage message) {
-
-    }
-
-    @Override
-    public void update(GameOverMessage message) {
-        System.exit(0);
 
     }
 

@@ -10,6 +10,7 @@ import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
+import javafx.application.Platform;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -263,12 +264,7 @@ public class MainController extends Observable<Message> implements Observer<Mess
     }
     @Override
     public void disconnect() {
-        try {
-            gui.stop();
-        }
-        catch (Exception e) {
-            System.out.println("Error closing app!");
-        }
+        Platform.exit();
 
 
     }
@@ -339,10 +335,7 @@ public class MainController extends Observable<Message> implements Observer<Mess
 
     }
 
-    @Override
-    public void update(GameOverMessage message) {
 
-    }
 }
 
 

@@ -931,10 +931,7 @@ public class Controller implements Observer<Message> {
         }
     }
 
-    @Override
-    public void update(GameOverMessage message) {
 
-    }
 
 
 }

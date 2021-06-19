@@ -30,7 +30,7 @@ public interface Observer<Message> {
 
     void update(LeaderProductionMessage message);
 
-    void update(GameOverMessage message);
+
 
 
 

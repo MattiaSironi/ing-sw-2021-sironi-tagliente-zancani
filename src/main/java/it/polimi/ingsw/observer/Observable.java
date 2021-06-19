@@ -128,14 +128,7 @@ public class Observable<Message> {
         }
 
     }
-    protected void notify(GameOverMessage message) {
-        synchronized (observers) {
-            for (Observer<Message> observer : observers) {
-                observer.update(message);
-            }
-        }
 
-    }
 
 
 }

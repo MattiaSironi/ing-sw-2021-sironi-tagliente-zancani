@@ -95,12 +95,6 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
     }
 
     @Override
-    public void update(GameOverMessage message) {
-        if (message.getWinnerID() == ID) getClientConnection().close();
-        }
-
-
-    @Override
     public void update(PlaceResourceMessage message) {
 
 
