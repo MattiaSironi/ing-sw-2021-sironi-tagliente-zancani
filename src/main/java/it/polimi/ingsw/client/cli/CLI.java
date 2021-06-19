@@ -55,6 +55,12 @@ public class CLI {
 
     public synchronized void printToConsole(String message) {
         System.out.println(message);
-    }
 
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            System.exit(0);
+        }
+
+    }
 }
