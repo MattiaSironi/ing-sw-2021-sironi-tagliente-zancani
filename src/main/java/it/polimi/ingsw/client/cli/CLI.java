@@ -15,7 +15,12 @@ public class CLI {
     private final Scanner in = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException { //TODO PRINT TITLE
-        System.out.println("Choose MODE:\n0->LOCAL\n1->ONLINE");
+        System.out.println("╔╦╗╔═╗╔═╗╔╦╗╔═╗╦═╗  ╔═╗╔═╗  ╦═╗╔═╗╔╗╔╔═╗╦╔═╗╔═╗╔═╗╔╗╔╔═╗╔═╗");
+        System.out.println("║║║╠═╣╚═╗ ║ ║╣ ╠╦╝  ║ ║╠╣   ╠╦╝║╣ ║║║╠═╣║╚═╗╚═╗╠═╣║║║║  ║╣ ");
+        System.out.println("╩ ╩╩ ╩╚═╝ ╩ ╚═╝╩╚═  ╚═╝╚    ╩╚═╚═╝╝╚╝╩ ╩╩╚═╝╚═╝╩ ╩╝╚╝╚═╝╚═╝");
+        System.out.println("Authors : Mattia Sironi (gigi), Simone Tagliente (Simo), Lea Zancani (Lea)");
+        System.out.println("Choose MODE:\n0 -> LOCAL\n1 -> ONLINE");
+        System.out.print("> ");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         if (input.equals("0")) {

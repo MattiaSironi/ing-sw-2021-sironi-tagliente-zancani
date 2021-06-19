@@ -47,10 +47,6 @@ public class ClientActionController extends Observable<Message> implements Obser
     }
 
     public void setupMultiplayer() throws IOException {
-        String string;
-        cli.printToConsole("Welcome to the game.");
-        cli.printToConsole("Type any key if you are ready to this experience:");
-        string = cli.readFromInput();
         serverConnection.run();
 
     }
@@ -182,7 +178,7 @@ public class ClientActionController extends Observable<Message> implements Obser
             }
         }
     }
-    //this.mmv.sendNotify(new ProductionMessage(Ware,Str,buy,ID));
+
 
     private void printShelves() {
 

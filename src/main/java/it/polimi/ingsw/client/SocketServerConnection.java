@@ -1,14 +1,14 @@
 package it.polimi.ingsw.client;
 
 
-import it.polimi.ingsw.client.gui.controllers.MainController;
+
 import it.polimi.ingsw.message.CommonMessages.IdMessage;
 import it.polimi.ingsw.message.CommonMessages.PingMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ConnectException;
+
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -134,9 +134,6 @@ public class SocketServerConnection {
     public void messageHandler(Object o){
         if(o instanceof IdMessage){
             ui.setID(((IdMessage)o).getID());
-        }
-        else if(o instanceof PingMessage){
-
         }
         else{
             ui.handleAction(o);
