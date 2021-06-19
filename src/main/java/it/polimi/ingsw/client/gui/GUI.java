@@ -287,6 +287,12 @@ public class GUI extends Application {
             ((ProductionController) nameMapController.get(SceneList.GENERALPRODSCENE.getSceneName())).disableBackButton();
         });
     }
+
+    public void enableHBoxRes() {
+        Platform.runLater(() -> {
+            ((ProductionController) nameMapController.get(SceneList.GENERALPRODSCENE.getSceneName())).enableHBoxRes();
+        });
+    }
 }
 
 

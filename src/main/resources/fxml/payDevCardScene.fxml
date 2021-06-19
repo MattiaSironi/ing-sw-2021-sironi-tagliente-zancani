@@ -30,7 +30,7 @@
                   <Image url="@../images/PunchBoard/shelvesAndStrongbox.png" />
                </image>
             </ImageView>
-            <Label layoutX="674.0" layoutY="40.0" prefHeight="171.0" prefWidth="505.0" text="You have to pay these resources:" wrapText="true">
+            <Label layoutX="673.0" prefHeight="171.0" prefWidth="505.0" text="You have to pay these resources:" wrapText="true">
                <font>
                   <Font size="36.0" />
                </font>
@@ -55,9 +55,9 @@
             </ImageView>
             <HBox fx:id="hBox" layoutX="670.0" layoutY="120.0" prefHeight="59.0" prefWidth="505.0">
                <children>
-                  <ImageView fx:id="res1" fitHeight="60.0" fitWidth="60.0" />
+                  <ImageView fx:id="res1" fitHeight="83.0" fitWidth="84.0" />
                   <ImageView fx:id="res2" fitHeight="60.0" fitWidth="60.0" />
-                  <ImageView fx:id="res3" fitHeight="60.0" fitWidth="60.0" />
+                  <ImageView fx:id="res3" fitHeight="77.0" fitWidth="69.0" />
                   <ImageView fx:id="res4" fitHeight="60.0" fitWidth="60.0" />
                   <ImageView fx:id="res5" fitHeight="60.0" fitWidth="60.0" />
                   <ImageView fx:id="res6" fitHeight="60.0" fitWidth="60.0" />

@@ -219,13 +219,16 @@ public class MainController extends Observable<Message> implements Observer<Mess
         else if(turn.getPhase() == ActionPhase.BASIC && turn.getPlayerPlayingID() == gui.getID()){
             gui.activateChoiceBox();
         }
-        else if(turn.getPhase() == ActionPhase.PAYMENT && turn.getPlayerPlayingID() == gui.getID()){
+        else if((turn.getPhase() == ActionPhase.PAYMENT || turn.getPhase() == ActionPhase.D_PAYMENT) && turn.getPlayerPlayingID() == gui.getID()){
             noMoreActions();
             gui.disableBackProduction();
             gui.changeScene(SceneList.PAYDEVCARDSCENE);
         }
         else if(turn.getPhase() == ActionPhase.A_PAYMENT && turn.getPlayerPlayingID() == gui.getID()){
             gui.changeScene(SceneList.GENERALPRODSCENE);
+        }
+        else if(turn.getPhase() == ActionPhase.SELECT_RES && turn.getPlayerPlayingID() == gui.getID()){
+            gui.enableHBoxRes();
         }
         else if(turn.getPhase()==ActionPhase.GAME_OVER){
             if (turn.getPlayerPlayingID() == gui.getID()) {

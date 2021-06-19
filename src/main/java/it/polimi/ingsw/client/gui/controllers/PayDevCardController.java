@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.message.ActionMessages.BasicProductionMessage;
 import it.polimi.ingsw.message.ActionMessages.BuyDevCardMessage;
+import it.polimi.ingsw.message.ActionMessages.ProductionMessage;
 import it.polimi.ingsw.model.*;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -194,6 +195,9 @@ public class PayDevCardController implements GUIController {
         else if(mainController.getGame().getTurn().getPhase() == ActionPhase.PAYMENT){
             mainController.send(new BasicProductionMessage(null, null, null, mainController.getGui().getID(), true));
         }
+        else if(mainController.getGame().getTurn().getPhase() == ActionPhase.D_PAYMENT) {
+            mainController.send(new ProductionMessage(mainController.getGui().getID(), false, -1, true));
+        }
     }
 
     public void PayFromStrongbox(ActionEvent actionEvent) {
@@ -201,6 +205,9 @@ public class PayDevCardController implements GUIController {
             mainController.send(new BuyDevCardMessage(-1, mainController.getGui().getID(), false, -1));
         } else if (mainController.getGame().getTurn().getPhase() == ActionPhase.PAYMENT) {
             mainController.send(new BasicProductionMessage(null, null, null, mainController.getGui().getID(), false));
+        }
+        else if(mainController.getGame().getTurn().getPhase() == ActionPhase.D_PAYMENT){
+            mainController.send(new ProductionMessage(mainController.getGui().getID(), false, -1, false));
         }
     }
 }

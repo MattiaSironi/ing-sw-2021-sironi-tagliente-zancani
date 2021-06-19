@@ -69,7 +69,7 @@ public class BasicProductionController implements GUIController{
 
     @Override
     public void setup(int num) {
-        label1.setVisible(true);
+        label2.setVisible(true);
         confirm1.setDisable(false);
         endBasic.setDisable(true);
         choicesHBox.setDisable(true);
@@ -282,8 +282,8 @@ public class BasicProductionController implements GUIController{
     }
 
     public void enableHBox(){
-        label1.setVisible(false);
-        label2.setVisible(true);
+        label2.setVisible(false);
+        label1.setVisible(true);
         choicesHBox.setDisable(false);
         choicesHBox.setVisible(true);
         resetChoice.setDisable(false);

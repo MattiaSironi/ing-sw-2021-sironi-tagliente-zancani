@@ -21,14 +21,11 @@
                   <Image url="@../images/PunchBoard/wood.png" />
                </image>
             </ImageView>
-                <ImageView fitHeight="538.0" fitWidth="763.0" layoutX="52.0" layoutY="150.0" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/Board/Board1.png" />
-                    </image>
-                    <effect>
-                        <DropShadow />
-                    </effect>
-                </ImageView>
+            <ImageView fitHeight="400.0" fitWidth="753.0" layoutX="52.0" layoutY="288.0">
+               <image>
+                  <Image url="@../images/Board/BoardNoFaith.png" />
+               </image>
+            </ImageView>
                 <Label fx:id="label1" layoutX="346.0" layoutY="33.0" text="Select the resource you want to produce" visible="false">
                     <font>
                         <Font size="36.0" />
@@ -110,15 +107,15 @@
                   </ImageView>
                </children>
             </HBox>
-            <ImageView fx:id="paid1" fitHeight="90.0" fitWidth="30.0" layoutX="250.0" layoutY="532.0" preserveRatio="true" />
-            <ImageView fx:id="paid2" fitHeight="90.0" fitWidth="30.0" layoutX="249.0" layoutY="556.0" preserveRatio="true" />
-            <ImageView fx:id="result" fitHeight="90.0" fitWidth="30.0" layoutX="294.0" layoutY="541.0" preserveRatio="true" />
-            <ImageView fx:id="shelf1pos1" fitHeight="90.0" fitWidth="30.0" layoutX="139.0" layoutY="386.0" preserveRatio="true" />
-            <ImageView fx:id="shelf2pos1" fitHeight="90.0" fitWidth="30.0" layoutX="117.0" layoutY="430.0" preserveRatio="true" />
-            <ImageView fx:id="shelf2pos2" fitHeight="90.0" fitWidth="30.0" layoutX="150.0" layoutY="430.0" preserveRatio="true" />
-            <ImageView fx:id="shelf3pos1" fitHeight="90.0" fitWidth="30.0" layoutX="102.0" layoutY="476.0" preserveRatio="true" />
-            <ImageView fx:id="shelf3pos2" fitHeight="90.0" fitWidth="30.0" layoutX="134.0" layoutY="476.0" preserveRatio="true" />
-            <ImageView fx:id="shelf3pos3" fitHeight="90.0" fitWidth="30.0" layoutX="166.0" layoutY="477.0" preserveRatio="true" />
+            <ImageView fx:id="paid1" fitHeight="90.0" fitWidth="30.0" layoutX="248.0" layoutY="528.0" preserveRatio="true" />
+            <ImageView fx:id="paid2" fitHeight="90.0" fitWidth="30.0" layoutX="247.0" layoutY="553.0" preserveRatio="true" />
+            <ImageView fx:id="result" fitHeight="90.0" fitWidth="30.0" layoutX="293.0" layoutY="539.0" preserveRatio="true" />
+            <ImageView fx:id="shelf1pos1" fitHeight="90.0" fitWidth="30.0" layoutX="138.0" layoutY="372.0" preserveRatio="true" />
+            <ImageView fx:id="shelf2pos1" fitHeight="90.0" fitWidth="30.0" layoutX="117.0" layoutY="421.0" preserveRatio="true" />
+            <ImageView fx:id="shelf2pos2" fitHeight="90.0" fitWidth="30.0" layoutX="150.0" layoutY="421.0" preserveRatio="true" />
+            <ImageView fx:id="shelf3pos1" fitHeight="90.0" fitWidth="30.0" layoutX="102.0" layoutY="470.0" preserveRatio="true" />
+            <ImageView fx:id="shelf3pos2" fitHeight="90.0" fitWidth="30.0" layoutX="134.0" layoutY="470.0" preserveRatio="true" />
+            <ImageView fx:id="shelf3pos3" fitHeight="90.0" fitWidth="30.0" layoutX="166.0" layoutY="470.0" preserveRatio="true" />
             <ImageView fx:id="shelf4pos1" fitHeight="90.0" fitWidth="30.0" layoutX="87.0" layoutY="522.0" preserveRatio="true" />
             <ImageView fx:id="shelf4pos2" fitHeight="90.0" fitWidth="30.0" layoutX="117.0" layoutY="522.0" preserveRatio="true" />
             <ImageView fx:id="shelf5pos1" fitHeight="90.0" fitWidth="30.0" layoutX="149.0" layoutY="522.0" preserveRatio="true" />
@@ -147,22 +144,42 @@
                   </ImageView>
                </children>
             </HBox>
-                <Label fx:id="coinNum" layoutX="86.0" layoutY="562.0" textFill="#f6ff00">
+                <ImageView fitHeight="33.0" fitWidth="42.0" layoutX="81.0" layoutY="551.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/PunchBoard/coin.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="33.0" fitWidth="42.0" layoutX="146.0" layoutY="554.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/PunchBoard/servant.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="33.0" fitWidth="42.0" layoutX="82.0" layoutY="604.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/PunchBoard/stone.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="33.0" fitWidth="42.0" layoutX="150.0" layoutY="607.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/PunchBoard/shield.png" />
+                    </image>
+                </ImageView>
+                <Label fx:id="coinNum" layoutX="112.0" layoutY="570.0" textFill="#f6ff00">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Label fx:id="stoneNum" layoutX="86.0" layoutY="606.0" textFill="#f6ff00">
+                <Label fx:id="stoneNum" layoutX="112.0" layoutY="623.0" textFill="#f6ff00">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Label fx:id="servantNum" layoutX="150.0" layoutY="562.0" textFill="#f6ff00">
+                <Label fx:id="servantNum" layoutX="172.0" layoutY="570.0" textFill="#f6ff00">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Label fx:id="shieldNum" layoutX="150.0" layoutY="606.0" textFill="#f6ff00">
+                <Label fx:id="shieldNum" layoutX="172.0" layoutY="623.0" textFill="#f6ff00">
                     <font>
                         <Font size="24.0" />
                     </font>

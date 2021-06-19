@@ -6,6 +6,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
@@ -21,13 +22,10 @@
                   <Image url="@../images/PunchBoard/wood.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="538.0" fitWidth="763.0" layoutX="121.0" layoutY="152.0" preserveRatio="true">
+            <ImageView fitHeight="380.0" fitWidth="1020.0" layoutX="123.0" layoutY="310.0" preserveRatio="true">
                <image>
-                  <Image url="@../images/Board/Board1.png" />
+                  <Image url="@../images/Board/BoardNoFaith.png" />
                </image>
-               <effect>
-                  <DropShadow />
-               </effect>
             </ImageView>
             <ImageView fx:id="back" fitHeight="117.0" fitWidth="151.0" layoutX="28.0" layoutY="16.0" onMouseClicked="#goBack" pickOnBounds="true" preserveRatio="true" rotate="180.0">
                <image>
@@ -55,49 +53,34 @@
                   </LinearGradient>
                </textFill>
             </Label>
-            <ImageView fitHeight="180.0" fitWidth="120.0" layoutX="419.0" layoutY="410.0">
-               <image>
-                  <Image url="@../images/Devs/FRONT/1BLUE1.png" />
-               </image>
+            <ImageView fx:id="dev1" fitHeight="180.0" fitWidth="120.0" layoutX="419.0" layoutY="410.0">
                <effect>
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fitHeight="180.0" fitWidth="120.0" layoutX="562.0" layoutY="410.0">
-               <image>
-                  <Image url="@../images/Devs/FRONT/1BLUE3.png" />
-               </image>
+            <ImageView fx:id="dev2" fitHeight="180.0" fitWidth="120.0" layoutX="562.0" layoutY="410.0">
                <effect>
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fitHeight="180.0" fitWidth="120.0" layoutX="709.0" layoutY="410.0">
-               <image>
-                  <Image url="@../images/Devs/FRONT/1BLUE1.png" />
-               </image>
+            <ImageView fx:id="dev3" fitHeight="180.0" fitWidth="120.0" layoutX="709.0" layoutY="410.0">
                <effect>
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fitHeight="200.0" fitWidth="132.0" layoutX="926.0" layoutY="180.0">
-               <image>
-                  <Image url="@../images/Leaders/EP-STONE.png" />
-               </image>
+            <ImageView fx:id="leader1" fitHeight="200.0" fitWidth="132.0" layoutX="926.0" layoutY="180.0">
                <effect>
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fitHeight="200.0" fitWidth="132.0" layoutX="927.0" layoutY="417.0">
-               <image>
-                  <Image url="@../images/Leaders/EP-STONE.png" />
-               </image>
+            <ImageView fx:id="leader2" fitHeight="200.0" fitWidth="132.0" layoutX="927.0" layoutY="417.0">
                <effect>
                   <DropShadow />
                </effect>
             </ImageView>
             <Button fx:id="basicProduction" layoutX="311.0" layoutY="522.0" mnemonicParsing="false" onAction="#useBasicProduction" opacity="0.0" prefHeight="75.0" prefWidth="81.0" />
-            <Button fx:id="devProduction" layoutX="426.0" layoutY="414.0" mnemonicParsing="false" onAction="#useDevProduction" opacity="0.0" prefHeight="178.0" prefWidth="397.0" />
-            <Button fx:id="leaderProduction" layoutX="919.0" layoutY="177.0" mnemonicParsing="false" onAction="#useLeaderProduction" opacity="0.0" prefHeight="446.0" prefWidth="148.0" />
+            <Button fx:id="dev1Prod" layoutX="426.0" layoutY="414.0" mnemonicParsing="false" onAction="#useFirstDevProduction" opacity="0.0" prefHeight="178.0" prefWidth="104.0" />
+            <Button fx:id="firstLeaderProd" layoutX="919.0" layoutY="177.0" mnemonicParsing="false" onAction="#useFirstLeaderProduction" opacity="0.0" prefHeight="199.0" prefWidth="148.0" />
             <ImageView fitHeight="56.0" fitWidth="64.0" layoutX="447.0" layoutY="71.0">
                <image>
                   <Image url="@../images/PunchBoard/coin.png" />
@@ -252,6 +235,104 @@
                <font>
                   <Font size="14.0" />
                </font></Label>
+            <ImageView fx:id="shelf1pos1" fitHeight="33.0" fitWidth="30.0" layoutX="208.0" layoutY="385.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="shelf2pos1" fitHeight="33.0" fitWidth="30.0" layoutX="186.0" layoutY="434.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="shelf2pos2" fitHeight="33.0" fitWidth="30.0" layoutX="219.0" layoutY="434.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="shelf3pos1" fitHeight="33.0" fitWidth="30.0" layoutX="169.0" layoutY="477.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="shelf3pos2" fitHeight="33.0" fitWidth="30.0" layoutX="203.0" layoutY="477.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="shelf3pos3" fitHeight="33.0" fitWidth="30.0" layoutX="236.0" layoutY="477.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="shelf4pos1" fitHeight="33.0" fitWidth="30.0" layoutX="143.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="shelf4pos2" fitHeight="33.0" fitWidth="30.0" layoutX="180.0" layoutY="518.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="shelf5pos1" fitHeight="33.0" fitWidth="30.0" layoutX="209.0" layoutY="517.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="shelf5pos2" fitHeight="33.0" fitWidth="30.0" layoutX="242.0" layoutY="517.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="33.0" fitWidth="42.0" layoutX="145.0" layoutY="560.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/PunchBoard/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="33.0" fitWidth="42.0" layoutX="215.0" layoutY="560.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/PunchBoard/servant.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="33.0" fitWidth="42.0" layoutX="146.0" layoutY="607.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/PunchBoard/stone.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="33.0" fitWidth="42.0" layoutX="219.0" layoutY="607.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/PunchBoard/shield.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="coinStrong" layoutX="173.0" layoutY="576.0" prefHeight="29.0" prefWidth="0.0" textFill="#f6ff00">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="stoneStrong" layoutX="173.0" layoutY="624.0" textFill="#f6ff00">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="servantStrong" layoutX="240.0" layoutY="576.0" prefHeight="29.0" prefWidth="0.0" textFill="#f6ff00">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="shieldStrong" layoutX="239.0" layoutY="624.0" textFill="#f6ff00">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Button fx:id="dev2Prod" layoutX="570.0" layoutY="414.0" mnemonicParsing="false" onAction="#useSecondDevProduction" opacity="0.0" prefHeight="178.0" prefWidth="104.0" />
+            <Button fx:id="dev3Prod" layoutX="717.0" layoutY="405.0" mnemonicParsing="false" onAction="#useThirdDevProduction" opacity="0.0" prefHeight="178.0" prefWidth="104.0" />
+            <Button fx:id="secondLeaderProd" layoutX="922.0" layoutY="441.0" mnemonicParsing="false" onAction="#useSecondLeaderProduction" opacity="0.0" prefHeight="199.0" prefWidth="148.0" />
+            <HBox fx:id="hBoxRes" layoutX="408.0" layoutY="169.0" prefHeight="102.0" prefWidth="455.0">
+               <children>
+                  <ImageView fx:id="sendCoin" onMouseClicked="#chooseCoin">
+                     <image>
+                        <Image url="@../images/PunchBoard/coin.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="sendStone" onMouseClicked="#chooseStone">
+                     <image>
+                        <Image url="@../images/PunchBoard/stone.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="sendServant" fitHeight="101.0" fitWidth="109.0" onMouseClicked="#chooseServant">
+                     <image>
+                        <Image url="@../images/PunchBoard/servant.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="sendShield" fitHeight="102.0" fitWidth="93.0" onMouseClicked="#chooseShield">
+                     <image>
+                        <Image url="@../images/PunchBoard/shield.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <Label fx:id="uselessLabel" layoutX="50.0" layoutY="197.0" text="Choose one resource:" visible="false">
+               <font>
+                  <Font size="36.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.9666666388511658" green="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
          </children>
       </Pane>
    </children>

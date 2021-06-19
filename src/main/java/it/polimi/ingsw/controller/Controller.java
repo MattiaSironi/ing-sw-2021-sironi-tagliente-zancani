@@ -833,28 +833,34 @@ public class Controller implements Observer<Message> {
                 for (int i = 0; i < game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(index).getCards().get(0).getInputRes()[3]; i++)
                     resources.add(ResourceType.SHIELD);
                 game.setResToPay(resources);
-                for (ResourceType resource : game.getBoard().getMatrix().getResToPay()
-                ) {
-                    System.out.println(resource.toString());
-
+                int[] toCheck = {(int)resources.stream().filter(x -> x == ResourceType.COIN).count(),
+                        (int)resources.stream().filter(x -> x == ResourceType.STONE).count(),
+                        (int)resources.stream().filter(x -> x == ResourceType.SERVANT).count(),
+                        (int)resources.stream().filter(x -> x == ResourceType.SHIELD).count()};
+                if(game.getPlayerById(ID).getPersonalBoard().totalPaymentChecker(toCheck)) {
+                    for (int i = 0; i < game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(index).getCards().get(0).getOutputRes()[0]; i++)
+                        setBoughtRes(ResourceType.COIN, ID);
+                    for (int i = 0; i < game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(index).getCards().get(0).getOutputRes()[1]; i++)
+                        setBoughtRes(ResourceType.STONE, ID);
+                    for (int i = 0; i < game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(index).getCards().get(0).getOutputRes()[2]; i++)
+                        setBoughtRes(ResourceType.SERVANT, ID);
+                    for (int i = 0; i < game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(index).getCards().get(0).getOutputRes()[3]; i++)
+                        setBoughtRes(ResourceType.SHIELD, ID);
+                    if (game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(index).getCards().get(0).getOutputRes()[4] != 0) {
+                        game.moveFaithPosByID(ID, game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(index).getCards().get(0).getOutputRes()[4]);
+                    }
+                    game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.D_PAYMENT);
                 }
-                for (int i = 0; i < game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(index).getCards().get(0).getOutputRes()[0]; i++)
-                    setBoughtRes(ResourceType.COIN, ID);
-                for (int i = 0; i < game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(index).getCards().get(0).getOutputRes()[1]; i++)
-                    setBoughtRes(ResourceType.STONE, ID);
-                for (int i = 0; i < game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(index).getCards().get(0).getOutputRes()[2]; i++)
-                    setBoughtRes(ResourceType.SERVANT, ID);
-                for (int i = 0; i < game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(index).getCards().get(0).getOutputRes()[3]; i++)
-                    setBoughtRes(ResourceType.SHIELD, ID);
-                if(game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(index).getCards().get(0).getOutputRes()[4] != 0){
-                    game.moveFaithPosByID(ID, game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(index).getCards().get(0).getOutputRes()[4]);
+                else{
+                    game.setCommunication(ID, CommunicationList.INVALID_MOVE);
+                    game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT);
                 }
-                game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.D_PAYMENT);
             }
         }catch(IndexOutOfBoundsException e){
             game.setCommunication(ID, CommunicationList.INVALID_MOVE);
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT);
         }
+
     }
 
 
