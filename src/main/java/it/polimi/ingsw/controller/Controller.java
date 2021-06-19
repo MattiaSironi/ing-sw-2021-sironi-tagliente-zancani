@@ -92,7 +92,7 @@ public class Controller implements Observer<Message> {
     }
 
     public void initialPhase() {
-        Collections.shuffle(game.getPlayers(), new Random(game.getNumPlayer()));
+        Collections.shuffle(game.getPlayers());
         game.sendGame();
         for (Player p : game.getPlayers()) {
 
