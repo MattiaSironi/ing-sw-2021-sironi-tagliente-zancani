@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.constants.Color;
+
 import java.io.Serializable;
 
 /**
@@ -43,11 +45,13 @@ public class ExtraDepotLCard extends LeaderCard implements Printable, Serializab
 
     @Override
     public void print() {
-        System.out.println("Leader Card details" +
-                "\n - Type : Extra Depot Card "+
-                "\n - Victory points: " + this.getVictoryPoints() +
-                "\n - Required resource: " + this.resType+
-                "\n - Extra Depot resource : " + this.resDepot);
+        String s = "\u2726";
+        System.out.println(
+              s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+ Color.ANSI_BLUE +
+                        " Extra Depot Card "+Color.ANSI_RESET+ s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+
+                "\nVictory points: " + this.getVictoryPoints() +
+                "\nRequires : 5 " + this.resType.printResourceColouredName()+
+                "\nExtra Depot resource : " + this.resDepot.printResourceColouredName());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.constants.Color;
+
 import java.io.Serializable;
 
 /**
@@ -43,11 +45,13 @@ public class ExtraProdLCard extends LeaderCard implements Printable, Serializabl
 
     @Override
     public void print() {
-        System.out.println("Leader Card details" +
-                "\n - Type : Extra production Card "+
-                "\n - Victory points: " + this.getVictoryPoints() +
-                "\n - Required color: " + this.color +
-                "\n - Input resource for production : " + this.input);
+        String s = "\u2726";
+        System.out.println( s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+ Color.ANSI_PURPLE +
+                " Extra Production Card "+Color.ANSI_RESET+ s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+
+                "\nVictory points: " + this.getVictoryPoints() +
+                "\nRequires: a "+ this.color+ " development card (level 1 or higher)" +
+                "\nInput resource for production : " + this.input.printResourceColouredName()+
+                "\nOutput : a resource of your choice + a faith point");
     }
 
     @Override

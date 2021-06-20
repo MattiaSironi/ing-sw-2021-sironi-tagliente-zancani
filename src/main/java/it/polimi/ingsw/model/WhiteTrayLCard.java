@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.constants.Color;
+
 import java.io.Serializable;
 
 /**
@@ -48,11 +50,13 @@ public class WhiteTrayLCard extends LeaderCard implements Printable, Serializabl
 
     @Override
     public void print() {
-        System.out.println("Leader Card details" +
-                "\n - Type : White Marble Card "+
-                "\n - Victory points: " + this.getVictoryPoints() +
-                "\n - Required colors: " + this.x1Color + " " + this.x2Color + " " + this.x2Color +
-                "\n - White marble conversion resource : " + this.resType);
+        String s = "\u2726";
+        System.out.println( s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+ Color.ANSI_RED +
+                " White Marble Card "+Color.ANSI_RESET+ s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+
+                "\nVictory points: " + this.getVictoryPoints() +
+                "\nRequires: a "+ this.x2Color+ " development card (level 2 or higher)" +
+                "\nRequires: a "+ this.x1Color+ " development card (level 1 or higher)" +
+                "\nWhite marble conversion resource : " + this.resType.printResourceColouredName());
     }
 
     @Override

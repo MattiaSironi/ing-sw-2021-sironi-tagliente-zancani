@@ -9,8 +9,10 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.ConsoleHandler;
 import java.util.regex.PatternSyntaxException;
 import java.util.stream.Stream;
 
@@ -82,10 +84,10 @@ public class ClientActionController extends Observable<Message> implements Obser
         boolean actionEnded = false;
         while (!actionEnded) {
             String chosenAction;
-            cli.printToConsole("Select one action");
+            cli.printToConsole("\nSelect one action\nType:");
             for (Actions a : actions) {
                 if (a.isEnable())
-                    cli.printToConsole("Type " + a.toString() + " to " + a.getString());
+                    cli.printToConsole("\u2738 " + Color.ANSI_YELLOW + a.toString() + Color.ANSI_RESET + " to " + a.getString());
             }
             chosenAction = cli.readFromInput().toUpperCase(Locale.ROOT);
             if (Stream.of(Actions.values()).anyMatch(v -> v.name().equals(chosenAction))) {
@@ -474,6 +476,11 @@ public class ClientActionController extends Observable<Message> implements Obser
     }
 
 
+    /**
+     * This method manages the interaction with the CLI user to activate or discard a leader card.
+     * It checks some basic input errors before calling the method to send the proper message to the server.
+     * @return true if the user action has been correctly executed, false otherwise.
+     */
     public boolean printLeaders() {
         boolean ok = true;
         int p;
@@ -493,7 +500,7 @@ public class ClientActionController extends Observable<Message> implements Obser
             boolean valid = false;
             String inp;
             int idx;
-            cli.printToConsole("Digit :\n'a' to activate one Leader, \n'd' to discard one Leader Card or \n'x' to return to the action menu");
+            cli.printToConsole("Type :\n'a' to activate one Leader, \n'd' to discard one Leader Card or \n'x' to return to the action menu");
             while (!valid) {
                 String input = cli.readFromInput();
                 if (input.equalsIgnoreCase("a")) {

@@ -63,6 +63,10 @@ public class LeaderDeck implements Printable, Serializable, Cloneable {
     }
 
 
+    /**
+     * this method checks if a card is present in the deck.
+     * @return true if the card is present.
+     */
     public boolean isPresent(LeaderCard c){
         for(LeaderCard l: this.getCards()){
             if(l.equals(c)){

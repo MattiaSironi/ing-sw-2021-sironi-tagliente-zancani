@@ -48,11 +48,15 @@ public class DiscountLCard extends LeaderCard implements Printable, Serializable
 
     @Override
     public void print() {
-        System.out.println("Leader Card details" +
-                "\n - Type : Discount Card "+
-                "\n - Victory points: " + this.getVictoryPoints() +
-                "\n - Required colors: " + this.color1 + " " + this.color2 +
-                "\n - Discount resource : " + this.resType);
+        String s = "\u2726";
+        String ANSI_RESET = "\u001B[0m";
+        String ANSI_YELLOW = "\u001B[33m";
+        System.out.println(s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+ ANSI_YELLOW +
+                " Discount Card "+ANSI_RESET+ s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+s+" "+
+                "\nVictory points: " + this.getVictoryPoints() +
+                "\nRequires: a "+ this.color1 + " development card (level 1 or higher)" +
+                "\nRequires: a "+this.color2 +"  development card (level 1 or higher)"+
+                "\nDiscount resource : " + this.resType.printResourceColouredName());
     }
 
     @Override

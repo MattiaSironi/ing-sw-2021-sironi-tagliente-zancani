@@ -69,6 +69,8 @@ public class Controller implements Observer<Message> {
 ////                game.getPlayerById(0).setWhiteConversion2(ResourceType.COIN);
 ////                game.getPlayerById(0).setWhiteConversion1(ResourceType.SERVANT);
 //
+                game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(12);
+                game.getPlayerById(0).getPersonalBoard().getFaithTrack().setLoriPos(23);
 //
 //                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 10);
 //                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
@@ -546,6 +548,10 @@ public class Controller implements Observer<Message> {
             }
         }
 
+    /**
+     * this method checks if the card can be activated.
+     * If so, it calls a method to do it, otherwise it sets a proper error in the communication.
+     */
     public void PlayLeaderCard(int ID, DiscountLCard dc) {
 
         if (game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(dc)) {
@@ -566,6 +572,10 @@ public class Controller implements Observer<Message> {
         RemoveLeaderFromDeck(ID, dc);
     }
 
+    /**
+     * this method checks if the card can be activated.
+     * If so, it calls a method to do it, otherwise it sets a proper error in the communication.
+     */
     public void PlayLeaderCard(int ID, ExtraDepotLCard sc) {
         if (game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(sc)) {
             if (this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(3).getResType() == null) {
@@ -585,6 +595,10 @@ public class Controller implements Observer<Message> {
         RemoveLeaderFromDeck(ID, sc);
     }
 
+    /**
+     * this method checks if the card can be activated.
+     * If so, it calls a method to do it, otherwise it sets a proper error in the communication.
+     */
     public void PlayLeaderCard(int ID, ExtraProdLCard c) {
         if (game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(c)) {
             if (this.game.getPlayerById(ID).getInputExtraProduction1() == null) {
@@ -604,6 +618,10 @@ public class Controller implements Observer<Message> {
         RemoveLeaderFromDeck(ID, c);
     }
 
+    /**
+     * this method checks if the card can be activated.
+     * If so, it calls a method to do it, otherwise it sets a proper error in the communication.
+     */
     public void PlayLeaderCard(int ID, WhiteTrayLCard wc) {
         if (game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(wc)) {
             if (this.game.getPlayerById(ID).getWhiteConversion1() == null) {
@@ -770,6 +788,9 @@ public class Controller implements Observer<Message> {
 
     }
 
+    /**
+     * this method manages the PlayLeaderMessages, redirecting to the method to discard the card or to the proper method to activate it.
+     */
     @Override
     public void update(PlayLeaderMessage message) {
         if(checkTurn(message.getID()) || message.isInitialPhase()) {
