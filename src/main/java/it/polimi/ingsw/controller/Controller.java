@@ -50,8 +50,10 @@ public class Controller implements Observer<Message> {
 
                 /* TESTING */
 //
-//                LeaderCard leaderCard = new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD);
-//                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard);
+                LeaderCard leaderCard1 = new ExtraProdLCard(3, 4, CardColor.YELLOW, ResourceType.SHIELD);
+                LeaderCard leaderCard2 = new ExtraProdLCard(3, 4, CardColor.BLUE, ResourceType.SERVANT);
+                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard1);
+                game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard2);
 //
 //
 //                game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(ResourceType.COIN);
@@ -69,17 +71,17 @@ public class Controller implements Observer<Message> {
 ////                game.getPlayerById(0).setWhiteConversion2(ResourceType.COIN);
 ////                game.getPlayerById(0).setWhiteConversion1(ResourceType.SERVANT);
 //
-                game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(12);
-                game.getPlayerById(0).getPersonalBoard().getFaithTrack().setLoriPos(23);
+//                game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(12);
+//                game.getPlayerById(0).getPersonalBoard().getFaithTrack().setLoriPos(23);
 //
-//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 10);
-//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
-//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 10);
-//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 10);
-//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
-//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
-//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 10);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 10);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 10);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
 //game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(23);
 //game.setFirstVatican(true);
 //game.setSecondVatican(true);

@@ -250,7 +250,7 @@ public class ProductionController implements GUIController{
     }
 
     public void useSecondLeaderProduction(ActionEvent actionEvent) {
-        mainController.send(new LeaderProductionMessage(0, mainController.getGui().getID(), null));
+        mainController.send(new LeaderProductionMessage(1, mainController.getGui().getID(), null));
     }
 
     public void useFirstLeaderProduction(ActionEvent actionEvent) {
