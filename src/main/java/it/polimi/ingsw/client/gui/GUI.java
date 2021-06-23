@@ -99,8 +99,8 @@ public class GUI extends Application {
             @Override
             public void handle(WindowEvent windowEvent) {
                 Platform.exit();
-                mainController.getServerConnection().close();
-
+                if(!local)
+                    mainController.getServerConnection().close();
             }
         });
         stage.setScene(currentScene);
