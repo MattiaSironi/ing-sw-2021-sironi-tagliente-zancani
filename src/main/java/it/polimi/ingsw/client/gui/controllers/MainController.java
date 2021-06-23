@@ -262,6 +262,7 @@ public class MainController extends Observable<Message> implements Observer<Mess
         gui.disableMarket();
         gui.disableProduction();
     }
+
     @Override
     public void disconnect() {
         Platform.exit();

@@ -228,6 +228,7 @@ public class ProductionController implements GUIController{
         end.setDisable(true);
         end.setMouseTransparent(true);
         enableEndAction = false;
+        mainController.noMoreActions();
         mainController.send(new ProductionMessage(mainController.getGui().getID(), true, -1, false));
     }
 
