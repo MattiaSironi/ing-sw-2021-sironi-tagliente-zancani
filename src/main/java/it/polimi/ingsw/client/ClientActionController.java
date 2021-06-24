@@ -550,6 +550,7 @@ public class ClientActionController extends Observable<Message> implements Obser
         return false;
     }
 
+
     private void discardLead(int remaining) {
 
         mmv.getGame().getPlayerById(ID).getLeaderDeck().print();
@@ -647,6 +648,11 @@ public class ClientActionController extends Observable<Message> implements Obser
 //
 //    }
 
+
+    /**
+     * @param i is the index used in the arrays for strongbox/warehouse shelves for a resource
+     * @return ResourceType that corresponds to index i
+     */
     public ResourceType FromIntToRes(int i) {
         switch (i) {
             case 0 -> {
