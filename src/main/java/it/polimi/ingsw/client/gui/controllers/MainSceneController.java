@@ -273,8 +273,6 @@ public class MainSceneController implements  GUIController {
         }
 
 
-        //TODO : immagine con entrambi
-
         Integer t1 = ft.getFavorTile1();
         Integer t2 = ft.getFavorTile2();
         Integer t3 = ft.getFavorTile3();

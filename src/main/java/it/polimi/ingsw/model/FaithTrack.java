@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.constants.Color;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -93,12 +94,60 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
 
     @Override
     public void print() {
+            String empty="\u2727";
+            String me="\u271E";
+            String lori="\u271F";
+            String pope="\u21D1";
+            int fp=0;
 
-            System.out.println("POSITION = " + getMarker());
+          if(3<=marker && marker<6){
+               fp=1;
+           }else if(6<=marker && marker<9){
+              fp=2;
+          }else if(9<=marker && marker<12){
+              fp=4;
+          }else if(12<=marker && marker<15){
+              fp=6;
+          }else if(15<=marker && marker<18){
+              fp=9;
+          }else if(18<=marker && marker<21){
+              fp=12;
+          }else if(21<=marker && marker<24){
+              fp=16;
+          }else if(marker==24){
+              fp=20;
+          }
+
+            System.out.println(" ");
+            System.out.println("ACTUAL FAITH TRACK POINTS = " + fp);
+            if (loriPos != null) System.out.println("LORENZO IL MAGNIFICO POSITION = " + getLoriPos() +" -> "+ Color.ANSI_RED+lori+" "+Color.ANSI_RESET);
+            System.out.println("YOUR POSITION = " + getMarker()+" -> "+Color.ANSI_BLUE+me+" "+Color.ANSI_RESET);
             if (getFavorTile1()!=null) System.out.println("FAVOR TILE 1 = " + getFavorTile1());
             if (getFavorTile2()!=null) System.out.println("FAVOR TILE 2 = " + getFavorTile2());
             if (getFavorTile3()!=null) System.out.println("FAVOR TILE 3 = " + getFavorTile3());
-            if (loriPos != null) System.out.println("LORENZO IL MAGNIFICO POSITION = " + getLoriPos());
+            System.out.println("Pope Favour slots -> P");
+
+            for(int i=0; i<25;i++){
+                if(i==getMarker()){
+                    System.out.print(Color.ANSI_BLUE+me+" "+Color.ANSI_RESET);
+                }
+                else if(loriPos!=null&&loriPos==i){
+                    System.out.print(Color.ANSI_RED+lori+" "+Color.ANSI_RESET);
+                }
+                else{
+                    System.out.print(empty+" ");
+                }
+            }
+            System.out.print("\n");
+            for(int i=0; i<25;i++){
+                if(i==8||i==16||i==24){
+                    System.out.print("P ");
+                }
+                else
+                    System.out.print("  ");
+            }
+            System.out.println("");
+
 
 
     }
