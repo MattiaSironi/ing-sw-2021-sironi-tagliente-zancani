@@ -10,7 +10,7 @@ public enum ActionPhase {
     MARKET ("is buying resources!"),
     B_PAYMENT("is paying a Dev Card!"),
     CHOOSE_SLOT ("is choosing where to place the Dev Card!"),
-    A_PAYMENT ("is paying a Leader Card!"),
+    A_PAYMENT ("is producing resources!"),
     SELECT_RES("is choosing the resources to produce!"),
     BASIC ("is doing a basic production!"),
     PAYMENT("is paying!"),

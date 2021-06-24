@@ -157,16 +157,19 @@ public class OtherPlayersController implements GUIController {
                     ".png").toExternalForm()));
 
         }
+        else dev1.setImage(null);
         if(mainController.getGame().getPlayerById(getID()).getPersonalBoard().getCardSlot().get(1).getCards().size() != 0){
             dev2.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
                     mainController.getGame().getPlayerById(getID()).getPersonalBoard().getCardSlot().get(1).getCards().get(0) +
                     ".png").toExternalForm()));
         }
+        else dev2.setImage(null);
         if(mainController.getGame().getPlayerById(getID()).getPersonalBoard().getCardSlot().get(2).getCards().size() != 0){
             dev3.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
                     mainController.getGame().getPlayerById(getID()).getPersonalBoard().getCardSlot().get(2).getCards().get(0) +
                     ".png").toExternalForm()));
         }
+        else dev3.setImage(null);
 
         groupFaithSlots();
         showFaithTrack();
@@ -352,17 +355,28 @@ public class OtherPlayersController implements GUIController {
         shieldNum.setText("" + mainController.getGame().getPlayerById(getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.SHIELD));
     }
     public void showLeaders() {
+
         ArrayList<ImageView> leaders = new ArrayList<>();
         leaders.add(leader1);
         leaders.add(leader2);
+        for (ImageView i : leaders) {
+            i.setImage(new Image(getClass().getResource("/images/Leaders/BACK.png" ).toExternalForm()));
+            i.setOpacity(1.0);
+        }
         int i=0;
+
         for (LeaderCard l : mainController.getGame().getPlayerById(getID()).getPersonalBoard().getActiveLeader().getCards()) {
             leaders.get(i).setImage(new Image(getClass().getResource("/images/Leaders/" + l.toString() + ".png" ).toExternalForm())); //Active leaders
+            leaders.get(i).setOpacity(1.0);
             i++;
 
         }
         for (LeaderCard l : mainController.getGame().getPlayerById(getID()).getLeaderDeck().getCards()) i++; //inactive leaders
-        for (; i<2 ; i++) leaders.get(i).setOpacity(0.5); //discarded leaders
+
+        for (; i<2 ; i++) {
+            leaders.get(i).setOpacity(0.5); //discarded leaders
+            leaders.get(i).setImage(new Image(getClass().getResource("/images/Leaders/BACK.png" ).toExternalForm()));
+        }
     }
 
 }
