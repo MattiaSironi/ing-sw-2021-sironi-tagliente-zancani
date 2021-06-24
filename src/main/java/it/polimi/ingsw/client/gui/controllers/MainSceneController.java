@@ -260,26 +260,11 @@ public class MainSceneController implements  GUIController {
     public void showFaithTrack() {
         groupFaithSlots();
         FaithTrack ft = this.mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getFaithTrack();
-//        int pos = 0;
-//        int loripos=0;
-//        pos = ft.getMarker();
-//        this.faithTrack.get(pos).setImage((new Image(getClass().getResource("/images/PunchBoard/faith_point.png").toExternalForm())));
-//        for (int i=0;i<pos;i++){
-//            this.faithTrack.get(i).setImage(null);
-//        }
-//        if(mainController.getGame().getNumPlayer()==1){
-//            loripos = ft.getLoriPos();
-//            if(loripos==pos) {  //nuova immagine}
-//            }
-//            this.faithTrack.get(loripos).setImage((new Image(getClass().getResource("/images/PunchBoard/croce.png").toExternalForm())));
-//        }
-
-
-
 
         for (ImageView slot : this.faithTrack) {
             if ( mainController.getGame().getPlayers().size() == 1 && faithTrack.indexOf(slot) == ft.getMarker() && faithTrack.indexOf(slot) == ft.getLoriPos()) {
-            }//new image
+                slot.setImage((new Image(getClass().getResource("/images/PunchBoard/croce_faith.png").toExternalForm())));
+            }
             else if (faithTrack.indexOf(slot) == ft.getMarker())
                 slot.setImage((new Image(getClass().getResource("/images/PunchBoard/faith_point.png").toExternalForm())));
             else if ( mainController.getGame().getPlayers().size() == 1 && faithTrack.indexOf(slot) == ft.getLoriPos())
