@@ -1,5 +1,9 @@
 package it.polimi.ingsw.client;
 
+/**
+ * Enum Actions contains all possible Actions a Player using CLI can make.
+ */
+
 public enum Actions {
     M ("Take Resources from the Market", true),
     B ("Buy one Development Card", true),

@@ -10,6 +10,10 @@ import it.polimi.ingsw.observer.Observer;
 
 import java.util.ArrayList;
 
+/**
+ * Class ModelMultiplayerView is a part of the Game that a Player can see. It is used for prints in CLI mode.
+ */
+
 public class ModelMultiplayerView extends Observable<Message> implements Observer<Message> {
 
     private Game game;
@@ -23,23 +27,25 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
         this.game = game;
     }
 
-    public static int getSize() {
-        return size;
-    }
-
-    public static void setSize(int size) {
-        ModelMultiplayerView.size = size;
-    }
-
-    private static int size ;
 
     public Game getGame() {
         return game;
     }
 
+    /**
+     * Method printFaithTrack calls FaithTrack.print of the selected Player.
+     * @param ID is the ID of the selected player.
+     * @see FaithTrack
+     */
+
     public void printFaithTrack(int ID) {
         this.getGame().getPlayerById(ID).getPersonalBoard().getFaithTrack().print();
     }
+    /**
+     * Method printActiveLeaders calls every LeaderCard.print of the selected Player.
+     * @param ID is the ID of the selected player.
+     * @see LeaderCard
+     */
 
     public void printActiveLeaders(int ID) {
         for(LeaderCard d : this.game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards()){
@@ -47,16 +53,40 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
         }
     }
 
+
+    /**
+     * Method printMarket calls Market.print
+     * @see Market
+     */
+
     public void printMarket(){
         this.game.getBoard().getMarket().print();
     }
 
+    /**
+     * Method printFaithTrack calls ShelfWarehouse.print of the selected Player.
+     * @param ID is the ID of the selected player.
+     * @see ShelfWarehouse
+     */
+
     public void printShelves(int ID)  {
         this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().print();
     }
+
+    /**
+     * Method printStrongbox calls Strongbox.print of the selected Player.
+     * @param ID is the ID of the selected player.
+     * @see Strongbox
+     */
     public void printStrongbox(int ID)  {
         this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().print();
     }
+
+    /**
+     * Method printDevMatrix calls every first DevCard in every DevDeck
+     * @see DevCard
+     * @see DevDeck
+     */
 
     public void printDevMatrix(){
         int index = 1;
@@ -72,6 +102,13 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
         }
     }
 
+    /**
+     * Method printProd calls every print of Cards bought by the selected Player.
+     * @param ID is the ID of the selected player.
+     * @see DevDeck
+     * @see DevCard
+     */
+
     public void printProd(int chosenID, int ID){
         int slot = 1;
         int pos = 1;
@@ -85,6 +122,11 @@ public class ModelMultiplayerView extends Observable<Message> implements Observe
             slot++;
         }
     }
+
+    /**
+     * Method printPlayers prints every Player with his ID.
+     * @param ID is the ID of the player who asked the print.
+     */
 
     public void printPlayers(int ID) {
         for (Player p : this.game.getPlayers())  {
