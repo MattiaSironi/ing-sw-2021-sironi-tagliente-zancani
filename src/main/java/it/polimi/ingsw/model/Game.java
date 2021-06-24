@@ -176,6 +176,12 @@ public class Game extends Observable<Message> implements Serializable {
         notify(new ObjectMessage(getCommunication().clone(), 9, -1));
     }
 
+    /**
+     * sets the position on the player's Faithtrack, notifies the changes
+     * and checks if the player arrived to the end of the faithTrack or to a Pope favour slot
+     * @param faith indicates how faith points should be added on the faithtrack
+     * @param ID corrispons to the player ID
+     */
     public void moveFaithPosByID(int ID, int faith){
         getPlayerById(ID).getPersonalBoard().getFaithTrack().moveFaithMarkerPos(faith);
         setCommunication(ID, CommunicationList.FP);
@@ -186,6 +192,7 @@ public class Game extends Observable<Message> implements Serializable {
         checkVatican();
 
     }
+
 
     public boolean swapShelvesByID(int s1, int s2, int ID){
         ShelfWarehouse temp = getPlayerById(ID).getPersonalBoard().getWarehouse().clone();
@@ -585,6 +592,10 @@ public class Game extends Observable<Message> implements Serializable {
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getLeaderChosen(), 7, ID));
     }
 
+    /**
+     * Method setNewPlayerCards removes the leader card from the hand of the player and adds it to his active leaders.
+     * It then notifies all the changes and sets the turn phase to go back to the action menu.
+     */
     public  synchronized void setNewPlayerCards (int ID, LeaderCard lc) {
         try {
 
@@ -615,8 +626,9 @@ public class Game extends Observable<Message> implements Serializable {
     }
 
 
-
-
+    /**
+     * sets the new leader deck after discarding a leader card and notifies it.
+     */
     public void discard(int ID,LeaderDeck newLd){
         getPlayerById(ID).setLeaderDeck(newLd);
         notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck().clone(), 8, ID)));
