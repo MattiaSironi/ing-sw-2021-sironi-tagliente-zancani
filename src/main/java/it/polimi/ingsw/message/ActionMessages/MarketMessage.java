@@ -3,6 +3,7 @@ package it.polimi.ingsw.message.ActionMessages;
 import it.polimi.ingsw.message.Message;
 
 /**
+ * MarketMessage is used to start "Buy Resources from Market" action.
  * @author Mattia Sironi
  */
 public class MarketMessage extends Message {

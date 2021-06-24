@@ -3,6 +3,10 @@ package it.polimi.ingsw.message.ActionMessages;
 import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.ResourceType;
 
+/**
+ * LeaderProductionMessage is used to activate a ExtraProdLCard production.
+ */
+
 public class LeaderProductionMessage extends Message {
     int index, ID;
     ResourceType wantedRes;

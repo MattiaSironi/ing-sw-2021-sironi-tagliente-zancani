@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.ResourceType;
 import java.util.ArrayList;
 
 /**
+ * PlaceResourceMessage is used to place a resource.
  * @author Mattia Sironi
  */
 public class PlaceResourceMessage extends Message {

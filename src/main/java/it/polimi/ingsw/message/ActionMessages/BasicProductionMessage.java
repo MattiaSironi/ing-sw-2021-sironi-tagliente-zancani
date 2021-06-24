@@ -3,6 +3,9 @@ package it.polimi.ingsw.message.ActionMessages;
 import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.ResourceType;
 
+/**
+ * BasicProductionMessage is used to activate the Basic production.
+ */
 public class BasicProductionMessage extends Message {
     private final ResourceType paidRes1;
     private final ResourceType paidRes2;

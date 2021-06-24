@@ -3,6 +3,10 @@ package it.polimi.ingsw.message.ActionMessages;
 import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.LeaderCard;
 
+/**
+ * PlayLeaderMessage is used to activate or discard a LeaderCard.
+ */
+
 public class PlayLeaderMessage extends Message {
     private final int ID;
     private final int idx;

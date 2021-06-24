@@ -7,6 +7,10 @@ import it.polimi.ingsw.model.ResourceType;
 
 import java.util.ArrayList;
 
+/**
+ * ProductionMessage is used to start and finish "Production" action in game.
+ */
+
 public class ProductionMessage extends Message {
 
     private final int ID;

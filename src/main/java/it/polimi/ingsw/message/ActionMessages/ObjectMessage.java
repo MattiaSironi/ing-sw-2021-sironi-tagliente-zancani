@@ -2,6 +2,10 @@ package it.polimi.ingsw.message.ActionMessages;
 
 import it.polimi.ingsw.message.Message;
 
+/**
+ * ObjectMessage is sent from Controller to View in order to keep Views update with game changes.
+ */
+
 public class ObjectMessage extends Message {
     private final Object object;
     private final int objectID;

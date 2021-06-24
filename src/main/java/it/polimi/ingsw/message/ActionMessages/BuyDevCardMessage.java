@@ -2,6 +2,10 @@ package it.polimi.ingsw.message.ActionMessages;
 
 import it.polimi.ingsw.message.Message;
 
+/**
+ * BuyDevCardMessage is used to start "Buy a DevCard" action.
+ */
+
 public class BuyDevCardMessage extends Message {
     private final int chosenIndex;
     private final int ID;

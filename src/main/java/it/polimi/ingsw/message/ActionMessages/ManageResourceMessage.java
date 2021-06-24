@@ -2,6 +2,10 @@ package it.polimi.ingsw.message.ActionMessages;
 
 import it.polimi.ingsw.message.Message;
 
+/**
+ * ManageResourceMessage is used to swap shelves.
+ */
+
 public class ManageResourceMessage extends Message {
     private final int shelf1;
     private final int shelf2;
