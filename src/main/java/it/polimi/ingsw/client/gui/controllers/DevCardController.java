@@ -13,12 +13,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-
 import java.util.ArrayList;
 
+/**
+ * DevCardController class handles the buyDevCardScene.fxml by performing action from the GUI
+ */
+
 public class DevCardController implements GUIController{
-
-
     public ImageView card7;
     public ImageView card8;
     public ImageView card9;
@@ -45,6 +46,10 @@ public class DevCardController implements GUIController{
     public Label phase;
     public Label comMessages;
 
+    /**
+     * Method setup prepares the scene when opened
+     * @param num
+     */
     public void setup(int num){
         chosenCard.setImage(null);
         cancelButton.setMouseTransparent(true);
@@ -96,7 +101,9 @@ public class DevCardController implements GUIController{
         }
     }
 
-
+    /**
+     * Method activateButton handles some Controls in the scene
+     */
     public void activateButtons(){
         uselessLabel.setVisible(true);
         cancelButton.setVisible(true);
@@ -111,6 +118,10 @@ public class DevCardController implements GUIController{
         gui = m.getGui();
     }
 
+    /**
+     * Method cancel performs an undo when the player click on a development card
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void cancel(MouseEvent mouseEvent) {
         uselessLabel.setVisible(false);
         chosenCard.setImage(null);
@@ -120,6 +131,10 @@ public class DevCardController implements GUIController{
         buyButton.setDisable(true);
     }
 
+    /**
+     * Method buyCard sends the index of the chosen card
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void buyCard(MouseEvent mouseEvent) {
         cancelButton.setMouseTransparent(true);
         buyButton.setMouseTransparent(true);

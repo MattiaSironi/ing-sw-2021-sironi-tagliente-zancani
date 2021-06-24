@@ -11,6 +11,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+/**
+ *  StartController class handles start.fxml performing actions triggered by GUI's events
+ */
+
 public class StartController implements GUIController{
 
     public TextField nicknameInput;
@@ -20,7 +24,10 @@ public class StartController implements GUIController{
     @FXML private ImageView multiGame;
     private GUI gui;
 
-
+    /**
+     * Method playLocalGame handles the local game setup
+     * @param actionEvent of type ActionEvent - the event received.
+     */
     public void playLocalGame(MouseEvent actionEvent) {
         gui.setLocal(true);
         multiGame.setDisable(true);
@@ -37,12 +44,18 @@ public class StartController implements GUIController{
     }
 
 
-
+    /**
+     * Method startOnlineGame changes the scene for the online game
+     * @param actionEvent of type ActionEvent - the event received.
+     */
     public void startOnlineGame(MouseEvent actionEvent) {
-//        gui.playButtonSound();
         gui.changeScene(SceneList.SETUP);
     }
 
+    /**
+     * Method sendNickname sends the chosen nickname in case of local game
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void sendNickname(MouseEvent mouseEvent) {
         nicknameInput.setDisable(true);
         sendButton.setMouseTransparent(true);

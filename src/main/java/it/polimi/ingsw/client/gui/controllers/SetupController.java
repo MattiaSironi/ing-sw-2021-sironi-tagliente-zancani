@@ -20,9 +20,11 @@ import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * SetupController class handles the setup.fxml by performing actions from the GUI
+ */
+
 public class SetupController implements GUIController{
-
-
     public ImageView sendButton;
     public ImageView playButton;
     public ImageView startButton;
@@ -36,10 +38,11 @@ public class SetupController implements GUIController{
     @FXML private Label waitingLabel;
     @FXML private ChoiceBox choiceBox;
     @FXML private Label playerLabel;
-//    private static final String clickSoundPath = "ClickSound.wav";
 
-
-
+    /**
+     * Method setupConnection opens the connection to the server
+     * @param actionEvent of type ActionEvent - the event received.
+     */
 
     public void setupConnection(MouseEvent actionEvent) {
         try {
@@ -55,8 +58,7 @@ public class SetupController implements GUIController{
             startButton.setVisible(false);
             startButton.setMouseTransparent(true);
             label1.setVisible(false);
-
-        } catch(IOException e){
+        } catch(IOException ignored){
 
         }
     }
@@ -65,6 +67,10 @@ public class SetupController implements GUIController{
 //        AudioClip clickSound = new AudioClip(this.getClass().getResource("sound/" + clickSoundPath).toString());
 //        clickSound.play();
 //    }
+
+    /**
+     * method updateHostScene sets up the scene for the host of the game
+     */
 
     public void updateHostScene(){
 
@@ -82,9 +88,12 @@ public class SetupController implements GUIController{
         choiceBox.getItems().add(0,"4");
     }
 
+    /**
+     * Method setNumberOfPlayers sends the number of player chosen by the host of the game
+     */
+
     public void setNumberOfPlayers(){
         try {
-
             gui.getMainController().send(new ChooseNumberOfPlayer(Integer.parseInt(choiceBox.getValue().toString())));
             waitingForPlayers.setVisible(true);
             waitingForPlayers.setDisable(false);
@@ -94,13 +103,15 @@ public class SetupController implements GUIController{
             choiceBox.setVisible(false);
             playButton.setDisable(true);
             playButton.setVisible(false);
-        } catch(NumberFormatException | NullPointerException e){
+        } catch(NumberFormatException | NullPointerException ignored){
 
         }
     }
 
 
-
+    /**
+     * method askForNickname sets up the scene for the nickname input
+     */
 
     public void askForNickname() {
         waitingForPlayers.setDisable(true);
@@ -116,11 +127,20 @@ public class SetupController implements GUIController{
         sendButton.setDisable(false);
     }
 
+    /**
+     * Method sendNickname sends the nickname chosen by the player
+     * @param actionEvent of type ActionEvent - the event received.
+     */
+
     public void sendNickname(MouseEvent actionEvent) {
         nicknameInput.setDisable(true);
         sendButton.setMouseTransparent(true);
         gui.getMainController().send(new Nickname(nicknameInput.getText(), gui.getID()));
     }
+
+    /**
+     * method setDuplicatedNickname shows a label if the nickname chosen by he player already exists
+     */
 
     public void setDuplicatedNickname(){
         this.duplicateNickLabel.setVisible(true);

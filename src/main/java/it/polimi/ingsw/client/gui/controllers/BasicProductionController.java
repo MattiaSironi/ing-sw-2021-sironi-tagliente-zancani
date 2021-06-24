@@ -11,9 +11,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-
 import java.util.ArrayList;
 
+/**
+ * BasicProductionController class handles the basicProductionScene.fxml by performing actions from the GUI
+ */
 public class BasicProductionController implements GUIController{
 
     public ImageView dev1;
@@ -67,6 +69,10 @@ public class BasicProductionController implements GUIController{
         this.mainController = m;
     }
 
+    /**
+     * Method setup prepares the scene when opened
+     * @param num
+     */
     @Override
     public void setup(int num) {
         label2.setVisible(true);
@@ -88,14 +94,20 @@ public class BasicProductionController implements GUIController{
         chosenResources = new ArrayList<>();
     }
 
+    /**
+     * method showStrongbox handles the visualization of the strongbox
+     */
     public void showStrongbox(){
         coinNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.COIN));
         stoneNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.STONE));
         servantNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.SERVANT));
         shieldNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.SHIELD));
     }
-    
-    
+
+    /**
+     * Method showDevCard handles the visualization of the slot of development card of the personal board
+     */
+
     public void showDevCard(){
         if (mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(0).getCards().size() != 0) {
             dev1.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
@@ -115,6 +127,9 @@ public class BasicProductionController implements GUIController{
         }
     }
 
+    /**
+     * method showShelves handles the visualization of the warehouse
+     */
     public void showShelves() {
         ShelfWarehouse myShelves = mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getWarehouse();
         ArrayList<ImageView> shelf2 = new ArrayList<>();
@@ -178,6 +193,10 @@ public class BasicProductionController implements GUIController{
         else for (ImageView iv : shelf5) iv.setImage(null);
     }
 
+    /**
+     * Method back switches to the main scene of the game
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void goBack(MouseEvent mouseEvent) {
         mainController.getGui().changeScene(SceneList.GENERALPRODSCENE);
     }
@@ -208,6 +227,10 @@ public class BasicProductionController implements GUIController{
 
     }
 
+    /**
+     * Method chooseCoin handles the choices for the basic production
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void chooseCoin(MouseEvent mouseEvent) {
         if(chosenResources.size() == 0) {
             chosenResources.add(ResourceType.COIN);
@@ -220,6 +243,10 @@ public class BasicProductionController implements GUIController{
         }
     }
 
+    /**
+     * Method chooseStone handles the choices for the basic production
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void chooseStone(MouseEvent mouseEvent) {
         if(chosenResources.size() == 0) {
             chosenResources.add(ResourceType.STONE);
@@ -232,6 +259,10 @@ public class BasicProductionController implements GUIController{
         }
     }
 
+    /**
+     * Method chooseServant handles the choices for the basic production
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void chooseServant(MouseEvent mouseEvent) {
         if(chosenResources.size() == 0) {
             chosenResources.add(ResourceType.SERVANT);
@@ -244,6 +275,10 @@ public class BasicProductionController implements GUIController{
         }
     }
 
+    /**
+     * Method chooseShield handles the choices for the basic production
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void chooseShield(MouseEvent mouseEvent) {
         if(chosenResources.size() == 0) {
             chosenResources.add(ResourceType.SHIELD);
@@ -256,32 +291,55 @@ public class BasicProductionController implements GUIController{
         }
     }
 
+    /**
+     * Method buyCoin handles the choices for the basic production
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void buyCoin(MouseEvent mouseEvent) {
         newResource = ResourceType.COIN;
         result.setImage(new Image(getClass().getResource("/images/PunchBoard/coin.png").toExternalForm()));
     }
 
+    /**
+     * Method buyStone handles the choices for the basic production
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void buyStone(MouseEvent mouseEvent) {
         newResource = ResourceType.STONE;
         result.setImage(new Image(getClass().getResource("/images/PunchBoard/stone.png").toExternalForm()));
     }
 
+    /**
+     * Method buyServant handles the choices for the basic production
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void buyServant(MouseEvent mouseEvent) {
         newResource = ResourceType.SERVANT;
         result.setImage(new Image(getClass().getResource("/images/PunchBoard/servant.png").toExternalForm()));
     }
 
+    /**
+     * Method buyShield handles the choices for the basic production
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void buyShield(MouseEvent mouseEvent) {
         newResource = ResourceType.SHIELD;
         result.setImage(new Image(getClass().getResource("/images/PunchBoard/shield.png").toExternalForm()));
     }
 
+    /**
+     * Method resetChoice resets the choices of the player
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void resetChoice(MouseEvent mouseEvent) {
         result.setImage(null);
         newResource = null;
         confirm1.setDisable(true);
     }
 
+    /**
+     * Method enableHBox handles some Controls in the scene
+     */
     public void enableHBox(){
         label2.setVisible(false);
         label1.setVisible(true);
@@ -293,11 +351,17 @@ public class BasicProductionController implements GUIController{
         endBasic.setDisable(false);
     }
 
+    /**
+     * Method confirmChoice sends the message for the basic production phase
+     */
     public void confirmChoice(MouseEvent mouseEvent) {
         mainController.send(new BasicProductionMessage(chosenResources.get(0), chosenResources.get(1), null, mainController.getGui().getID(), false));
         back.setDisable(true);
     }
 
+    /**
+     * Method sendResources sends the message for the basic production phase
+     */
     public void sendResources(MouseEvent mouseEvent) {
 
         mainController.send(new BasicProductionMessage(null, null, newResource, mainController.getGui().getID(), false));
@@ -305,6 +369,10 @@ public class BasicProductionController implements GUIController{
 
     }
 
+    /**
+     *Method resetSelection resets the selection of th player
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void resetSelection(MouseEvent mouseEvent) {
         chosenResources = new ArrayList<>();
         paid1.setImage(null);

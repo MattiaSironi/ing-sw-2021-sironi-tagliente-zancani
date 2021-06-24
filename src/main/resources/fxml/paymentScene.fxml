@@ -125,7 +125,7 @@
                </children>
             </GridPane>
             <Button fx:id="payFromWarehouse" layoutX="840.0" layoutY="301.0" mnemonicParsing="false" onAction="#payFromWarehouse" prefHeight="66.0" prefWidth="256.0" text="Pay from warehouse" />
-            <Button fx:id="pauFromStrongbox" layoutX="840.0" layoutY="416.0" mnemonicParsing="false" onAction="#PayFromStrongbox" prefHeight="66.0" prefWidth="256.0" text="Pay from strongbox" />
+            <Button fx:id="payFromStrongbox" layoutX="840.0" layoutY="416.0" mnemonicParsing="false" onAction="#PayFromStrongbox" prefHeight="66.0" prefWidth="256.0" text="Pay from strongbox" />
             <Label fx:id="coinNum" layoutX="116.0" layoutY="496.0" textFill="#f6ff00">
                <font>
                   <Font size="24.0" />

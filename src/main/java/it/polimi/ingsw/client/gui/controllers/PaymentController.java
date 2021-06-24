@@ -14,6 +14,10 @@ import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 
+/**
+ *  PaymentController class handles the paymentScene.fxml by performing action from the GUI
+ *
+ * */
 public class PaymentController implements GUIController {
 
     public HBox hBox;
@@ -48,6 +52,10 @@ public class PaymentController implements GUIController {
     public Label phase;
     public Label comMessages;
 
+
+    /**
+     * method prepareScene handles the Controls of the scene when opened
+     */
     public void prepareScene(){
         for(ImageView imageView : resToPay){
             imageView.setImage(null);
@@ -73,6 +81,10 @@ public class PaymentController implements GUIController {
 
     }
 
+    /**
+     * Method setup sets up the scene when opened
+     * @param num
+     */
     @Override
     public void setup(int num) {
         resToPay = new ArrayList<>();
@@ -101,6 +113,9 @@ public class PaymentController implements GUIController {
         //    i++;
     }
 
+    /**
+     * method showStrongbox handles the visualization of the strongbox
+     */
     public void showStrongbox(){
         coinNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.COIN));
         stoneNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.STONE));
@@ -108,6 +123,10 @@ public class PaymentController implements GUIController {
         shieldNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.SHIELD));
     }
 
+
+    /**
+     * method showShelves handles the visualization of the warehouse
+     */
     public void showShelves() {
         ShelfWarehouse myShelves = mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getWarehouse();
         ArrayList<ImageView> shelf2 = new ArrayList<>();
@@ -191,6 +210,11 @@ public class PaymentController implements GUIController {
 
     }
 
+    /**
+     * method payFromWarehouse sends the message for the payment from warehouse
+     * @param actionEvent of type ActionEvent - the event received.
+     */
+
     public void payFromWarehouse(ActionEvent actionEvent) {
         if(mainController.getGame().getTurn().getPhase() == ActionPhase.B_PAYMENT) {
             mainController.send(new BuyDevCardMessage(-1, mainController.getGui().getID(), true, -1));
@@ -202,6 +226,10 @@ public class PaymentController implements GUIController {
             mainController.send(new ProductionMessage(mainController.getGui().getID(), false, -1, true));
         }
     }
+    /**
+     * method payFromStrongbox sends the message for the payment from strongbox
+     * @param actionEvent of type ActionEvent - the event received.
+     */
 
     public void PayFromStrongbox(ActionEvent actionEvent) {
         if (mainController.getGame().getTurn().getPhase() == ActionPhase.B_PAYMENT) {

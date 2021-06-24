@@ -10,6 +10,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * PlaceDevCardScene handles the placeDevCardScene.fxml by performing actions from the GUI
+ */
+
 public class PlaceDevCardScene implements GUIController{
     public Button firstSlot;
     public Button secondSlot;
@@ -26,6 +30,11 @@ public class PlaceDevCardScene implements GUIController{
     public void setMainController(MainController m) {
         this.mainController = m;
     }
+
+    /**
+     * Method setup prepares the scene when opened
+     * @param num
+     */
 
     @Override
     public void setup(int num) {
@@ -61,7 +70,9 @@ public class PlaceDevCardScene implements GUIController{
     public void enable() {
 
     }
-
+    /**
+     * Method sendFirstSlot send the message when the first slot is chosen
+     */
     public void sendFirstSlot(ActionEvent actionEvent) {
         firstSlot.setDisable(true);
         secondSlot.setDisable(true);
@@ -71,6 +82,9 @@ public class PlaceDevCardScene implements GUIController{
 
     }
 
+    /**
+     * Method sendFirstSlot send the message when the second slot is chosen
+     */
     public void sendSecondSlot(ActionEvent actionEvent) {
         firstSlot.setDisable(true);
         secondSlot.setDisable(true);
@@ -79,6 +93,9 @@ public class PlaceDevCardScene implements GUIController{
         mainController.send(new BuyDevCardMessage(-1, mainController.getGui().getID(), true, 1));
     }
 
+    /**
+     * Method sendFirstSlot send the message when the third slot is chosen
+     */
     public void sendThirdSlot(ActionEvent actionEvent) {
         firstSlot.setDisable(true);
         secondSlot.setDisable(true);
@@ -87,11 +104,18 @@ public class PlaceDevCardScene implements GUIController{
         mainController.send(new BuyDevCardMessage(-1, mainController.getGui().getID(), true, 2));
     }
 
+    /**
+     * Method back switches to the main scene of the game
+     * @param actionEvent of type ActionEvent - the event received.
+     */
     public void back(ActionEvent actionEvent) {
         mainController.noMoreActions();
         mainController.getGui().changeScene(SceneList.MAINSCENE);
     }
 
+    /**
+     * Method updateDevSlot handles the visualization of the development cards on the player's personal board
+     */
     public void updateDevSlot() {
         if(mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(0).getCards().size() != 0){
             dev1.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +

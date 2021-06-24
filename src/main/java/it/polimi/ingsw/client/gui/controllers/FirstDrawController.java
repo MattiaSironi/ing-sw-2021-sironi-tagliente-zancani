@@ -12,8 +12,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-
 import java.util.ArrayList;
+
+/**
+ * FirstDrawController class handles the firstDrawScene.fxml by performing action from the GUI
+ */
 
 public class FirstDrawController implements GUIController {
 
@@ -36,6 +39,10 @@ public class FirstDrawController implements GUIController {
     private ArrayList<ResourceType> resources;
     private ArrayList<LeaderCard> chosenLeaders;
 
+    /**
+     * Method setup prepares the scene when opened
+     * @param num
+     */
     public void setup(int num) {
         this.resources = new ArrayList<>();
         this.chosenLeaders = new ArrayList<>();
@@ -53,6 +60,44 @@ public class FirstDrawController implements GUIController {
                 case 3 -> card4.setImage(new Image(getClass().getResource("/images/Leaders/" + leaderCard.toString() + ".png").toExternalForm()));
             }
         }
+    }
+
+    /**
+     * Method prepareScene handles some controls in the scene
+     */
+    public void prepareScene() {
+        if (mainController.getGame().getPlayerById(gui.getID()).getStartResCount() == 0) {
+            coin.setMouseTransparent(true);
+            coin.setVisible(false);
+            stone.setMouseTransparent(true);
+            stone.setVisible(false);
+            servant.setMouseTransparent(true);
+            servant.setVisible(false);
+            shield.setMouseTransparent(true);
+            shield.setVisible(false);
+            yourRes.setVisible(false);
+            chooseResLabel.setOpacity(0.75);
+            System.out.println("gigi");
+        }
+    }
+
+    /**
+     * method setResCountLabel handles some controls in the scene
+     * @param count
+     */
+
+    public void setResCountLabel(int count) {
+        switch (count) {
+            case 0 -> {
+                chooseResLabel.setText("");
+                prepareScene();
+                deactivateResourcesButton();
+            }
+            case 1 -> chooseResLabel.setText("Choose " + count + " starting Resource");
+            case 2 -> chooseResLabel.setText("Choose " + count + " starting Resources");
+            default -> System.out.println("qui");
+        }
+        System.out.println(count);
     }
 
     @Override
@@ -74,38 +119,6 @@ public class FirstDrawController implements GUIController {
     public void enable() {
 
     }
-
-
-    public void prepareScene() {
-        if (mainController.getGame().getPlayerById(gui.getID()).getStartResCount() == 0) {
-            coin.setMouseTransparent(true);
-            coin.setVisible(false);
-            stone.setMouseTransparent(true);
-            stone.setVisible(false);
-            servant.setMouseTransparent(true);
-            servant.setVisible(false);
-            shield.setMouseTransparent(true);
-            shield.setVisible(false);
-            yourRes.setVisible(false);
-            chooseResLabel.setOpacity(0.75);
-            System.out.println("gigi");
-        }
-    }
-
-    public void setResCountLabel(int count) {
-        switch (count) {
-            case 0 -> {
-                chooseResLabel.setText("");
-                prepareScene();
-                deactivateResourcesButton();
-            }
-            case 1 -> chooseResLabel.setText("Choose " + count + " starting Resource");
-            case 2 -> chooseResLabel.setText("Choose " + count + " starting Resources");
-            default -> System.out.println("qui");
-        }
-        System.out.println(count);
-    }
-
 
     public void coinOpacityUp(MouseEvent mouseEvent) {
         coin.setOpacity(1);
@@ -155,6 +168,11 @@ public class FirstDrawController implements GUIController {
 
     }
 
+    /**
+     * method addCoin handles the choice of the initial resource(s)
+     * @param mouseEvent    of type ActionEvent - the event received.
+     */
+
     public void addCoin(MouseEvent mouseEvent) {
         if (resources.size() == 0)
             res1.setImage(new Image(getClass().getResource("/images/PunchBoard/coin.png").toExternalForm()));
@@ -166,6 +184,11 @@ public class FirstDrawController implements GUIController {
             deactivateResourcesButton();
         }
     }
+
+    /**
+     * method addStone handles the choice of the initial resource(s)
+     * @param mouseEvent    of type ActionEvent - the event received.
+     */
 
     public void addStone(MouseEvent mouseEvent) {
         if (resources.size() == 0)
@@ -179,6 +202,11 @@ public class FirstDrawController implements GUIController {
         }
     }
 
+    /**
+     * method addServant handles the choice of the initial resource(s)
+     * @param mouseEvent    of type ActionEvent - the event received.
+     */
+
     public void addServant(MouseEvent mouseEvent) {
         if (resources.size() == 0)
             res1.setImage(new Image(getClass().getResource("/images/PunchBoard/servant.png").toExternalForm()));
@@ -190,6 +218,11 @@ public class FirstDrawController implements GUIController {
             deactivateResourcesButton();
         }
     }
+
+    /**
+     * method assShield handles the choice of the initial resource(s)
+     * @param mouseEvent    of type ActionEvent - the event received.
+     */
 
     public void addShield(MouseEvent mouseEvent) {
         if (resources.size() == 0)
@@ -203,6 +236,9 @@ public class FirstDrawController implements GUIController {
         }
     }
 
+    /**
+     * Method deactivateCards handles some controls in the scene
+     */
     public void deactivateCards() {
         card1.setMouseTransparent(true);
         card2.setMouseTransparent(true);
@@ -210,6 +246,9 @@ public class FirstDrawController implements GUIController {
         card4.setMouseTransparent(true);
     }
 
+    /**
+     * Method deactivateCards handles some controls in the scene
+     */
     public void activateCards() {
         card1.setMouseTransparent(false);
         card2.setMouseTransparent(false);
@@ -221,6 +260,10 @@ public class FirstDrawController implements GUIController {
         card4.setOpacity(1);
     }
 
+    /**
+     * method addCard1 handles the choice of the initial resource(s)
+     * @param mouseEvent    of type ActionEvent - the event received.
+     */
     public void addCard1(MouseEvent mouseEvent) {
         chosenLeaders.add(mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0));
         card1.setOpacity(0.75);
@@ -229,6 +272,11 @@ public class FirstDrawController implements GUIController {
             deactivateCards();
         System.out.println("added");
     }
+
+    /**
+     * method addCard2 handles the choice of the initial resource(s)
+     * @param mouseEvent    of type ActionEvent - the event received.
+     */
 
     public void addCard2(MouseEvent mouseEvent) {
         chosenLeaders.add(mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1));
@@ -239,6 +287,11 @@ public class FirstDrawController implements GUIController {
         System.out.println("added");
     }
 
+    /**
+     * method addCard3 handles the choice of the initial resource(s)
+     * @param mouseEvent    of type ActionEvent - the event received.
+     */
+
     public void addCard3(MouseEvent mouseEvent) {
         chosenLeaders.add(mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(2));
         card3.setOpacity(0.75);
@@ -248,6 +301,10 @@ public class FirstDrawController implements GUIController {
         System.out.println("added");
     }
 
+    /**
+     * method addCard4 handles the choice of the initial resource(s)
+     * @param mouseEvent    of type ActionEvent - the event received.
+     */
     public void addCard4(MouseEvent mouseEvent) {
         chosenLeaders.add(mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(3));
         card4.setOpacity(0.75);
@@ -256,6 +313,11 @@ public class FirstDrawController implements GUIController {
             deactivateCards();
         System.out.println("added");
     }
+
+    /**
+     * Method next sends the resources chosen by the player and the index of the card that he want to discard
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
 
     public void next(MouseEvent mouseEvent) {
         nextButton.setMouseTransparent(true);
@@ -294,6 +356,9 @@ public class FirstDrawController implements GUIController {
         reset();
     }
 
+    /**
+     * method reset resets the choices of the player
+     */
     public void reset(){
         this.resources = new ArrayList<>();
         this.chosenLeaders = new ArrayList<>();

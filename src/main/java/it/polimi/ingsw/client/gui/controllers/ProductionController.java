@@ -14,8 +14,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-
 import java.util.ArrayList;
+
+/**
+ * ProductionController class handles the productionScene.fxml by performing actions from the GUI
+ */
 
 public class ProductionController implements GUIController{
     public Button basicProduction;
@@ -64,6 +67,10 @@ public class ProductionController implements GUIController{
         this.mainController = m;
     }
 
+    /**
+     * Method setup prepares the scene when opened
+     * @param num
+     */
     @Override
     public void setup(int num) {
         hBoxRes.setVisible(false);
@@ -93,12 +100,18 @@ public class ProductionController implements GUIController{
         shieldNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getEarnedShield());
     }
 
+    /**
+     * method showStrongbox handles the visualization of the strongbox
+     */
     public void showStrongbox(){
         coinStrong.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.COIN));
         stoneStrong.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.STONE));
         servantStrong.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.SERVANT));
         shieldStrong.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.SHIELD));
     }
+    /**
+     * method showLeaders handles the visualization of the Leader Cards
+     */
 
     private void showLeaders() {
         if(mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getActiveLeader().getCards().size() != 0) {
@@ -114,6 +127,9 @@ public class ProductionController implements GUIController{
 
     }
 
+    /**
+     * method showWarehouse handles the visualization of the warehouse
+     */
     private void showWarehouse() {
         ShelfWarehouse myShelves = mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getWarehouse();
         ArrayList<ImageView> shelf2 = new ArrayList<>();
@@ -175,6 +191,10 @@ public class ProductionController implements GUIController{
         }else for (ImageView iv : shelf5) iv.setImage(null);
     }
 
+    /**
+     * method showShelves handles the visualization of the development cards
+     */
+
     private void showDevCards() {
         if (mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getCardSlot().get(0).getCards().size() != 0) {
             dev1.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" +
@@ -220,14 +240,26 @@ public class ProductionController implements GUIController{
 
     }
 
+    /**
+     * method useBasicProduction switches to the scene for the basic production
+     * @param actionEvent of type ActionEvent - the event received.
+     */
     public void useBasicProduction(ActionEvent actionEvent) {
         mainController.getGui().changeScene(SceneList.BASICSCENE);
     }
 
+    /**
+     * Method back switches to the main scene of the game
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void goBack(MouseEvent mouseEvent) {
         mainController.getGui().changeScene(SceneList.MAINSCENE);
     }
 
+    /**
+     * method endProductionPhase ends the production phase
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void endProductionPhase(MouseEvent mouseEvent) {
         coinNum.setText("0");
         stoneNum.setText("0");
@@ -242,32 +274,58 @@ public class ProductionController implements GUIController{
         mainController.send(new ProductionMessage(mainController.getGui().getID(), true, -1, false));
     }
 
+    /**
+     * Method disableBackButton handles some controls in the scene
+     */
     public void disableBackButton() {
         back.setDisable(true);
         back.setMouseTransparent(true);
         enableEndAction = true;
     }
 
+    /**
+     * Method useFirstDevProduction sends the productionMessage when the player click on the first slot of his personal board
+     * @param actionEvent of type ActionEvent - the event received.
+     */
     public void useFirstDevProduction(ActionEvent actionEvent) {
         mainController.send(new ProductionMessage(mainController.getGui().getID(), false, 0, false));
     }
 
+    /**
+     * Method useSecondDevProduction sends the productionMessage when the player click on the second slot of his personal board
+     * @param actionEvent of type ActionEvent - the event received.
+     */
     public void useSecondDevProduction(ActionEvent actionEvent) {
         mainController.send(new ProductionMessage(mainController.getGui().getID(), false, 1, false));
     }
 
+    /**
+     * Method useThirdDevProduction sends the productionMessage when the player click on the third slot of his personal board
+     * @param actionEvent of type ActionEvent - the event received.
+     */
     public void useThirdDevProduction(ActionEvent actionEvent) {
         mainController.send(new ProductionMessage(mainController.getGui().getID(), false, 2, false));
     }
 
+    /**
+     * Method useSecondDevProduction sends the LeaderProductionMessage when the player click on the second Leader
+     * @param actionEvent of type ActionEvent - the event received.
+     */
     public void useSecondLeaderProduction(ActionEvent actionEvent) {
         mainController.send(new LeaderProductionMessage(1, mainController.getGui().getID(), null));
     }
 
+    /**
+     * Method useFirstDevProduction sends the LeaderProductionMessage when the player click on the first Leader
+     * @param actionEvent of type ActionEvent - the event received.
+     */
     public void useFirstLeaderProduction(ActionEvent actionEvent) {
         mainController.send(new LeaderProductionMessage(0, mainController.getGui().getID(), null));
     }
 
+    /**
+     * Method enableHBox handles some controls in the scene
+     */
     public void enableHBoxRes() {
         back.setDisable(true);
         back.setMouseTransparent(true);
@@ -281,18 +339,34 @@ public class ProductionController implements GUIController{
         hBoxRes.setVisible(true);
     }
 
+    /**
+     * Method chooseCoin handles the chosen resources for the Leader Production Ability
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void chooseCoin(MouseEvent mouseEvent) {
         mainController.send(new LeaderProductionMessage(0, mainController.getGui().getID(), ResourceType.COIN));
     }
+    /**
+     * Method chooseStone handles the chosen resources for the Leader Production Ability
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
 
     public void chooseStone(MouseEvent mouseEvent) {
         mainController.send(new LeaderProductionMessage(0, mainController.getGui().getID(), ResourceType.STONE));
     }
 
+    /**
+     * Method chooseServant handles the chosen resources for the Leader Production Ability
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void chooseServant(MouseEvent mouseEvent) {
         mainController.send(new LeaderProductionMessage(0, mainController.getGui().getID(), ResourceType.SERVANT));
     }
 
+    /**
+     * Method chooseShield handles the chosen resources for the Leader Production Ability
+     * @param mouseEvent of type ActionEvent - the event received.
+     */
     public void chooseShield(MouseEvent mouseEvent) {
         mainController.send(new LeaderProductionMessage(0, mainController.getGui().getID(), ResourceType.SHIELD));
     }
