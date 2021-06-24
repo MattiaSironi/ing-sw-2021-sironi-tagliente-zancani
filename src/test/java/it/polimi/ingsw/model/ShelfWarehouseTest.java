@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * ShelfWarehouseTest contains tests on ShelfWarehouse's logic.
  * @author Mattia Sironi, Lea Zancani, Simone Tagliente
  * @see ShelfWarehouse
  */

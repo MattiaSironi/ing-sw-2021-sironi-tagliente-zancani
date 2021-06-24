@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
 /**
+ * PersonalBoardTest contains tests on PersonalBoard's logic.
  * @author Mattia Sironi, Lea Zancani, Simone Tagliente
  * @see PersonalBoard
  */

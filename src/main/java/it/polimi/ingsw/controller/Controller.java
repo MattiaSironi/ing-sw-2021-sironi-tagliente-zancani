@@ -12,6 +12,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+/**
+ * Class Controller contains a lot of Master of Renaissance's rules and logics.
+ * It observes ModelMultiplayerView in MultiPlayer Mode, ClientActionController in CLI Solo Mode,
+ * MainController in GUI Solo Mode.
+ * @see it.polimi.ingsw.client.ModelMultiplayerView
+ * @see it.polimi.ingsw.client.gui.controllers.MainController
+ * @see it.polimi.ingsw.client.ClientActionController
+ * @see Game
+ */
+
 public class Controller implements Observer<Message> {
     private Game game;
     private boolean actionDone;
@@ -85,15 +95,15 @@ public class Controller implements Observer<Message> {
 //                game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(12);
 //                game.getPlayerById(0).getPersonalBoard().getFaithTrack().setLoriPos(23);
 //
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 10);
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 10);
-                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 10);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
-                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
-//game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(23);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 10);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 10);
+//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 10);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+////game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(23);
 //game.setFirstVatican(true);
 //game.setSecondVatican(true);
 

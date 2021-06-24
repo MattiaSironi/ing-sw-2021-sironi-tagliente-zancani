@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
+ * FindWinnerTest contains tests on final part of the game. it checks if all victory points' counting methods work.
  * @author Mattia Sironi
  */
 public class FindWinnerTest {
@@ -31,7 +32,7 @@ public class FindWinnerTest {
     }
 
     @Test
-    @DisplayName("first test with just resources in the shelfwarehouse")
+    @DisplayName("first test with just resources in the shelfWarehouse")
     public void onlyShelvesTest()  {
         game.getPlayerById(2).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
         game.getPlayerById(2).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);

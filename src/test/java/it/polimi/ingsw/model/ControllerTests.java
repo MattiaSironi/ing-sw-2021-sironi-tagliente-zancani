@@ -12,6 +12,10 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Class ControllerTests contains tests on Controller's business logics.
+ */
+
 public class ControllerTests {
     Controller controller;
     Game game;

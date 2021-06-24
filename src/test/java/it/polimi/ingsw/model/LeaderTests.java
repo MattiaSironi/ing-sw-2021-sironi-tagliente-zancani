@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * LeaderTests contains tests on discarding and activating Leader Cards.
+ */
 
 public class LeaderTests {
     Controller controller;

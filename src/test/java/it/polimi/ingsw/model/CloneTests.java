@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
+ * Class CloneTest contains tests on deep cloning methods.
  * @author Mattia Sironi
  */
 public class CloneTests {

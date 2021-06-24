@@ -9,6 +9,10 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Class DevProductionTests contains tests on DevCards productions.
+ */
+
 
 public class DevProductionTest {
     Controller controller;
