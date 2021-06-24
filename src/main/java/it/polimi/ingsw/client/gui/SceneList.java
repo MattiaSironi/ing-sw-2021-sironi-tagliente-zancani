@@ -1,5 +1,9 @@
 package it.polimi.ingsw.client.gui;
 
+/**
+ * enum SceneList contains all the scenes of the gui with the string to get the corresponding fxml file
+ */
+
 public enum SceneList {
 
     SETUP("setup.fxml"),

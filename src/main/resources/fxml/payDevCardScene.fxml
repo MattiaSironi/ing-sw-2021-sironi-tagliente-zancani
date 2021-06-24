@@ -30,7 +30,7 @@
                   <Image url="@../images/PunchBoard/shelvesAndStrongbox.png" />
                </image>
             </ImageView>
-            <Label layoutX="673.0" prefHeight="171.0" prefWidth="505.0" text="You have to pay these resources:" wrapText="true">
+            <Label layoutX="673.0" layoutY="-18.0" prefHeight="171.0" prefWidth="505.0" text="You have to pay these resources:" wrapText="true">
                <font>
                   <Font size="36.0" />
                </font>

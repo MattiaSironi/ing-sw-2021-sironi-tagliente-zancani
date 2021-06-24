@@ -131,8 +131,6 @@ public class Game extends Observable<Message> implements Serializable {
         return board;
     }
 
-
-
     public Player getPlayerById(int ID) {
         Player player = null;
         for (Player p : this.players) {
@@ -606,7 +604,6 @@ public class Game extends Observable<Message> implements Serializable {
         getPlayerById(id).setStartResCount(i);
         notify(new ObjectMessage(i, 5, id));
         checkReadyPlayer(id);
-
     }
 
     /**
@@ -650,6 +647,10 @@ public class Game extends Observable<Message> implements Serializable {
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getLeaderChosen(), 7, ID));
     }
 
+    /**
+     * Method setNewPlayerCards removes the leader card from the hand of the player and adds it to his active leaders.
+     * It then notifies all the changes and sets the turn phase to go back to the action menu.
+     */
     public  synchronized void setNewPlayerCards (int ID, LeaderCard lc) {
         try {
 
@@ -680,12 +681,12 @@ public class Game extends Observable<Message> implements Serializable {
     }
 
 
-
-
+    /**
+     * sets the new leader deck after discarding a leader card and notifies it.
+     */
     public void discard(int ID,LeaderDeck newLd){
         getPlayerById(ID).setLeaderDeck(newLd);
         notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck().clone(), 8, ID)));
-
     }
 
     /**

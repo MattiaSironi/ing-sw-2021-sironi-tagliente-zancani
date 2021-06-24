@@ -31,6 +31,7 @@ public class CLI {
 
     }
 
+
     public static void startMultiPlayer() throws IOException {
         CLI cli = new CLI();
         ModelMultiplayerView view = new ModelMultiplayerView(new Game(false, -1));

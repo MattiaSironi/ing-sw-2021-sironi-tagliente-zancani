@@ -85,14 +85,14 @@ public class Controller implements Observer<Message> {
 //                game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(12);
 //                game.getPlayerById(0).getPersonalBoard().getFaithTrack().setLoriPos(23);
 //
-//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 10);
-//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
-//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 10);
-//                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 10);
-//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
-//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
-//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
-//                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 10);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 10);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 10);
+                game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 10);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+                game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
 //game.getPlayerById(0).getPersonalBoard().getFaithTrack().setMarker(23);
 //game.setFirstVatican(true);
 //game.setSecondVatican(true);
@@ -376,6 +376,7 @@ public class Controller implements Observer<Message> {
         if (game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().size() == 0 && game.getBoard().getMatrix().getChosenCard().getLevel() == 1) {
             game.addDevCardToPlayer(ID, slot);
             actionDone = true;
+            game.setChosenDevCard(null, -1);
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
             if (game.getPlayers().size() == 1 && game.checkColumnEmpty()) {
                 game.setGameOver(true);
@@ -384,6 +385,7 @@ public class Controller implements Observer<Message> {
                 game.getPlayerById(ID).getPersonalBoard().getCardSlot().get(slot).getCards().get(0).getLevel() == game.getBoard().getMatrix().getChosenCard().getLevel() - 1) {
             game.addDevCardToPlayer(ID, slot);
             actionDone = true;
+            game.setChosenDevCard(null, -1);
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
         } else {
             game.setCommunication(ID, CommunicationList.INVALID_MOVE);
@@ -884,6 +886,7 @@ public class Controller implements Observer<Message> {
                 payRes(message.isPayFrom(), message.getID(), ActionPhase.B_PAYMENT);
             } else if (game.getTurn().getPhase().equals(ActionPhase.CHOOSE_SLOT)) {
                 placeDevCard(message.getID(), message.getSlot());
+
             }
         }
 
