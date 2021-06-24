@@ -7,6 +7,10 @@ import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.SocketClientConnection;
 
+/**
+ * RemoteView Class is used to complete MVC pattern Server side. it notifies to the Controller users Message and it observes Game changes.
+ */
+
 public class RemoteView extends Observable<Message> implements Observer<Message>, Runnable {
 
     private final SocketClientConnection clientConnection;

@@ -1,6 +1,10 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.message.Message;
+/**
+ * Interface UI is implemented by ClientActionController (CLI) and MainController (GUI).
+ * @see it.polimi.ingsw.client.gui.controllers.MainController
+ * @see ClientActionController
+ */
 
 public interface UI {
 
