@@ -131,6 +131,12 @@ public class Player implements Serializable, Cloneable{
         return personalBoard;
     }
 
+    /**
+     * Method sumLeads counts the amount of points given by active DevCards.
+     * @return victory points earned by active DevCards.
+     * @see DevCard
+     */
+
     public int sumDevs() {
         int value = 0;
         for (DevDeck dd : this.getPersonalBoard().getCardSlot()) {
@@ -141,6 +147,12 @@ public class Player implements Serializable, Cloneable{
         return value;
     }
 
+    /**
+     * Method sumLeads counts the amount of points given by active LeaderCards.
+     * @return victory points earned by active LeaderCards.
+     * @see LeaderCard
+     */
+
     public int sumLeads() {
         int value = 0;
         for (LeaderCard lc : this.personalBoard.getActiveLeader().getCards()) {
@@ -148,6 +160,12 @@ public class Player implements Serializable, Cloneable{
         }
         return value;
     }
+
+    /**
+     * Method sumPope counts points from Vatican reports.
+     * @return victory points made by Vatican reports.
+     * @see FaithTrack
+     */
 
     public int sumPope() {
         int value=0;
@@ -157,9 +175,20 @@ public class Player implements Serializable, Cloneable{
         return value;
     }
 
+    /**
+     * Method getValuePos counts points from FaithTrack position.
+     * @return victory points earned by FatihTrack position.
+     * @see FaithTrack
+     */
+
     public int getValuePos() {
         return this.getPersonalBoard().getFaithTrack().getFaithTrackSlot().get(this.getPersonalBoard().getFaithTrack().getMarker()).getCurrentVictoryPoints();
     }
+
+    /**
+     * Method getValueResources count all resources kept in strongbox and shelves.
+     * @return the amount of resources kept.
+     */
 
     public int getValueResources() {
         return (this.personalBoard.getStrongbox().numberOfResources() + this.personalBoard.getWarehouse().numberOfResources());
@@ -237,6 +266,11 @@ public class Player implements Serializable, Cloneable{
         setDev2ProdDone(false);
         setDev3ProdDone(false);
     }
+
+    /**
+     * Method clone creates a deep copy of a Player instance.
+     * @return a deep copy of a Player instance.
+     */
 
     public Player clone(){
         Player clone = new Player(this.id, this.nickname);

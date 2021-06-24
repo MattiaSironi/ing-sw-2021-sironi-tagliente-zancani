@@ -227,6 +227,11 @@ public class PersonalBoard implements Serializable {
         System.out.println();
     }
 
+    /**
+     * Method clone creates a deep copy of a PersonalBoard instance.
+     * @return a deep copy o a PersonalBoard instance.
+     */
+
     public PersonalBoard clone() {
         PersonalBoard clone = new PersonalBoard();
         clone.faithTrack = faithTrack.clone();
@@ -238,6 +243,12 @@ public class PersonalBoard implements Serializable {
 
         return clone;
     }
+
+    /**
+     * Method getCardSlotClone creates a deep copy of DevCards bought.
+     * @return a deep copy of DevCards bought.
+     *
+     */
 
     public ArrayList<DevDeck> getCardSlotClone() {
         ArrayList<DevDeck> clone = new ArrayList<>();

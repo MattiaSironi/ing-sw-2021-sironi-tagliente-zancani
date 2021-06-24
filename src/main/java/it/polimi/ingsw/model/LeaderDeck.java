@@ -17,6 +17,11 @@ public class LeaderDeck implements Printable, Serializable, Cloneable {
         this.cards = cards;
     }
 
+    /**
+     * Method clone creates a deep copy of a LeaderDeck instance
+     * @return a deep copy of a LeaderDeck instance.
+     */
+
     public LeaderDeck clone(){
         LeaderDeck clone = new LeaderDeck(new ArrayList<>());
         for(LeaderCard ld : this.cards) clone.getCards().add(ld);

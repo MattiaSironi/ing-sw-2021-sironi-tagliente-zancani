@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import java.io.Serializable;
 
 /**
- * Class Tray represents the single tray placed in the market
+ * Class Marble represents the single tray placed in the market
  *
  * @author Simone Tagliente
  * @see Market

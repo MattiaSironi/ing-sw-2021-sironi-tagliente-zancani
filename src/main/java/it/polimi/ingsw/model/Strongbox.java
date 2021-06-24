@@ -37,6 +37,13 @@ public class Strongbox implements Printable, Serializable {
         this.infinityShelf = infinityShelf;
     }
 
+
+    /**
+     * numberOfResources counts how many resources are present in a Strongbox instance.
+     * @return number of resources present in a Strongbox instance.
+     */
+
+
     public int numberOfResources()  {
         return  this.infinityShelf.stream().mapToInt(Shelf::getCount).sum();
     }
@@ -99,6 +106,12 @@ public class Strongbox implements Printable, Serializable {
         return this.infinityShelf.get(i).getCount();
     }
 
+    /**
+     * Method addResources adds q unit(s) of the ResourceType r.
+     * @param r is the ResourceType.
+     * @param q is the amount.
+     */
+
     public void addResource(ResourceType r, int q) {
         int index;
         int temp;
@@ -110,10 +123,20 @@ public class Strongbox implements Printable, Serializable {
         this.infinityShelf.get(index).setCount(temp + q);
     }
 
+    /**
+     * Method canIPay check whether a player can pay from his strongbox a certain amount i of ResourceType r.
+     * @param i is the amount.
+     * @param r is the ResourceType.
+     * @return true if he can pay. False if not.
+     */
+
     public boolean canIPay(int i, ResourceType r) {
         return getResCount(r) >= i;
     }
 
+    /**
+     * This method prints to console a Strongbox instance.
+     */
     @Override
     public void print() {
         System.out.println("======================");
@@ -124,6 +147,10 @@ public class Strongbox implements Printable, Serializable {
         System.out.println("======================");
     }
 
+    /**
+     * This method creates a deep copy of a Strongbox instance.
+     * @return a deep copy of a Strongbox instance.
+     */
     public Strongbox clone() {
         Strongbox temp = new Strongbox();
         temp.earnedCoin = this.earnedCoin;

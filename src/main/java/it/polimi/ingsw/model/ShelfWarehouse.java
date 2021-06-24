@@ -43,6 +43,11 @@ public class ShelfWarehouse implements Printable, Serializable {
         return num;
     }
 
+    /**
+     * Method clone creates a deep copy of a ShelfWarehouse instance.
+     * @return a deep copy of a ShelfWarehouse instance.
+     */
+
     public ShelfWarehouse clone()  {
         ShelfWarehouse temp = new ShelfWarehouse();
 
@@ -56,10 +61,13 @@ public class ShelfWarehouse implements Printable, Serializable {
     }
 
     /**
-     * Method swapShelves allows the player to manage the resources by swapping the shelves
+     * Method swap allows the player to manage the resources by swapping the shelves.
+     * Method swap creates a deep copy of the ShelveWarehouse instance. It does the swap on the copy, then if the move is valid the copy is the new ShelfWarehouse.
+     *
      *
      * @param s1 is the first shelf that the player wants to swap
      * @param s2 is the second shelf that the player wants to swap
+     * @return is the move was valid or not.
      */
 
     public boolean swap(int s1, int s2) {
@@ -106,6 +114,11 @@ public class ShelfWarehouse implements Printable, Serializable {
 
     }
 
+    /**
+     * Method checkRules verify whether the swap was a valid move or not.
+     * @return true if the move was valid. False if not.
+     */
+
     public boolean checkRules(){
 
         return this.shelves.get(0).getCount() <= 1 &&
@@ -130,7 +143,7 @@ public class ShelfWarehouse implements Printable, Serializable {
     public boolean addResource(ResourceType r, int shelfNum) {
         boolean error = false;
         int i;
-        if (shelfNum == 3 || shelfNum == 4)  return AddLeaderCase(r, shelfNum);
+        if (shelfNum == 3 || shelfNum == 4)  return addLeaderCase(r, shelfNum);
         else {
             for (i = 0; i < 3; i++) {
                 if (i != shelfNum) {
@@ -151,7 +164,14 @@ public class ShelfWarehouse implements Printable, Serializable {
         }
     }
 
-    private boolean AddLeaderCase(ResourceType r, int shelfNum) {
+    /**
+     * Method addLeaderCase is a sub-method of addResource method, for ExtraDepotLCard's extra shelves.
+     * @param r is the ResourceType
+     * @param shelfNum is the index of the shelf.
+     * @return whether move was valid or not.
+     */
+
+    private boolean addLeaderCase(ResourceType r, int shelfNum) {
 
         if (this.shelves.get(shelfNum).getResType() == r && this.shelves.get(shelfNum).getCount() < 2) {
             this.shelves.get(shelfNum).setCount(this.shelves.get(shelfNum).getCount() + 1);
@@ -176,7 +196,7 @@ public class ShelfWarehouse implements Printable, Serializable {
             if (this.shelves.get(i).getCount() == 0) {
                 this.shelves.set(i, new Shelf(ResourceType.EMPTY, 0));
             }
-        } else System.out.println("Error. You don't have this ResourceType\n");
+        }
 
     }
 
@@ -196,6 +216,10 @@ public class ShelfWarehouse implements Printable, Serializable {
         this.shelves = shelves;
     }
 
+    /**
+     * This method prints to console a ShelfWarehouse instance.
+     */
+
     @Override
     public void print() {
         System.out.println("======================");
@@ -213,10 +237,21 @@ public class ShelfWarehouse implements Printable, Serializable {
         System.out.println("======================");
     }
 
+    /**
+     * Method canIPay check whether a player can pay from his shelves a certain amount i of ResourceType r.
+     * @param i is the amount.
+     * @param r is the ResourceType.
+     * @return true if he can pay. False if not.
+     */
 
     public boolean canIPay(int i, ResourceType r){
         return getResCount(r) >= i;
     }
+
+    /**
+     * numberOfResources counts how many resources are present in a ShelfWarehouse instance.
+     * @return number of resources present in a ShelfWarehouse instance.
+     */
 
     public int numberOfResources()  {
         return  this.shelves.stream().mapToInt(Shelf::getCount).sum();

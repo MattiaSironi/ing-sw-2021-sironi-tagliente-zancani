@@ -41,7 +41,9 @@ public class ExtraDepotLCard extends LeaderCard implements Printable, Serializab
         }
     }
 
-
+    /**
+     * Method print prints to console a ExtraDepotLCard instance.
+     */
 
     @Override
     public void print() {

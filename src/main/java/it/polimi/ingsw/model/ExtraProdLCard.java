@@ -30,6 +30,8 @@ public class ExtraProdLCard extends LeaderCard implements Printable, Serializabl
         return input;
     }
 
+
+
     @Override
     public boolean equals(LeaderCard lc) {
         if(!(lc instanceof ExtraProdLCard))
@@ -42,6 +44,9 @@ public class ExtraProdLCard extends LeaderCard implements Printable, Serializabl
         }
     }
 
+    /**
+     * Method print prints to console a ExtraProdLCard instance.
+     */
 
     @Override
     public void print() {

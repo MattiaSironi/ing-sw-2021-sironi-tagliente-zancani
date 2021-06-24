@@ -71,6 +71,10 @@ public class Market implements Printable, Serializable {
         this.marketBoard[r][c] = m;
     }
 
+    /**
+     * Method print prints to console a MarketBoard instance.
+     */
+
     @Override
     public void print() {
 
@@ -83,6 +87,10 @@ public class Market implements Printable, Serializable {
         printLeftOut();
     }
 
+    /**
+     * Method printLeftOut prints to console Left Out Marble.
+     */
+
     private void printLeftOut() {
         String color = this.marbleOut.getRes().getColor();
         ArrayList<Ball> b= new ArrayList<>(Arrays.asList(Ball.values()));
@@ -94,8 +102,13 @@ public class Market implements Printable, Serializable {
                 System.out.println(color + "                   " +  ball.getBallLine() + Color.ANSI_RESET);
             }
         }
-        System.out.println("");
+        System.out.println();
     }
+
+    /**
+     * Method printRow prints to console a row of Market Board.
+     *
+     */
 
     private void printRow(List<Marble> asList) {
         ArrayList<Ball> b = new ArrayList<>(Arrays.asList(Ball.values()));
@@ -107,6 +120,11 @@ public class Market implements Printable, Serializable {
                     asList.get(3).getRes().getColor() + ballLine + Color.ANSI_RESET);
         }
     }
+
+    /**
+     * Method clone creates a deep copy of a Market instance.
+     * @return a deep copy of a Market instance.
+     */
 
     public Market clone() {
 
@@ -123,54 +141,6 @@ public class Market implements Printable, Serializable {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-    /*---------------------LOCAL VERSION OF SHIFT METHOD. IMPLEMENTED IN Controller.java ------------------*/
-
-
-    //    public void shift(boolean row, int index, int id) {
-//        ArrayList<Marble> resources = new ArrayList<>();
-//
-//        if (row)  {
-//            resources.addAll(Arrays.asList(this.marketBoard[index]));
-//
-//            for (int j=3; j>=0 ; j--)  {
-//                if (j==3)  {
-//                    this.marketBoard[index][j]= marbleOut;
-//
-//                }
-//                else  {
-//                    this.marketBoard[index][j]= resources.get(j+1);
-//                }
-//
-//
-//            }
-//            marbleOut= resources.get(0);
-//
-//
-//        }
-//        else {
-//            index = 3 - index;
-//            for (int i=0; i<3; i++)  {
-//                resources.add(marketBoard[i][index]);
-//
-//            }
-//
-//            for (int k = 2; k >=0; k-- )  {
-//                if (k==2) this.marketBoard[k][index]=marbleOut;
-//                else this.marketBoard[k][index]= resources.get(k+1);
-//            }
-//            marbleOut= resources.get(0);
-//        }
 
 
 

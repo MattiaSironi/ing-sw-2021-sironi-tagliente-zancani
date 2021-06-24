@@ -29,6 +29,11 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
         this.loriPos = loriPos;
     }
 
+    /**
+     * Method createFaithTrack parses a JSON file and creates a FaithTrack instance
+     * @return a FaithTrack instance.
+     */
+
     private ArrayList<Slot> createFaithTrack() {
         Gson gson = new Gson();
         Reader reader =  new InputStreamReader(PersonalBoard.class.getResourceAsStream("/json/slot.json"));
@@ -37,10 +42,18 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
         return  faithTrack;
 
     }
+
+    /**
+     * Method moveFaithMarkerPos moves the marker on the FaithTrack by param q.
+     */
     public void moveFaithMarkerPos(int q) {
         this.marker += q;
         if (marker>24) marker=24;
     }
+
+    /**
+     * Method setFavorTile sets one of the favorTiles (selected with param ft) by param value.
+     */
 
     public void setFavorTile(int ft, int value) {
         switch (ft) {
@@ -91,6 +104,10 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
         this.loriPos = loriPos;
     }
 
+    /**
+     * Method print prints to console a FaithTrack instance.
+     */
+
     @Override
     public void print() {
 
@@ -103,10 +120,21 @@ public class FaithTrack implements Printable, Serializable { //ObjectID = 13
 
     }
 
+    /**
+     * Method moveLoriPos moves Lorenzo il Mangifico on the FaithTrack by param number.
+     */
+
     public void moveLoriPos(int number) {
         this.loriPos += number;
         if (loriPos >= 24) loriPos=24;
+
+
     }
+
+    /**
+     * Method clone creates a deep copy of a FaithTrack instance.
+     * @return a deep copy of a FaithTrack instance.
+     */
 
     public FaithTrack clone() {
         FaithTrack clone;

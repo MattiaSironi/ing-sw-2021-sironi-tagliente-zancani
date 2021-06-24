@@ -131,6 +131,8 @@ public class Game extends Observable<Message> implements Serializable {
         return board;
     }
 
+
+
     public Player getPlayerById(int ID) {
         Player player = null;
         for (Player p : this.players) {
@@ -152,23 +154,39 @@ public class Game extends Observable<Message> implements Serializable {
         }
     }
 
+    /**
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     *
+     */
+
     public void setMarketHand(ArrayList<Marble> resources){
         getBoard().getMarket().setHand(resources);
         notify(new ObjectMessage(getBoard().getMarket().clone(), 1, -1));
     }
+
+    /**
+     * Method removeFromMarketHand removes first Marble in Market Hand.
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     */
 
     public void removeFromMarketHand(){
         getBoard().getMarket().getHand().remove(0);
         notify(new ObjectMessage(getBoard().getMarket().clone(), 1, -1));
     }
 
+    /**
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     */
     public void setTurn(int ID, ActionPhase phase) {
         getTurn().setPlayerPlayingID(ID);
         getTurn().setPhase(phase);
-        System.out.println("is playing " + turn.getPlayerPlayingID() + " phase: " + turn.getPhase());
         notify(new ObjectMessage(getTurn().clone(), 10, -1));
 
     }
+
+    /**
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     */
 
     public void setCommunication(int ID, CommunicationList cl)  {
         getCommunication().setAddresseeID(ID);
@@ -176,16 +194,16 @@ public class Game extends Observable<Message> implements Serializable {
         notify(new ObjectMessage(getCommunication().clone(), 9, -1));
     }
 
-    public void moveFaithPosByID(int ID, int faith){
-        getPlayerById(ID).getPersonalBoard().getFaithTrack().moveFaithMarkerPos(faith);
-        setCommunication(ID, CommunicationList.FP);
-        if (getPlayerById(ID).getPersonalBoard().getFaithTrack().getMarker()==24) {
-            setCommunication(ID, CommunicationList.PLAYER_CAP);
-        }
-        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getFaithTrack().clone(), 12, ID));
-        checkVatican();
+    /**
+     * Method swapShelvesByID is called from Controller's method swapShelves. It checks if swap move is valid, calling ShelfWareHouse's swap.
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     * @param s1 is the index of the first shelf.
+     * @param s2 is the index of the second shelf.
+     * @param ID is the Player's ID.
+     * @return true if move was valid.
+     */
 
-    }
+
 
     public boolean swapShelvesByID(int s1, int s2, int ID){
         ShelfWarehouse temp = getPlayerById(ID).getPersonalBoard().getWarehouse().clone();
@@ -210,78 +228,12 @@ public class Game extends Observable<Message> implements Serializable {
         notify(new ObjectMessage(getBoard().getMatrix().clone(), 2, -1));
     }
 
-    public void checkVatican() {
-        int maxP=0;
-        if (players.size()==1) {
 
-            int playerPos = getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker();
-            int loriPos = getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos();
-            maxP = Math.max(playerPos, loriPos);
 
-        } else {
-            OptionalInt maxPos = this.players.stream().mapToInt(x -> x.getPersonalBoard().getFaithTrack().getMarker()).max();
-            if (maxPos.isPresent()) {
-                maxP = maxPos.getAsInt();
-            }
-        }
-                if (maxP >= 8 && !firstVatican) {
-                    checkEveryPlayerPos(8, 0);
-                    setFirstVatican(true);
-                    notify(new ObjectMessage(true, 11, 0));
-
-                } else if (maxP >= 16 && !secondVatican) {
-                    checkEveryPlayerPos(16, 1);
-                    setSecondVatican(true);
-                    notify(new ObjectMessage(true, 11, 1));
-                } else if (maxP == 24 && !thirdVatican) {
-                    checkEveryPlayerPos(24, 2);
-                    setThirdVatican(true);
-                    setGameOver(true);
-                    notify(new ObjectMessage(true, 11, 2));
-
-                }
-            }
-
-    public void checkEveryPlayerPos(int popeSpace, int vatican)  {
-        for (Player p : this.players)  {
-            if (p.getPersonalBoard().getFaithTrack().getMarker() >= (popeSpace-3-vatican)){
-                p.getPersonalBoard().getFaithTrack().setFavorTile(vatican, 1);
-                setCommunication(p.getId(), CommunicationList.VATICAN_YES);
-                notify(new ObjectMessage(p.getPersonalBoard().getFaithTrack().clone(), 12, p.getId()));
-            }
-            else {
-                p.getPersonalBoard().getFaithTrack().setFavorTile(vatican, 0);
-                setCommunication(p.getId(), CommunicationList.VATICAN_NOPE);
-                notify(new ObjectMessage(p.getPersonalBoard().getFaithTrack().clone(), 12, p.getId()));
-
-            }
-
-        }
-    }
-
-    public Player findWinner() {
-        Player winner = null;
-        int maxVictoryPoints = 0;
-        int winnerResources = 0;
-
-        for (Player p : this.players) {
-            int resources = p.getValueResources();
-            int victoryPoints = p.sumDevs() + p.sumLeads() + p.sumPope() + p.getValuePos() + resources/5;
-
-            if (victoryPoints > maxVictoryPoints) {
-                winner = p;
-                maxVictoryPoints = victoryPoints;
-                winnerResources = resources;
-            } else if (victoryPoints == maxVictoryPoints) {
-                if (resources >= winnerResources) {
-                    winner = p;
-                    winnerResources = resources;
-                }
-            }
-        }
-        return winner;
-
-    }
+    /**
+     * Method endTurn is called whether a Player ends his turn. it checks if game is over. If not, it sets the turn with the next Player.
+     * @param lastPlayerID is the Player that ends his turn nickname.
+     */
 
     public void endTurn(int lastPlayerID) {
         if(players.size()==1) {
@@ -314,6 +266,10 @@ public class Game extends Observable<Message> implements Serializable {
         }
     }
 
+    /**
+     * Method handleSoloActionToken draws a SoloActionToken and executes its effect.
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     */
     public void handleSoloActionToken(){
         notify(new ObjectMessage(board.getTokenArray().get(0), 16, -1));
         if(board.getTokenArray().get(0).isMoveBlack2()) {
@@ -346,6 +302,32 @@ public class Game extends Observable<Message> implements Serializable {
 
     }
 
+    /**
+     * Method moveFatihPosByID moves by param faith positions of the Player whose ID is param ID.
+     * Method checks whether Player reached the end of Faith Track and calls checkVatican method.
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     * @param ID Player's ID.
+     * @param faith amount of slots Player can move.
+     */
+
+    public void moveFaithPosByID(int ID, int faith){
+        getPlayerById(ID).getPersonalBoard().getFaithTrack().moveFaithMarkerPos(faith);
+        setCommunication(ID, CommunicationList.FP);
+        if (getPlayerById(ID).getPersonalBoard().getFaithTrack().getMarker()==24) {
+            setCommunication(ID, CommunicationList.PLAYER_CAP);
+        }
+        notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getFaithTrack().clone(), 12, ID));
+        checkVatican();
+
+    }
+
+    /**
+     * Method moveLoriPos moves Lorenzo il Magnifico position according to parameter value.
+     * Method checks if Lorenzo il Magnifico arrives at the end of the FaithTrack and calls checkVatican method.
+     *It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     * @param number is the amount of steps on the FaithTrack Lorenzo il Magnifico can do.
+     */
+
     public void moveLoriPos(int number){
         getPlayerById(0).getPersonalBoard().getFaithTrack().moveLoriPos(number);
         if (getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos()==24) {
@@ -355,6 +337,66 @@ public class Game extends Observable<Message> implements Serializable {
         notify(new ObjectMessage(getPlayerById(0).getPersonalBoard().getFaithTrack().clone(), 12, 0));
         checkVatican();
 
+    }
+
+    /**
+     * Method checkVatican check if the Player nearest to the FaithTrack end is in a Pope Favour Space. If true, methods calls checkEveryPlayerPos
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     */
+    public void checkVatican() {
+        int maxP=0;
+        if (players.size()==1) {
+
+            int playerPos = getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker();
+            int loriPos = getPlayerById(0).getPersonalBoard().getFaithTrack().getLoriPos();
+            maxP = Math.max(playerPos, loriPos);
+
+        } else {
+            OptionalInt maxPos = this.players.stream().mapToInt(x -> x.getPersonalBoard().getFaithTrack().getMarker()).max();
+            if (maxPos.isPresent()) {
+                maxP = maxPos.getAsInt();
+            }
+        }
+        if (maxP >= 8 && !firstVatican) {
+            checkEveryPlayerPos(8, 0);
+            setFirstVatican(true);
+            notify(new ObjectMessage(true, 11, 0));
+
+        } else if (maxP >= 16 && !secondVatican) {
+            checkEveryPlayerPos(16, 1);
+            setSecondVatican(true);
+            notify(new ObjectMessage(true, 11, 1));
+        } else if (maxP == 24 && !thirdVatican) {
+            checkEveryPlayerPos(24, 2);
+            setThirdVatican(true);
+            setGameOver(true);
+            notify(new ObjectMessage(true, 11, 2));
+
+        }
+    }
+
+    /**
+     * Method checkEveryPlayerPos checks if everyPlayer is in a Vatican section. If true, it sets to 1 the related FavorTile. Else it sets to 0.
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     * @param popeSpace it the position of the selected Pope favour.
+     * @param vatican represents the length difference between the selected Vatican section and the first one.
+     */
+
+    public void checkEveryPlayerPos(int popeSpace, int vatican)  {
+        for (Player p : this.players)  {
+            if (p.getPersonalBoard().getFaithTrack().getMarker() >= (popeSpace-3-vatican)){
+                p.getPersonalBoard().getFaithTrack().setFavorTile(vatican, 1);
+                setCommunication(p.getId(), CommunicationList.VATICAN_YES);
+                notify(new ObjectMessage(p.getPersonalBoard().getFaithTrack().clone(), 12, p.getId()));
+            }
+            else {
+                p.getPersonalBoard().getFaithTrack().setFavorTile(vatican, 0);
+                setCommunication(p.getId(), CommunicationList.VATICAN_NOPE);
+                notify(new ObjectMessage(p.getPersonalBoard().getFaithTrack().clone(), 12, p.getId()));
+
+            }
+
+        }
     }
 
     public boolean checkColumnEmpty(){
@@ -552,19 +594,38 @@ public class Game extends Observable<Message> implements Serializable {
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox().clone(), 3, ID));
     }
 
-
+    /**
+     * Method setStartResCountByID checks if Player has to place other initial resources.
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     *
+     * @param id is Player's ID
+     * @param i is the quantity of initial resources yet to place.
+     */
 
     public void setStartResCountByID(int id, int i) {
         getPlayerById(id).setStartResCount(i);
         notify(new ObjectMessage(i, 5, id));
         checkReadyPlayer(id);
+
     }
+
+    /**
+     * Method setLeaderCardsToDiscard  checks if Player has to discard other LeaderCards during initial phase.
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     * @param id is Player's ID
+     * @param i is the quantity of LeaderCards yet to discard.
+     */
     public void setLeaderCardsToDiscard(int id, int i) {
         getPlayerById(id).setLeaderCardsToDiscard(i);
         notify(new ObjectMessage(i, 13, id));
         if (getPlayerById(id).getLeaderCardsToDiscard()==0) notify(new ObjectMessage(getPlayerById(id).getStartResCount(), 5 , id));
         checkReadyPlayer(id);
     }
+
+    /**
+     * Method checkReadyPlayer checks if a player is ready. if true and all others player are ready, method set the first Turn.
+     * @param id is the Player's ID
+     */
 
     private synchronized void checkReadyPlayer(int id) {
         if (getPlayerById(id).getStartResCount() ==0 && getPlayerById(id).getLeaderCardsToDiscard() == 0) {
@@ -576,6 +637,10 @@ public class Game extends Observable<Message> implements Serializable {
         }
     }
 
+    /**
+     * Method checkReadyPlayers checks if all players are ready.
+     * @return true if all players are ready.
+     */
     public synchronized boolean checkReadyPlayers(){
         return getPlayers().stream().filter(Player::isReady).count() == getNumPlayer();
     }
@@ -620,9 +685,12 @@ public class Game extends Observable<Message> implements Serializable {
     public void discard(int ID,LeaderDeck newLd){
         getPlayerById(ID).setLeaderDeck(newLd);
         notify((new ObjectMessage(getPlayerById(ID).getLeaderDeck().clone(), 8, ID)));
-      //  moveFaithPosByID(ID,1);
+
     }
 
+    /**
+     * Method giveLeaderCards gives 4 card to each playing Player.
+     */
     public  synchronized void  giveLeaderCards() {
         for (Player p : players)  {
             p.getLeaderDeck().getCards().add(getBoard().getLeaderDeck().getCards().get(0));
@@ -636,6 +704,11 @@ public class Game extends Observable<Message> implements Serializable {
         }
 
     }
+
+    /**
+     * Method clone creates a deep copy of a Game instance.
+     * @return a deep copy of a Game instance.
+     */
 
     public Game clone(){
         Game clone = new Game();
@@ -657,6 +730,39 @@ public class Game extends Observable<Message> implements Serializable {
         return clone;
     }
 
+    /**
+     * Method findWinner checks who wins in a MultiPlayer mode Game, according to Game rules.
+     * @return winner's ID
+     */
+
+    public Player findWinner() {
+        Player winner = null;
+        int maxVictoryPoints = 0;
+        int winnerResources = 0;
+
+        for (Player p : this.players) {
+            int resources = p.getValueResources();
+            int victoryPoints = p.sumDevs() + p.sumLeads() + p.sumPope() + p.getValuePos() + resources/5;
+
+            if (victoryPoints > maxVictoryPoints) {
+                winner = p;
+                maxVictoryPoints = victoryPoints;
+                winnerResources = resources;
+            } else if (victoryPoints == maxVictoryPoints) {
+                if (resources >= winnerResources) {
+                    winner = p;
+                    winnerResources = resources;
+                }
+            }
+        }
+        return winner;
+
+    }
+
+    /**
+     * Method findSoloWinner check who wins between the player and Lorenzo Il Magnifico.
+     * @return 0 if the Player won. Return -1 if not.
+     */
     public int findSoloWinner() {
         if (getPlayerById(0).getPersonalBoard().getFaithTrack().getMarker() == 24 || checkDevCardNumber(0))
             return 0;

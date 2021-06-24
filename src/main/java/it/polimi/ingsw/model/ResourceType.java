@@ -5,7 +5,7 @@ import it.polimi.ingsw.constants.Color;
 import java.io.Serializable;
 
 /**
- * Enum ResourceType represents the type of a resource used in the game in order to buy cards
+ * Enum ResourceType represents the type of a resource used in the game.
  *
  * @author Mattia Sironi
  */
@@ -35,10 +35,7 @@ public enum ResourceType implements Serializable {
 
     public String printResourceColouredName()  { return (getColor() + this.toString() + Color.ANSI_RESET); }
 
-//    public String printResourceColouredBall() {
-//        return (getColor() + "▒░░ ░▓▓▓▓▓▒  ░░ \n ▒  ▓█▓▓▓▓▓██▒ \n ░█▓░   ░▒▒▓██ \n ░█▓      ░▒▒▓█▓ \n ▒█▒      ░▒▒▒██ \n ▒█▒░░░ ░░▒▒▒▒██ \n ▓█▒▒▒▒▒▒▒▒▒██▒ \n ░ ███▓▓▓▓▓███▓ \n ▒  ░▓▓████▓▒ \n  "
-//        + Color.ANSI_RESET);
-//    }
+
 
 
 

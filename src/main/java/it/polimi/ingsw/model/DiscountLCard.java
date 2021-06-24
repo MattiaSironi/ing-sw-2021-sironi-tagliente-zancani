@@ -46,6 +46,10 @@ public class DiscountLCard extends LeaderCard implements Printable, Serializable
         }
     }
 
+    /**
+     * Method print prints to console a DiscountLCard instance.
+     */
+
     @Override
     public void print() {
         String s = "\u2726";

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import java.io.Serializable;
 
 /**
+ * Class Turn is the part of the model players check to know whether is their turn or not.
  * @author Mattia Sironi
  */
 public class Turn implements Serializable { //objectID = 10
@@ -27,6 +28,11 @@ public class Turn implements Serializable { //objectID = 10
         this.phase = phase;
     }
 
+
+    /**
+     * This method makes a deep copy of a Turn instance.
+     * @return a deep copy of a Turn instance
+     */
     public Turn clone()  {
         Turn clone = new Turn();
         clone.playerPlayingID = this.playerPlayingID;

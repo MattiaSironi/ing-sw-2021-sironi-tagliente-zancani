@@ -1,7 +1,9 @@
 package it.polimi.ingsw.constants;
 
-/**
+/** Class Color contains colours used to distinguish different ResourceTypes and Marbles
  * @author Mattia Sironi
+ * @see it.polimi.ingsw.model.Marble
+ * @see it.polimi.ingsw.model.ResourceType
  */
 public class Color {
     public static final String ANSI_RESET = "\u001B[0m";    //EMPTY

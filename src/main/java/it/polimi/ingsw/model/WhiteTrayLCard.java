@@ -5,7 +5,7 @@ import it.polimi.ingsw.constants.Color;
 import java.io.Serializable;
 
 /**
- * Class ExtraDepotLCard represents the model of the Leader Card with WhiteTray Ability
+ * Class WhiteTrayLCard represents the model of the Leader Card with WhiteTray Ability
  *
  * @author Mattia Sironi
  */
@@ -47,6 +47,10 @@ public class WhiteTrayLCard extends LeaderCard implements Printable, Serializabl
                     getVictoryPoints() == c.getVictoryPoints();
         }
     }
+
+    /**
+     * Method print prints to console a WhiteTrayLCard instance.
+     */
 
     @Override
     public void print() {

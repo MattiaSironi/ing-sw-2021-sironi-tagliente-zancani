@@ -20,10 +20,21 @@ public class Controller implements Observer<Message> {
         this.game = game;
     }
 
+    /**
+     * Method checkTurn checks whether player doing actions is the player playing.
+     * @param ID is the Player who is doing actions' ID.
+     * @return true if the Player is playing.
+     */
+
     public boolean checkTurn(int ID){
         return ID == game.getTurn().getPlayerPlayingID();
 
     }
+
+    /**
+     * Method setNickname checks if nickname is valid. if it's valid, it creates the player. If all players selected the nickname, the game starts.
+     * @param nickname is a Nickname Message containing Player's ID and chosen nickname.
+     */
 
     public synchronized void setNickname(Nickname nickname) {
         String nick = nickname.getString();
@@ -95,6 +106,10 @@ public class Controller implements Observer<Message> {
         }
     }
 
+    /**
+     * Method initialPhase shuffles Players and according to their position and to the Game rules, it gives initial resources, Leader Cards and faith points.
+     */
+
     public void initialPhase() {
         Collections.shuffle(game.getPlayers());
         game.sendGame();
@@ -138,6 +153,13 @@ public class Controller implements Observer<Message> {
 
     }
 
+    /**
+     * Method swapShelves checks if move could be valid. if yes, it calls Game's swap methods.
+     * @param s1 is the index of the first shelf.
+     * @param s2 is the index of the second shelf.
+     * @param ID is the Player's ID.
+     */
+
     public void swapShelves(int s1, int s2, int ID) {
 
         if ((s1 == s2) || (s1 < 0) || (s1 > 4) || (s2 < 0) || (s2 > 4)) {
@@ -151,6 +173,13 @@ public class Controller implements Observer<Message> {
         } else
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
     }
+
+    /**
+     * Method goToMarket shifts market Marbles and set Market Hand, according to Game rules.
+     * @param row is true if index corresponds to a row.
+     * @param index is the index of the selected row/column
+     * @param ID is the Player's ID.
+     */
 
     public void goToMarket(boolean row, int index, int ID) {
 
@@ -178,6 +207,14 @@ public class Controller implements Observer<Message> {
 
     }
 
+    /**
+     * Method placeRes permits the player to place a resource bought at the market or in game's initial phase, or to discard it.
+     * @param r is the ResourceType
+     * @param shelfIndex is the index of the selected shelf.
+     * @param ID is the Player's ID
+     * @param discard is true if player wants to discard r.
+     * @param initialPhase is true if players are placing initial resources.
+     */
 
     public synchronized void placeRes(ResourceType r, int shelfIndex, int ID, boolean discard, boolean initialPhase) {
 
@@ -223,6 +260,11 @@ public class Controller implements Observer<Message> {
     public void setGame(Game game) {
         this.game = game;
     }
+
+    /** Method discardRes moves every players (or Lorenzo Il Magnifico if game is in single mode) beside player that chooses to discard a resource.
+     *
+     * @param ID is the Player's ID
+     */
 
     public void discardRes(int ID) {
         if (game.getPlayers().size() == 1) {
@@ -661,7 +703,7 @@ public class Controller implements Observer<Message> {
             newLD = new LeaderDeck(this.game.getPlayerById(ID).getLeaderDeck().getCards());
             newLD.getCards().remove(i);
             game.discard(ID, newLD);
-            // this.game.getPlayerById(ID).setLeaderDeck(newLD);
+
 
             if (initialPhase) {
                 game.setLeaderCardsToDiscard(ID, game.getPlayerById(ID).getLeaderCardsToDiscard() - 1);
@@ -725,110 +767,6 @@ public class Controller implements Observer<Message> {
     }
 
 
-    @Override
-    public void update(Message message) {
-
-    }
-
-    @Override
-    public void update(Nickname message) {
-        setNickname(message);
-    }
-
-
-
-
-    @Override
-    public void update(ObjectMessage message) {
-
-    }
-
-    @Override
-    public void update(ManageResourceMessage message) {
-        if(!checkTurn(message.getID()))
-            return;
-        swapShelves(message.getShelf1(), message.getShelf2(), message.getID());
-    }
-
-    @Override
-    public void update(MarketMessage message) {
-        if (!checkTurn(message.getID()))
-            return;
-        if (actionDone) {
-            game.setCommunication(message.getID(), CommunicationList.INVALID_MOVE);
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
-        } else {
-            actionDone = true;
-            goToMarket(message.isRow(), message.getIndex(), message.getID());
-        }
-    }
-
-
-    @Override
-    public void update(PlaceResourceMessage message) {
-        if(checkTurn(message.getID()) || message.isInitialPhase()) {
-            placeRes(message.getRes(), message.getShelf(), message.getID(), message.isDiscard(), message.isInitialPhase());
-        }
-    }
-
-    public void update(BuyDevCardMessage message) {
-        if(!checkTurn(message.getID()))
-            return;
-        if (actionDone) {
-            game.setCommunication(message.getID(), CommunicationList.INVALID_MOVE);
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
-        }
-        else {
-            if (game.getTurn().getPhase().equals(ActionPhase.WAITING_FOR_ACTION)) {
-                handleChosenDevCard(message.getChosenIndex(), message.getID());
-            } else if (game.getTurn().getPhase().equals(ActionPhase.B_PAYMENT)) {
-                payRes(message.isPayFrom(), message.getID(), ActionPhase.B_PAYMENT);
-            } else if (game.getTurn().getPhase().equals(ActionPhase.CHOOSE_SLOT)) {
-                placeDevCard(message.getID(), message.getSlot());
-            }
-        }
-
-    }
-
-    /**
-     * this method manages the PlayLeaderMessages, redirecting to the method to discard the card or to the proper method to activate it.
-     */
-    @Override
-    public void update(PlayLeaderMessage message) {
-        if(checkTurn(message.getID()) || message.isInitialPhase()) {
-            if (message.getAction()) {
-                LeaderCard c = message.getLc();
-                switch (c.getType()) {
-                    case 1 -> PlayLeaderCard(message.getID(), (DiscountLCard) c);
-                    case 2 -> PlayLeaderCard(message.getID(), (ExtraDepotLCard) c);
-                    case 3 -> PlayLeaderCard(message.getID(), (ExtraProdLCard) c);
-                    case 4 -> PlayLeaderCard(message.getID(), (WhiteTrayLCard) c);
-                }
-            } else {
-                DiscardLeaderCard(message.getID(), message.getLc(), message.isInitialPhase());
-            }
-        }
-    }
-
-    @Override
-    public void update(ProductionMessage message) {
-        if (!checkTurn(message.getID()))
-            return;
-        if (actionDone) {
-            game.setCommunication(message.getID(), CommunicationList.INVALID_MOVE);
-            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
-        } else {
-            if (message.isEndAction()) {
-                game.getPlayerById(message.getID()).setAllFalse();
-                collectNewRes(message.getID());
-                actionDone = true;
-            } else if (game.getTurn().getPhase() == ActionPhase.WAITING_FOR_ACTION || game.getTurn().getPhase() == ActionPhase.A_PAYMENT) {
-                setDevPayment(message.getID(), message.getIndex());
-            } else if (game.getTurn().getPhase() == ActionPhase.D_PAYMENT)
-                payRes(message.isPayFrom(), message.getID(), ActionPhase.D_PAYMENT);
-        }
-    }
-
     private void setDevPayment(int ID, int index) {
         try {
             if (game.getPlayerById(ID).isDev1ProdDone() && index == 0) {
@@ -884,6 +822,110 @@ public class Controller implements Observer<Message> {
             game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT);
         }
 
+    }
+
+    @Override
+    public void update(Message message) {
+
+    }
+
+    @Override
+    public void update(Nickname message) {
+        setNickname(message);
+    }
+
+
+
+
+    @Override
+    public void update(ObjectMessage message) {
+
+    }
+
+    @Override
+    public void update(ManageResourceMessage message) {
+        if(!checkTurn(message.getID()))
+            return;
+        swapShelves(message.getShelf1(), message.getShelf2(), message.getID());
+    }
+
+    @Override
+    public void update(MarketMessage message) {
+        if (!checkTurn(message.getID()))
+            return;
+        if (actionDone) {
+            game.setCommunication(message.getID(), CommunicationList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
+        } else {
+            actionDone = true;
+            goToMarket(message.isRow(), message.getIndex(), message.getID());
+        }
+    }
+
+
+    @Override
+    public void update(PlaceResourceMessage message) {
+        if(checkTurn(message.getID()) || message.isInitialPhase()) {
+            placeRes(message.getRes(), message.getShelf(), message.getID(), message.isDiscard(), message.isInitialPhase());
+        }
+    }
+
+    @Override
+    public void update(BuyDevCardMessage message) {
+        if (!checkTurn(message.getID()))
+            return;
+        if (actionDone) {
+            game.setCommunication(message.getID(), CommunicationList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
+        } else {
+            if (game.getTurn().getPhase().equals(ActionPhase.WAITING_FOR_ACTION)) {
+                handleChosenDevCard(message.getChosenIndex(), message.getID());
+            } else if (game.getTurn().getPhase().equals(ActionPhase.B_PAYMENT)) {
+                payRes(message.isPayFrom(), message.getID(), ActionPhase.B_PAYMENT);
+            } else if (game.getTurn().getPhase().equals(ActionPhase.CHOOSE_SLOT)) {
+                placeDevCard(message.getID(), message.getSlot());
+            }
+        }
+
+    }
+
+    /**
+     * this method manages the PlayLeaderMessages, redirecting to the method to discard the card or to the proper method to activate it.
+     */
+    @Override
+    public void update(PlayLeaderMessage message) {
+        if(checkTurn(message.getID()) || message.isInitialPhase()) {
+            if (message.getAction()) {
+                LeaderCard c = message.getLc();
+                switch (c.getType()) {
+                    case 1 -> PlayLeaderCard(message.getID(), (DiscountLCard) c);
+                    case 2 -> PlayLeaderCard(message.getID(), (ExtraDepotLCard) c);
+                    case 3 -> PlayLeaderCard(message.getID(), (ExtraProdLCard) c);
+                    case 4 -> PlayLeaderCard(message.getID(), (WhiteTrayLCard) c);
+                }
+            } else {
+                DiscardLeaderCard(message.getID(), message.getLc(), message.isInitialPhase());
+            }
+        }
+    }
+
+    @Override
+    public void update(ProductionMessage message) {
+        if (!checkTurn(message.getID()))
+            return;
+        if (actionDone) {
+            game.setCommunication(message.getID(), CommunicationList.INVALID_MOVE);
+            game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
+        } else {
+            if (message.isEndAction()) {
+                game.getPlayerById(message.getID()).setAllFalse();
+                collectNewRes(message.getID());
+                actionDone = true;
+            } else if (game.getTurn().getPhase() == ActionPhase.WAITING_FOR_ACTION || game.getTurn().getPhase() == ActionPhase.A_PAYMENT) {
+                setDevPayment(message.getID(), message.getIndex());
+            } else if (game.getTurn().getPhase() == ActionPhase.D_PAYMENT)
+                payRes(message.isPayFrom(), message.getID(), ActionPhase.D_PAYMENT);
+        }
     }
 
 
