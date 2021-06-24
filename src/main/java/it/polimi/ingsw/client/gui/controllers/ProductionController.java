@@ -72,6 +72,12 @@ public class ProductionController implements GUIController{
         showWarehouse();
         showLeaders();
         showStrongbox();
+        basicProduction.setDisable(false);
+        dev1Prod.setDisable(false);
+        dev2Prod.setDisable(false);
+        dev3Prod.setDisable(false);
+        firstLeaderProd.setDisable(false);
+        secondLeaderProd.setDisable(false);
         if(enableEndAction) {
             end.setDisable(false);
             end.setMouseTransparent(false);
@@ -223,6 +229,10 @@ public class ProductionController implements GUIController{
     }
 
     public void endProductionPhase(MouseEvent mouseEvent) {
+        coinNum.setText("0");
+        stoneNum.setText("0");
+        servantNum.setText("0");
+        shieldNum.setText("0");
         back.setDisable(false);
         back.setMouseTransparent(false);
         end.setDisable(true);
@@ -259,6 +269,14 @@ public class ProductionController implements GUIController{
     }
 
     public void enableHBoxRes() {
+        back.setDisable(true);
+        back.setMouseTransparent(true);
+        basicProduction.setDisable(true);
+        dev1Prod.setDisable(true);
+        dev2Prod.setDisable(true);
+        dev3Prod.setDisable(true);
+        firstLeaderProd.setDisable(true);
+        secondLeaderProd.setDisable(true);
         hBoxRes.setDisable(false);
         hBoxRes.setVisible(true);
     }

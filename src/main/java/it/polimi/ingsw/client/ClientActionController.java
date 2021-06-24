@@ -298,6 +298,8 @@ public class ClientActionController extends Observable<Message> implements Obser
 
     public void chooseBasicRes() {
         ResourceType chosen1, chosen2;
+        mmv.printShelves(ID);
+        mmv.printStrongbox(ID);
         cli.printToConsole("Now choose two resources you want to use\n[resource,resource]");
         try {
             String[] input = cli.readFromInput().toUpperCase(Locale.ROOT).split(",", 2);

@@ -37,7 +37,7 @@ public class PayDevCardController implements GUIController {
     public ImageView shelf5pos1;
     public ImageView shelf5pos2;
     public Button payFromWarehouse;
-    public Button pauFromStrongbox;
+    public Button payFromStrongbox;
     public Label coinNum;
     public Label stoneNum;
     public Label servantNum;
@@ -65,6 +65,7 @@ public class PayDevCardController implements GUIController {
 
     }
 
+
     @Override
     public void setMainController(MainController m) {
         this.mainController = m;
@@ -81,6 +82,8 @@ public class PayDevCardController implements GUIController {
         if(!(mainController.getGame().getBoard().getMatrix().getChosenCard() == null)) {
             chosenCard.setImage(new Image(getClass().getResource("/images/Devs/FRONT/" + mainController.getGame().getBoard().getMatrix().getChosenCard().toString() + ".png").toExternalForm()));
         }
+        else
+            chosenCard.setImage(null);
         resToPay.add(res1);
         resToPay.add(res2);
         resToPay.add(res3);
