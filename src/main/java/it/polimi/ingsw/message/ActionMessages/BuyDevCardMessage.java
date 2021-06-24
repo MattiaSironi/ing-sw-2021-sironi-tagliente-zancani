@@ -12,8 +12,8 @@ public class BuyDevCardMessage extends Message {
     private final boolean payFrom; //0 from Ware, 1 from Strong
     private final int slot;
 
-    public BuyDevCardMessage(int choosenIndex, int ID, boolean payFrom, int slot) {
-        this.chosenIndex = choosenIndex;
+    public BuyDevCardMessage(int chosenIndex, int ID, boolean payFrom, int slot) {
+        this.chosenIndex = chosenIndex;
         this.ID = ID;
         this.payFrom = payFrom;
         this.slot = slot;

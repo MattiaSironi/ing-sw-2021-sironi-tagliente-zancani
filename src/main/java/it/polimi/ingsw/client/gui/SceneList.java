@@ -11,7 +11,7 @@ public enum SceneList {
     FIRSTDRAW("firstDraw.fxml"),
     BUYDEVCARD("buyDevCardScene.fxml"),
     MAINSCENE("mainScene.fxml"),
-    PAYDEVCARDSCENE("payDevCardScene.fxml"),
+    PAYDEVCARDSCENE("paymentScene.fxml"),
     MARKET("marketScene.fxml"),
     PLACEDEVCARDSCENE("placeDevCardScene.fxml"),
     OPPONENTS("othersScene.fxml"),

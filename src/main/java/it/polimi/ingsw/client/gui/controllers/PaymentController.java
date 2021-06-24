@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 
-public class PayDevCardController implements GUIController {
+public class PaymentController implements GUIController {
 
     public HBox hBox;
     public ImageView res1;
