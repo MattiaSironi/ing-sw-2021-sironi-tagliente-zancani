@@ -76,6 +76,7 @@ public class BasicProductionController implements GUIController{
     @Override
     public void setup(int num) {
         label2.setVisible(true);
+        resetChoice2.setDisable(false);
         label1.setVisible(false);
         confirm1.setDisable(false);
         endBasic.setDisable(true);

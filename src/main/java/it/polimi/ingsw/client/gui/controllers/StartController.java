@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Turn;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
@@ -20,6 +21,7 @@ public class StartController implements GUIController{
     public TextField nicknameInput;
     public Label chooseNickLabel;
     public ImageView sendButton;
+    public ImageView backGround;
     @FXML private ImageView localGame;
     @FXML private ImageView multiGame;
     private GUI gui;
@@ -29,6 +31,7 @@ public class StartController implements GUIController{
      * @param actionEvent of type ActionEvent - the event received.
      */
     public void playLocalGame(MouseEvent actionEvent) {
+        backGround.setImage(new Image(getClass().getResource("/images/MoRBackGroundBlur.jpg").toExternalForm()));
         gui.setLocal(true);
         multiGame.setDisable(true);
         localGame.setDisable(true);

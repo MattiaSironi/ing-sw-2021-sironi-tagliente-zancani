@@ -12,11 +12,11 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="it.polimi.ingsw.client.gui.controllers.StartController">
+<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.StartController">
    <children>
       <Pane prefHeight="720.0" prefWidth="1270.0">
          <children>
-             <ImageView fitHeight="720.0" fitWidth="1270.0">
+             <ImageView fx:id="backGround" fitHeight="720.0" fitWidth="1270.0">
                  <image>
                      <Image url="@../images/MoRBackGround.jpg" />
                  </image>
@@ -28,7 +28,7 @@
                         <Image url="@../images/PlayLocalButton.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="multiGame" fitHeight="120.0" fitWidth="429.0" onMouseEntered="#playOnlineOpacityUp" onMouseExited="#playOnlineOpacityDown" onMouseClicked="#startOnlineGame" opacity="0.5">
+                  <ImageView fx:id="multiGame" fitHeight="120.0" fitWidth="429.0" onMouseClicked="#startOnlineGame" onMouseEntered="#playOnlineOpacityUp" onMouseExited="#playOnlineOpacityDown" opacity="0.5">
                      <image>
                         <Image url="@../images/PlayOnlineButton.png" />
                      </image>
@@ -41,7 +41,7 @@
                  </image>
              </ImageView>
              <TextField fx:id="nicknameInput" disable="true" layoutX="717.0" layoutY="257.0" prefHeight="25.0" prefWidth="213.0" visible="false" />
-             <Label fx:id="chooseNickLabel" disable="true" layoutX="335.0" layoutY="247.0" prefHeight="44.0" prefWidth="360.0" text="Choose your nickname:" visible="false">
+             <Label fx:id="chooseNickLabel" disable="true" layoutX="298.0" layoutY="247.0" prefHeight="44.0" prefWidth="397.0" text="Choose your nickname:" visible="false">
                  <font>
                      <Font size="36.0" />
                  </font>
