@@ -265,22 +265,22 @@
                   <Image url="@../images/PunchBoard/shield.png" />
                </image>
             </ImageView>
-            <Label fx:id="coinStrong" layoutX="173.0" layoutY="576.0" prefHeight="29.0" prefWidth="0.0" textFill="#f6ff00">
+            <Label fx:id="coinStrong" layoutX="173.0" layoutY="576.0" prefHeight="29.0" prefWidth="39.0" textFill="#f6ff00">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label fx:id="stoneStrong" layoutX="173.0" layoutY="624.0" textFill="#f6ff00">
+            <Label fx:id="stoneStrong" layoutX="173.0" layoutY="624.0" prefHeight="29.0" prefWidth="35.0" textFill="#f6ff00">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label fx:id="servantStrong" layoutX="240.0" layoutY="576.0" prefHeight="29.0" prefWidth="0.0" textFill="#f6ff00">
+            <Label fx:id="servantStrong" layoutX="240.0" layoutY="576.0" prefHeight="29.0" prefWidth="35.0" textFill="#f6ff00">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label fx:id="shieldStrong" layoutX="239.0" layoutY="624.0" textFill="#f6ff00">
+            <Label fx:id="shieldStrong" layoutX="239.0" layoutY="624.0" prefHeight="29.0" prefWidth="35.0" textFill="#f6ff00">
                <font>
                   <Font size="24.0" />
                </font>

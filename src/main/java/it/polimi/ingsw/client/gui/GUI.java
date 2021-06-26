@@ -246,6 +246,7 @@ public class GUI extends Application {
     public void showStrongbox() {
         Platform.runLater(() -> {
             ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showStrongbox();
+            ((ProductionController)nameMapController.get(SceneList.GENERALPRODSCENE.getSceneName())).showStrongbox();
         });
 
     }
