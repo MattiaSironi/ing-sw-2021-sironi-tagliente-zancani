@@ -138,6 +138,9 @@ public class ClientActionController extends Observable<Message> implements Obser
         }
     }
 
+    /**
+     * Method activateProd shows a list of the productions that the playr can choose
+     */
 
     private void activateProd() {
         boolean valid = false;
@@ -239,6 +242,10 @@ public class ClientActionController extends Observable<Message> implements Obser
         return true;
     }
 
+    /**
+     * Method chooseCard handles the phase of buying a development card
+     * @return true is the action is ended, false instead.
+     */
     public boolean chooseCard() {
         String input;
         int index;
@@ -274,6 +281,11 @@ public class ClientActionController extends Observable<Message> implements Obser
         }
     }
 
+    /**
+     * Method chooseResToProduce asks the user the resource he want to produce during a basic production or a leader production
+     * @param turn  of type boolean - true if is basicProductionPhase, false instead.
+     */
+
     public void chooseResToProduce(boolean turn) {
         ResourceType bought;
         boolean valid = false;
@@ -294,7 +306,9 @@ public class ClientActionController extends Observable<Message> implements Obser
         }
     }
 
-
+    /**
+     * Method chooseBasicRes asks the player to choose two resource he want to pay for the basic production
+     */
 
     public void chooseBasicRes() {
         ResourceType chosen1, chosen2;
@@ -319,7 +333,9 @@ public class ClientActionController extends Observable<Message> implements Obser
         }
     }
 
-
+    /**
+     * Method useLeaderProduction asks the user which leader card to use for his productions
+     */
     public void useLeaderProduction() {
         this.mmv.printActiveLeaders(ID);
         cli.printToConsole("Choose the leader you want to use");
@@ -370,6 +386,9 @@ public class ClientActionController extends Observable<Message> implements Obser
         cli.printErrorToConsole("Other players will receive one faith point.");
     }
 
+    /**
+     * Method pay handles all the payment phases of the game and allows the player to choose where he want to take the resource from
+     */
     public void pay() {
         boolean payFrom = false, valid = false;
         while (!valid) {
@@ -394,6 +413,9 @@ public class ClientActionController extends Observable<Message> implements Obser
     }
 
 
+    /**
+     * Method placeDevCard asks the player the index of the slot where he want to place his new development card
+     */
     public void placeDevCard() {
         this.mmv.printProd(ID, ID);
         cli.printToConsole("Where would you like to place your new development card? (Choose slot 1, 2 or 3)");
@@ -574,6 +596,9 @@ public class ClientActionController extends Observable<Message> implements Obser
 
     }
 
+    /**
+     * Method useDevProduction asks the user which card to use for his development productions
+     */
     public void useDevProduction(){
         cli.printToConsole("Choose the slot (1,2 or 3):");
         String input = cli.readFromInput();
@@ -584,70 +609,6 @@ public class ClientActionController extends Observable<Message> implements Obser
             useDevProduction();
         }
     }
-
-//    public void useDevProduction () throws IndexOutOfBoundsException {
-//        boolean valid = false, validInput = false, validNum = false;
-//        int input = 0;
-//        boolean okInt = false;
-//        String in;
-//        ProductionMessage m;
-//        DevCard d;
-//        ArrayList<ResourceType> resFromWarehouse = new ArrayList<>();
-//        ArrayList<ResourceType> resFromStrongbox = new ArrayList<>();
-//        ArrayList<ResourceType> resToBuy = new ArrayList<>();
-//
-//        cli.printToConsole("Choose the production card you want to activate : [1/2/3]");
-//        mmv.printProd(this.ID, this.ID);
-//        while (!valid) {
-//            in = cli.readFromInput().replaceAll("[^0-9]", "");
-//            if (in.equals("")) input = -1;
-//            else {
-//                input = Integer.parseInt(in);
-//            }
-//           // input = Integer.parseInt(cli.readFromInput());
-//            if (!(input >= 1 && input <= mmv.getGame().getPlayerById(ID).getPersonalBoard().getCardSlot().size())) {
-//                cli.printToConsole("Invalid input, try again");
-//            } else
-//                valid = true;
-//        }
-//        d = mmv.getGame().getPlayerById(ID).getPersonalBoard().getCardSlot().get(input - 1).getCards().get(0);
-//        for (int i = 0; i < 4; i++) {
-//            int n = d.getInputRes()[i];
-//            while (n > 0) {
-//                valid = false;
-//                cli.printToConsole("You have to pay 1 " + FromIntToRes(i).toString() + "\nType 1 if you want to take it from your Warehouse\n" +
-//                        "Type 2 if you want to take it from your Strongbox");
-//                while (!valid) {
-//                    in = cli.readFromInput().replaceAll("[^0-9]", "");
-//                    if (in.equals("")) input = -1;
-//                    else {
-//                        input = Integer.parseInt(in);
-//                    }
-//                   // input = Integer.parseInt(cli.readFromInput());
-//                    if (!(input == 1 || input == 2)) {
-//                        cli.printToConsole("Invalid input, try again");
-//                    } else {
-//                        valid = true;
-//                        if (input == 1)
-//                            resFromWarehouse.add(FromIntToRes(i));
-//                        else
-//                            resFromStrongbox.add(FromIntToRes(i));
-//                    }
-//                }
-//                n--;
-//            }
-//        }
-//        for (int i = 0; i < 5; i++) {
-//            int n = d.getOutputRes()[i];
-//            while (n > 0) {
-//                resToBuy.add(FromIntToRes(i));
-//                n--;
-//            }
-//        }
-//        send(new ProductionMessage(resFromWarehouse, resFromStrongbox, resToBuy, null, d, this.ID, false, input));
-//
-//    }
-
 
     /**
      * @param i is the index used in the arrays for strongbox/warehouse shelves for a resource
@@ -704,10 +665,9 @@ public class ClientActionController extends Observable<Message> implements Obser
             this.mmv.printPlayers(ID);
         } else if (message.getObjectID() == 0) { //WAREHOUSE
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setWarehouse((ShelfWarehouse) message.getObject());
-        } else if (message.getObjectID() == 1) {  //MARKET
+        } else if (message.getObjectID() == 1)   //MARKET
             this.mmv.getGame().getBoard().setMarket((Market) message.getObject());
-
-        } else if (message.getObjectID() == 2) //MATRIX OF DEV CARD
+        else if (message.getObjectID() == 2) //MATRIX OF DEV CARD
             this.mmv.getGame().getBoard().setMatrix((DevelopmentCardMatrix) message.getObject());
         else if (message.getObjectID() == 3) //STRONGBOX
             this.mmv.getGame().getPlayerById(message.getID()).getPersonalBoard().setStrongbox((Strongbox) message.getObject());
