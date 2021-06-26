@@ -131,6 +131,11 @@ public class Game extends Observable<Message> implements Serializable {
         return board;
     }
 
+    /**
+     * Method getPlayerById returns the player having the same ID of the parameter
+     * @param ID    of type int - ID to look for
+     * @return  the player with this ID
+     */
     public Player getPlayerById(int ID) {
         Player player = null;
         for (Player p : this.players) {
@@ -141,6 +146,11 @@ public class Game extends Observable<Message> implements Serializable {
         return player;
     }
 
+    /**
+     * Method setPlayerByID set the player having the same ID of the parameter
+     * @param ID    of type int - ID to look for
+     * @param pl    of type Player - the player to set
+     */
     public void setPlayerByID(int ID, Player pl){
         int i=0;
         for (Player p : this.players) {
@@ -201,8 +211,6 @@ public class Game extends Observable<Message> implements Serializable {
      * @return true if move was valid.
      */
 
-
-
     public boolean swapShelvesByID(int s1, int s2, int ID){
         ShelfWarehouse temp = getPlayerById(ID).getPersonalBoard().getWarehouse().clone();
         if(temp.swap(s1, s2)) {
@@ -214,6 +222,14 @@ public class Game extends Observable<Message> implements Serializable {
             return false;
     }
 
+
+    /**
+     * Method setChosenDevCard sets the chosen development card during the BuyDevCard action in the dedicated
+     * slot of the DevelopmentCardMatrix and notifies to the remoteviews
+     * @param d             of type DevCard - it is the development card chosen
+     * @param chosenIndex   of type int - is the index of the chosen card
+     * @see DevelopmentCardMatrix
+     */
     public void setChosenDevCard(DevCard d, int chosenIndex){
         getBoard().getMatrix().setChosenIndex(chosenIndex);
         getBoard().getMatrix().setChosenCard(d);
@@ -221,6 +237,10 @@ public class Game extends Observable<Message> implements Serializable {
 
     }
 
+    /**
+     * Method setResToPay sets all the resources that must be paid for any payment phase of the game and notifies to the remoteviews
+     * @param r     of type ArrayList<ResourceType> - is the ArrayList of resources
+     */
     public void setResToPay(ArrayList<ResourceType> r){
         getBoard().getMatrix().setResToPay(r);
         notify(new ObjectMessage(getBoard().getMatrix().clone(), 2, -1));
@@ -397,6 +417,10 @@ public class Game extends Observable<Message> implements Serializable {
         }
     }
 
+    /**
+     * Method checkColumnEmpty checks if at least one the column of the development card matrix is empty
+     * @return  true if the condition is satisfied, false instead
+     */
     public boolean checkColumnEmpty(){
         int col1, col2, col3, col4;
         col1 = getBoard().getMatrix().getDevDecks().get(0).getCards().size()
@@ -420,6 +444,10 @@ public class Game extends Observable<Message> implements Serializable {
             return false;
     }
 
+    /**
+     * Method discardTwoDevCards perform the action of the single player tokens
+     * @param cardColor of type CardColor - is the color of the card that must be discarded
+     */
     public void discardTwoDevCards(CardColor cardColor){
         if(cardColor == CardColor.GREEN){
             if(getBoard().getMatrix().getDevDecks().get(0).getCards().size() != 0){
@@ -467,6 +495,14 @@ public class Game extends Observable<Message> implements Serializable {
         }
     }
 
+    /**
+     * Method addResourcesToWarehouse adds resources to the warehouse.
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     * @param ID            of type int - id of the player whose warehouse must be modified
+     * @param shelfIndex    of type int - index of the shelf which must be modified
+     * @param r             of type ResourceType - resource that must be added
+     * @return              true if the action has been correctly performed, false instead
+     */
     public boolean addResourceToWarehouse(int ID, int shelfIndex, ResourceType r){
         if(getPlayerById(ID).getPersonalBoard().getWarehouse().addResource(r, shelfIndex)) {
             notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
@@ -476,6 +512,11 @@ public class Game extends Observable<Message> implements Serializable {
             return false;
     }
 
+    /**
+     * Method addResourcesToStrongbox adds resources to the strongbox.
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     * @param ID    of type int - id of the player whose strongbox must be modified.
+     */
     public void addResourceToStrongbox(int ID){
         getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedCoin());
         getPlayerById(ID).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedStone());
@@ -488,17 +529,35 @@ public class Game extends Observable<Message> implements Serializable {
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox().clone(), 3, ID));
     }
 
-
+    /**
+     * Method payFromWarehouse performs the payment from the warehouse
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     * @param q     of type int - quantity that must be paid
+     * @param r     of type ResourceType - is the resource that must be paid
+     * @param ID    of type int - is the ID of the player that is currently paying
+     */
     public void payFromWarehouse(int q, ResourceType r, int ID){
         getPlayerById(ID).getPersonalBoard().getWarehouse().pay(q, r);
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
     }
 
+    /**
+     * Method payFromStrongbox performs the payment from the strongbox
+     * It notifies changes to the RemoteView (if MultiPlayer) or UI (if SinglePlayer) creating a deep copy.
+     * @param q     of type int - quantity that must be paid
+     * @param r     of type ResourceType - is the resource that must be paid
+     * @param ID    of type int - is the ID of the player that is currently paying
+     */
     public void payFromStrongbox(int q, ResourceType r, int ID){
         getPlayerById(ID).getPersonalBoard().getStrongbox().pay(q, r);
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getStrongbox().clone(), 3, ID));
     }
 
+    /**
+     * Method addDevCardToPlayer adds one development card to the personal board of the player
+     * @param ID       of type int - id of the player
+     * @param pos      of type int - chosen slot of the personal board
+     */
     public void addDevCardToPlayer(int ID, int pos ){
         getBoard().getMatrix().getDevDecks().get(getBoard().getMatrix().getChosenIndex()).removeCardFromCards();
         getPlayerById(ID).getPersonalBoard().addDevCard(getBoard().getMatrix().getChosenCard(), pos, ID);
@@ -510,6 +569,11 @@ public class Game extends Observable<Message> implements Serializable {
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getCardSlotClone() ,4, ID));
     }
 
+    /**
+     * Method checkDevCardNumber checks if the player has bought 7 development card, which causes a game over
+     * @param ID    of type int - ID of the player
+     * @return      true if the condition is satisfied, false instead
+     */
     public boolean checkDevCardNumber(int ID){
         int counter = getPlayerById(ID).getPersonalBoard().getCardSlot().get(0).getCards().size() +
                 getPlayerById(ID).getPersonalBoard().getCardSlot().get(1).getCards().size() +
@@ -517,6 +581,11 @@ public class Game extends Observable<Message> implements Serializable {
         return counter >= 7;
     }
 
+    /**
+     * Method setResToPay sets the resources that must be paid in the dedicated attribute of the DevelopmentCardMatrix
+     * @param d     of type DevCard - card thet must be paid
+     * @param ID    of type int - ID of the player
+     */
     public void setResToPay(DevCard d, int ID){
         ArrayList<ResourceType> resToPay = new ArrayList<>();
         int count;
@@ -569,21 +638,38 @@ public class Game extends Observable<Message> implements Serializable {
         notify(new ObjectMessage(getBoard().getMatrix().clone(), 2, -1));
     }
 
+    /**
+     * Method setResToPay removes resources one by one once they are paid
+     */
     public void removeResToPay(){
         getBoard().getMatrix().getResToPay().remove(0);
         notify(new ObjectMessage(getBoard().getMatrix().clone(), 2, -1));
     }
 
+    /**
+     * Method payFromFirstExtraShelf performs the payment from the first extra shelf of the leader card if present
+     */
     public void payFromFirstExtraShelf(int ID, int q){
         getPlayerById(ID).getPersonalBoard().getWarehouse().payFromFirstExtraShelf();
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
     }
 
+    /**
+     * Method payFromSecondExtraShelf performs the payment from the second extra shelf of the leader card if present
+     */
     public void payFromSecondExtraShelf(int ID, int q){
         getPlayerById(ID).getPersonalBoard().getWarehouse().payFromSecondExtraShelf();
         notify(new ObjectMessage(getPlayerById(ID).getPersonalBoard().getWarehouse().clone(), 0, ID));
     }
 
+    /**
+     * Method addEarnedResourcesByID adds all the resources obtained by the productions once the phase
+     * @param ID            of type int - ID of the player
+     * @param numCoin       of type int - earned coins
+     * @param numStone      of type int - earned stones
+     * @param numServant    of type int - earned servants
+     * @param numShield     of type int - earned shields
+     */
     public void addEarnedResourcesByID(int ID, int numCoin, int numStone, int numServant, int numShield){
         getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedCoin(getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedCoin() + numCoin);
         getPlayerById(ID).getPersonalBoard().getStrongbox().setEarnedStone(getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedStone() + numStone);
