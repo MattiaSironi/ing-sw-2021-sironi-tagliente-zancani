@@ -14,8 +14,8 @@ import java.util.NoSuchElementException;
 import java.lang.*;
 
 /**
- * SocketClientConnection Class handles the communication between client and server.
- * It is able to receive and send messages to the client, and it also send a ping message periodically
+ * SocketClientConnection Class handles the communication between client and server in the server side.
+ * It is able to receive and send messages to the client and it also send a ping message periodically
  */
 public class SocketClientConnection extends Observable<Message> implements Runnable {
     private final Socket socket;

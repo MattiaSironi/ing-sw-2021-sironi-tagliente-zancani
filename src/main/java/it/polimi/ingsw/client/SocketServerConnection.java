@@ -14,6 +14,10 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+/**
+ * Class SocketServerConnection handles the communication between client and server in the client side.
+ * It is able to send and receive messages to the server and it also sends a ping message
+ */
 public class SocketServerConnection {
     private Socket socket;
     private ObjectInputStream socketIn;
@@ -24,8 +28,9 @@ public class SocketServerConnection {
     private UI ui;
 
 
-
-
+    /**
+     * Method SocketServerConnection is the constructor of the class and it define two thread, one receiving objects and one sending ping messages
+     */
     public SocketServerConnection() {
         socketListener = new Thread(() -> {
             while (isActive()) {
@@ -60,6 +65,10 @@ public class SocketServerConnection {
         return isActive;
     }
 
+    /**
+     * Method run establishes the connection to the server and it call socketInit method
+     * @throws IOException
+     */
     public void run() throws IOException {
         System.out.println("Insert IP Address : ");
         System.out.print("> ");
@@ -68,6 +77,11 @@ public class SocketServerConnection {
 
     }
 
+    /**
+     * Method socketInit open the communication channels to the server and runs the two threads defined in the constructor
+     * @param s
+     * @throws IOException
+     */
     public void socketInit(String s) throws IOException {
         try {
             socket = new Socket(s, 1234);
@@ -84,8 +98,10 @@ public class SocketServerConnection {
     }
 
 
-
-
+    /**
+     * method send sends objects to the server
+     * @param message of type Object - message to be sent
+     */
     public synchronized void send(Object message) {
         try {
             socketOut.reset();
@@ -96,6 +112,12 @@ public class SocketServerConnection {
         }
     }
 
+    /**
+     * Method receive receives object sent by the server
+     * @return  the object received
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public Object receive() throws IOException, ClassNotFoundException {
         Object inputObject;
 
@@ -106,19 +128,21 @@ public class SocketServerConnection {
 
     }
 
+    /**
+     * Method close handles the connection to the server
+     */
     public void close() {
         isActive = false;
-
-
         try {
             closeConnection();
-
         }
         catch (IOException e) {
             System.out.println("Error closing socket!");
         }
     }
-
+    /**
+     * Method closeConnection disconnects the client from the server and it closes the connection
+     */
     public synchronized void closeConnection() throws IOException {
         if (!socket.isClosed()) {
             System.out.println("Game is ended. See you next time!");
@@ -131,6 +155,11 @@ public class SocketServerConnection {
         }
     }
 
+    /**
+     * Method messageHandler handles the messages received from the server.
+     * It forwards the received message to the UserInterface except id it is ad IdMessage
+     * @param o of type Object - the object received
+     */
     public void messageHandler(Object o){
         if(o instanceof IdMessage){
             ui.setID(((IdMessage)o).getID());
