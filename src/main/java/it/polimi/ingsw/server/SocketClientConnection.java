@@ -13,7 +13,10 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.lang.*;
 
-
+/**
+ * SocketClientConnection Class handles the communication between client and server.
+ * It is able to receive and send messages to the client, and it also send a ping message periodically
+ */
 public class SocketClientConnection extends Observable<Message> implements Runnable {
     private final Socket socket;
     private ObjectOutputStream out;
@@ -24,30 +27,11 @@ public class SocketClientConnection extends Observable<Message> implements Runna
     private final Thread pingSender;
     private RemoteView remoteView;
 
-    public RemoteView getRemoteView() {
-        return remoteView;
-    }
-
-    private boolean active = true;
-
-    public int getID() {
-        return ID;
-    }
-
-    public Socket getSocket() {
-        return socket;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    public void setRemoteView(RemoteView remoteView) {
-        this.remoteView = remoteView;
-    }
-
-
-
+    /**
+     * Method SocketClientConnection is the constructor of the class SocketClientConnection. It runs two thread used to send game's messages and ping messages
+     * @param socket    of type Socket - it's the socket that accepted the connection
+     * @param server    of type Server - is the server which is currently running
+     */
     public SocketClientConnection(Socket socket, Server server) {
         this.socket = socket;
         this.server = server;
@@ -77,13 +61,10 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         });
     }
 
-    public Server getServer() {
-        return server;
-    }
-
-    public synchronized boolean isActive() {
-        return active;
-    }
+    /**
+     * Method send sends message to the client
+     * @param message   of type Message - it's the message to be sent
+     */
 
     public synchronized void send(Message message) {
         try {
@@ -96,14 +77,22 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         }
     }
 
+    /**
+     * Method receive receives objects from the client
+     * @return  the object sent by the client
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public Object receive() throws IOException, ClassNotFoundException {
 
         return in.readObject();
 
     }
 
+    /**
+     * Method closeConnection closes the connection to the client
+     */
     public synchronized void closeConnection() {
-
         active = false;
         try {
             socket.close();
@@ -113,6 +102,9 @@ public class SocketClientConnection extends Observable<Message> implements Runna
 
     }
 
+    /**
+     * Method close handles the disconnection of the client, the removal of the player from the game and the closing of the game
+     */
     public void close() {
         if (!socket.isClosed()) {
             closeConnection();
@@ -124,6 +116,9 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         }
     }
 
+    /**
+     * Method run initializes the SocketClientConnection by opening the communication channels and starting the threads needed for message forwarding
+     */
     public void run() {
 
         try {
@@ -136,6 +131,11 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         }
     }
 
+    /**
+     * Method messageHandler handles messages received by the client. It is the first step of message handling, where they are dinstict in PingMessage, ChooseNumberOfPlayer,
+     * which are used for the initial phase of the match's setup, and other messages
+     * @param message
+     */
     public void messageHandler(Object message){
         if(message instanceof PingMessage){
 
@@ -148,6 +148,35 @@ public class SocketClientConnection extends Observable<Message> implements Runna
         }
     }
 
+    public Server getServer() {
+        return server;
+    }
+
+    public synchronized boolean isActive() {
+        return active;
+    }
+
+    public RemoteView getRemoteView() {
+        return remoteView;
+    }
+
+    private boolean active = true;
+
+    public int getID() {
+        return ID;
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public void setRemoteView(RemoteView remoteView) {
+        this.remoteView = remoteView;
+    }
 
 
     }
