@@ -80,21 +80,15 @@ public class Controller implements Observer<Message> {
         Collections.shuffle(game.getPlayers());
         game.sendGame();
         for (Player p : game.getPlayers()) {
-
-
             switch (game.getPlayers().indexOf(p)) {
                 case 0 -> {
-
                     game.setCommunication(p.getId(), CommunicationList.FIRST);
                     game.setLeaderCardsToDiscard(p.getId(), 2);
                     game.setStartResCountByID(p.getId(), 0);
-
-
                 }
                 case 1 -> {
                     game.setCommunication(p.getId(), CommunicationList.SECOND);
                     game.setLeaderCardsToDiscard(p.getId(), 2);
-
                     game.setStartResCountByID(p.getId(), 1);
                 }
                 case 2 -> {
@@ -102,21 +96,15 @@ public class Controller implements Observer<Message> {
                     game.moveFaithPosByID(p.getId(), 1);
                     game.setLeaderCardsToDiscard(p.getId(), 2);
                     game.setStartResCountByID(p.getId(), 1);
-
-
                 }
                 case 3 -> {
                     game.setCommunication(p.getId(), CommunicationList.FOURTH);
                     game.moveFaithPosByID(p.getId(), 1);
                     game.setLeaderCardsToDiscard(p.getId(), 2);
                     game.setStartResCountByID(p.getId(), 2);
-
                 }
             }
         }
-
-
-
     }
 
     /**
@@ -403,81 +391,6 @@ public class Controller implements Observer<Message> {
 
     }
 
-    // TODO JAVADOC
-
-    public void activateDevProduction(int ID, DevCard d, int num1FromWarehouse, int num1FromStrongbox, int num2FromWarehouse, int num2FromStrongbox) {
-        int r1 = 0, r2 = 0;
-        int i;
-        int h;
-        ResourceType res1, res2;
-        boolean found1 = false;
-        boolean found2 = false;
-        ArrayList<Shelf> w = this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves();
-        Strongbox st = this.game.getPlayerById(ID).getPersonalBoard().getStrongbox();
-
-        for (i = 0; i < 4 && !found1; i++) {
-            if (d.getInputRes()[i] > 0) {
-                r1 = i;
-                found1 = true;
-            }
-        }
-        for (h = i; i < 4 && !found2; i++) {
-            if (d.getInputRes()[i] > 0) {
-                r2 = h;
-                found2 = true;
-            }
-            if (!found2)
-                r2 = -1;
-        }
-        res1 = this.FromIntToRes(r1);
-        res2 = this.FromIntToRes(r2);
-
-
-        if (num1FromWarehouse > 0) {
-            for (Shelf s : w) {
-                if (s.getResType() == res1) {
-                    s.setCount(s.getCount() - num1FromWarehouse);
-                }
-            }
-        }
-        if (num1FromStrongbox > 0) {
-            Shelf newShelf = new Shelf(res1, st.getInfinityShelf().get(r1).getCount() - num1FromStrongbox);
-            st.getInfinityShelf().set(r1, newShelf);
-
-        }
-        if (num2FromWarehouse > 0) {
-            for (Shelf s : w) {
-                if (s.getResType() == res2) {
-                    s.setCount(s.getCount() - num2FromWarehouse);
-                }
-            }
-        }
-        if (num2FromStrongbox > 0) {
-            Shelf newShelf = new Shelf(res2, st.getInfinityShelf().get(r2).getCount() - num2FromStrongbox);
-            st.getInfinityShelf().set(r2, newShelf);
-        }
-
-        for (i = 0; i < 4; i++) {
-            if (d.getOutputRes()[i] > 0) {
-                switch (i + 1) {
-                    case 1 -> this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
-                            setEarnedCoin(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedCoin() + d.getOutputRes()[i]);
-                    case 2 -> this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
-                            setEarnedStone(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedStone() + d.getOutputRes()[i]);
-                    case 3 -> this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
-                            setEarnedServant(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedServant() + d.getOutputRes()[i]);
-                    case 4 -> this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().
-                            setEarnedShield(this.game.getPlayerById(ID).getPersonalBoard().getStrongbox().getEarnedShield() + d.getOutputRes()[i]);
-
-                }
-            }
-        }
-
-        this.game.moveFaithPosByID(ID, d.getOutputRes()[4]);
-
-
-    }
-
     /**
      * Method collectNewRes adds all the earned resources once the production as ended
      * @param ID    of type int - id of the player
@@ -487,8 +400,12 @@ public class Controller implements Observer<Message> {
         game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
     }
 
-    //TODO JAVADOC
-
+    /**
+     * Method isExtraProd checks if the chosen Leader Card for the production is actually a Leader Card with extra production ability. id it's true, it
+     * prepares the resource that the player must pay
+     * @param index     of type int - index of the chosen card in the active leader deck
+     * @param ID        of type int - ID of the player
+     */
     public void isExtraProd(int index, int ID) {
             try {
                 if((index == 0 && !game.getPlayerById(ID).isLeader1ProdDone()) || (index == 1 && !game.getPlayerById(ID).isLeader2ProdDone())) {
@@ -719,7 +636,7 @@ public class Controller implements Observer<Message> {
      * @param ID        of type int - id of the player
      * @param index     of type int - index of the chosen slot of the player's personal board
      */
-    private void setDevPayment(int ID, int index) {
+    public void setDevPayment(int ID, int index) {
         try {
             if (game.getPlayerById(ID).isDev1ProdDone() && index == 0) {
                 game.setCommunication(ID, CommunicationList.INVALID_MOVE);

@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO
+/**
+ * Class DevelopmentCardMatrix represents the matrix of development cards of the game. I has also other attributes which are used as temporary containers and slots
+ * for actions performed by the player. devDecks attribute is the matrix of development cards, chosenCard is the card chosen by a player during the buyDevCard action, chosenIndex
+ * is the index of the chosen card and resToPay is a container used for any payment phase
+ */
 
 public class DevelopmentCardMatrix implements Serializable {
 

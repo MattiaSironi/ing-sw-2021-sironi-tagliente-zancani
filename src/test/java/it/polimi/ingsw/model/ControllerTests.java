@@ -731,6 +731,12 @@ public class ControllerTests {
         game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 50);
         game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 50);
         game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 50);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.COIN, 0);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.STONE, 1);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 2);
         controller.handleChosenDevCard(1, 0);
         controller.payRes(true, 0, ActionPhase.PAYMENT);
         controller.payRes(false, 0, ActionPhase.PAYMENT);
@@ -749,6 +755,7 @@ public class ControllerTests {
         controller.handleChosenDevCard(8, 0);
         controller.placeDevCard(0, 2);
         controller.placeDevCard(0, 0);
+        controller.handleChosenDevCard(14, 0);
 
         assertEquals(5, game.getPlayerById(0).getPersonalBoard().getCardSlot().get(0).getCards().size()
                 + game.getPlayerById(0).getPersonalBoard().getCardSlot().get(1).getCards().size()
@@ -790,6 +797,64 @@ public class ControllerTests {
         assertEquals(0, game.getPlayerById(0).getStartResCount());
         assertEquals(ResourceType.COIN, game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(0).getResType());
         assertEquals(1, game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(0).getCount());
+    }
+
+    @Test
+    @DisplayName("extra production leader")
+    public void testIsExtraProd(){
+        LeaderCard leaderCard1 = new ExtraProdLCard(2, 3, CardColor.YELLOW, ResourceType.SHIELD);
+        LeaderCard leaderCard2 = new DiscountLCard(3, 4, CardColor.YELLOW, CardColor.BLUE, ResourceType.COIN);
+        game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard1);
+        game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().add(leaderCard2);
+        controller.isExtraProd(0, 0);
+        assertEquals(ActionPhase.A_PAYMENT, game.getTurn().getPhase());
+        game.getPlayerById(0).getPersonalBoard().getWarehouse().addResource(ResourceType.SHIELD, 1);
+        controller.isExtraProd(0, 0);
+        assertEquals(ActionPhase.SELECT_RES, game.getTurn().getPhase());
+        controller.isExtraProd(1, 0);
+        assertEquals(ActionPhase.A_PAYMENT, game.getTurn().getPhase());
+        controller.isExtraProd(3, 0);
+        assertEquals(ActionPhase.A_PAYMENT, game.getTurn().getPhase());
+    }
+
+    @Test
+    @DisplayName("set bought res test")
+    public void setBoughtResTest(){
+        controller.setBoughtRes(ResourceType.COIN, 0);
+        controller.setBoughtRes(ResourceType.STONE, 0);
+        controller.setBoughtRes(ResourceType.SERVANT, 0);
+        controller.setBoughtRes(ResourceType.SHIELD, 0);
+
+        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getStrongbox().getEarnedCoin());
+        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getStrongbox().getEarnedStone());
+        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getStrongbox().getEarnedServant());
+        assertEquals(1, game.getPlayerById(0).getPersonalBoard().getStrongbox().getEarnedShield());
+    }
+
+    @Test
+    @DisplayName("setDevPayment test")
+    public void setDevPaymentTest(){
+        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 50);
+        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 50);
+        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 50);
+        game.getPlayerById(0).getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 50);
+
+        DevCard d = game.getBoard().getMatrix().getDevDecks().get(0).getCards().get(0);
+        game.getPlayerById(0).getPersonalBoard().getCardSlot().get(0).getCards().add(d);
+        game.getBoard().getMatrix().getDevDecks().get(0).getCards().remove(0);
+        controller.setDevPayment(0, 0);
+        assertEquals(d.getInputRes()[0], game.getBoard().getMatrix().getResToPay().stream().filter(x -> x.equals(ResourceType.COIN)).count());
+        assertEquals(d.getInputRes()[1], game.getBoard().getMatrix().getResToPay().stream().filter(x -> x.equals(ResourceType.STONE)).count());
+        assertEquals(d.getInputRes()[2], game.getBoard().getMatrix().getResToPay().stream().filter(x -> x.equals(ResourceType.SERVANT)).count());
+        assertEquals(d.getInputRes()[3], game.getBoard().getMatrix().getResToPay().stream().filter(x -> x.equals(ResourceType.SHIELD)).count());
+        game.getPlayerById(0).setDev1ProdDone(true);
+        controller.setDevPayment(0, 0);
+        assertEquals(ActionPhase.A_PAYMENT, game.getTurn().getPhase());
+        game.getPlayerById(0).setDev2ProdDone(true);
+        controller.setDevPayment(0, 0);
+        game.getPlayerById(0).getPersonalBoard().getCardSlot().get(1).getCards().add(d);
+        assertEquals(ActionPhase.A_PAYMENT, game.getTurn().getPhase());
+
     }
 
 
