@@ -3,23 +3,24 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.gui.controllers.*;
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.message.ActionMessages.MarketMessage;
 import it.polimi.ingsw.model.Communication;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Turn;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+/**
+ * Class GUI is what user launches to play in GUI mode.
+ */
 
 public class GUI extends Application {
 
@@ -73,35 +74,50 @@ public class GUI extends Application {
         this.currentScene = currentScene;
     }
 
+    /**
+     * Method updateHostScene calls SetupController updateHostScene method.
+     * @see SetupController
+     */
+
     public void updateHostScene() {
         SetupController controller = (SetupController) nameMapController.get(SceneList.SETUP.getSceneName());
         controller.updateHostScene();
     }
+
+    /**
+     * Method askForNickname calls SetupController askForNickname method.
+     * @see SetupController
+     */
 
     public void askForNickname() {
         SetupController controller = (SetupController) nameMapController.get(SceneList.SETUP.getSceneName());
         controller.askForNickname();
     }
 
+    /**
+     * Method setDuplicatedNickname calls SetupController setDuplicatedNickname method.
+     * @see SetupController
+     */
     public void setDuplicatedNickname() {
         SetupController controller = (SetupController) nameMapController.get(SceneList.SETUP.getSceneName());
         controller.setDuplicatedNickname();
     }
 
+    /**
+     * Method start sets @param stage parameters and makes the Application visible.
+     */
+
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         setup();
         this.stage = stage;
         stage.setResizable(true);
         stage.setFullScreen(false);
         stage.setTitle("Master of Renaissance");
-        this.stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                Platform.exit();
-                if(!local)
-                    mainController.getServerConnection().close();
-            }
+        this.stage.setOnCloseRequest(windowEvent -> {
+            Platform.exit();
+            if(!local)
+                mainController.getServerConnection().close();
         });
         stage.setScene(currentScene);
         stage.setResizable(false);
@@ -109,6 +125,12 @@ public class GUI extends Application {
 
 
     }
+
+    /**
+     * Method setup loads with a FXMLLoader all .fxml files. it associate every file with his controller. Then, it sets the Starting Scene
+     * @see FXMLLoader
+     * @see GUIController
+     */
 
     public void setup() {
         try {
@@ -122,11 +144,16 @@ public class GUI extends Application {
                 }
 
 
-        }catch(IOException e){
+        }catch(IOException ignored){
 
         }
         currentScene = nameMapScene.get(SceneList.START.getSceneName());
     }
+
+    /**
+     * Method changeScene changes Scene, calling Scene's controller's setup.
+     * @param sceneName is the next scene.
+     */
 
     public void changeScene(SceneList sceneName){
         GUIController controller = nameMapController.get(sceneName.getSceneName());
@@ -139,6 +166,11 @@ public class GUI extends Application {
         );
     }
 
+    /**
+     * method ChangeOtherScene is a special ChangeScene for OtherPlayersController
+     * @param userData is used to distinguish opponents.
+     */
+
     public void changeOtherScene(int userData) {
         GUIController controller = nameMapController.get(SceneList.OPPONENTS.getSceneName());
         Platform.runLater(() -> {
@@ -150,11 +182,13 @@ public class GUI extends Application {
         );
     }
 
-
+    /**
+     * Method showTokenPlayed calls MainSceneController's showTokenPlayed method.
+     * @param s is the token played toString.
+     * @see MainSceneController
+     */
     public void showTokenPlayed(String s) {
-        Platform.runLater(() -> {
-            ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showTokenPlayed(s);
-        });
+        Platform.runLater(() -> ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showTokenPlayed(s));
     }
 
 
@@ -166,6 +200,12 @@ public class GUI extends Application {
         return ID;
     }
 
+    /**
+     * Method setResCounterLabel calls FirstDrawController's setResCountLabel method.
+     * @param startResCount is the number of startResCount remaining.
+     * @see FirstDrawController
+     */
+
     public void setResCounterLabel(int startResCount) {
         Platform.runLater(() -> {
             FirstDrawController controller = (FirstDrawController) nameMapController.get(SceneList.FIRSTDRAW.getSceneName());
@@ -174,13 +214,20 @@ public class GUI extends Application {
     }
 
 
-
+    /**
+     * Method showMarket calls MarketController's showMarket method.
+     * @see MarketController
+     */
 
     public void showMarket() {
-        Platform.runLater(() -> {
-            ((MarketController) nameMapController.get(SceneList.MARKET.getSceneName())).showMarket();
-        });
+        Platform.runLater(() -> ((MarketController) nameMapController.get(SceneList.MARKET.getSceneName())).showMarket());
     }
+
+    /**
+     * Method showShelves calls MarketController and MainSceneController's showShelves.
+     * @see MarketController
+     * @see MainSceneController
+     */
 
     public void showShelves() {
         Platform.runLater(() -> {
@@ -190,12 +237,19 @@ public class GUI extends Application {
         });
     }
 
+    /**
+     * Method showLeaders calls MainSceneController's showLeaders.
+     * @see MainSceneController
+     */
+
     public void showLeaders(){
-        Platform.runLater(()->{
-            ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showLeaders();
-        });
+        Platform.runLater(()-> ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showLeaders());
     }
 
+    /**
+     * Method printMessage calls every GUIController's print.
+     * @param turn is the Turn to print
+     */
     public void printMessage (Turn turn){
         Platform.runLater(() -> {
             for (GUIController c : nameMapController.values()) {
@@ -203,7 +257,10 @@ public class GUI extends Application {
             }
         });
     }
-
+    /**
+     * Method printMessage calls every GUIController's print.
+     * @param communication is the Communication to print
+     */
     public void printMessage (Communication communication){
         Platform.runLater(() -> {
             for (GUIController c : nameMapController.values()) {
@@ -211,6 +268,10 @@ public class GUI extends Application {
             }
         });
     }
+
+    /**
+     * Method controllerSetup calls every GUIController's setup.
+     */
 
     public void controllerSetup(){
         Platform.runLater(() -> {
@@ -220,6 +281,9 @@ public class GUI extends Application {
         });
 
     }
+    /**
+     * Method controllerSetup calls every GUIController's disable.
+     */
 
     public void disable() {
         Platform.runLater(() -> {
@@ -228,13 +292,18 @@ public class GUI extends Application {
             }
         });
     }
+    /**
+     * Method showTokens calls MainSceneController's showTokens.
+     * @see MainSceneController
+     */
 
     public void showTokens() {
-        Platform.runLater(() -> {
-            ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showTokens();
-        });
+        Platform.runLater(() -> ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showTokens());
     }
 
+    /**
+     * Method controllerSetup calls every GUIController's enable.
+     */
     public void enable() {
         Platform.runLater(() -> {
             for (GUIController controller : nameMapController.values()) {
@@ -242,6 +311,11 @@ public class GUI extends Application {
             }
         });
     }
+    /**
+     * Method showStrongbox calls ProductionController and MainSceneController's showStrongbox.
+     * @see ProductionController
+     * @see MainSceneController
+     */
 
     public void showStrongbox() {
         Platform.runLater(() -> {
@@ -251,18 +325,29 @@ public class GUI extends Application {
 
     }
 
+    /**
+     * Method showFaithTrack calls MainSceneController's showFaithTrack.
+     * @see MainSceneController
+     */
+
     public void showFaithTrack() {
-        Platform.runLater(() -> {
-            ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showFaithTrack();
-        });
+        Platform.runLater(() -> ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).showFaithTrack());
     }
 
-
-    public void updateDevSlot(SceneList placedevcardscene) {
-        Platform.runLater(() -> {
-            ((PlaceDevCardScene) nameMapController.get(SceneList.PLACEDEVCARDSCENE.getSceneName())).updateDevSlot();
-        });
+    /**
+     * Method showFaithTrack calls PlaceDevCardScene's updateDevSlot.
+     * @see PlaceDevCardScene
+     */
+    public void updateDevSlot(SceneList placeDevCardScene) {
+        Platform.runLater(() -> ((PlaceDevCardScene) nameMapController.get(SceneList.PLACEDEVCARDSCENE.getSceneName())).updateDevSlot());
     }
+
+    /**
+     * Method createLocalGame creates a local game and creates a MVC pattern.
+     * @see MainController
+     * @see Controller
+     * @see Game
+     */
 
     public void createLocalGame() {
         Game game = new Game(true, 0);
@@ -271,40 +356,35 @@ public class GUI extends Application {
         mainController.addObserver(controller);
         game.addObserver(mainController); }
 
+
+    /**
+     * Method gameOver calls GameOverController's findWinner
+     * @param doIWin is true if Player won.
+     * @see GameOverController
+     */
     public void gameOver(boolean doIWin) {
-        Platform.runLater(() -> {
-            ((GameOverController) nameMapController.get(SceneList.GAMEOVERSCENE.getSceneName())).findWinner(doIWin);
-        });
+        Platform.runLater(() -> ((GameOverController) nameMapController.get(SceneList.GAMEOVERSCENE.getSceneName())).findWinner(doIWin));
     }
 
+
     public void activateChoiceBox() {
-        Platform.runLater(() -> {
-            ((BasicProductionController) nameMapController.get(SceneList.BASICSCENE.getSceneName())).enableHBox();
-        });
+        Platform.runLater(() -> ((BasicProductionController) nameMapController.get(SceneList.BASICSCENE.getSceneName())).enableHBox());
     }
 
     public void disableMarket() {
-        Platform.runLater(() -> {
-            ((MarketController) nameMapController.get(SceneList.MARKET.getSceneName())).disableArrows();
-        });
+        Platform.runLater(() -> ((MarketController) nameMapController.get(SceneList.MARKET.getSceneName())).disableArrows());
     }
 
     public void disableProduction() {
-        Platform.runLater(() -> {
-            ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).disableProductionButton();
-        });
+        Platform.runLater(() -> ((MainSceneController) nameMapController.get(SceneList.MAINSCENE.getSceneName())).disableProductionButton());
     }
 
     public void disableBackProduction() {
-        Platform.runLater(() -> {
-            ((ProductionController) nameMapController.get(SceneList.GENERALPRODSCENE.getSceneName())).disableBackButton();
-        });
+        Platform.runLater(() -> ((ProductionController) nameMapController.get(SceneList.GENERALPRODSCENE.getSceneName())).disableBackButton());
     }
 
     public void enableHBoxRes() {
-        Platform.runLater(() -> {
-            ((ProductionController) nameMapController.get(SceneList.GENERALPRODSCENE.getSceneName())).enableHBoxRes();
-        });
+        Platform.runLater(() -> ((ProductionController) nameMapController.get(SceneList.GENERALPRODSCENE.getSceneName())).enableHBoxRes());
     }
 }
 
