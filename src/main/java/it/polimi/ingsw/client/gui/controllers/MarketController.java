@@ -16,6 +16,10 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * MarketController controls MarketScene and his main goal is to control "Buy Resources" action.
+ */
+
 public class MarketController implements GUIController{
 
     public ImageView resourceSelector;
@@ -159,7 +163,9 @@ public class MarketController implements GUIController{
     }
 
 
-
+    /**
+     * Method showShelves shows GUI Player's ShelfWarehouse
+     */
     public void showShelves() {
         ShelfWarehouse myShelves = mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getWarehouse();
         ArrayList<ImageView> shelf2 = new ArrayList<>();
@@ -222,6 +228,10 @@ public class MarketController implements GUIController{
         else for (ImageView iv : shelf5) iv.setImage(null);
     }
 
+    /**
+     * Method showMarket show Game Market
+     */
+
     public void showMarket() {
 
         Market market = mainController.getGame().getBoard().getMarket();
@@ -254,6 +264,10 @@ public class MarketController implements GUIController{
 
     }
 
+    /**
+     * Method showHand shows Market Hand if GUI player is playing and Hand is not empty.
+     */
+
 
     private void showHand() {
         int i = 0;
@@ -275,6 +289,9 @@ public class MarketController implements GUIController{
         else showResourcesToSelect();
     }
 
+    /**
+     * Method showResourcesToSelect shows the resource associated to the first Marble in Hand, if present.
+     */
 
     private void showResourcesToSelect() {
 
@@ -291,6 +308,10 @@ public class MarketController implements GUIController{
 
 
     }
+
+    /**
+     * Method whiteMarbleCase is called when first resource in Hand in EMPTY. According to Model, it shows one of the three possible cases.
+     */
 
     private void whiteMarbleCase() {
         ArrayList<ResourceType> possibleRes = new ArrayList<>();
@@ -340,6 +361,11 @@ public class MarketController implements GUIController{
         mainController.getGui().changeScene(SceneList.MAINSCENE);
     }
 
+    /**
+     * Method goToMarket is triggered when the playing Player has clicked one arrow. It creates a MarketMessage and sends it.
+     * @param mouseEvent is used to understand which arrow has been clicked.
+     */
+
 
     public void goToMarket(MouseEvent mouseEvent) {
         mainController.noMoreActions();
@@ -386,10 +412,10 @@ public class MarketController implements GUIController{
         }
 
 
-
-
-
-
+    /**
+     * Method saveRes is triggered when Player clicked on Resource appeared next to Market Hand.
+     * @param mouseEvent is used to understand which resource has been clicked.
+     */
     public void saveRes(MouseEvent mouseEvent) {
         Image image = ((ImageView) (mouseEvent.getTarget())).getImage();
         if (image == null) return;
@@ -403,6 +429,11 @@ public class MarketController implements GUIController{
 
 
     }
+
+    /**
+     * Method chooseShelf is triggered when a Player clicked on a shelf during "Buy Resources" action.
+     * @param mouseEvent is used to understand which shelf has been clicked.
+     */
 
     public void chooseShelf(MouseEvent mouseEvent) {
 
@@ -418,6 +449,12 @@ public class MarketController implements GUIController{
 
 
     }
+
+    /**
+     * Method selectedShelves is used to have the index of the shelf, according its ID
+     * @param id is the ID of the shelf
+     * @return its index.
+     */
 
     private int selectedShelves(String id) {
         switch (id) {
@@ -439,6 +476,10 @@ public class MarketController implements GUIController{
         }
     }
 
+    /**
+     * Method discardRes is called when "Trash" is clicked. it discards the resource.
+     */
+
     public void discardRes(MouseEvent mouseEvent) {
         if (selectedRes == null) return;
         mainController.send(new PlaceResourceMessage(selectedRes, -1, gui.getID(), false, true));
@@ -446,6 +487,11 @@ public class MarketController implements GUIController{
         discard.setDisable(true);
 
     }
+
+    /**
+     * Method swap is triggered after of before "Buy Resources" action. it creates and sends a ManageResource message.
+     * @param mouseEvent
+     */
 
     public void swap(MouseEvent mouseEvent) {
         if (s1 == null) s1 = selectedShelves(((Button) mouseEvent.getTarget()).getId());
@@ -490,10 +536,17 @@ public class MarketController implements GUIController{
         for (Button shelf : shelves) shelf.setDisable(true);
 
     }
+
+    /**
+     * Method shelvesForSwap changes function triggered on MouseClicked
+     */
     private void shelvesForSwap() {
         for (Button shelf : shelves) shelf.setOnMouseClicked(this::swap);
     }
 
+    /**
+     * Method shelvesForMarket changes function triggered on MouseClicked
+     */
     private void shelvesForMarket() {
         for (Button shelf : shelves) shelf.setOnMouseClicked(this::chooseShelf);
     }
@@ -501,6 +554,7 @@ public class MarketController implements GUIController{
     private void enableRes() {
         for (ImageView res : this.res) res.setDisable(false);
     }
+
     private void disableRes() {
         for (ImageView res : this.res) res.setDisable(true);
 

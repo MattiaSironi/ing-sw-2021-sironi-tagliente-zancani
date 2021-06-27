@@ -8,11 +8,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
 
 /**
+ * OtherPlayersController controls OtherPlayerScene
  * @author Mattia Sironi
  */
 public class OtherPlayersController implements GUIController {
@@ -121,13 +121,7 @@ public class OtherPlayersController implements GUIController {
     GUI gui;
     private  int ID;
     ArrayList<ImageView> faithTrack;
-    private LeaderCard lc1;
-    private LeaderCard lc2;
-    private Image l1 ;
-    private Image l2 ;
-    boolean active1 = false;
-    boolean active2 = false;
-    private boolean firstTurn = true;
+
 
     public int getID() {
         return ID;
@@ -142,6 +136,7 @@ public class OtherPlayersController implements GUIController {
         this.gui= m.getGui();
 
     }
+
 
     public void setup(int num) {
         setID(num);
@@ -212,34 +207,19 @@ public class OtherPlayersController implements GUIController {
         mainController.getGui().changeScene(SceneList.MAINSCENE);
     }
 
+    /**
+     * Method showFaithTrack shows selected opponent's FaithTrack
+     */
+
     public void showFaithTrack() {
         FaithTrack ft = this.mainController.getGame().getPlayerById(getID()).getPersonalBoard().getFaithTrack();
-//        int pos = 0;
-//        int loripos=0;
-//        pos = ft.getMarker();
-//        this.faithTrack.get(pos).setImage((new Image(getClass().getResource("/images/PunchBoard/faith_point.png").toExternalForm())));
-//        for (int i=0;i<pos;i++){
-//            this.faithTrack.get(i).setImage(null);
-//        }
-//        if(mainController.getGame().getNumPlayer()==1){
-//            loripos = ft.getLoriPos();
-//            if(loripos==pos) {  //nuova immagine}
-//            }
-//            this.faithTrack.get(loripos).setImage((new Image(getClass().getResource("/images/PunchBoard/croce.png").toExternalForm())));
-//        }
-
         for (ImageView slot : this.faithTrack) {
-            if ( mainController.getGame().getPlayers().size() == 1 && faithTrack.indexOf(slot) == ft.getMarker() && faithTrack.indexOf(slot) == ft.getLoriPos()) {
-            }//new image
-            else if (faithTrack.indexOf(slot) == ft.getMarker())
+            if (faithTrack.indexOf(slot) == ft.getMarker())
                 slot.setImage((new Image(getClass().getResource("/images/PunchBoard/faith_point.png").toExternalForm())));
-            else if ( mainController.getGame().getPlayers().size() == 1 && faithTrack.indexOf(slot) == ft.getLoriPos())
+            else if (mainController.getGame().getPlayers().size() == 1 && faithTrack.indexOf(slot) == ft.getLoriPos())
                 slot.setImage((new Image(getClass().getResource("/images/PunchBoard/croce.png").toExternalForm())));
             else slot.setImage(null);
         }
-
-
-        //TODO : immagine con entrambi
 
         Integer t1 = ft.getFavorTile1();
         Integer t2 = ft.getFavorTile2();
@@ -251,8 +231,6 @@ public class OtherPlayersController implements GUIController {
             tile2.setImage(new Image(getClass().getResource("/images/PunchBoard/t1" + t2 + ".png").toExternalForm()));
         if (t3 != null)
             tile3.setImage(new Image(getClass().getResource("/images/PunchBoard/t1" + t3 + ".png").toExternalForm()));
-
-
     }
 
 
@@ -286,6 +264,10 @@ public class OtherPlayersController implements GUIController {
         faithTrack.add(ft23);
         faithTrack.add(ft24);
     }
+
+    /**
+     * Method showShelves shows selected opponent's ShelfWarehouse.
+     */
 
     public void showShelves() {
         ShelfWarehouse myShelves = mainController.getGame().getPlayerById(getID()).getPersonalBoard().getWarehouse();
@@ -348,12 +330,20 @@ public class OtherPlayersController implements GUIController {
         } else for (ImageView iv : shelf5) iv.setImage(null);
 
     }
+
+    /**
+     * Method showStrongbox shows selected opponent's Strongbox.
+     */
     public void showStrongbox(){
         coinNum.setText("" + mainController.getGame().getPlayerById(getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.COIN));
         stoneNum.setText("" + mainController.getGame().getPlayerById(getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.STONE));
         servantNum.setText("" + mainController.getGame().getPlayerById(getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.SERVANT));
         shieldNum.setText("" + mainController.getGame().getPlayerById(getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.SHIELD));
     }
+
+    /**
+     * Method showLeaders shows selected opponent's LeaderCards.
+     */
     public void showLeaders() {
 
         ArrayList<ImageView> leaders = new ArrayList<>();

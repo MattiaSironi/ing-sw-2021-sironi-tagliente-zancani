@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * GameOverController controls GameOverScene
+ */
+
 public class GameOverController implements GUIController {
 
     public VBox box;
@@ -35,18 +39,29 @@ public class GameOverController implements GUIController {
     public void setup(int num) {
     }
 
+    /**
+     * Method findWinner orders players from first to last.
+     * @param doIWin
+     */
+
     public void findWinner(boolean doIWin) {
         ArrayList<Player> players = new ArrayList<>();
         players.addAll(mainController.getGame().getPlayers());
-        Map<Integer, Map<Player,Integer>> orderedPlayers = new HashMap<>();
-        Map<Player,Integer> playerPoints = new HashMap<>();
-        for(int i=0;i<mainController.getGame().getPlayers().size();i++){
-            playerPoints=findFirst(players);
-            orderedPlayers.put(i,playerPoints);
+        Map<Integer, Map<Player, Integer>> orderedPlayers = new HashMap<>();
+        Map<Player, Integer> playerPoints = new HashMap<>();
+        for (int i = 0; i < mainController.getGame().getPlayers().size(); i++) {
+            playerPoints = findFirst(players);
+            orderedPlayers.put(i, playerPoints);
             players.remove(playerPoints.keySet().toArray()[0]);
         }
-        this.showScores(orderedPlayers,doIWin);
+        this.showScores(orderedPlayers, doIWin);
     }
+
+    /**
+     * Method showScores shows for every Player his score.
+     * @param orderedPlayers Hash Map with all Players ordered from firt to last and their scores.
+     * @param doIWin if true Player with this GUI won.
+     */
 
     private void showScores(Map<Integer, Map<Player, Integer>> orderedPlayers, boolean doIWin) {
         Player p;
@@ -84,6 +99,12 @@ public class GameOverController implements GUIController {
             first.setText("My score: " + orderedPlayers.get(0).get(p));
         }
     }
+
+    /**
+     *
+     * @param players Players in Game
+     * @return a Map containing @param players ordered and Player's scores.
+     */
 
     private Map<Player,Integer> findFirst(ArrayList<Player> players) {
         Player winner = null;
