@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 
 public class ExtraDepotLCard extends LeaderCard implements Printable, Serializable {
-    //type=2?
+
     private final ResourceType resType;
     private final ResourceType resDepot;
 

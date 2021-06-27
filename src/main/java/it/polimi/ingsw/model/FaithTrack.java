@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
+ * FaithTrack represents Faith Track in Master of Renaissance. it's composed by 25 slots and 3 tiles.
  * @author Mattia Sironi
  */
 public class FaithTrack implements Printable, Serializable { //ObjectID = 13

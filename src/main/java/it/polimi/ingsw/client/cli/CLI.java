@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class CLI {
     private final Scanner in = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException { //TODO PRINT TITLE
+    public static void main(String[] args) throws IOException {
         System.out.println("╔╦╗╔═╗╔═╗╔╦╗╔═╗╦═╗  ╔═╗╔═╗  ╦═╗╔═╗╔╗╔╔═╗╦╔═╗╔═╗╔═╗╔╗╔╔═╗╔═╗");
         System.out.println("║║║╠═╣╚═╗ ║ ║╣ ╠╦╝  ║ ║╠╣   ╠╦╝║╣ ║║║╠═╣║╚═╗╚═╗╠═╣║║║║  ║╣ ");
         System.out.println("╩ ╩╩ ╩╚═╝ ╩ ╚═╝╩╚═  ╚═╝╚    ╩╚═╚═╝╝╚╝╩ ╩╩╚═╝╚═╝╩ ╩╝╚╝╚═╝╚═╝");

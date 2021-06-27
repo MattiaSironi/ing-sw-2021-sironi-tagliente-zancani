@@ -403,6 +403,8 @@ public class Controller implements Observer<Message> {
 
     }
 
+    // TODO JAVADOC
+
     public void activateDevProduction(int ID, DevCard d, int num1FromWarehouse, int num1FromStrongbox, int num2FromWarehouse, int num2FromStrongbox) {
         int r1 = 0, r2 = 0;
         int i;
@@ -484,6 +486,8 @@ public class Controller implements Observer<Message> {
         game.addResourceToStrongbox(ID);
         game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.WAITING_FOR_ACTION);
     }
+
+    //TODO JAVADOC
 
     public void isExtraProd(int index, int ID) {
             try {
@@ -622,6 +626,8 @@ public class Controller implements Observer<Message> {
     public void RemoveLeaderFromDeck(int ID, LeaderCard lc) {
         this.game.setNewPlayerCards(ID, lc);
     }
+
+    //TODO JAVADOC
 
     public synchronized void DiscardLeaderCard(int ID, LeaderCard lc, boolean initialPhase) {
         int i = 0;

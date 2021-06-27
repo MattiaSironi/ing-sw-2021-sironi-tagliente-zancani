@@ -39,23 +39,6 @@ public class LeaderDeck implements Printable, Serializable, Cloneable {
         this.cards = cards;
     }
 
-
-//    public void print() {
-//        int i=1;
-//        for(LeaderCard c : this.getCards()){
-//            System.out.println("Leader " + i + " : ");
-//            switch (c.getType()){
-//                case 1 -> { ((DiscountLCard) c).print();}
-//                case 2-> { ((ExtraDepotLCard) c).print();}
-//                case 3-> { ((ExtraProdLCard) c).print();}
-//                case 4-> { ((WhiteTrayLCard) c).print();}
-//            }
-//            i++;
-//            System.out.println("");
-//        }
-//    }
-
-
     @Override
     public void print(){
         int i=1;

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-//Modifiche al Model UML: aggiunto Get() e Set() per l'attributo cards.
+
 
 /**
  * Class Deck represents the deck of Development Cards

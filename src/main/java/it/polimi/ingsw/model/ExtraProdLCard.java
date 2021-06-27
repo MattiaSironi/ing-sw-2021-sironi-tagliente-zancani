@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 
 public class ExtraProdLCard extends LeaderCard implements Printable, Serializable {
-    //type=3?
+
     private final CardColor color;
     private final ResourceType input;
 
