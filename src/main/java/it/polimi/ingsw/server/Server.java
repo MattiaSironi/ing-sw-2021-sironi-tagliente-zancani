@@ -78,7 +78,6 @@ public class Server {
             rv1.addObserver(controller);
             game.addObserver(rv1);
             if (numPlayers >= 2) {
-//            RemoteView.setSize(2); // per adesso
                 RemoteView rv2 = waitingConnection.get(0);
                 rv2.setID(1);
                 rv2.setGameID(gameID);
@@ -90,7 +89,6 @@ public class Server {
                 game.addObserver(rv2);
             }
             if (numPlayers >= 3) {
-//            RemoteView.setSize(3); // per adesso
                 RemoteView rv3 = waitingConnection.get(0);
                 rv3.setID(2);
                 rv3.setGameID(gameID);
@@ -102,7 +100,6 @@ public class Server {
                 game.addObserver(rv3);
             }
             if (numPlayers == 4) {
-//            RemoteView.setSize(4); // per adesso
                 RemoteView rv4 = waitingConnection.get(0);
                 rv4.setID(3);
                 rv4.setGameID(gameID);
@@ -173,7 +170,8 @@ public class Server {
     }
 
     /**
-     * Method logOutFromWaiting removes the remoteView from the waiting room when it disconnects from the server
+     * Method logOutFromWaiting removes the remoteView from the waiting room when it disconnects from the server.
+     * If there's already a remoteview in waiting room,  this becomes the new host.
      * @param remoteView    of type RemoteView - RemoteView to be logged out
      * @return  wasInside, which is true if the remote view was inside the waiting room, false instead
      */

@@ -17,6 +17,7 @@ import java.util.regex.PatternSyntaxException;
 import java.util.stream.Stream;
 
 /**
+ * Class ClientActionController is the Class which contains for CLI mode part of Game's rules and user's input parsing. It parses and creates Message to send to the Server.
  * @author Mattia Sironi
  */
 public class ClientActionController extends Observable<Message> implements Observer<Message>, UI {
@@ -54,7 +55,9 @@ public class ClientActionController extends Observable<Message> implements Obser
     }
 
 
-
+    /**
+     * Method setNumberOfPlayers let the host select the number of player for the next game.
+     */
     public void setNumberOfPlayers() {
         String input;
         int numPlayers;
@@ -79,6 +82,11 @@ public class ClientActionController extends Observable<Message> implements Obser
         actions = new ArrayList<>(Arrays.asList(Actions.values()));
     }
 
+    /**
+     * Method chooseAction permits the user to select a game Action.
+     * @see Actions
+     */
+
     public void chooseAction() {
 
         boolean actionEnded = false;
@@ -99,7 +107,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                             actionEnded = goToMarket();
 
 
-                            // do things
+
                         } else cli.printErrorToConsole("You cannot do this move twice or more in a single turn!");
                     }
 
@@ -107,7 +115,7 @@ public class ClientActionController extends Observable<Message> implements Obser
                         if (Actions.B.isEnable()) {
                             actionEnded = chooseCard();
 
-                            // do things
+
                         } else cli.printErrorToConsole("You cannot do this move twice or more in a single turn!");
                     }
                     case A -> {
@@ -184,6 +192,9 @@ public class ClientActionController extends Observable<Message> implements Obser
         }
     }
 
+    /**
+     * Method printShelves permits the user to see someone's ShelfWarehouse and Strongbox.
+     */
 
     private void printShelves() {
 
@@ -192,10 +203,20 @@ public class ClientActionController extends Observable<Message> implements Obser
         mmv.printStrongbox(chosenID);
     }
 
+    /**
+     * Method printFaithTrack permits the user to see someone's FaithTrack.
+     */
+
     private void printFaithTrack() {
         int chosenID = chooseID();
         mmv.printFaithTrack(chosenID);
     }
+
+    /**
+     * Method chooseID permits the user to select the ID of a player. This method is called by print methods to know which is the selected player.
+     * if game is in SoloMode, method returns always 0, without asking for input user.
+     * @return the ID of the selected player.
+     */
 
     public int chooseID() {
         if(singlePlayer){
@@ -214,6 +235,11 @@ public class ClientActionController extends Observable<Message> implements Obser
         }
         return tempID;
     }
+
+    /**
+     * Method goToMarket permits te user to start Action "Buy Resources". It prints the market, it parses user input, creates a MarketMessage and sends to the controller.
+     * @return true if Action has been completed.
+     */
 
     private boolean goToMarket() {
         mmv.printMarket();
@@ -349,7 +375,10 @@ public class ClientActionController extends Observable<Message> implements Obser
         }
     }
 
-
+    /**
+     * Method askForResource permits the user to keep or not a ResourceType.
+     * @param res is the ResourceType.
+     */
     public void askForResource(ResourceType res) {
 
         cli.printToConsole("Do you want to keep it or not? [y/n]");
@@ -368,6 +397,9 @@ public class ClientActionController extends Observable<Message> implements Obser
         }
     }
 
+    /**
+     * Method chooseInitialResources permits the user to select initial resources.
+     */
     public void chooseInitialResources() {
         ArrayList<ResourceType> possibleRes = new ArrayList<>();
         possibleRes.add(ResourceType.COIN);
@@ -380,6 +412,11 @@ public class ClientActionController extends Observable<Message> implements Obser
         whereToPut(selectedRes, true);
     }
 
+
+    /**
+     * Method discardRes creates and sends a PlaceResourceMessage with discard parameters.
+     * @param res is the resource to discard.
+     */
 
     private void discardRes(ResourceType res) {
         send(new PlaceResourceMessage(res, -1, ID, false, true));
@@ -436,6 +473,12 @@ public class ClientActionController extends Observable<Message> implements Obser
         return cli;
     }
 
+    /**
+     * Method whereToPut asks the user where to put initial or market's resource.
+     * @param res is the ResourceType.
+     * @param initialPhase is true if res is a initial resource.
+     */
+
     private void whereToPut(ResourceType res, boolean initialPhase) {
         int s1 = 0;
         boolean valid = false;
@@ -452,12 +495,21 @@ public class ClientActionController extends Observable<Message> implements Obser
         send(new PlaceResourceMessage(res, s1 - 1, ID, initialPhase, false));
     }
 
+    /**
+     * Method noMoreActions does not permit the user to select a macro action if in its turn he already called one of them.
+     */
+
 
     private void noMoreActions() {
         Actions.A.setEnable(false);
         Actions.B.setEnable(false);
         Actions.M.setEnable(false);
     }
+
+    /**
+     * Method manageResources permits the user to swap his shelves. It parses input, creates a ManageResourceMessage and sends it.
+     * @return true whether move was completed.
+     */
 
     private boolean manageResources() {
         mmv.printShelves(ID);
@@ -487,12 +539,18 @@ public class ClientActionController extends Observable<Message> implements Obser
         return true;
     }
 
-
+    /**
+     * Method resetEnable permits the user to re-select macro actions. This method is called after user selects to end his turn.
+     */
     private void resetEnable() {
         for (Actions a : actions) {
             a.setEnable(true);
         }
     }
+
+    /**
+     * Method printProd permits the user to see someone's DevCards.
+     */
 
     public void printProd() {
         int chosenID = chooseID();
@@ -572,6 +630,12 @@ public class ClientActionController extends Observable<Message> implements Obser
         return false;
     }
 
+
+    /**
+     * Method discardLead permits the user in initial phase to discard two of the four cards given to him.
+     * It parses user input, creates a PlayLeaderMessage and sends it.
+     *
+     */
 
     private void discardLead(int remaining) {
 
@@ -659,6 +723,11 @@ public class ClientActionController extends Observable<Message> implements Obser
     }
 
 
+    /**
+     * Method handleObject is in charge to update Model's part of Client.
+     * @param message is a ObjectMessage, containing part of Model.
+     */
+
     private void handleObject(ObjectMessage message) {
         if (message.getObjectID() == -1) { //GAME
             this.mmv.setGame((Game) message.getObject());
@@ -715,6 +784,9 @@ public class ClientActionController extends Observable<Message> implements Obser
     }
 
 
+    /**
+     * Method handleCommunication prints the Communication if the Player is the addressee Player.
+     */
     private void handleCommunication(Communication communication) {
 
         if (communication.getAddresseeID() == ID || communication.getAddresseeID() == -1) {
@@ -723,6 +795,10 @@ public class ClientActionController extends Observable<Message> implements Obser
             if (communication.getCommunication() == CommunicationList.NICK_NOT_VALID) nicknameSetUp();
         }
     }
+
+    /**
+     * Method handleTurn looks at @param turn and according to Turn phase it calls parsing methods.
+     */
 
     public void handleTurn(Turn turn) {
         if (turn.getPhase() == ActionPhase.GAME_OVER) {
@@ -779,6 +855,9 @@ public class ClientActionController extends Observable<Message> implements Obser
         }
 
 
+    /**
+     * Method selectResourceFromHand looks at the first resource to place and calls parsing methods.
+     */
     private void selectResourceFromHand() {
         ResourceType res = mmv.getGame().getBoard().getMarket().getHand().get(0).getRes();
 
@@ -794,6 +873,11 @@ public class ClientActionController extends Observable<Message> implements Obser
         }
 
     }
+
+    /**
+     * Method whiteMarbleCase is called when the first marble in Market Hand is a EMPTY Marble.
+     * It looks at the Model and chooses which case show to Player.
+     */
 
     private void whiteMarbleCase() {
         ArrayList<ResourceType> possibleRes = new ArrayList<>();
@@ -834,6 +918,12 @@ public class ClientActionController extends Observable<Message> implements Obser
 
     }
 
+    /**
+     * Method getResourceType parses user input and finds a match with possible ResourceType.
+     * @param possibleRes is a Collection containing all possibleRes user can select.
+     * @return the ResourceType selected
+     */
+
     private ResourceType getResourceType(ArrayList<ResourceType> possibleRes, boolean valid, ResourceType selectedRes) {
         String input;
         while (!valid) {
@@ -847,11 +937,21 @@ public class ClientActionController extends Observable<Message> implements Obser
         return selectedRes;
     }
 
+    /**
+     * Method nicknameSetUp permits the user to choose a nickname.
+     */
+
     public void nicknameSetUp() {
         cli.printToConsole("Choose your nickname:");
         String nickname = cli.readFromInput();
         send(new Nickname(nickname, ID));
     }
+
+    /**
+     * Method send sends Message created by parser methods. it calls notify if game is local. If not, it calls SocketServerConnection's send.
+     * @param o is the Message to send.
+     * @see it.polimi.ingsw.server.SocketClientConnection
+     */
 
     public void send(Message o){
         if(local) {
