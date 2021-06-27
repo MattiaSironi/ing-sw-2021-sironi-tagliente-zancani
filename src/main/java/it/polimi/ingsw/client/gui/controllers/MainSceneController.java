@@ -21,6 +21,10 @@ import javafx.scene.paint.Color;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 
+/**
+ * MainSceneController controls MainScene.
+ */
+
 public class MainSceneController implements  GUIController {
     public ImageView activateButton;
     public ImageView discardButton;
@@ -224,6 +228,9 @@ public class MainSceneController implements  GUIController {
         }
     }
 
+    /**
+     * Method showTokens shows tokens not yet played, if game is in SoloMode.
+     */
     public void showTokens() {
         int size = mainController.getGame().getBoard().getTokenArray().size();
 
@@ -256,7 +263,9 @@ public class MainSceneController implements  GUIController {
 
     }
 
-
+    /**
+     * Method showFaithTrack shows GUI Player's FaithTrack.
+     */
     public void showFaithTrack() {
         groupFaithSlots();
         FaithTrack ft = this.mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getFaithTrack();
@@ -356,6 +365,10 @@ public class MainSceneController implements  GUIController {
         choosing=0;
     }
 
+    /**
+     * Method activate sends a PlayLeaderMessage with the leader selected and b set to true.
+     */
+
     public void activate(MouseEvent mouseEvent) {
         if (choosing == 1) {
             mainController.send(new PlayLeaderMessage(gui.getID(), choosing, true, lc1, false));
@@ -376,6 +389,10 @@ public class MainSceneController implements  GUIController {
         }
 
 
+
+    /**
+     * Method discard sends a PlayLeaderMessage with the leader selected and b set to false.
+     */
     public void discard(MouseEvent mouseEvent) {
 
         if(choosing==1){
@@ -407,6 +424,11 @@ public class MainSceneController implements  GUIController {
         mainController.send(new EndTurnMessage(gui.getID()));
     }
 
+    /**
+     * Method swap is triggered when Player clicks on shelves. if earlier another shelf was clicked, method creates and sends a ManageResourceMassage.
+     * @param mouseEvent is used to understand which shelf was clicked.
+     */
+
 
     public void swap(MouseEvent mouseEvent) {
         if (s1 == null) s1 = selectedShelves(((Button) mouseEvent.getTarget()).getId());
@@ -417,6 +439,12 @@ public class MainSceneController implements  GUIController {
 
         }
     }
+
+    /**
+     * Method selectedShelves is used to have the index of the shelf, according its ID
+     * @param id is the ID of the shelf
+     * @return its index.
+     */
     private int selectedShelves(String id) {
         switch (id) {
             case "shelf1" -> {
@@ -483,6 +511,10 @@ public class MainSceneController implements  GUIController {
 
     }
 
+    /**
+     * Method showShelves shows GUI Player's ShelfWarehouse.
+     */
+
     public void showShelves() {
         ShelfWarehouse myShelves = mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getWarehouse();
         ArrayList<ImageView> shelf2 = new ArrayList<>();
@@ -543,12 +575,20 @@ public class MainSceneController implements  GUIController {
             }
         }else for (ImageView iv : shelf5) iv.setImage(null);
     }
+
+    /**
+     * Method showStrongbox shows GUI Player's Strongbox.
+     */
     public void showStrongbox(){
         coinNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.COIN));
         stoneNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.STONE));
         servantNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.SERVANT));
         shieldNum.setText("" + mainController.getGame().getPlayerById(mainController.getGui().getID()).getPersonalBoard().getStrongbox().getResCount(ResourceType.SHIELD));
     }
+
+    /**
+     * Method showLeaders shows GUI Player's Leaders.
+     */
 
     public void showLeaders() {
         if(mainController.getGame().getPlayerById(gui.getID()).getPersonalBoard().getActiveLeader().isPresent(lc1)){
@@ -570,6 +610,11 @@ public class MainSceneController implements  GUIController {
     public void useProduction(MouseEvent mouseEvent) {
         gui.changeScene(SceneList.GENERALPRODSCENE);
     }
+
+    /**
+     * Method showTokenPlayed shows last Token played, if game is in SoloMode.
+     * @param s is the Token toString.
+     */
 
     public void showTokenPlayed(String s) {
         tokenPlayed.setImage(new Image(getClass().getResource("/images/PunchBoard/" + s + ".png").toExternalForm()));

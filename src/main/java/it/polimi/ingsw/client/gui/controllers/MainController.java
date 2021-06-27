@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * MainController controls all GUIControllers. it decides what to show in every scene, calling GUI's methods.
+ */
+
 public class MainController extends Observable<Message> implements Observer<Message>, UI {
 
     private final GUI gui;
@@ -70,6 +74,13 @@ public class MainController extends Observable<Message> implements Observer<Mess
         this.game = game;
     }
 
+    /**
+     * Method send sends Message created by parser methods. it calls notify if game is local. If not, it calls SocketServerConnection's send.
+     * @param o is the Message to send.
+     * @see it.polimi.ingsw.server.SocketClientConnection
+     */
+
+
     public void send(Message o){
         if(gui.isLocal()) {
             if (o instanceof PlaceResourceMessage) {
@@ -120,6 +131,11 @@ public class MainController extends Observable<Message> implements Observer<Mess
     public GUI getGui() {
         return gui;
     }
+
+    /**
+     * Method handleObject understands what in Model changes and calls GUI's methods to show the differences,
+     * @param message contains the Object modified.
+     */
 
     public void handleObject(ObjectMessage message) {
         if (message.getObjectID() == -1) {
@@ -195,6 +211,10 @@ public class MainController extends Observable<Message> implements Observer<Mess
         }
     }
 
+    /**
+     * Method handleTurn looks at @param turn and according to Turn phase it calls GUI's methods.
+     */
+
     public void handleTurn (Turn turn) {
         if(turn.getPhase() == ActionPhase.FIRST_ROUND){
             gui.controllerSetup();
@@ -246,7 +266,9 @@ public class MainController extends Observable<Message> implements Observer<Mess
             gui.printMessage(turn);
     }
 
-
+    /**
+     * Method handleCommunication prints the Communication if the Player is the addressee Player.
+     */
 
     public void handleCommunication(Communication communication) {
         if (communication.getAddresseeID() == gui.getID() || communication.getAddresseeID() == -1) {
@@ -257,6 +279,10 @@ public class MainController extends Observable<Message> implements Observer<Mess
                 gui.setDuplicatedNickname();
             }
     }
+
+    /**
+     * Method noMoreActions forbids the user to select a macro action in his turn, if one of them has already been chosen in this turn.
+     */
 
     public void noMoreActions() {
         gui.disableMarket();
