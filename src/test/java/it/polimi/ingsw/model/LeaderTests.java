@@ -118,7 +118,7 @@ public class LeaderTests {
         game.getPlayerById(0).setLeaderDeck(ddeck);
 
 
-        controller.PlayLeaderCard(0, dlc);
+        controller.playLeaderCard(0, dlc);
      //   assertEquals(lctest, game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards());
         assertEquals(ResourceType.SERVANT,game.getPlayerById(0).getResDiscount1());
         assertEquals(ResourceType.COIN,game.getPlayerById(0).getResDiscount2());
@@ -204,7 +204,7 @@ public class LeaderTests {
         game.getPlayerById(0).setLeaderDeck(ddeck);
 
 
-        controller.PlayLeaderCard(0, dlc);
+        controller.playLeaderCard(0, dlc);
         //   assertEquals(lctest, game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards());
         assertEquals(ResourceType.SERVANT,game.getPlayerById(0).getResDiscount1());
         assertEquals(null,game.getPlayerById(0).getResDiscount2());
@@ -245,7 +245,7 @@ public class LeaderTests {
         game.getPlayerById(0).setLeaderDeck(ddeck);
 
 
-        controller.PlayLeaderCard(0, dlc);
+        controller.playLeaderCard(0, dlc);
         //   assertEquals(lctest, game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards());
         assertEquals(ResourceType.SERVANT,game.getPlayerById(0).getResDiscount1());
         assertEquals(ResourceType.SHIELD,game.getPlayerById(0).getResDiscount2());
@@ -278,7 +278,7 @@ public class LeaderTests {
         game.getPlayerById(0).setLeaderDeck(dd);
 
 
-        controller.PlayLeaderCard(0, ed);
+        controller.playLeaderCard(0, ed);
         assertEquals(ResourceType.SHIELD,game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(3).getResType());
        assertEquals(null,game.getPlayerById(0).getPersonalBoard().getWarehouse().getShelves().get(4).getResType());
        assertEquals(active,game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().get(0));
@@ -431,7 +431,7 @@ public class LeaderTests {
         LeaderDeck myHand = new LeaderDeck(hand);
         game.getPlayerById(0).setLeaderDeck(myHand);
 
-        controller.PlayLeaderCard(0, ep);
+        controller.playLeaderCard(0, ep);
         assertEquals(ResourceType.STONE,game.getPlayerById(0).getInputExtraProduction1());
         assertEquals(ResourceType.SHIELD,game.getPlayerById(0).getInputExtraProduction2());
         assertEquals(1,game.getPlayerById(0).getLeaderDeck().getCards().size());
@@ -586,7 +586,7 @@ public class LeaderTests {
         LeaderDeck handDeck = new LeaderDeck(hand);
         game.getPlayerById(0).setLeaderDeck(handDeck);
 
-        controller.PlayLeaderCard(0, wl);
+        controller.playLeaderCard(0, wl);
 
         assertEquals(game.getPlayerById(0).getLeaderDeck().getCards().size(),0);
         assertEquals(game.getPlayerById(0).getPersonalBoard().getActiveLeader().getCards().size(),1);

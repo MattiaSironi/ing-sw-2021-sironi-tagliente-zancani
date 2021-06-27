@@ -176,7 +176,7 @@ public class MainController extends Observable<Message> implements Observer<Mess
         {
             this.game.getPlayerById(message.getID()).setStartResCount((int) message.getObject());
             if (message.getID() == gui.getID()) {
-                System.out.println("gigi " + game.getPlayerById(gui.getID()).getStartResCount());
+
                 gui.setResCounterLabel(game.getPlayerById(gui.getID()).getStartResCount());
             }
         }

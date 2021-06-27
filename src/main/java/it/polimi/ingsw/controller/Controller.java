@@ -10,7 +10,6 @@ import it.polimi.ingsw.observer.Observer;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 /**
  * Class Controller contains a lot of Master of Renaissance's rules and logics.
@@ -411,7 +410,6 @@ public class Controller implements Observer<Message> {
                 if((index == 0 && !game.getPlayerById(ID).isLeader1ProdDone()) || (index == 1 && !game.getPlayerById(ID).isLeader2ProdDone())) {
                     LeaderCard leaderCard = game.getPlayerById(ID).getPersonalBoard().getActiveLeader().getCards().get(index);
                     if (!(leaderCard instanceof ExtraProdLCard)) {
-                        System.out.println("gig1");
                         game.setCommunication(ID, CommunicationList.INVALID_MOVE);
                         game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT);
                     } else if (game.getPlayerById(ID).getPersonalBoard().getStrongbox().canIPay(1, ((ExtraProdLCard) leaderCard).getInput()) ||
@@ -434,7 +432,6 @@ public class Controller implements Observer<Message> {
                     }
                 }
                 else{
-                    System.out.println("gig0");
                     game.setCommunication(ID, CommunicationList.INVALID_MOVE);
                     game.setTurn(game.getTurn().getPlayerPlayingID(), ActionPhase.A_PAYMENT);
                 }
@@ -448,7 +445,7 @@ public class Controller implements Observer<Message> {
      * this method checks if the card can be activated.
      * If so, it calls a method to do it, otherwise it sets a proper error in the communication.
      */
-    public void PlayLeaderCard(int ID, DiscountLCard dc) {
+    public void playLeaderCard(int ID, DiscountLCard dc) {
 
         if (game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(dc)) {
             if (this.game.getPlayerById(ID).getResDiscount1() == null) {
@@ -465,14 +462,14 @@ public class Controller implements Observer<Message> {
             game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION);
             return;
         }
-        RemoveLeaderFromDeck(ID, dc);
+        removeLeaderFromDeck(ID, dc);
     }
 
     /**
      * this method checks if the card can be activated.
      * If so, it calls a method to do it, otherwise it sets a proper error in the communication.
      */
-    public void PlayLeaderCard(int ID, ExtraDepotLCard sc) {
+    public void playLeaderCard(int ID, ExtraDepotLCard sc) {
         if (game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(sc)) {
             if (this.game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(3).getResType() == null) {
                 game.getPlayerById(ID).getPersonalBoard().getWarehouse().getShelves().get(3).setResType(sc.getResDepot());
@@ -488,14 +485,14 @@ public class Controller implements Observer<Message> {
             game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION);
             return;
         }
-        RemoveLeaderFromDeck(ID, sc);
+        removeLeaderFromDeck(ID, sc);
     }
 
     /**
      * this method checks if the card can be activated.
      * If so, it calls a method to do it, otherwise it sets a proper error in the communication.
      */
-    public void PlayLeaderCard(int ID, ExtraProdLCard c) {
+    public void playLeaderCard(int ID, ExtraProdLCard c) {
         if (game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(c)) {
             if (this.game.getPlayerById(ID).getInputExtraProduction1() == null) {
                 game.getPlayerById(ID).setInputExtraProduction1(c.getInput());
@@ -511,14 +508,14 @@ public class Controller implements Observer<Message> {
             game.setTurn(ID, ActionPhase.WAITING_FOR_ACTION);
             return;
         }
-        RemoveLeaderFromDeck(ID, c);
+        removeLeaderFromDeck(ID, c);
     }
 
     /**
      * this method checks if the card can be activated.
      * If so, it calls a method to do it, otherwise it sets a proper error in the communication.
      */
-    public void PlayLeaderCard(int ID, WhiteTrayLCard wc) {
+    public void playLeaderCard(int ID, WhiteTrayLCard wc) {
         if (game.getPlayerById(ID).getPersonalBoard().checkLCardRequirements(wc)) {
             if (this.game.getPlayerById(ID).getWhiteConversion1() == null) {
                 game.getPlayerById(ID).setWhiteConversion1(wc.getResType());
@@ -535,21 +532,23 @@ public class Controller implements Observer<Message> {
             return;
         }
 
-        RemoveLeaderFromDeck(ID, wc);
+        removeLeaderFromDeck(ID, wc);
 
     }
 
 
-    public void RemoveLeaderFromDeck(int ID, LeaderCard lc) {
+    public void removeLeaderFromDeck(int ID, LeaderCard lc) {
         this.game.setNewPlayerCards(ID, lc);
     }
 
-    //TODO JAVADOC
+    /**
+     * Method discardLeaderCard checks whether @param lc can be discarded from Player with ID @param ID.
+     * @param initialPhase is true if game is in its initial phase.
+     */
 
-    public synchronized void DiscardLeaderCard(int ID, LeaderCard lc, boolean initialPhase) {
+    public synchronized void discardLeaderCard(int ID, LeaderCard lc, boolean initialPhase) {
         int i = 0;
         LeaderDeck newLD;
-        boolean found = false;
         while (!(lc.equals(this.game.getPlayerById(ID).getLeaderDeck().getCards().get(i)))) {
             i++;
         }
@@ -572,26 +571,6 @@ public class Controller implements Observer<Message> {
         }
     }
 
-
-    public ResourceType FromIntToRes(int i) {
-        switch (i) {
-            case 0 -> {
-                return ResourceType.COIN;
-            }
-            case 1 -> {
-                return ResourceType.STONE;
-            }
-            case 2 -> {
-                return ResourceType.SERVANT;
-            }
-            case 3 -> {
-                return ResourceType.SHIELD;
-            }
-            default -> {
-                return ResourceType.EMPTY;
-            }
-        }
-    }
 
     /**
      * Method setBoughtRes addsa all the earned resource in the temporary containers in the Strongbox class
@@ -769,13 +748,13 @@ public class Controller implements Observer<Message> {
             if (message.getAction()) {
                 LeaderCard c = message.getLc();
                 switch (c.getType()) {
-                    case 1 -> PlayLeaderCard(message.getID(), (DiscountLCard) c);
-                    case 2 -> PlayLeaderCard(message.getID(), (ExtraDepotLCard) c);
-                    case 3 -> PlayLeaderCard(message.getID(), (ExtraProdLCard) c);
-                    case 4 -> PlayLeaderCard(message.getID(), (WhiteTrayLCard) c);
+                    case 1 -> playLeaderCard(message.getID(), (DiscountLCard) c);
+                    case 2 -> playLeaderCard(message.getID(), (ExtraDepotLCard) c);
+                    case 3 -> playLeaderCard(message.getID(), (ExtraProdLCard) c);
+                    case 4 -> playLeaderCard(message.getID(), (WhiteTrayLCard) c);
                 }
             } else {
-                DiscardLeaderCard(message.getID(), message.getLc(), message.isInitialPhase());
+                discardLeaderCard(message.getID(), message.getLc(), message.isInitialPhase());
             }
         }
     }

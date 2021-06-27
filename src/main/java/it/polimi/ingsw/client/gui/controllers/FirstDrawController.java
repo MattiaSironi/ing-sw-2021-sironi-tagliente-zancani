@@ -77,7 +77,7 @@ public class FirstDrawController implements GUIController {
             shield.setVisible(false);
             yourRes.setVisible(false);
             chooseResLabel.setOpacity(0.75);
-            System.out.println("gigi");
+
         }
     }
 
@@ -95,9 +95,9 @@ public class FirstDrawController implements GUIController {
             }
             case 1 -> chooseResLabel.setText("Choose " + count + " starting Resource");
             case 2 -> chooseResLabel.setText("Choose " + count + " starting Resources");
-            default -> System.out.println("qui");
+
         }
-        System.out.println(count);
+
     }
 
     @Override
@@ -179,7 +179,7 @@ public class FirstDrawController implements GUIController {
         else
             res2.setImage(new Image(getClass().getResource("/images/PunchBoard/coin.png").toExternalForm()));
         this.resources.add(ResourceType.COIN);
-        System.out.println("coin");
+
         if (resources.size() == mainController.getGame().getPlayerById(gui.getID()).getStartResCount()) {
             deactivateResourcesButton();
         }
@@ -196,7 +196,7 @@ public class FirstDrawController implements GUIController {
         else
             res2.setImage(new Image(getClass().getResource("/images/PunchBoard/stone.png").toExternalForm()));
         this.resources.add(ResourceType.STONE);
-        System.out.println("stone");
+
         if (resources.size() == mainController.getGame().getPlayerById(gui.getID()).getStartResCount()) {
             deactivateResourcesButton();
         }
@@ -213,7 +213,7 @@ public class FirstDrawController implements GUIController {
         else
             res2.setImage(new Image(getClass().getResource("/images/PunchBoard/servant.png").toExternalForm()));
         this.resources.add(ResourceType.SERVANT);
-        System.out.println("servant");
+
         if (resources.size() == mainController.getGame().getPlayerById(gui.getID()).getStartResCount()) {
             deactivateResourcesButton();
         }
@@ -230,7 +230,7 @@ public class FirstDrawController implements GUIController {
         else
             res2.setImage(new Image(getClass().getResource("/images/PunchBoard/shield.png").toExternalForm()));
         this.resources.add(ResourceType.SHIELD);
-        System.out.println("shield");
+
         if (resources.size() == mainController.getGame().getPlayerById(gui.getID()).getStartResCount()) {
             deactivateResourcesButton();
         }
@@ -270,7 +270,7 @@ public class FirstDrawController implements GUIController {
         card1.setMouseTransparent(true);
         if (chosenLeaders.size() == 2)
             deactivateCards();
-        System.out.println("added");
+
     }
 
     /**
@@ -284,7 +284,7 @@ public class FirstDrawController implements GUIController {
         card2.setMouseTransparent(true);
         if (chosenLeaders.size() == 2)
             deactivateCards();
-        System.out.println("added");
+
     }
 
     /**
@@ -298,7 +298,7 @@ public class FirstDrawController implements GUIController {
         card3.setMouseTransparent(true);
         if (chosenLeaders.size() == 2)
             deactivateCards();
-        System.out.println("added");
+
     }
 
     /**
@@ -311,7 +311,7 @@ public class FirstDrawController implements GUIController {
         card4.setMouseTransparent(true);
         if (chosenLeaders.size() == 2)
             deactivateCards();
-        System.out.println("added");
+
     }
 
     /**
