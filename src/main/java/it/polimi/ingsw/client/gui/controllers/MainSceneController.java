@@ -169,7 +169,7 @@ public class MainSceneController implements  GUIController {
     }
 
     public void setup(int num) {
-        System.out.println(mainController.getGui().getID());
+
         if (firstTurn) {
             l1 = new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(0).toString() + ".png").toExternalForm());
             l2 = new Image(getClass().getResource("/images/Leaders/" + this.mainController.getGame().getPlayerById(gui.getID()).getLeaderDeck().getCards().get(1).toString() + ".png").toExternalForm());

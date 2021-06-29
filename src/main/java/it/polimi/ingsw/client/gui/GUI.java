@@ -117,7 +117,11 @@ public class GUI extends Application {
         this.stage.setOnCloseRequest(windowEvent -> {
             Platform.exit();
             if(!local)
-                mainController.getServerConnection().close();
+                try{
+                mainController.getServerConnection().close();}
+            catch (NullPointerException e) {
+                    System.exit(0);
+            }
         });
         stage.setScene(currentScene);
         stage.setResizable(false);
