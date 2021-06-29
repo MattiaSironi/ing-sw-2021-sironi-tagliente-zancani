@@ -115,7 +115,6 @@ public class RemoteView extends Observable<Message> implements Observer<Message>
             notify((PlaceResourceMessage) o);
         }
         else if (o instanceof Nickname) {
-            System.out.println(((Nickname) o).getString());
             notify((Nickname) o);
         }
         else if (o instanceof MarketMessage) {

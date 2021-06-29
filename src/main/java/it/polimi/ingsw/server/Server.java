@@ -136,6 +136,7 @@ public class Server {
         while (true) {
             try {
                 Socket newSocket = serverSocket.accept();
+                System.out.println("Client connected");
                 newSocket.setSoTimeout(20000);
                 SocketClientConnection socketConnection = new SocketClientConnection(newSocket, this);
                 RemoteView remoteView = new RemoteView(socketConnection);
@@ -167,6 +168,7 @@ public class Server {
      */
     public Server() throws IOException {
         this.serverSocket = new ServerSocket(port);
+        System.err.println("Server now is on");
     }
 
     /**
