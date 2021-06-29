@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -19,7 +27,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
+<AnchorPane prefHeight="720.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
    <children>
       <Pane prefHeight="720.0" prefWidth="1270.0">
          <children>
@@ -177,12 +185,12 @@
                                        <stops>
                                           <Stop>
                                              <color>
-                                                <Color red="0.9666666388511658" green="1.0" />
+                                                <Color green="1.0" red="0.9666666388511658" />
                                              </color>
                                           </Stop>
                                           <Stop offset="1.0">
                                              <color>
-                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                                <Color blue="1.0" green="1.0" red="1.0" />
                                              </color>
                                           </Stop>
                                        </stops>
@@ -198,12 +206,12 @@
                                        <stops>
                                           <Stop>
                                              <color>
-                                                <Color red="0.9666666388511658" green="1.0" />
+                                                <Color green="1.0" red="0.9666666388511658" />
                                              </color>
                                           </Stop>
                                           <Stop offset="1.0">
                                              <color>
-                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                                <Color blue="1.0" green="1.0" red="1.0" />
                                              </color>
                                           </Stop>
                                        </stops>
@@ -219,12 +227,12 @@
                                        <stops>
                                           <Stop>
                                              <color>
-                                                <Color red="0.9666666388511658" green="1.0" />
+                                                <Color green="1.0" red="0.9666666388511658" />
                                              </color>
                                           </Stop>
                                           <Stop offset="1.0">
                                              <color>
-                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                                <Color blue="1.0" green="1.0" red="1.0" />
                                              </color>
                                           </Stop>
                                        </stops>
@@ -240,12 +248,12 @@
                                        <stops>
                                           <Stop>
                                              <color>
-                                                <Color red="0.9666666388511658" green="1.0" />
+                                                <Color green="1.0" red="0.9666666388511658" />
                                              </color>
                                           </Stop>
                                           <Stop offset="1.0">
                                              <color>
-                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                                <Color blue="1.0" green="1.0" red="1.0" />
                                              </color>
                                           </Stop>
                                        </stops>
@@ -370,8 +378,14 @@
 
                </children>
             </StackPane>
-            <Label fx:id="phase" alignment="TOP_LEFT" layoutX="980.0" layoutY="17.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="102.0" prefWidth="277.0" text="Welcome" textFill="#f8ff03" wrapText="true" />
-            <Label fx:id="comMessages" layoutX="980.0" layoutY="65.0" prefHeight="69.0" prefWidth="282.0" textFill="#10e1b3" wrapText="true" />
+            <Label fx:id="phase" alignment="TOP_LEFT" layoutX="980.0" layoutY="17.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="102.0" prefWidth="277.0" text="Welcome" textFill="#e3df42" wrapText="true">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font></Label>
+            <Label fx:id="comMessages" layoutX="980.0" layoutY="65.0" prefHeight="69.0" prefWidth="282.0" text="prova" textFill="#dcffd0" wrapText="true">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
          </children>
       </Pane>
    </children>
