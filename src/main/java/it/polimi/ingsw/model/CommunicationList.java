@@ -28,7 +28,7 @@ public enum CommunicationList {
     LORI_BLUE("Token drawn. Two BLUE cards got discarded!"),
     LORI_PURPLE("Token drawn. Two PURPLE cards got discarded!"),
     LORI_GREEN("Token drawn. Two GREEN cards got discarded!"),
-    EMPTYCOLUMN("One type of Development card is no longer avaiable in the grid"),
+    EMPTYCOLUMN("One type of Development card is no longer available in the grid"),
     INVALID_MOVE ("Invalid move"),
     NOT_ENOUGH_RES ("You do not have enough resources!"),
     NO_SLOTS ("No places available"),
