@@ -1,4 +1,4 @@
-#Prova finale del corso "Ingegneria del Software" A.A. 2020-2021
+# Prova finale del corso "Ingegneria del Software" A.A. 2020-2021
 
 ## Members
 * [Mattia Sironi](https://github.com/GIGIProgrammer)
@@ -9,7 +9,7 @@
 
 <img src = "https://www.bigcream.it/upload/giochi/immagini/30203.jpg" width=300px height=400 />
 
-#Extra Features
+# Extra Features
 
 
 | Functionality | Done |
@@ -25,7 +25,7 @@
 | Local game | yes |
 | Connection resilience | no | 
 
-#How to run
+# How to run
 
 * Step 1: Clone the repository ([link](https://github.com/GIGIProgrammer/ing-sw-2021-sironi-tagliente-zancani))
 * Step 2: Open the folder ing-sw-2020-sironi-tagliente-zancani/Deliverables/JAR in terminal and type
