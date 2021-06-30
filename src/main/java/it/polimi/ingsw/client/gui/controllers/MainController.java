@@ -276,7 +276,7 @@ public class MainController extends Observable<Message> implements Observer<Mess
 
             }
             if (communication.getCommunication() == CommunicationList.NICK_NOT_VALID && communication.getAddresseeID() == gui.getID()) {
-                gui.setDuplicatedNickname();
+                gui.setInvalidNickname();
             }
     }
 

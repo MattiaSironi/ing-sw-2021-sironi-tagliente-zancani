@@ -29,7 +29,7 @@ public class SetupController implements GUIController{
     public ImageView playButton;
     public ImageView startButton;
     @FXML private Label waitingForPlayers;
-    @FXML private Label duplicateNickLabel;
+    @FXML private Label invalidNickLabel;
     @FXML private Label chooseNickLabel;
     @FXML private TextField nicknameInput;
     private GUI gui;
@@ -142,9 +142,9 @@ public class SetupController implements GUIController{
      * method setDuplicatedNickname shows a label if the nickname chosen by he player already exists
      */
 
-    public void setDuplicatedNickname(){
-        this.duplicateNickLabel.setVisible(true);
-        this.duplicateNickLabel.setDisable(false);
+    public void setInvalidNickname(){
+        this.invalidNickLabel.setVisible(true);
+        this.invalidNickLabel.setDisable(false);
         nicknameInput.setDisable(false);
         this.nicknameInput.clear();
         sendButton.setMouseTransparent(false);

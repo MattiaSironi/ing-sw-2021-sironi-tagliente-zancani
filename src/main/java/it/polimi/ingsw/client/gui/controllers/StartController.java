@@ -22,6 +22,7 @@ public class StartController implements GUIController{
     public Label chooseNickLabel;
     public ImageView sendButton;
     public ImageView backGround;
+    public Label invalidNickname;
     @FXML private ImageView localGame;
     @FXML private ImageView multiGame;
     private GUI gui;
@@ -117,5 +118,15 @@ public class StartController implements GUIController{
     @Override
     public void enable() {
 
+    }
+
+    public void setInvalidNickname() {
+        invalidNickname.setDisable(false);
+        invalidNickname.setVisible(true);
+        sendButton.setMouseTransparent(false);
+        sendButton.setDisable(false);
+        sendButton.setVisible(true);
+        nicknameInput.setDisable(false);
+        nicknameInput.clear();
     }
 }

@@ -62,6 +62,11 @@
                      </LinearGradient>
                  </textFill>
              </Label>
+            <Label fx:id="invalidNickname" alignment="CENTER" disable="true" layoutX="761.0" layoutY="238.0" prefHeight="18.0" prefWidth="126.0" text="invalid nickname" textAlignment="CENTER" visible="false">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

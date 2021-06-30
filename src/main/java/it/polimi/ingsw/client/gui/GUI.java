@@ -80,8 +80,11 @@ public class GUI extends Application {
      */
 
     public void updateHostScene() {
-        SetupController controller = (SetupController) nameMapController.get(SceneList.SETUP.getSceneName());
-        controller.updateHostScene();
+        Platform.runLater(() -> {
+            SetupController controller = (SetupController) nameMapController.get(SceneList.SETUP.getSceneName());
+            controller.updateHostScene();
+            }
+        );
     }
 
     /**
@@ -90,17 +93,26 @@ public class GUI extends Application {
      */
 
     public void askForNickname() {
-        SetupController controller = (SetupController) nameMapController.get(SceneList.SETUP.getSceneName());
-        controller.askForNickname();
+        Platform.runLater(() -> {
+            SetupController controller = (SetupController) nameMapController.get(SceneList.SETUP.getSceneName());
+            controller.askForNickname();
+            }
+        );
     }
 
     /**
      * Method setDuplicatedNickname calls SetupController setDuplicatedNickname method.
      * @see SetupController
      */
-    public void setDuplicatedNickname() {
-        SetupController controller = (SetupController) nameMapController.get(SceneList.SETUP.getSceneName());
-        controller.setDuplicatedNickname();
+    public void setInvalidNickname() {
+        Platform.runLater(() -> {
+            SetupController controller1 = (SetupController) nameMapController.get(SceneList.SETUP.getSceneName());
+            StartController controller2 = (StartController) nameMapController.get(SceneList.START.getSceneName());
+            controller1.setInvalidNickname();
+            controller2.setInvalidNickname();
+
+            }
+        );
     }
 
     /**

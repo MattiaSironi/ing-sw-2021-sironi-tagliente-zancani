@@ -55,7 +55,7 @@ public class Controller implements Observer<Message> {
                 break;
             }
         }
-        if (found) {
+        if (found || nick.length() > 12 || nick.length() == 0) {
             game.setCommunication(nickname.getID(), CommunicationList.NICK_NOT_VALID);
         } else {
             game.setCommunication(nickname.getID(), CommunicationList.NICK_VALID);
