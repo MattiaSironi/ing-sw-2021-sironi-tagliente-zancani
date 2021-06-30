@@ -3,7 +3,6 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.message.CommonMessages.*;
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.client.RemoteView;
 
 
 import java.io.IOException;
