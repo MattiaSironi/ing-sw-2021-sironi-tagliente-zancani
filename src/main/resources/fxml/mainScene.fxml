@@ -382,10 +382,10 @@
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font></Label>
-            <Label fx:id="comMessages" layoutX="980.0" layoutY="65.0" prefHeight="69.0" prefWidth="282.0" text="prova" textFill="#dcffd0" wrapText="true">
-               <font>
-                  <Font size="14.0" />
-               </font></Label>
+            <Label fx:id="comMessages" layoutX="980.0" layoutY="65.0" prefHeight="69.0" prefWidth="282.0" text="" textFill="#dcffd0" wrapText="true">
+                <font>
+                    <Font name="AppleGothic Regular" size="14.0" />
+                </font></Label>
          </children>
       </Pane>
    </children>

@@ -269,13 +269,13 @@
                     <Image url="@../images/nextArrow.png" />
                 </image>
             </ImageView>
-                <Label fx:id="comMessages" alignment="TOP_LEFT" layoutX="979.0" layoutY="40.0" prefHeight="63.0" prefWidth="277.0" textFill="#f8ff03">
+                <Label fx:id="comMessages" alignment="TOP_LEFT" layoutX="979.0" layoutY="40.0" prefHeight="63.0" prefWidth="277.0" textFill="#dcffd0" wrapText="true">
                     <font>
-                        <Font size="14.0" />
+                        <Font name="AppleGothic Regular" size="14.0" />
                     </font></Label>
-                <Label fx:id="phase" alignment="TOP_LEFT" layoutX="979.0" layoutY="9.0" prefHeight="63.0" prefWidth="277.0" textFill="#05ffb4">
+                <Label fx:id="phase" alignment="TOP_LEFT" layoutX="979.0" layoutY="9.0" prefHeight="63.0" prefWidth="277.0" textFill="#e3df42" wrapText="true">
                     <font>
-                        <Font size="14.0" />
+                        <Font name="AppleGothic Regular" size="14.0" />
                     </font></Label>
             </children>
         </Pane>

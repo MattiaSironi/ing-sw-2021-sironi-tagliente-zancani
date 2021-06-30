@@ -227,13 +227,13 @@
                   </LinearGradient>
                </textFill>
             </Label>
-            <Label fx:id="comMessages" alignment="TOP_LEFT" layoutX="979.0" layoutY="14.0" prefHeight="63.0" prefWidth="277.0" textFill="#f8ff03">
+            <Label fx:id="comMessages" alignment="TOP_LEFT" layoutX="979.0" layoutY="14.0" prefHeight="63.0" prefWidth="277.0" textFill="#dcffd0" wrapText="true">
                <font>
-                  <Font size="14.0" />
+                  <Font name="AppleGothic Regular" size="14.0" />
                </font></Label>
-            <Label fx:id="phase" alignment="TOP_LEFT" layoutX="979.0" layoutY="58.0" prefHeight="63.0" prefWidth="277.0" textFill="#05ffb4">
+            <Label fx:id="phase" alignment="TOP_LEFT" layoutX="979.0" layoutY="58.0" prefHeight="63.0" prefWidth="277.0" textFill="#e3df42" wrapText="true">
                <font>
-                  <Font size="14.0" />
+                  <Font name="AppleGothic Regular" size="14.0" />
                </font></Label>
             <ImageView fx:id="shelf1pos1" fitHeight="33.0" fitWidth="30.0" layoutX="208.0" layoutY="385.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="shelf2pos1" fitHeight="33.0" fitWidth="30.0" layoutX="186.0" layoutY="434.0" pickOnBounds="true" preserveRatio="true" />

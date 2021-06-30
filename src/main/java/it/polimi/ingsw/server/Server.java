@@ -4,13 +4,11 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer;
 import it.polimi.ingsw.message.CommonMessages.IdMessage;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.client.RemoteView;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**

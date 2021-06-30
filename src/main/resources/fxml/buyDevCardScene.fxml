@@ -114,13 +114,13 @@
                   <Image url="@../images/buyButton.png" />
                </image>
             </ImageView>
-            <Label fx:id="phase" alignment="TOP_LEFT" layoutX="979.0" layoutY="590.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="102.0" prefWidth="277.0" text="Welcome" textFill="#e3df42" wrapText="true">
+            <Label fx:id="phase" alignment="TOP_LEFT" layoutX="979.0" layoutY="590.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="102.0" prefWidth="277.0" text="Welcome"  textFill="#e3df42" wrapText="true">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font></Label>
-            <Label fx:id="comMessages" layoutX="979.0" layoutY="652.0" prefHeight="69.0" prefWidth="282.0" text="prova" textFill="#dcffd0" wrapText="true">
+            <Label fx:id="comMessages" layoutX="979.0" layoutY="652.0" prefHeight="69.0" prefWidth="282.0" textFill="#dcffd0" wrapText="true">
                <font>
-                  <Font size="14.0" />
+                  <Font name="AppleGothic Regular" size="14.0" />
                </font></Label>
             <ImageView fx:id="backButton" fitHeight="95.0" fitWidth="113.0" layoutX="35.0" layoutY="27.0" onMouseClicked="#goBack" pickOnBounds="true" preserveRatio="true" rotate="180.0">
                <image>
