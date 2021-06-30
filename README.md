@@ -55,7 +55,7 @@
 * [JavaFX](https://openjfx.io) - Graphical Framework
 * [JUnit](https://junit.org/junit5/) - Testing
 
-## Test Coverage (last update : 19/06/21)
+## Test Coverage
 ![coverage](src/main/resources/images/coverage.png)
 
 
