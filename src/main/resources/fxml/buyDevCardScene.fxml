@@ -114,11 +114,11 @@
                   <Image url="@../images/buyButton.png" />
                </image>
             </ImageView>
-            <Label fx:id="phase" alignment="TOP_LEFT" layoutX="979.0" layoutY="590.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="102.0" prefWidth="277.0" text="Welcome"  textFill="#e3df42" wrapText="true">
+            <Label fx:id="phase" alignment="TOP_LEFT" layoutX="979.0" layoutY="575.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="102.0" prefWidth="277.0" text="Welcome" textFill="#e3df42" wrapText="true">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font></Label>
-            <Label fx:id="comMessages" layoutX="979.0" layoutY="652.0" prefHeight="69.0" prefWidth="282.0" textFill="#dcffd0" wrapText="true">
+            <Label fx:id="comMessages" layoutX="979.0" layoutY="646.0" prefHeight="69.0" prefWidth="282.0" textFill="#dcffd0" wrapText="true">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font></Label>
