@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>it.polimi.ingsw</OriginalElement>
+  <nodes>
+    <node x="5731.75" y="3294.0">it.polimi.ingsw.model.Market</node>
+    <node x="0.0" y="5816.0">it.polimi.ingsw.message.ActionMessages.BuyDevCardMessage</node>
+    <node x="4758.0" y="5675.0">it.polimi.ingsw.model.ShelfWarehouseTest</node>
+    <node x="1826.0" y="6015.0">it.polimi.ingsw.model.Marble</node>
+    <node x="3750.0" y="5827.0">it.polimi.ingsw.message.ActionMessages.LeaderProductionMessage</node>
+    <node x="4564.75" y="3371.0">it.polimi.ingsw.model.LeaderDeck</node>
+    <node x="0.0" y="1432.0">it.polimi.ingsw.client.gui.controllers.PlaceDevCardScene</node>
+    <node x="2438.75" y="5675.0">it.polimi.ingsw.message.Message</node>
+    <node x="2806.0" y="5838.0">it.polimi.ingsw.message.CommonMessages.Nickname</node>
+    <node x="1879.0" y="1465.0">it.polimi.ingsw.client.gui.controllers.GameOverController</node>
+    <node x="903.0" y="1399.0">it.polimi.ingsw.client.gui.controllers.StartController</node>
+    <node x="334.0" y="5849.0">it.polimi.ingsw.message.ActionMessages.EndTurnMessage</node>
+    <node x="1725.915" y="3128.0">it.polimi.ingsw.observer.Observable</node>
+    <node x="615.0" y="4915.0">it.polimi.ingsw.model.Player</node>
+    <node x="3176.0" y="5827.0">it.polimi.ingsw.message.ActionMessages.ObjectMessage</node>
+    <node x="1085.0" y="3911.5">it.polimi.ingsw.client.gui.controllers.MainController</node>
+    <node x="0.0" y="6015.0">it.polimi.ingsw.model.CloneTests</node>
+    <node x="3443.0" y="5827.0">it.polimi.ingsw.message.ActionMessages.ManageResourceMessage</node>
+    <node x="2557.0" y="5849.0">it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer</node>
+    <node x="265.0" y="6015.0">it.polimi.ingsw.constants.Color</node>
+    <node x="1749.0" y="3966.5">it.polimi.ingsw.client.ModelMultiplayerView</node>
+    <node x="1801.25" y="0.0">it.polimi.ingsw.client.gui.controllers.GUIController</node>
+    <node x="286.0" y="1190.0">it.polimi.ingsw.client.gui.controllers.PaymentController</node>
+    <node x="2062.0" y="6015.0">it.polimi.ingsw.model.Slot</node>
+    <node x="1629.0" y="6015.0">it.polimi.ingsw.model.Turn</node>
+    <node x="2084.0" y="4915.0">it.polimi.ingsw.server.Server</node>
+    <node x="6245.0" y="5675.0">it.polimi.ingsw.model.CardColor</node>
+    <node x="5365.0" y="5675.0">it.polimi.ingsw.client.cli.CLI</node>
+    <node x="4791.25" y="3128.0">it.polimi.ingsw.model.Printable</node>
+    <node x="1580.0" y="1322.0">it.polimi.ingsw.client.gui.controllers.SetupController</node>
+    <node x="3010.0" y="5849.0">it.polimi.ingsw.message.CommonMessages.IdMessage</node>
+    <node x="1380.0" y="6015.0">it.polimi.ingsw.model.Shelf</node>
+    <node x="3566.0" y="3685.0">it.polimi.ingsw.model.ExtraProdLCard</node>
+    <node x="1238.0" y="937.0">it.polimi.ingsw.client.gui.controllers.BasicProductionController</node>
+    <node x="329.0" y="4915.0">it.polimi.ingsw.model.ControllerTests</node>
+    <node x="3027.0" y="255.0">it.polimi.ingsw.client.gui.controllers.MainSceneController</node>
+    <node x="2081.0" y="5805.0">it.polimi.ingsw.message.ActionMessages.PlaceResourceMessage</node>
+    <node x="2391.0" y="3625.5">it.polimi.ingsw.model.Game</node>
+    <node x="2485.0" y="4915.0">it.polimi.ingsw.client.SocketServerConnection</node>
+    <node x="5660.0" y="5675.0">it.polimi.ingsw.model.FindWinnerTest</node>
+    <node x="5392.75" y="3272.0">it.polimi.ingsw.model.ShelfWarehouse</node>
+    <node x="2775.0" y="4915.0">it.polimi.ingsw.model.ActionPhase</node>
+    <node x="2687.0" y="629.0">it.polimi.ingsw.client.gui.controllers.MarketController</node>
+    <node x="5896.458333333334" y="3674.0">it.polimi.ingsw.model.DiscountLCard</node>
+    <node x="479.5" y="3260.0">it.polimi.ingsw.client.UI</node>
+    <node x="2287.0" y="6015.0">it.polimi.ingsw.MRMain</node>
+    <node x="1836.0" y="4915.0">it.polimi.ingsw.client.Actions</node>
+    <node x="877.0" y="6015.0">it.polimi.ingsw.model.StrongboxTest</node>
+    <node x="425.9999999999999" y="3581.0">it.polimi.ingsw.client.ClientActionController</node>
+    <node x="3347.0" y="1080.0">it.polimi.ingsw.client.gui.controllers.FirstDrawController</node>
+    <node x="0.0" y="4915.0">it.polimi.ingsw.model.LeaderTests</node>
+    <node x="5016.0" y="5675.0">it.polimi.ingsw.model.PersonalBoardTest</node>
+    <node x="593.0" y="1223.0">it.polimi.ingsw.client.gui.controllers.DevCardController</node>
+    <node x="4665.75" y="3674.0">it.polimi.ingsw.model.WhiteTrayLCard</node>
+    <node x="2068.0" y="4032.0">it.polimi.ingsw.server.SocketClientConnection</node>
+    <node x="2843.0" y="3128.0">it.polimi.ingsw.client.gui.GUI</node>
+    <node x="4433.0" y="5675.0">it.polimi.ingsw.model.ResourceType</node>
+    <node x="4865.75" y="3283.0">it.polimi.ingsw.model.FaithTrack</node>
+    <node x="5146.75" y="3360.0">it.polimi.ingsw.model.LeaderCard</node>
+    <node x="1083.0" y="6015.0">it.polimi.ingsw.model.Communication</node>
+    <node x="1642.0" y="5805.0">it.polimi.ingsw.message.ActionMessages.PlayLeaderMessage</node>
+    <node x="5893.0" y="5675.0">it.polimi.ingsw.model.DevelopmentCardMatrix</node>
+    <node x="693.0" y="5805.0">it.polimi.ingsw.message.ActionMessages.BasicProductionMessage</node>
+    <node x="4010.75" y="3371.0">it.polimi.ingsw.model.DevDeck</node>
+    <node x="1579.0" y="4915.0">it.polimi.ingsw.client.gui.SceneList</node>
+    <node x="1430.0" y="4010.5">it.polimi.ingsw.server.RemoteView</node>
+    <node x="1284.0" y="5816.0">it.polimi.ingsw.message.ActionMessages.ProductionMessage</node>
+    <node x="3485.0" y="4915.0">it.polimi.ingsw.model.Board</node>
+    <node x="3048.0" y="4915.0">it.polimi.ingsw.model.SoloTests</node>
+    <node x="3251.0" y="3128.0">it.polimi.ingsw.model.CommunicationList</node>
+    <node x="539.0" y="5872.5">it.polimi.ingsw.message.CommonMessages.PingMessage</node>
+    <node x="3689.0" y="959.0">it.polimi.ingsw.client.gui.controllers.ProductionController</node>
+    <node x="4131.0" y="5827.0">it.polimi.ingsw.message.ActionMessages.MarketMessage</node>
+    <node x="3666.75" y="3327.0">it.polimi.ingsw.model.DevCard</node>
+    <node x="0.0" y="3779.0">it.polimi.ingsw.controller.Controller</node>
+    <node x="4263.75" y="3283.0">it.polimi.ingsw.model.Strongbox</node>
+    <node x="1098.0" y="3161.5">it.polimi.ingsw.observer.Observer</node>
+    <node x="923.0" y="4915.0">it.polimi.ingsw.model.PersonalBoard</node>
+    <node x="5437.0" y="3685.0">it.polimi.ingsw.model.ExtraDepotLCard</node>
+    <node x="2347.0" y="915.0">it.polimi.ingsw.client.gui.controllers.OtherPlayersController</node>
+    <node x="3267.0" y="4915.0">it.polimi.ingsw.constants.Ball</node>
+    <node x="492.0" y="6015.0">it.polimi.ingsw.model.SoloActionToken</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.polimi.ingsw.model.ExtraDepotLCard" target="it.polimi.ingsw.model.LeaderCard">
+      <point x="-98.5" y="-83.0" />
+      <point x="5535.5" y="3654.0" />
+      <point x="5288.0" y="3654.0" />
+      <point x="28.25" y="83.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.message.CommonMessages.Nickname" target="it.polimi.ingsw.message.Message">
+      <point x="0.0" y="-49.5" />
+      <point x="2898.0" y="5775.0" />
+      <point x="2501.285714285714" y="5775.0" />
+      <point x="11.03571428571422" y="15.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.server.SocketClientConnection" target="it.polimi.ingsw.observer.Observable">
+      <point x="0.0" y="-193.5" />
+      <point x="2219.5" y="3551.0" />
+      <point x="1967.415" y="3551.0" />
+      <point x="80.5" y="181.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.server.RemoteView" target="it.polimi.ingsw.observer.Observer">
+      <point x="-74.75" y="-215.0" />
+      <point x="1504.75" y="3531.0" />
+      <point x="1307.2999999999997" y="3531.0" />
+      <point x="59.799999999999955" y="148.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.LeaderCard" target="it.polimi.ingsw.model.Printable">
+      <point x="0.0" y="-83.0" />
+      <point x="5259.75" y="3242.0" />
+      <point x="4865.625" y="3242.0" />
+      <point x="14.875" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.DiscountLCard" target="it.polimi.ingsw.model.LeaderCard">
+      <point x="-106.25" y="-94.0" />
+      <point x="6002.708333333334" y="3644.0" />
+      <point x="5344.5" y="3644.0" />
+      <point x="84.75" y="83.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.server.RemoteView" target="it.polimi.ingsw.observer.Observable">
+      <point x="74.75" y="-215.0" />
+      <point x="1654.25" y="3561.0" />
+      <point x="1860.0816666666667" y="3561.0" />
+      <point x="-26.833333333333258" y="181.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.ExtraProdLCard" target="it.polimi.ingsw.model.Printable">
+      <point x="-90.25" y="-83.0" />
+      <point x="3656.25" y="3202.0" />
+      <point x="4796.208333333333" y="3202.0" />
+      <point x="-54.54166666666697" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.ClientActionController" target="it.polimi.ingsw.observer.Observable">
+      <point x="213.0000000000001" y="-644.5" />
+      <point x="958.5" y="3541.0" />
+      <point x="1752.7483333333332" y="3541.0" />
+      <point x="-134.16666666666674" y="181.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.DiscountLCard" target="it.polimi.ingsw.model.Printable">
+      <point x="106.25" y="-94.0" />
+      <point x="6215.208333333334" y="3202.0" />
+      <point x="4905.291666666667" y="3202.0" />
+      <point x="54.54166666666697" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.message.ActionMessages.MarketMessage" target="it.polimi.ingsw.message.Message">
+      <point x="0.0" y="-60.5" />
+      <point x="4259.5" y="5725.0" />
+      <point x="2538.0714285714284" y="5725.0" />
+      <point x="47.82142857142844" y="15.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.ProductionController" target="it.polimi.ingsw.client.gui.controllers.GUIController">
+      <point x="0.0" y="-710.0" />
+      <point x="3861.0" y="185.0" />
+      <point x="2012.0833333333333" y="185.0" />
+      <point x="100.83333333333326" y="82.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.BasicProductionController" target="it.polimi.ingsw.client.gui.controllers.GUIController">
+      <point x="0.0" y="-732.0" />
+      <point x="1399.0" y="225.0" />
+      <point x="1883.75" y="225.0" />
+      <point x="-27.5" y="82.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Game" target="it.polimi.ingsw.observer.Observable">
+      <point x="0.0" y="-600.0" />
+      <point x="2594.5" y="3541.0" />
+      <point x="2021.0816666666665" y="3541.0" />
+      <point x="134.16666666666652" y="181.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.ClientActionController" target="it.polimi.ingsw.client.UI">
+      <point x="-212.9999999999999" y="-644.5" />
+      <point x="-53.0" y="49.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.message.ActionMessages.BuyDevCardMessage" target="it.polimi.ingsw.message.Message">
+      <point x="0.0" y="-71.5" />
+      <point x="157.0" y="5725.0" />
+      <point x="2442.4285714285716" y="5725.0" />
+      <point x="-47.82142857142844" y="15.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.DevDeck" target="it.polimi.ingsw.model.Printable">
+      <point x="0.0" y="-72.0" />
+      <point x="4127.25" y="3222.0" />
+      <point x="4816.041666666667" y="3222.0" />
+      <point x="-34.70833333333303" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.ExtraDepotLCard" target="it.polimi.ingsw.model.Printable">
+      <point x="98.5" y="-83.0" />
+      <point x="5732.5" y="3654.0" />
+      <point x="6003.25" y="3654.0" />
+      <point x="6003.25" y="3212.0" />
+      <point x="4895.375" y="3212.0" />
+      <point x="44.625" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Market" target="it.polimi.ingsw.model.Printable">
+      <point x="0.0" y="-149.0" />
+      <point x="5862.25" y="3222.0" />
+      <point x="4885.458333333333" y="3222.0" />
+      <point x="34.70833333333303" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.MarketController" target="it.polimi.ingsw.client.gui.controllers.GUIController">
+      <point x="0.0" y="-1040.0" />
+      <point x="2847.0" y="215.0" />
+      <point x="1957.0833333333333" y="215.0" />
+      <point x="45.83333333333326" y="82.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.DevCardController" target="it.polimi.ingsw.client.gui.controllers.GUIController">
+      <point x="0.0" y="-446.0" />
+      <point x="738.0" y="205.0" />
+      <point x="1847.0833333333333" y="205.0" />
+      <point x="-64.16666666666674" y="82.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.MainController" target="it.polimi.ingsw.observer.Observable">
+      <point x="108.33333333333326" y="-314.0" />
+      <point x="1355.833333333333" y="3551.0" />
+      <point x="1806.415" y="3551.0" />
+      <point x="-80.5" y="181.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.ModelMultiplayerView" target="it.polimi.ingsw.observer.Observable">
+      <point x="74.75" y="-259.0" />
+      <point x="1973.25" y="3561.0" />
+      <point x="1913.7483333333332" y="3561.0" />
+      <point x="26.833333333333258" y="181.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.StartController" target="it.polimi.ingsw.client.gui.controllers.GUIController">
+      <point x="0.0" y="-270.0" />
+      <point x="1060.5" y="215.0" />
+      <point x="1865.4166666666667" y="215.0" />
+      <point x="-45.83333333333326" y="82.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.message.ActionMessages.ProductionMessage" target="it.polimi.ingsw.message.Message">
+      <point x="0.0" y="-71.5" />
+      <point x="1453.0" y="5765.0" />
+      <point x="2471.8571428571427" y="5765.0" />
+      <point x="-18.392857142857338" y="15.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.message.CommonMessages.ChooseNumberOfPlayer" target="it.polimi.ingsw.message.Message">
+      <point x="0.0" y="-38.5" />
+      <point x="2671.5" y="5785.0" />
+      <point x="2493.9285714285716" y="5785.0" />
+      <point x="3.6785714285715585" y="15.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.WhiteTrayLCard" target="it.polimi.ingsw.model.LeaderCard">
+      <point x="107.75" y="-94.0" />
+      <point x="4989.0" y="3654.0" />
+      <point x="5231.5" y="3654.0" />
+      <point x="-28.25" y="83.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.PlaceDevCardScene" target="it.polimi.ingsw.client.gui.controllers.GUIController">
+      <point x="0.0" y="-237.0" />
+      <point x="133.0" y="185.0" />
+      <point x="1810.4166666666667" y="185.0" />
+      <point x="-100.83333333333326" y="82.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.SetupController" target="it.polimi.ingsw.client.gui.controllers.GUIController">
+      <point x="0.0" y="-347.0" />
+      <point x="1719.5" y="235.0" />
+      <point x="1902.0833333333333" y="235.0" />
+      <point x="-9.166666666666742" y="82.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.DevCard" target="it.polimi.ingsw.model.Printable">
+      <point x="0.0" y="-116.0" />
+      <point x="3828.75" y="3212.0" />
+      <point x="4806.125" y="3212.0" />
+      <point x="-44.625" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.message.ActionMessages.ObjectMessage" target="it.polimi.ingsw.message.Message">
+      <point x="0.0" y="-60.5" />
+      <point x="3299.5" y="5755.0" />
+      <point x="2516.0" y="5755.0" />
+      <point x="25.75" y="15.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.FirstDrawController" target="it.polimi.ingsw.client.gui.controllers.GUIController">
+      <point x="0.0" y="-589.0" />
+      <point x="3508.0" y="195.0" />
+      <point x="1993.75" y="195.0" />
+      <point x="82.5" y="82.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.message.CommonMessages.IdMessage" target="it.polimi.ingsw.message.Message">
+      <point x="0.0" y="-38.5" />
+      <point x="3083.0" y="5765.0" />
+      <point x="2508.6428571428573" y="5765.0" />
+      <point x="18.392857142857338" y="15.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.FaithTrack" target="it.polimi.ingsw.model.Printable">
+      <point x="0.0" y="-160.0" />
+      <point x="4996.25" y="3252.0" />
+      <point x="4855.708333333333" y="3252.0" />
+      <point x="4.95833333333303" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.message.ActionMessages.PlayLeaderMessage" target="it.polimi.ingsw.message.Message">
+      <point x="0.0" y="-82.5" />
+      <point x="1851.5" y="5775.0" />
+      <point x="2479.214285714286" y="5775.0" />
+      <point x="-11.03571428571422" y="15.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.PaymentController" target="it.polimi.ingsw.client.gui.controllers.GUIController">
+      <point x="0.0" y="-479.0" />
+      <point x="429.5" y="195.0" />
+      <point x="1828.75" y="195.0" />
+      <point x="-82.5" y="82.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.ExtraProdLCard" target="it.polimi.ingsw.model.LeaderCard">
+      <point x="90.25" y="-83.0" />
+      <point x="3836.75" y="3644.0" />
+      <point x="5175.0" y="3644.0" />
+      <point x="-84.75" y="83.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.message.ActionMessages.ManageResourceMessage" target="it.polimi.ingsw.message.Message">
+      <point x="0.0" y="-60.5" />
+      <point x="3586.5" y="5745.0" />
+      <point x="2523.3571428571427" y="5745.0" />
+      <point x="33.10714285714266" y="15.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.ShelfWarehouse" target="it.polimi.ingsw.model.Printable">
+      <point x="0.0" y="-171.0" />
+      <point x="5552.25" y="3232.0" />
+      <point x="4875.541666666667" y="3232.0" />
+      <point x="24.79166666666697" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.LeaderDeck" target="it.polimi.ingsw.model.Printable">
+      <point x="0.0" y="-72.0" />
+      <point x="4705.25" y="3252.0" />
+      <point x="4845.791666666667" y="3252.0" />
+      <point x="-4.95833333333303" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.observer.Observer">
+      <point x="0.0" y="-446.5" />
+      <point x="203.0" y="3521.0" />
+      <point x="1127.9" y="3521.0" />
+      <point x="-119.59999999999991" y="148.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.WhiteTrayLCard" target="it.polimi.ingsw.model.Printable">
+      <point x="-107.75" y="-94.0" />
+      <point x="4773.5" y="3634.0" />
+      <point x="4554.25" y="3634.0" />
+      <point x="4554.25" y="3242.0" />
+      <point x="4835.875" y="3242.0" />
+      <point x="-14.875" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.MainSceneController" target="it.polimi.ingsw.client.gui.controllers.GUIController">
+      <point x="0.0" y="-1414.0" />
+      <point x="3177.0" y="205.0" />
+      <point x="1975.4166666666665" y="205.0" />
+      <point x="64.16666666666652" y="82.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.ClientActionController" target="it.polimi.ingsw.observer.Observer">
+      <point x="1.1368683772161603E-13" y="-644.5" />
+      <point x="745.5" y="3531.0" />
+      <point x="1187.6999999999998" y="3531.0" />
+      <point x="-59.799999999999955" y="148.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.message.CommonMessages.PingMessage" target="it.polimi.ingsw.message.Message">
+      <point x="0.0" y="-15.0" />
+      <point x="606.0" y="5745.0" />
+      <point x="2457.1428571428573" y="5745.0" />
+      <point x="-33.10714285714266" y="15.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.MainController" target="it.polimi.ingsw.observer.Observer">
+      <point x="0.0" y="-314.0" />
+      <point x="0.0" y="148.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.MainController" target="it.polimi.ingsw.client.UI">
+      <point x="-108.33333333333326" y="-314.0" />
+      <point x="1139.1666666666665" y="3511.0" />
+      <point x="638.5" y="3511.0" />
+      <point x="53.0" y="49.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.message.ActionMessages.BasicProductionMessage" target="it.polimi.ingsw.message.Message">
+      <point x="0.0" y="-82.5" />
+      <point x="978.5" y="5755.0" />
+      <point x="2464.5" y="5755.0" />
+      <point x="-25.75" y="15.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.OtherPlayersController" target="it.polimi.ingsw.client.gui.controllers.GUIController">
+      <point x="0.0" y="-754.0" />
+      <point x="2507.0" y="225.0" />
+      <point x="1938.75" y="225.0" />
+      <point x="27.5" y="82.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Strongbox" target="it.polimi.ingsw.model.Printable">
+      <point x="0.0" y="-160.0" />
+      <point x="4403.75" y="3232.0" />
+      <point x="4825.958333333333" y="3232.0" />
+      <point x="-24.79166666666697" y="27.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.ModelMultiplayerView" target="it.polimi.ingsw.observer.Observer">
+      <point x="-74.75" y="-259.0" />
+      <point x="1823.75" y="3521.0" />
+      <point x="1367.1" y="3521.0" />
+      <point x="119.59999999999991" y="148.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.message.ActionMessages.LeaderProductionMessage" target="it.polimi.ingsw.message.Message">
+      <point x="0.0" y="-60.5" />
+      <point x="3930.5" y="5735.0" />
+      <point x="2530.714285714286" y="5735.0" />
+      <point x="40.46428571428578" y="15.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.message.ActionMessages.EndTurnMessage" target="it.polimi.ingsw.message.Message">
+      <point x="0.0" y="-38.5" />
+      <point x="426.5" y="5735.0" />
+      <point x="2449.785714285714" y="5735.0" />
+      <point x="-40.46428571428578" y="15.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.message.ActionMessages.PlaceResourceMessage" target="it.polimi.ingsw.message.Message">
+      <point x="0.0" y="-82.5" />
+      <point x="2309.0" y="5785.0" />
+      <point x="2486.5714285714284" y="5785.0" />
+      <point x="-3.6785714285715585" y="15.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.client.gui.controllers.GameOverController" target="it.polimi.ingsw.client.gui.controllers.GUIController">
+      <point x="0.0" y="-204.0" />
+      <point x="2103.0" y="235.0" />
+      <point x="1920.4166666666667" y="235.0" />
+      <point x="9.166666666666742" y="82.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.12518148088401354" x="3229.0" y="3089.5000000000005" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
