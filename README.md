@@ -5,7 +5,7 @@
 * [Simone Tagliente](https://github.com/smntgl)
 * [Lea Zancani](https://github.com/LeaZancani)
 
-#Master of Renaissance
+# Master of Renaissance
 
 <img src = "https://www.bigcream.it/upload/giochi/immagini/30203.jpg" width=300px height=400 />
 
