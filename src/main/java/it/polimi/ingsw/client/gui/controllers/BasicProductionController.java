@@ -299,6 +299,7 @@ public class BasicProductionController implements GUIController{
     public void buyCoin(MouseEvent mouseEvent) {
         newResource = ResourceType.COIN;
         result.setImage(new Image(getClass().getResource("/images/PunchBoard/coin.png").toExternalForm()));
+        endBasic.setDisable(false);
     }
 
     /**
@@ -308,6 +309,7 @@ public class BasicProductionController implements GUIController{
     public void buyStone(MouseEvent mouseEvent) {
         newResource = ResourceType.STONE;
         result.setImage(new Image(getClass().getResource("/images/PunchBoard/stone.png").toExternalForm()));
+        endBasic.setDisable(false);
     }
 
     /**
@@ -317,6 +319,7 @@ public class BasicProductionController implements GUIController{
     public void buyServant(MouseEvent mouseEvent) {
         newResource = ResourceType.SERVANT;
         result.setImage(new Image(getClass().getResource("/images/PunchBoard/servant.png").toExternalForm()));
+        endBasic.setDisable(false);
     }
 
     /**
@@ -326,6 +329,7 @@ public class BasicProductionController implements GUIController{
     public void buyShield(MouseEvent mouseEvent) {
         newResource = ResourceType.SHIELD;
         result.setImage(new Image(getClass().getResource("/images/PunchBoard/shield.png").toExternalForm()));
+        endBasic.setDisable(false);
     }
 
     /**
@@ -335,7 +339,7 @@ public class BasicProductionController implements GUIController{
     public void resetChoice(MouseEvent mouseEvent) {
         result.setImage(null);
         newResource = null;
-        confirm1.setDisable(true);
+        endBasic.setDisable(true);
     }
 
     /**

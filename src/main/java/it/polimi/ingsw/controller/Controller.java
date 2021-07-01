@@ -733,7 +733,6 @@ public class Controller implements Observer<Message> {
                 payRes(message.isPayFrom(), message.getID(), ActionPhase.B_PAYMENT);
             } else if (game.getTurn().getPhase().equals(ActionPhase.CHOOSE_SLOT)) {
                 placeDevCard(message.getID(), message.getSlot());
-
             }
         }
 
