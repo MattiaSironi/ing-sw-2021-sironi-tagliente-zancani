@@ -289,9 +289,9 @@ public class MainSceneController implements  GUIController {
         if (t1 != null)
             tile1.setImage(new Image(getClass().getResource("/images/PunchBoard/t1" + t1 + ".png").toExternalForm()));
         if (t2 != null)
-            tile2.setImage(new Image(getClass().getResource("/images/PunchBoard/t1" + t2 + ".png").toExternalForm()));
+            tile2.setImage(new Image(getClass().getResource("/images/PunchBoard/t2" + t2 + ".png").toExternalForm()));
         if (t3 != null)
-            tile3.setImage(new Image(getClass().getResource("/images/PunchBoard/t1" + t3 + ".png").toExternalForm()));
+            tile3.setImage(new Image(getClass().getResource("/images/PunchBoard/t3" + t3 + ".png").toExternalForm()));
 
 
     }
