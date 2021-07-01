@@ -29,18 +29,25 @@ public class ShelfWarehouse implements Printable, Serializable {
      * @param r is the ResourceType that player wants to know the quantity of
      * @return the quantity of the ResourceType
      */
+//    public int getResCount(ResourceType r) {
+//        int i = 0;
+//        int num = 0;
+//        while (i < 3 && !this.shelves.get(i).getResType().equals(r))
+//            i++;
+//        if (i < 3)
+//            num = this.shelves.get(i).getCount();
+//        else if (this.shelves.get(3)!=null && this.shelves.get(3).getCount()>0 && this.getShelves().get(3).getResType()==r)
+//            num = this.shelves.get(3).getCount();
+//        else if (this.shelves.get(4)!=null &&this.shelves.get(4).getCount()>0 && this.getShelves().get(4).getResType()==r)
+//            num = this.shelves.get(4).getCount();
+//        return num;
+//    }
     public int getResCount(ResourceType r) {
-        int i = 0;
-        int num = 0;
-        while (i < 3 && !this.shelves.get(i).getResType().equals(r))
-            i++;
-        if (i < 3)
-            num = this.shelves.get(i).getCount();
-        else if (this.shelves.get(3)!=null && this.shelves.get(3).getCount()>0 && this.getShelves().get(3).getResType()==r)
-            num = this.shelves.get(3).getCount();
-        else if (this.shelves.get(4)!=null &&this.shelves.get(4).getCount()>0 && this.getShelves().get(4).getResType()==r)
-            num = this.shelves.get(4).getCount();
-        return num;
+        int count = 0;
+        for (Shelf s : this.shelves) {
+            if (s.getResType() == r) count += s.getCount();
+        }
+        return count;
     }
 
     /**
