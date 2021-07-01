@@ -3,11 +3,13 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.message.ActionMessages.*;
 import it.polimi.ingsw.message.CommonMessages.*;
+import org.apache.maven.model.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -856,7 +858,4 @@ public class ControllerTests {
         assertEquals(ActionPhase.A_PAYMENT, game.getTurn().getPhase());
 
     }
-
-
-
 }
