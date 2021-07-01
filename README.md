@@ -37,11 +37,14 @@
     ```shell
     > java -jar GC21-1.0-SNAPSHOT-jar-with-dependencies.jar server
     ```
+    Note: server port is standard and set to 1234. Use port forwarding to play in a distributed system.
+    
   - to run the CLI directly use:
 
     ```shell
     > java -jar GC21-1.0-SNAPSHOT-jar-with-dependencies.jar CLI
     ```
+    Note: do not use Windows Command Prompt or PowerShell. For better experience, use a Unix-like terminal.
   - to run the GUI directly use:
     ```shell
     > java -jar GC21-1.0-SNAPSHOT-jar-with-dependencies.jar GUI
