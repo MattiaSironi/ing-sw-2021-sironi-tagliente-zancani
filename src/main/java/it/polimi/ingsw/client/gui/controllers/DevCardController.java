@@ -90,7 +90,6 @@ public class DevCardController implements GUIController{
                     buyButton.setVisible(true);
                     uselessLabel.setText("Are you sure?");
                     chosenIndex = matrix.indexOf(imageView);
-                    System.out.println(chosenIndex);
                     activateButtons();
                 });
             }
