@@ -378,5 +378,6 @@ public class BasicProductionController implements GUIController{
         chosenResources = new ArrayList<>();
         paid1.setImage(null);
         paid2.setImage(null);
+        confirm1.setDisable(true);
     }
 }

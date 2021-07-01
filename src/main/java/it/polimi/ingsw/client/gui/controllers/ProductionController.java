@@ -266,6 +266,7 @@ public class ProductionController implements GUIController{
         stoneNum.setText("0");
         servantNum.setText("0");
         shieldNum.setText("0");
+        basicProduction.setDisable(true);
         back.setDisable(false);
         back.setMouseTransparent(false);
         end.setDisable(true);
