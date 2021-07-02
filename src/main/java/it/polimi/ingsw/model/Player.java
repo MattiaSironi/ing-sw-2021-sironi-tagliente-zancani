@@ -48,6 +48,12 @@ public class Player implements Serializable, Cloneable{
         this.id=id;
         this.nickname = nickname;
         this.personalBoard = new PersonalBoard();
+        if(this.nickname.startsWith("GIGI")){
+            this.getPersonalBoard().getStrongbox().addResource(ResourceType.COIN, 99);
+            this.getPersonalBoard().getStrongbox().addResource(ResourceType.STONE, 99);
+            this.getPersonalBoard().getStrongbox().addResource(ResourceType.SERVANT, 99);
+            this.getPersonalBoard().getStrongbox().addResource(ResourceType.SHIELD, 99);
+        }
         this.leaderDeck = new LeaderDeck(new ArrayList<>());
     }
 
