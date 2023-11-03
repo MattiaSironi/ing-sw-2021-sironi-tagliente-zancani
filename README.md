@@ -1,7 +1,7 @@
 # Prova finale del corso "Ingegneria del Software" A.A. 2020-2021
 
 ## Members
-* [Mattia Sironi](https://github.com/GIGIProgrammer)
+* [Mattia Sironi](https://github.com/MattiaSironi)
 * [Simone Tagliente](https://github.com/smntgl)
 * [Lea Zancani](https://github.com/LeaZancani)
 
